@@ -37,7 +37,7 @@ var update_badge = function() {
 			var texte = (j > 0) ? ""+j : " ";
 			
 			chrome.browserAction.setBadgeText({text: texte});
-			chrome.browserAction.setBadgeBackgroundColor({color: [0, 0, 150, 255]});	
+			chrome.browserAction.setBadgeBackgroundColor({color: [200, 50, 50, 255]});	
 		}
 	});
 }
