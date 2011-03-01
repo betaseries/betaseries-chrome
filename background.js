@@ -1,3 +1,11 @@
+/**
+ * Background.js
+ * Init & auto-update processes
+ * 
+ * @author Menencia
+ * 
+ * 
+ */
 var url_api = "http://api.betaseries.com";
 var site_url = "http://betaseries.com";
 var key = "6db16a6ffab9";
@@ -46,7 +54,7 @@ var update_badge = function() {
 			}
 		}
 		if (j > 0) chrome.browserAction.setBadgeText({text: ""+j});
-		chrome.browserAction.setBadgeBackgroundColor({color: [150, 0, 0, 255]});
+		chrome.browserAction.setBadgeBackgroundColor({color: [0, 0, 150, 255]});
 	});
 }
 
@@ -60,7 +68,6 @@ var auto_update = function() {
 	setTimeout(auto_update, 1000*60*60); // Mise à jour toutes les heures.
 }
 
-
 /**
  * Retourne vrai si l'utilisateur est connecté, faux sinon
  *
@@ -68,16 +75,6 @@ var auto_update = function() {
  */
 var connected = function() {
 	return (localStorage.token != "" && localStorage.token != undefined);
-};
-
-/**
- * Afficher le message de confirmation
- */
-var message = function(content) {
-	$('#message').html(content);
-	setTimeout(function(){
-		$('#message').html('');		
-	}, 1000*5);	
 };
 
 /**

@@ -3,6 +3,28 @@ $(document).ready(function(){
 	var bgPage = chrome.extension.getBackgroundPage();
 	
 	/**
+	 * Envoie des données en GET vers un des WS de Bétaséries
+	 * 
+	 * @param category 		Un des WS de Bétaséries
+	 * @param params 		Arguments supplémentaires à envoyer
+	 * @return callback		Fonction de retour
+	 */
+	var send = function(category, params, callback) {
+		$.ajax({
+			type: "POST",
+			url: bgPage.url_api+category+".json",
+			data: "key="+bgPage.key+params,
+			dataType: "json",
+			success: callback,
+			error: function (xhr, ajaxOptions, thrownError){
+				if (xhr.status == 0){
+					message("connection error");
+				}
+			}
+		});
+	};
+	
+	/**
 	 * Marquer un ou des épisodes comme vu(s)
 	 */
 	$('.watched').livequery('click', function() { 
@@ -20,7 +42,7 @@ $(document).ready(function(){
 		
 		// On lance la requête en fond
 		loading_start();
-		bgPage.send("/members/watched/"+show, params, function (data) {
+		send("/members/watched/"+show, params, function (data) {
 			loading_end();
 			update('episodes');
 		});
@@ -68,7 +90,7 @@ $(document).ready(function(){
 		else $(this).attr('src', 'img/folder.png');
 		
 		loading_start();
-		bgPage.send("/members/downloaded/"+show, params, function (data) {
+		send("/members/downloaded/"+show, params, function (data) {
 			loading_end();
 			update('episodes');
 		});
@@ -141,7 +163,7 @@ $(document).ready(function(){
 		loading_start();
 		if (category == 'episodes') {
 			var params = "&token="+localStorage.token;
-			bgPage.send("/members/episodes/all", params, function (data) {
+			send("/members/episodes/all", params, function (data) {
 				var episodes = data.root.episodes;
 				var show = "";
 				var output = "";
@@ -288,7 +310,7 @@ $(document).ready(function(){
 			}
 			else {
 				var params = "&token="+localStorage.token;
-				bgPage.send("/members/infos/"+localStorage.login, params, function (data) {
+				send("/members/infos/"+localStorage.login, params, function (data) {
 					var member = data.root.member;
 					output = "<table><tr>";
 					output += '<td><img src="'+member.avatar+'" width="50" /></td>';
@@ -322,7 +344,7 @@ $(document).ready(function(){
 		var password = calcMD5($('#password').attr('value'));
 		var params = "&login="+login+"&password="+password;
 		loading_start();
-		bgPage.send("/members/auth", params, function (data) {
+		send("/members/auth", params, function (data) {
 			if (data.root.member != undefined) {
 				token = data.root.member.token;
 				localStorage.login = login;
@@ -347,7 +369,7 @@ $(document).ready(function(){
 	$('#logout').livequery('click', function() { 
 		var params = "&token="+localStorage.token;
 		loading_start();
-		bgPage.send("/members/destroy", params, function (data) {
+		send("/members/destroy", params, function (data) {
 			localStorage.token = "";
 			menu('hide');
 			bgPage.init_badge();
@@ -383,6 +405,15 @@ $(document).ready(function(){
 	function loading_start() {$('#loader').show()}
 	function loading_end() {$('#loader').hide()}
 	
+	/**
+	 * Afficher le message de confirmation
+	 */
+	var message = function(content) {
+		$('#message').html(content);
+		setTimeout(function(){
+			$('#message').html('');		
+		}, 1000*5);	
+	};
 	
 	/*
 	 * INIT
