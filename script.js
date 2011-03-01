@@ -333,7 +333,7 @@ $(document).ready(function(){
 			}
 			else {
 				$('#password').attr('value', '');
-				message('Login et/ou password incorrects!');
+				bgPage.message('Login et/ou password incorrects!');
 				$('#connect').removeAttr('disabled');
 				loading_end();	
 			}
@@ -376,16 +376,6 @@ $(document).ready(function(){
 	$('#versionLink').click(function(){openTab('https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true); return false;});
 	$('#menuEpisodes').click(function(){update('episodes'); return false;});
 	$('#menuInfos').click(function(){update('infos'); return false;});
-	
-	/**
-	 * Afficher le message de confirmation
-	 */
-	var message = function(content) {
-		$('#message').html(content);
-		setTimeout(function(){
-			$('#message').html('');		
-		}, 1000*5);	
-	};
 	
 	/**
 	 * Animations de chargement

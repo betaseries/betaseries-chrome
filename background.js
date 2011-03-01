@@ -71,6 +71,16 @@ var connected = function() {
 };
 
 /**
+ * Afficher le message de confirmation
+ */
+var message = function(content) {
+	$('#message').html(content);
+	setTimeout(function(){
+		$('#message').html('');		
+	}, 1000*5);	
+};
+
+/**
  * INIT
  *
  */
