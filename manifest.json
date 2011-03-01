@@ -1,0 +1,19 @@
+{
+	"name": "Chrome Séries",
+	"version": "0.2.2",
+	"description": "Extension Chrome pour Bétaséries (www.betaseries.com).",
+	"browser_action": {
+		"default_icon": "icon_16.png",
+		"popup": "popup.html"
+	},
+	"icons": {
+		"16": "icon_16.png",
+		"32": "icon_32.png",
+		"48": "icon_48.png",
+		"128": "icon_128.png"
+	},
+	"background_page": "background.html",
+	"permissions": [
+		"http://api.betaseries.com/*"
+	]
+}
