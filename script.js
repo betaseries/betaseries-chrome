@@ -176,8 +176,8 @@ $(document).ready(function(){
 					
 					// Ajout d'une ligne épisode
 					var episode = episodes[n].episode;
-					var season = parseInt(""+episode[1]+episode[2]);
-					var number = parseInt(""+episode[4]+episode[5]);
+					var season = parseFloat(""+episode[1]+episode[2]);
+					var number = parseFloat(""+episode[4]+episode[5]);
 					//var divEpisode = $('<div class="episode" season="'+season+'" number="'+number+'"></div>');
 					//divSerie.append(divEpisode);
 					
