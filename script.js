@@ -285,7 +285,6 @@ $(document).ready(function(){
                 }
 						
 				chrome.browserAction.setBadgeText({text: ""+nbrEpisodes});
-				chrome.browserAction.setBadgeBackgroundColor({color: [150, 0, 0, 255]});
 				hide_contents();
 				$('#'+category).show().html(output);
 				loading_end();

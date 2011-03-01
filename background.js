@@ -11,22 +11,12 @@ var site_url = "http://betaseries.com";
 var key = "6db16a6ffab9";
 
 /**
- * Initialise le badge
- * 
- * @return 
- */
-var init_badge = function() {
-	chrome.browserAction.setBadgeText({text: "x"});
-	chrome.browserAction.setBadgeBackgroundColor({color: [200, 200, 200, 255]});
-}
-
-/**
  * Mets à jour le badge
- *
- * @return
+ * 
  */
 var update_badge = function() {
-	init_badge();
+	chrome.browserAction.setBadgeText({text: "x"});
+	chrome.browserAction.setBadgeBackgroundColor({color: [200, 200, 200, 255]});
 	
 	$.ajax({
 		type: "POST",
@@ -50,7 +40,6 @@ var update_badge = function() {
 /**
  * Lance la mise à jour automatique du badge
  *
- * @return
  */
 var auto_update = function() {
 	if (connected()) update_badge();
@@ -70,5 +59,4 @@ var connected = function() {
  * INIT
  *
  */
-init_badge();
 auto_update();
