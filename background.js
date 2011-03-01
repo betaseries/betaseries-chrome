@@ -6,6 +6,11 @@
  * 
  * 
  */
+ 
+/**
+ * Variables
+ * 
+ */
 var url_api = "http://api.betaseries.com";
 var site_url = "http://betaseries.com";
 var key = "6db16a6ffab9";
@@ -15,7 +20,7 @@ var key = "6db16a6ffab9";
  * 
  */
 var update_badge = function() {
-	chrome.browserAction.setBadgeText({text: "x"});
+	chrome.browserAction.setBadgeText({text: "..."});
 	chrome.browserAction.setBadgeBackgroundColor({color: [200, 200, 200, 255]});
 	
 	$.ajax({
@@ -26,12 +31,12 @@ var update_badge = function() {
 		success: function(data){
 			var episodes = data.root.episodes;
 			var j = 0;
-			for (var i in episodes) {
-				if (episodes.hasOwnProperty(i)) {
-					j += 1;
-				}
+			for (var i in episodes){
+				if (episodes.hasOwnProperty(i)) j++;
 			}
-			if (j > 0) chrome.browserAction.setBadgeText({text: ""+j});
+			var texte = (j > 0) ? ""+j : " ";
+			
+			chrome.browserAction.setBadgeText({text: texte});
 			chrome.browserAction.setBadgeBackgroundColor({color: [0, 0, 150, 255]});	
 		}
 	});
