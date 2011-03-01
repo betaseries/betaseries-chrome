@@ -42,8 +42,10 @@ var update_badge = function() {
  *
  */
 var auto_update = function() {
-	if (connected()) update_badge();
-	setTimeout(auto_update, 1000*60*60); // Mise à jour toutes les heures.
+	if (connected()){
+		update_badge();
+		setTimeout(auto_update, 1000*60*60); // Mise à jour toutes les heures.
+	}
 }
 
 /**
