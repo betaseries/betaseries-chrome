@@ -11,23 +11,6 @@ var site_url = "http://betaseries.com";
 var key = "6db16a6ffab9";
 
 /**
- * Envoie des données en GET vers un des WS de Bétaséries
- * 
- * @param category 		Un des WS de Bétaséries
- * @param params 		Arguments supplémentaires à envoyer
- * @return callback		Fonction de retour
- */
-var send = function(category, params, callback) {
-	$.ajax({
-		type: "POST",
-		url: url_api+category+".json",
-		data: "key="+key+params,
-		dataType: "json",
-		success: callback
-	});
-};
-
-/**
  * Initialise le badge
  * 
  * @return 
@@ -44,17 +27,23 @@ var init_badge = function() {
  */
 var update_badge = function() {
 	init_badge();
-	var params = "&token="+localStorage.token;
-	send("/members/episodes/all", params, function (data) {
-		var episodes = data.root.episodes;
-		var j = 0;
-		for (var i in episodes) {
-			if (episodes.hasOwnProperty(i)) {
-				j += 1;
+	
+	$.ajax({
+		type: "POST",
+		url: url_api+"/members/episodes/all.json",
+		data: "key="+key+"&token="+localStorage.token,
+		dataType: "json",
+		success: function(data){
+			var episodes = data.root.episodes;
+			var j = 0;
+			for (var i in episodes) {
+				if (episodes.hasOwnProperty(i)) {
+					j += 1;
+				}
 			}
+			if (j > 0) chrome.browserAction.setBadgeText({text: ""+j});
+			chrome.browserAction.setBadgeBackgroundColor({color: [0, 0, 150, 255]});	
 		}
-		if (j > 0) chrome.browserAction.setBadgeText({text: ""+j});
-		chrome.browserAction.setBadgeBackgroundColor({color: [0, 0, 150, 255]});
 	});
 }
 
