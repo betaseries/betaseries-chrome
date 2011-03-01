@@ -161,6 +161,8 @@ $(document).ready(function(){
 	 */
 	var update = function(category) {
 		loading_start();
+		$(".action").css('opacity', '0.5');
+		$("#menu_"+category).css('opacity', '1.0');
 		if (category == 'episodes') {
 			var params = "&token="+localStorage.token;
 			send("/members/episodes/all", params, function (data) {
@@ -357,20 +359,20 @@ $(document).ready(function(){
 	 */
 	var menu = function(status) {
 		if (status == "show") {
-			$('#menuEpisodes').show();
-			$('#menuInfos').show();
+			$('#menu_episodes').show();
+			$('#menu_infos').show();
 		}
 		if (status == "hide") {
-			$('#menuEpisodes').hide();
-			$('#menuInfos').hide();
+			$('#menu_episodes').hide();
+			$('#menu_infos').hide();
 		}
 	};
 	
 	
 	$('#logoLink').click(function(){openTab('http://betaseries.com', true); return false;});
 	$('#versionLink').click(function(){openTab('https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true); return false;});
-	$('#menuEpisodes').click(function(){update('episodes'); return false;});
-	$('#menuInfos').click(function(){update('infos'); return false;});
+	$('#menu_episodes').click(function(){update('episodes'); return false;});
+	$('#menu_infos').click(function(){update('infos'); return false;});
 	
 	/**
 	 * Animations de chargement

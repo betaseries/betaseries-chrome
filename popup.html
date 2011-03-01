@@ -37,6 +37,9 @@
 		div.new_show {background-color: #fff3ee;}
 		span#logo-beta {font-variant: small-caps; font-size: 20px; font-weight: bold; letter-spacing: 1px;}
 		
+		td#actions img.action {opacity: 0.5; cursor: pointer;}
+		td#actions img.action:hover {opacity: 1.0; cursor: pointer;}
+		
 		span.num {color: #1a4377;}
 		span.new {color: #900; font-size: 9px; font-variant: small-caps;}
 		div#episodes table {width: 95%; border-collapse: collapse;}
@@ -61,8 +64,8 @@
 				</td>
 				<td id="actions">
 					<img src="img/loader.gif" id="loader" style="display: none;" /> 
-					<img src="img/film.png" id="menuEpisodes" title="Episodes non vus" /> 
-					<img src="img/user.png" id="menuInfos" title="Préférences" />
+					<img src="img/film.png" id="menu_episodes" class="action" title="Episodes non vus" /> 
+					<img src="img/user.png" id="menu_infos" class="action" title="Préférences" />
 				</td>
 			</tr>
 		</table>
