@@ -16,13 +16,20 @@ var site_url = "http://betaseries.com";
 var key = "6db16a6ffab9";
 
 /**
+ * Initialise le badge
+ * 
+ */
+var initBadge = function(){
+	chrome.browserAction.setBadgeText({text: "..."});
+	chrome.browserAction.setBadgeBackgroundColor({color: [200, 200, 200, 255]});
+};
+
+/**
  * Mets à jour le badge
  * 
  */
-var update_badge = function() {
-	chrome.browserAction.setBadgeText({text: "..."});
-	chrome.browserAction.setBadgeBackgroundColor({color: [200, 200, 200, 255]});
-	
+var updateBadge = function(){
+	initBadge();
 	$.ajax({
 		type: "POST",
 		url: url_api+"/members/episodes/all.json",
@@ -34,22 +41,28 @@ var update_badge = function() {
 			for (var i in episodes){
 				if (episodes.hasOwnProperty(i)) j++;
 			}
-			var texte = (j > 0) ? ""+j : " ";
-			
-			chrome.browserAction.setBadgeText({text: texte});
-			chrome.browserAction.setBadgeBackgroundColor({color: [200, 50, 50, 255]});	
+			displayBadge(j);
 		}
 	});
 }
+
+var displayBadge = function(texte){
+	if(texte==0){
+		chrome.browserAction.setBadgeText({text: ""});
+	}else{
+		chrome.browserAction.setBadgeBackgroundColor({color: [200, 50, 50, 255]});		
+		chrome.browserAction.setBadgeText({text: ""+texte});
+	}
+};
 
 /**
  * Lance la mise à jour automatique du badge
  *
  */
-var auto_update = function() {
+var autoUpdateBadge = function() {
 	if (connected()){
-		update_badge();
-		setTimeout(auto_update, 1000*60*60); // Mise à jour toutes les heures.
+		updateBadge();
+		setTimeout(autoUpdateBadge, 1000*60*60); // Mise à jour toutes les heures.
 	}
 }
 
@@ -66,4 +79,4 @@ var connected = function() {
  * INIT
  *
  */
-auto_update();
+autoUpdateBadge();
