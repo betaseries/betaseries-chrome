@@ -20,7 +20,7 @@ var key = "6db16a6ffab9";
  * 
  */
 var initBadge = function(){
-	chrome.browserAction.setBadgeText({text: "..."});
+	chrome.browserAction.setBadgeText({text: "?"});
 	chrome.browserAction.setBadgeBackgroundColor({color: [200, 200, 200, 255]});
 };
 

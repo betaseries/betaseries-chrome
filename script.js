@@ -120,23 +120,6 @@ $(document).ready(function(){
 		return false;
 	});
 	
-	/**
-	 * HOVER - Télécharger les sous-titres d'un épisodes
-	 */
-	$('.subs').livequery(function(){ 
-		$(this).hover(function() { 
-				$(this).css('cursor','pointer');
-				var quality = $(this).attr('quality');
-				$(this).attr('src', 'img/dlsrt_'+quality+'.png');
-			}, function() { 
-				$(this).attr('src', 'img/srt.png');
-				$(this).css('cursor','auto');
-			}
-		); 
-	}, function() { 
-		$(this).unbind('mouseover').unbind('mouseout'); 
-	});
-	
 	var registerAction = function(category, params){
 		console.log("action: "+category+params);
 	};
@@ -250,7 +233,7 @@ $(document).ready(function(){
 					
 			output += '<div class="right">';
 			output += '<img src="img/'+imgDownloaded+'.png" class="downloaded" title="'+texte3+'" />';
-			if (quality > -1) output += ' <img src="img/srt.png" class="subs" link="'+url+'" quality="'+quality+'" title="Qualité SRT VF : '+quality+'/5" />';
+			if (quality > -1) output += ' <img src="img/dl_'+quality+'.png" class="subs" link="'+url+'" quality="'+quality+'" title="Qualité SRT VF : '+quality+'/4" />';
 			output += '</div>';
 				
 			// Clear
@@ -270,8 +253,9 @@ $(document).ready(function(){
 			output += '<div class="linkHidden"><img src="img/downarrow.gif" class="showEpisodes" title="'+texte4+'" /> '+texte4+'</div>';
 		}
 					
-		chrome.browserAction.setBadgeText({text: ""+nbrEpisodes});
+		bgPage.displayBadge(nbrEpisodes);
 		hide_contents();
+		if (nbrEpisodes==0) output = "<div>Aucun épisodes à voir!</div>";
 		$('#episodes').show().html(output);
 	};
 	
