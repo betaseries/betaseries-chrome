@@ -9,18 +9,14 @@ $(document).ready(function(){
 	 * @param params 		Arguments supplémentaires à envoyer
 	 * @return callback		Fonction de retour
 	 */
-	var send = function(category, params, callback) {
+	var sendAjax = function(category, params, successCallback, errorCallback) {
 		$.ajax({
 			type: "POST",
 			url: bgPage.url_api+category+".json",
 			data: "key="+bgPage.key+params,
 			dataType: "json",
-			success: callback,
-			error: function (xhr, ajaxOptions, thrownError){
-				if (xhr.status == 0){
-					message("connection error");
-				}
-			}
+			success: successCallback,
+			error: errorCallback
 		});
 	};
 	
@@ -42,10 +38,10 @@ $(document).ready(function(){
 		
 		// On lance la requête en fond
 		loading_start();
-		send("/members/watched/"+show, params, function (data) {
-			loading_end();
-			update('episodes');
-		});
+		ajax("/members/watched/"+show, params, 
+			updateEpisodes,
+			registerAction()
+		);
 		return false;
 	});
 	
@@ -155,6 +151,125 @@ $(document).ready(function(){
 		hiddens.slideToggle();
 		return false;
 	});
+	
+	/**
+	 * Mettre à jour et afficher le contenu de la popup
+	 */
+	var updateEpisodes = function(){
+		var params = "&token="+localStorage.token;
+		sendAjax("/members/episodes/all", params, 
+			function(data) {
+				console.log(localStorage);
+				localStorage.episodes = JSON.stringify(data.root.episodes);
+				console.log(localStorage);
+				displayEpisodes();
+			},
+			function() {
+				displayEpisodes();
+			}
+		);
+	};
+	
+	var displayEpisodes = function(){
+		var episodes = JSON.parse(localStorage.episodes);
+		console.log('here');
+		var show = "";
+		var output = "";
+		var nbrEpisodes = 0;
+		var posEpisode = 1;
+		var MAX_EPISODES = 5;
+		for (var n in episodes) {
+			// Titre de la série
+			if (episodes[n].show != show) {
+				// Episodes cachés
+				var remain = posEpisode-MAX_EPISODES-1;
+				if (remain > 0) {
+					var texte1;
+					if (remain == 1) texte1 = "Montrer/cacher l'épisode suivant";
+					else if (remain > 1) texte1 = "Montrer/cacher les "+(posEpisode-MAX_EPISODES-1)+" épisodes suivants";
+					output += '<div class="linkHidden"><img src="img/downarrow.gif" class="showEpisodes" title="'+texte1+'" /> '+texte1+'</div>';
+				}
+			
+				if (nbrEpisodes>0) output += '</div>';
+				output += '<div class="show" id="'+episodes[n].url+'">';
+				output += '<div class="title">'+episodes[n].show+'</div>';
+				
+				show = episodes[n].show;
+				posEpisode = 1;
+			}
+					
+			// Ajout d'une ligne épisode
+			var episode = episodes[n].episode;
+			var season = parseFloat(""+episode[1]+episode[2]);
+			var number = parseFloat(""+episode[4]+episode[5]);
+				
+			// Nouvel épisode
+			var date = Math.floor(new Date().getTime() /1000);
+			var jours = Math.floor(date/(24*3600));
+			var date_0 = (24*3600)*jours-3600;
+			var newShow = (episodes[n].date >= date_0);
+			var classes = "";
+			var hidden = "";
+			if (newShow) classes = " new_show";
+			if (posEpisode > MAX_EPISODES) {
+				classes += ' hidden';
+				hidden = ' style="display: none;"';
+			}
+			output += '<div class="episode'+classes+'"'+hidden+' season="'+season+'" number="'+number+'">';
+				
+			// Titre de l'épisode
+			var texte2;
+			if (posEpisode==1) texte2 = "Marquer comme vu cet épisode!";
+			else if (posEpisode>1) texte2 = "Marquer comme vu ces épisodes!";
+			output += '<div class="left">';
+			output += '<img src="img/plot_red.gif" class="watched" title="'+texte2+'" /> <span class="num">['+episodes[n].episode+']</span> '+episodes[n].title+' ';
+			if (newShow) output += '<span class="new">NEW!</span>';
+			output += '</div>';
+					
+			// Actions
+			var subs = episodes[n].subs;
+			var nbSubs = 0; 
+			var url = "";
+			var quality = -1;
+			for (var sub in subs) {
+				if (subs[sub]['language'] == "VF" && subs[sub]['quality'] > quality) { 
+					quality = subs[sub]['quality'];
+					url = subs[sub]['url'];
+				}
+				nbSubs++;
+			}
+			var downloaded = (episodes[n].downloaded == 1);
+			var imgDownloaded;
+			var texte3;
+			if (downloaded) {imgDownloaded = "folder"; texte3 = "Marquer comme non-téléchargé"}
+			else {imgDownloaded = "folder_add"; texte3 = "Marquer comme téléchargé";}
+					
+			output += '<div class="right">';
+			output += '<img src="img/'+imgDownloaded+'.png" class="downloaded" title="'+texte3+'" />';
+			if (quality > -1) output += ' <img src="img/srt.png" class="subs" link="'+url+'" quality="'+quality+'" title="Qualité SRT VF : '+quality+'/5" />';
+			output += '</div>';
+				
+			// Clear
+			output += '<div class="clear"></div>';
+				
+			output += '</div>';
+			nbrEpisodes++;
+			posEpisode++;
+		}
+				
+		// Episodes cachés pour la dernière série
+		var remain = posEpisode-MAX_EPISODES-1;
+		if (remain > 0) {
+			var texte4;
+			if (remain == 1) texte4 = "Montrer/cacher l'épisode suivant";
+			else if (remain > 1) texte4 = "Montrer/cacher les "+(posEpisode-MAX_EPISODES-1)+" épisodes suivants";
+			output += '<div class="linkHidden"><img src="img/downarrow.gif" class="showEpisodes" title="'+texte4+'" /> '+texte4+'</div>';
+		}
+					
+		chrome.browserAction.setBadgeText({text: ""+nbrEpisodes});
+		hide_contents();
+		$('#episodes').show().html(output);
+	};
 	
 	/**
 	 * Mettre à jour et afficher le contenu de la popup
@@ -394,7 +509,7 @@ $(document).ready(function(){
 	 * INIT
 	 */
 	if (bgPage.connected()) {
-		update('episodes');
+		updateEpisodes();
 	}
 	else {
 		update('infos');
