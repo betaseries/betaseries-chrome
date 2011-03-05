@@ -37,10 +37,9 @@ $(document).ready(function(){
 		}
 		
 		// On lance la requête en fond
-		loading_start();
-		ajax("/members/watched/"+show, params, 
-			updateEpisodes,
-			registerAction()
+		sendAjax("/members/watched/"+show, params, 
+			function () {updateEpisodes()},
+			function () {registerAction("/members/watched/"+show, params)}
 		);
 		return false;
 	});
@@ -85,11 +84,10 @@ $(document).ready(function(){
 		if ($(this).attr('src') == 'img/folder.png') $(this).attr('src', 'img/folder_add.png');
 		else $(this).attr('src', 'img/folder.png');
 		
-		loading_start();
-		send("/members/downloaded/"+show, params, function (data) {
-			loading_end();
-			update('episodes');
-		});
+		sendAjax("/members/downloaded/"+show, params, 
+			function () {updateEpisodes()},
+			function () {registerAction("/members/downloaded/"+show, params)}
+		);
 		return false;
 	});
 	
@@ -136,6 +134,10 @@ $(document).ready(function(){
 		$(this).unbind('mouseover').unbind('mouseout'); 
 	});
 	
+	var registerAction = function(category, params){
+		console.log("action: "+category+params);
+	};
+	
 	/**
 	 * Ouvrir un onglet
 	 */
@@ -159,10 +161,12 @@ $(document).ready(function(){
 		var params = "&token="+localStorage.token;
 		sendAjax("/members/episodes/all", params, 
 			function(data) {
+				console.log('episodes online');
 				localStorage.episodes = JSON.stringify(data.root.episodes);
 				displayEpisodes();
 			},
 			function() {
+				console.log('episodes offline');
 				displayEpisodes();
 			}
 		);
@@ -275,10 +279,12 @@ $(document).ready(function(){
 		var params = "&token="+localStorage.token;
 		sendAjax("/members/infos/"+localStorage.login, params, 
 			function(data) {
+				console.log('infos online');
 				localStorage.infos = JSON.stringify(data.root.member);
 				displayInfos();
 			},
 			function() {
+				console.log('infos offline');
 				displayInfos();
 			}
 		);
@@ -365,13 +371,15 @@ $(document).ready(function(){
 	$('#logout').livequery('click', function() { 
 		var params = "&token="+localStorage.token;
 		loading_start();
-		send("/members/destroy", params, function (data) {
-			localStorage.token = "";
-			menu('hide');
-			bgPage.init_badge();
-			loading_end();
-			update('infos');
-		});
+		ajaxSend("/members/destroy", params, 
+			function (data) {
+				localStorage.token = "";
+				menu('hide');
+				bgPage.init_badge();
+				loading_end();
+				update('infos');
+			}
+		);
 		return false;
 	});
 	
@@ -421,7 +429,7 @@ $(document).ready(function(){
 		updateEpisodes();
 	}
 	else {
-		updateInfos();
+		updateConnection();
 		menu('hide');
 	}
 	
