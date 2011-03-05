@@ -159,9 +159,7 @@ $(document).ready(function(){
 		var params = "&token="+localStorage.token;
 		sendAjax("/members/episodes/all", params, 
 			function(data) {
-				console.log(localStorage);
 				localStorage.episodes = JSON.stringify(data.root.episodes);
-				console.log(localStorage);
 				displayEpisodes();
 			},
 			function() {
@@ -172,7 +170,6 @@ $(document).ready(function(){
 	
 	var displayEpisodes = function(){
 		var episodes = JSON.parse(localStorage.episodes);
-		console.log('here');
 		var show = "";
 		var output = "";
 		var nbrEpisodes = 0;
@@ -276,13 +273,13 @@ $(document).ready(function(){
 	 */
 	var updateInfos = function(){
 		var params = "&token="+localStorage.token;
-		sendAjax("/members/episodes/all", params, 
+		sendAjax("/members/infos/"+localStorage.login, params, 
 			function(data) {
-				localStorage.episodes = JSON.stringify(data.root.episodes);
-				displayEpisodes();
+				localStorage.infos = JSON.stringify(data.root.member);
+				displayInfos();
 			},
 			function() {
-				displayEpisodes();
+				displayInfos();
 			}
 		);
 	};
@@ -290,42 +287,41 @@ $(document).ready(function(){
 	/**
 	 * Afficher "Mon profil"
 	 */
-	var updateInfos = function() {
+	var displayInfos = function() {
 		//$(".action").css('opacity', '0.5');
 		//$("#menu_"+category).css('opacity', '1.0');
 		if (bgPage.connected() == false) {
-			output = "";
-			output += '<table><tr>';
-			output += '<td>Login:</td>';
-			output += '<td><input type="text" name="login" id="login" /></td>';
-			output += '</tr><tr>';
-			output += '<td>Password:</td>';
-			output += '<td><input type="password" name="password" id="password" /></td>';
-			output += '</tr></table>';
-			output += '<div class="valid">';
-			output += '<button id="connect">Valider</button>';
-			output += '</div>';
-			hide_contents();
-			$('#infos').show().html(output);
-			loading_end();
+			displayConnection();
 		}
 		else {
-			var params = "&token="+localStorage.token;
-			ajaxSend("/members/infos/"+localStorage.login, params, function (data) {
-				var member = data.root.member;
-				output = "<table><tr>";
-				output += '<td><img src="'+member.avatar+'" width="50" /></td>';
-				output += '<td>'+member.login+' (<a href="" id="logout">déconnexion</a>)<br />';
-				output += member.stats.badges+" badges, "+member.stats.shows+" séries<br />";
-				output += member.stats.seasons+" saisons, "+member.stats.episodes+" épisodes<br />";
-				output += "Avancement : "+member.stats.progress+"<br />";
-				output += '</td></tr></table>';
-				hide_contents();
-				$('#'+category).show().html(output);
-				loading_end();
-			});
+			var member = JSON.parse(localStorage.infos);
+			output = "<table><tr>";
+			output += '<td><img src="'+member.avatar+'" width="50" /></td>';
+			output += '<td>'+member.login+' (<a href="" id="logout">déconnexion</a>)<br />';
+			output += member.stats.badges+" badges, "+member.stats.shows+" séries<br />";
+			output += member.stats.seasons+" saisons, "+member.stats.episodes+" épisodes<br />";
+			output += "Avancement : "+member.stats.progress+"<br />";
+			output += '</td></tr></table>';
+			hide_contents();
+			$('#infos').show().html(output);
 		}
 	};
+	
+	var displayConnection = function(){
+		output = "";
+		output += '<table><tr>';
+		output += '<td>Login:</td>';
+		output += '<td><input type="text" name="login" id="login" /></td>';
+		output += '</tr><tr>';
+		output += '<td>Password:</td>';
+		output += '<td><input type="password" name="password" id="password" /></td>';
+		output += '</tr></table>';
+		output += '<div class="valid">';
+		output += '<button id="connect">Valider</button>';
+		output += '</div>';
+		hide_contents();
+		$('#infos').show().html(output);
+	}
 	
 	/**
 	 * Cacher les contenus
