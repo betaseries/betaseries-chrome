@@ -144,6 +144,8 @@ $(document).ready(function(){
 	 * Mettre à jour et afficher le contenu de la popup
 	 */
 	var updateEpisodes = function(){
+		$(".action").css('opacity', '0.5');
+		$("#menu_episodes").css('opacity', '1.0');
 		var params = "&token="+localStorage.token;
 		sendAjax("/members/episodes/all", params, 
 			function(data) {
@@ -263,6 +265,8 @@ $(document).ready(function(){
 	 * Mettre à jour "Mon profil"
 	 */
 	var updateInfos = function(){
+		$(".action").css('opacity', '0.5');
+		$("#menu_infos").css('opacity', '1.0');
 		var params = "&token="+localStorage.token;
 		sendAjax("/members/infos/"+localStorage.login, params, 
 			function(data) {
@@ -281,8 +285,6 @@ $(document).ready(function(){
 	 * Afficher "Mon profil"
 	 */
 	var displayInfos = function() {
-		//$(".action").css('opacity', '0.5');
-		//$("#menu_"+category).css('opacity', '1.0');
 		if (bgPage.connected() == false) {
 			displayConnection();
 		}
@@ -357,15 +359,14 @@ $(document).ready(function(){
 	 */
 	$('#logout').livequery('click', function() { 
 		var params = "&token="+localStorage.token;
-		loading_start();
-		ajaxSend("/members/destroy", params, 
-			function (data) {
+		sendAjax("/members/destroy", params, 
+			function(){
 				localStorage.token = "";
 				menu('hide');
-				bgPage.init_badge();
-				loading_end();
-				update('infos');
-			}
+				bgPage.initBadge();
+				displayConnection();
+			},
+			function (){}
 		);
 		return false;
 	});
