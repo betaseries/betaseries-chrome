@@ -417,7 +417,7 @@ $(document).ready(function(){
 		updateEpisodes();
 	}
 	else {
-		updateConnection();
+		displayConnection();
 		menu('hide');
 	}
 	

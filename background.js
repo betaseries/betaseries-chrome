@@ -29,7 +29,6 @@ var initBadge = function(){
  * 
  */
 var updateBadge = function(){
-	initBadge();
 	$.ajax({
 		type: "POST",
 		url: url_api+"/members/episodes/all.json",
@@ -79,4 +78,5 @@ var connected = function() {
  * INIT
  *
  */
+initBadge();
 autoUpdateBadge();
