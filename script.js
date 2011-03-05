@@ -272,148 +272,58 @@ $(document).ready(function(){
 	};
 	
 	/**
-	 * Mettre à jour et afficher le contenu de la popup
+	 * Mettre à jour "Mon profil"
 	 */
-	var update = function(category) {
-		loading_start();
-		$(".action").css('opacity', '0.5');
-		$("#menu_"+category).css('opacity', '1.0');
-		if (category == 'episodes') {
+	var updateInfos = function(){
+		var params = "&token="+localStorage.token;
+		sendAjax("/members/episodes/all", params, 
+			function(data) {
+				localStorage.episodes = JSON.stringify(data.root.episodes);
+				displayEpisodes();
+			},
+			function() {
+				displayEpisodes();
+			}
+		);
+	};
+	
+	/**
+	 * Afficher "Mon profil"
+	 */
+	var updateInfos = function() {
+		//$(".action").css('opacity', '0.5');
+		//$("#menu_"+category).css('opacity', '1.0');
+		if (bgPage.connected() == false) {
+			output = "";
+			output += '<table><tr>';
+			output += '<td>Login:</td>';
+			output += '<td><input type="text" name="login" id="login" /></td>';
+			output += '</tr><tr>';
+			output += '<td>Password:</td>';
+			output += '<td><input type="password" name="password" id="password" /></td>';
+			output += '</tr></table>';
+			output += '<div class="valid">';
+			output += '<button id="connect">Valider</button>';
+			output += '</div>';
+			hide_contents();
+			$('#infos').show().html(output);
+			loading_end();
+		}
+		else {
 			var params = "&token="+localStorage.token;
-			send("/members/episodes/all", params, function (data) {
-				var episodes = data.root.episodes;
-				var show = "";
-				var output = "";
-				var nbrEpisodes = 0;
-				var posEpisode = 1;
-				var MAX_EPISODES = 5;
-				for (var n in episodes) {
-					// Titre de la série
-					if (episodes[n].show != show) {
-						// Episodes cachés
-						var remain = posEpisode-MAX_EPISODES-1;
-						if (remain > 0) {
-							var texte1;
-							if (remain == 1) texte1 = "Montrer/cacher l'épisode suivant";
-							else if (remain > 1) texte1 = "Montrer/cacher les "+(posEpisode-MAX_EPISODES-1)+" épisodes suivants";
-							output += '<div class="linkHidden"><img src="img/downarrow.gif" class="showEpisodes" title="'+texte1+'" /> '+texte1+'</div>';
-						}
-					
-						if (nbrEpisodes>0) output += '</div>';
-						output += '<div class="show" id="'+episodes[n].url+'">';
-						output += '<div class="title">'+episodes[n].show+'</div>';
-						
-						show = episodes[n].show;
-						posEpisode = 1;
-					}
-					
-					// Ajout d'une ligne épisode
-					var episode = episodes[n].episode;
-					var season = parseFloat(""+episode[1]+episode[2]);
-					var number = parseFloat(""+episode[4]+episode[5]);
-					
-					// Nouvel épisode
-					var date = Math.floor(new Date().getTime() /1000);
-					var jours = Math.floor(date/(24*3600));
-					var date_0 = (24*3600)*jours-3600;
-					var newShow = (episodes[n].date >= date_0);
-					var classes = "";
-					var hidden = "";
-					if (newShow) classes = " new_show";
-					if (posEpisode > MAX_EPISODES) {
-						classes += ' hidden';
-						hidden = ' style="display: none;"';
-					}
-					output += '<div class="episode'+classes+'"'+hidden+' season="'+season+'" number="'+number+'">';
-					
-					// Titre de l'épisode
-					var texte2;
-					if (posEpisode==1) texte2 = "Marquer comme vu cet épisode!";
-					else if (posEpisode>1) texte2 = "Marquer comme vu ces épisodes!";
-					output += '<div class="left">';
-					output += '<img src="img/plot_red.gif" class="watched" title="'+texte2+'" /> <span class="num">['+episodes[n].episode+']</span> '+episodes[n].title+' ';
-					if (newShow) output += '<span class="new">NEW!</span>';
-					output += '</div>';
-					
-					// Actions
-					var subs = episodes[n].subs;
-					var nbSubs = 0; 
-					var url = "";
-					var quality = -1;
-					for (var sub in subs) {
-						if (subs[sub]['language'] == "VF" && subs[sub]['quality'] > quality) { 
-							quality = subs[sub]['quality'];
-							url = subs[sub]['url'];
-						}
-						nbSubs++;
-					}
-					var downloaded = (episodes[n].downloaded == 1);
-					var imgDownloaded;
-					var texte3;
-					if (downloaded) {imgDownloaded = "folder"; texte3 = "Marquer comme non-téléchargé"}
-					else {imgDownloaded = "folder_add"; texte3 = "Marquer comme téléchargé";}
-					
-					output += '<div class="right">';
-					output += '<img src="img/'+imgDownloaded+'.png" class="downloaded" title="'+texte3+'" />';
-					if (quality > -1) output += ' <img src="img/srt.png" class="subs" link="'+url+'" quality="'+quality+'" title="Qualité SRT VF : '+quality+'/5" />';
-					output += '</div>';
-					
-					// Clear
-					output += '<div class="clear"></div>';
-					
-					output += '</div>';
-					nbrEpisodes++;
-					posEpisode++;
-				}
-				
-				// Episodes cachés pour la dernière série
-				var remain = posEpisode-MAX_EPISODES-1;
-                if (remain > 0) {
-                    var texte4;
-                    if (remain == 1) texte4 = "Montrer/cacher l'épisode suivant";
-                    else if (remain > 1) texte4 = "Montrer/cacher les "+(posEpisode-MAX_EPISODES-1)+" épisodes suivants";
-                    output += '<div class="linkHidden"><img src="img/downarrow.gif" class="showEpisodes" title="'+texte4+'" /> '+texte4+'</div>';
-                }
-						
-				chrome.browserAction.setBadgeText({text: ""+nbrEpisodes});
+			ajaxSend("/members/infos/"+localStorage.login, params, function (data) {
+				var member = data.root.member;
+				output = "<table><tr>";
+				output += '<td><img src="'+member.avatar+'" width="50" /></td>';
+				output += '<td>'+member.login+' (<a href="" id="logout">déconnexion</a>)<br />';
+				output += member.stats.badges+" badges, "+member.stats.shows+" séries<br />";
+				output += member.stats.seasons+" saisons, "+member.stats.episodes+" épisodes<br />";
+				output += "Avancement : "+member.stats.progress+"<br />";
+				output += '</td></tr></table>';
 				hide_contents();
 				$('#'+category).show().html(output);
 				loading_end();
 			});
-		}
-		if (category == 'infos') {
-			if (bgPage.connected() == false) {
-				output = "";
-				output += '<table><tr>';
-				output += '<td>Login:</td>';
-				output += '<td><input type="text" name="login" id="login" /></td>';
-				output += '</tr><tr>';
-				output += '<td>Password:</td>';
-				output += '<td><input type="password" name="password" id="password" /></td>';
-				output += '</tr></table>';
-				output += '<div class="valid">';
-				output += '<button id="connect">Valider</button>';
-				output += '</div>';
-				hide_contents();
-				$('#'+category).show().html(output);
-				loading_end();
-			}
-			else {
-				var params = "&token="+localStorage.token;
-				send("/members/infos/"+localStorage.login, params, function (data) {
-					var member = data.root.member;
-					output = "<table><tr>";
-					output += '<td><img src="'+member.avatar+'" width="50" /></td>';
-					output += '<td>'+member.login+' (<a href="" id="logout">déconnexion</a>)<br />';
-					output += member.stats.badges+" badges, "+member.stats.shows+" séries<br />";
-					output += member.stats.seasons+" saisons, "+member.stats.episodes+" épisodes<br />";
-					output += "Avancement : "+member.stats.progress+"<br />";
-					output += '</td></tr></table>';
-					hide_contents();
-					$('#'+category).show().html(output);
-					loading_end();
-				});
-			}
 		}
 	};
 	
@@ -486,14 +396,17 @@ $(document).ready(function(){
 	
 	$('#logoLink').click(function(){openTab('http://betaseries.com', true); return false;});
 	$('#versionLink').click(function(){openTab('https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true); return false;});
-	$('#menu_episodes').click(function(){update('episodes'); return false;});
-	$('#menu_infos').click(function(){update('infos'); return false;});
+	$('#menu_episodes').click(function(){updateEpisodes(); return false;});
+	$('#menu_infos').click(function(){updateInfos(); return false;});
 	
 	/**
 	 * Animations de chargement
 	 */
-	function loading_start() {$('#loader').show()}
-	function loading_end() {$('#loader').hide()}
+	$("#loader").bind("ajaxSend", function(){
+		$(this).show();
+	}).bind("ajaxComplete", function(){
+		$(this).hide();
+	});
 	
 	/**
 	 * Afficher le message de confirmation
@@ -512,7 +425,7 @@ $(document).ready(function(){
 		updateEpisodes();
 	}
 	else {
-		update('infos');
+		updateInfos();
 		menu('hide');
 	}
 	
