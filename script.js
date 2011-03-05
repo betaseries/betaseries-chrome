@@ -16,7 +16,10 @@ $(document).ready(function(){
 			data: "key="+bgPage.key+params,
 			dataType: "json",
 			success: successCallback,
-			error: errorCallback
+			error: function(){
+				message('<img src="img/inaccurate.png" /> Mode offline!');
+				errorCallback();
+			}
 		});
 	};
 	
