@@ -15,20 +15,20 @@
 		<h1>Options</h1>
 		
 		<p>Langue des sous-titres : 
-		<select name="dl_srt_language">
-			<option value="vf">FR</option>
-			<option value="vo">EN</option>
-			<option value="vovf">FR & EN</option>
+		<select name="dl_srt_language" id="dl_srt_language">
+			<option value="VO">VO</option>
+			<option value="VF">VF</option>
+			<option value="ALL">VO & VF</option>
 		</select></p>
 		
 		<p>Nbr d'épisodes à afficher par série : 
-		<input type="text" size="2" name="nbr_episodes_per_serie" />
+		<input type="text" size="2" name="nbr_episodes_per_serie" id="nbr_episodes_per_serie" />
 		</p>
 		
 		<p>Badge utilisé pour : 
-		<select name="badge_notification_type">
-			<option value="">Nbr d'épisodes non vus</option>
-			<option value="">Nbr d'épisodes non téléchargés</option>
+		<select name="badge_notification_type" id="badge_notification_type">
+			<option value="watched">Nbr d'épisodes non vus</option>
+			<option value="downloaded">Nbr d'épisodes non téléchargés</option>
 		</select>
 		</p>
 		
@@ -36,7 +36,20 @@
 		
 		<script src='jquery.js'></script>
 		<script>
+			$(document).ready(function(){
 			
+				$('#dl_srt_language').val(localStorage.dl_srt_language);
+				$('#nbr_episodes_per_serie').attr('value', localStorage.nbr_episodes_per_serie);
+				$('#badge_notification_type').val(localStorage.badge_notification_type);
+				
+				$('#save').click(function(){
+					localStorage.dl_srt_language = $('#dl_srt_language').val();
+					localStorage.nbr_episodes_per_serie = $('#nbr_episodes_per_serie').attr('value');
+					localStorage.badge_notification_type = $('#badge_notification_type').val();
+					$(this).html('Sauvegardé!');
+				});
+				
+			});
 		</script>
 	</body>
 </html>

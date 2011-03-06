@@ -248,7 +248,7 @@ $(document).ready(function(){
 		var output = "";
 		var nbrEpisodes = 0;
 		var posEpisode = 1;
-		var MAX_EPISODES = 5;
+		var MAX_EPISODES = localStorage.nbr_episodes_per_serie;
 		for (var n in episodes) {
 			// Titre de la série
 			if (episodes[n].show != show) {
@@ -303,7 +303,11 @@ $(document).ready(function(){
 			var url = "";
 			var quality = -1;
 			for (var sub in subs) {
-				if (subs[sub]['language'] == "VF" && subs[sub]['quality'] > quality) { 
+				if ((localStorage.dl_srt_language == "VF" || localStorage.dl_srt_language == 'ALL') && subs[sub]['language'] == "VF" && subs[sub]['quality'] > quality) { 
+					quality = subs[sub]['quality'];
+					url = subs[sub]['url'];
+				}
+				if ((localStorage.dl_srt_language == "VO" || localStorage.dl_srt_language == 'ALL') && subs[sub]['language'] == "VO" && subs[sub]['quality'] > quality) { 
 					quality = subs[sub]['quality'];
 					url = subs[sub]['url'];
 				}
@@ -317,7 +321,7 @@ $(document).ready(function(){
 					
 			output += '<div class="right">';
 			output += '<img src="img/'+imgDownloaded+'.png" class="downloaded" title="'+texte3+'" />';
-			if (quality > -1) output += ' <img src="img/srt.png" class="subs" link="'+url+'" quality="'+quality+'" title="Qualité SRT VF : '+quality+'/4" />';
+			if (quality > -1) output += ' <img src="img/srt.png" class="subs" link="'+url+'" quality="'+quality+'" title="Qualité SRT VF : '+quality+'/3" />';
 			output += '</div>';
 				
 			// Clear
@@ -337,7 +341,7 @@ $(document).ready(function(){
 			output += '<div class="linkHidden"><img src="img/downarrow.gif" class="showEpisodes" title="'+texte4+'" /> '+texte4+'</div>';
 		}
 					
-		bgPage.displayBadge(nbrEpisodes);
+		bgPage.updateBadge();
 		hide_contents();
 		if (nbrEpisodes==0) output = "<div>Aucun épisodes à voir!</div>";
 		$('#episodes').show().html(output);

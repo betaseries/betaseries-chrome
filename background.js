@@ -38,7 +38,10 @@ var updateBadge = function(){
 			var episodes = data.root.episodes;
 			var j = 0;
 			for (var i in episodes){
-				if (episodes.hasOwnProperty(i)) j++;
+				if (episodes.hasOwnProperty(i)) {
+					if (localStorage.badge_notification_type == 'watched') j++;
+					if (localStorage.badge_notification_type == 'downloaded' && episodes[i].downloaded != 1) j++;
+				}
 			}
 			localStorage.nbrEpisodes = j;
 			displayBadge(j);
@@ -80,8 +83,23 @@ var connected = function() {
 };
 
 /**
+ *
+ */
+var initLocalStorage = function() { 
+	// OPTIONS
+	var dl_srt_language = localStorage.dl_srt_language;
+	if( ! dl_srt_language) localStorage.dl_srt_language = 'VF';
+	var nbr_episodes_per_serie = localStorage.nbr_episodes_per_serie;
+	if( ! nbr_episodes_per_serie) localStorage.nbr_episodes_per_serie = 5;
+	var badge_notification_type = localStorage.badge_notification_type;
+	if( ! badge_notification_type) localStorage.badge_notification_type = 'watched';
+};
+				
+
+/**
  * INIT
  *
  */
+initLocalStorage();
 initBadge();
 autoUpdateBadge();
