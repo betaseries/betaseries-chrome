@@ -169,6 +169,7 @@ $(document).ready(function(){
 		var nbrEpisodes = 0;
 		for (var e in planning){
 			var today = Math.floor(new Date().getTime() /1000);
+			var plot = (planning[e].date < today) ? "red": "orange";
 			actualWeek = Math.ceil((planning[e].date - today)/(3600*24*7));
 			if (actualWeek != week){
 				week = actualWeek;
@@ -187,7 +188,7 @@ $(document).ready(function(){
 			output += '<div class="episode '+date('D', planning[e].date).toLowerCase()+'">';
 			
 			output += '<div class="left">';
-			output += '<img src="img/plot_red.gif" /> ';
+			output += '<img src="img/plot_'+plot+'.gif" /> ';
 			output += planning[e].show+' <span class="num">['+planning[e].number+']</span>';
 			output += '</div>';
 			
@@ -212,12 +213,10 @@ $(document).ready(function(){
 		var params = "&token="+localStorage.token;
 		sendAjax("/members/episodes/all", params, 
 			function(data) {
-				console.log('episodes online');
 				localStorage.episodes = JSON.stringify(data.root.episodes);
 				displayEpisodes();
 			},
 			function() {
-				console.log('episodes offline');
 				displayEpisodes();
 			}
 		);

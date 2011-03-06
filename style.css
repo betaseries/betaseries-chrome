@@ -28,7 +28,7 @@ td#actions img.action:hover {opacity: 1.0; cursor: pointer;}
 
 /*viewEpisodes*/
 div#episodes {width: 95%;}
-div.episode {border-bottom: 1px solid #dcdcdc; padding: 3px 0 0 0;}
+div.episode {height: 18px; border-bottom: 1px solid #dcdcdc; padding: 3px 0 0 0;}
 div.episode:hover {background-color: #eee;}
 div.new_show {background-color: #fff3ee;}
 img.subs{cursor: pointer;}

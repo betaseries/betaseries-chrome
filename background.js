@@ -40,6 +40,11 @@ var updateBadge = function(){
 			for (var i in episodes){
 				if (episodes.hasOwnProperty(i)) j++;
 			}
+			localStorage.nbrEpisodes = j;
+			displayBadge(j);
+		},
+		error: function (){
+			var j = localStorage.nbrEpisodes;
 			displayBadge(j);
 		}
 	});
