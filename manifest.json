@@ -1,12 +1,13 @@
 {
 	"name": "Chrome Séries",
-	"version": "0.3.1.1",
+	"version": "0.3.2",
 	"description": "Extension Chrome pour Bétaséries (www.betaseries.com).",
 	"browser_action": {
 		"default_title": "Chrome Séries",
 		"default_icon": "favicon.png",
 		"popup": "popup.html"
 	},
+	"options_page": "options.html",
 	"icons": {
 		"128": "icon_128.png"
 	},
