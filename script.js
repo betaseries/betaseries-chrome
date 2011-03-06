@@ -113,13 +113,33 @@ $(document).ready(function(){
 	});
 	
 	/**
-	 * Télécharger les sous-titres d'un épisodes
+	 * Télécharger les sous-titres d'un épisode
 	 */
 	$('.subs').livequery('click', function() {
 		openTab($(this).attr('link'), false);
 		return false;
 	});
 	
+	/**
+	 * HOVER - Télécharger les sous-titres d'un épisode
+	 */
+	$('.subs').livequery(function(){ 
+		$(this).hover(function() { 
+				$(this).css('cursor','pointer');
+				var quality = $(this).attr('quality');
+				$(this).attr('src', 'img/dl_'+quality+'.png');
+			}, function() { 
+				$(this).attr('src', 'img/srt.png');
+				$(this).css('cursor','auto');
+			}
+		); 
+	}, function() { 
+		$(this).unbind('mouseover').unbind('mouseout'); 
+	});
+	
+	/**
+	 * Enregistrer une action offline
+	 */
 	var registerAction = function(category, params){
 		console.log("action: "+category+params);
 	};
@@ -297,7 +317,7 @@ $(document).ready(function(){
 					
 			output += '<div class="right">';
 			output += '<img src="img/'+imgDownloaded+'.png" class="downloaded" title="'+texte3+'" />';
-			if (quality > -1) output += ' <img src="img/dl_'+quality+'.png" class="subs" link="'+url+'" quality="'+quality+'" title="Qualité SRT VF : '+quality+'/4" />';
+			if (quality > -1) output += ' <img src="img/srt.png" class="subs" link="'+url+'" quality="'+quality+'" title="Qualité SRT VF : '+quality+'/4" />';
 			output += '</div>';
 				
 			// Clear
