@@ -370,6 +370,7 @@ $(document).ready(function(){
 		}
 		else {
 			var member = JSON.parse(localStorage.infos);
+			console.log(member);
 			output = "<table><tr>";
 			output += '<td><img src="'+member.avatar+'" width="50" /></td>';
 			output += '<td>'+member.login+' (<a href="" id="logout">déconnexion</a>)<br />';
@@ -382,6 +383,9 @@ $(document).ready(function(){
 		}
 	};
 	
+	/**
+	 * Afficher "Connexion"
+	 */
 	var displayConnection = function(){
 		output = "";
 		output += '<table><tr>';
@@ -460,12 +464,10 @@ $(document).ready(function(){
 	 */
 	var menu = function(status) {
 		if (status == "show") {
-			$('#menu_episodes').show();
-			$('#menu_infos').show();
+			$('.action').show();
 		}
 		if (status == "hide") {
-			$('#menu_episodes').hide();
-			$('#menu_infos').hide();
+			$('.action').hide();
 		}
 	};
 	
