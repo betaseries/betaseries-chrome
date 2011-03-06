@@ -425,7 +425,7 @@ $(document).ready(function(){
 		var params = "&token="+localStorage.token;
 		sendAjax("/members/destroy", params, 
 			function(){
-				localStorage.token = "";
+				localStorage.clear();
 				menu('hide');
 				bgPage.initBadge();
 				displayConnection();
