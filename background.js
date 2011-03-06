@@ -43,11 +43,11 @@ var updateBadge = function(){
 					if (localStorage.badge_notification_type == 'downloaded' && episodes[i].downloaded != 1) j++;
 				}
 			}
-			localStorage.nbrEpisodes = j;
+			localStorage.badge_value = j;
 			displayBadge(j);
 		},
 		error: function (){
-			var j = localStorage.nbrEpisodes;
+			var j = localStorage.badge_value;
 			displayBadge(j);
 		}
 	});
@@ -79,7 +79,7 @@ var autoUpdateBadge = function() {
  * @return boolean
  */
 var connected = function() {
-	return (localStorage.token != "" && localStorage.token != undefined);
+	return (localStorage.token != "");
 };
 
 /**
@@ -87,12 +87,23 @@ var connected = function() {
  */
 var initLocalStorage = function() { 
 	// OPTIONS
-	var dl_srt_language = localStorage.dl_srt_language;
-	if( ! dl_srt_language) localStorage.dl_srt_language = 'VF';
-	var nbr_episodes_per_serie = localStorage.nbr_episodes_per_serie;
-	if( ! nbr_episodes_per_serie) localStorage.nbr_episodes_per_serie = 5;
-	var badge_notification_type = localStorage.badge_notification_type;
-	if( ! badge_notification_type) localStorage.badge_notification_type = 'watched';
+	if( ! localStorage.dl_srt_language) localStorage.dl_srt_language = 'VF';
+	if( ! localStorage.nbr_episodes_per_serie) localStorage.nbr_episodes_per_serie = 5;
+	if( ! localStorage.badge_notification_type) localStorage.badge_notification_type = 'watched';
+	
+	// VIEWS
+	if( ! localStorage.planning) localStorage.planning = '';
+	if( ! localStorage.episodes) localStorage.episodes = '';
+	if( ! localStorage.infos) localStorage.infos = '';
+	
+	// BADGE
+	if( ! localStorage.badge_value) localStorage.badge_value = 0;
+	
+	// TOKEN
+	if( ! localStorage.token) localStorage.token = '';
+	
+	// LOGIN
+	if( ! localStorage.login) localStorage.login = '';
 };
 				
 

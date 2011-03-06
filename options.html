@@ -9,6 +9,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<style>
+			#save {
+				width: 85px; 
+				cursor: pointer; 
+				border: 1px solid #999; 
+				font-variant: small-caps;}
+		</style>
 	</head>
 	<body>
 		
@@ -25,7 +32,7 @@
 		<input type="text" size="2" name="nbr_episodes_per_serie" id="nbr_episodes_per_serie" />
 		</p>
 		
-		<p>Badge utilisé pour : 
+		<p>La valeur du badge correspond à : 
 		<select name="badge_notification_type" id="badge_notification_type">
 			<option value="watched">Nbr d'épisodes non vus</option>
 			<option value="downloaded">Nbr d'épisodes non téléchargés</option>
@@ -47,7 +54,15 @@
 					localStorage.nbr_episodes_per_serie = $('#nbr_episodes_per_serie').attr('value');
 					localStorage.badge_notification_type = $('#badge_notification_type').val();
 					$(this).html('Sauvegardé!');
+					$(this).css('color', '#090');
+					setTimeout(init_save, 1000*2);
 				});
+				
+				var init_save = function(){
+					console.log('here');
+					$('#save').html('Sauvegarder');
+					$('#save').css('color', '#000');
+				};
 				
 			});
 		</script>
