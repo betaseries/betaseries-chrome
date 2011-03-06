@@ -15,7 +15,10 @@ $(document).ready(function(){
 			url: bgPage.url_api+category+".json",
 			data: "key="+bgPage.key+params,
 			dataType: "json",
-			success: successCallback,
+			success: function(){
+				message('');
+				successCallback();
+			},
 			error: function(){
 				message('<img src="img/inaccurate.png" /> Mode offline!');
 				errorCallback();
@@ -497,9 +500,6 @@ $(document).ready(function(){
 	 */
 	var message = function(content) {
 		$('#message').html(content);
-		setTimeout(function(){
-			$('#message').html('');		
-		}, 1000*5);	
 	};
 	
 	/*
