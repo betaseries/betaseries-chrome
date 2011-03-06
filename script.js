@@ -141,7 +141,69 @@ $(document).ready(function(){
 	});
 	
 	/**
-	 * Mettre à jour et afficher le contenu de la popup
+	 * Mettre à jour le planning
+	 */
+	var updatePlanning = function(){
+		$(".action").css('opacity', '0.5');
+		$("#menu_planning").css('opacity', '1.0');
+		var params = "&token="+localStorage.token+"&view=unseen";
+		sendAjax("/planning/member/"+localStorage.login, params, 
+			function(data) {
+				localStorage.planning = JSON.stringify(data.root.planning);
+				displayPlanning();
+			},
+			function() {
+				displayPlanning();
+			}
+		);
+	};
+	
+	/**
+	 * Affiche le planning
+	 */
+	var displayPlanning = function(){
+		var planning = JSON.parse(localStorage.planning);
+		var output = "";
+		var week = 100;
+		var MAX_WEEKS = 2;
+		var nbrEpisodes = 0;
+		for (var e in planning){
+			var today = Math.floor(new Date().getTime() /1000);
+			actualWeek = Math.ceil((planning[e].date - today)/(3600*24*7));
+			if (actualWeek != week){
+				week = actualWeek;
+				var w, hidden;
+				if (week < -1) w = 'Il y a '+week+' semaines';
+				else if (week == -1) w = 'La semaine dernière';
+				else if (week == 0) w = 'Cette semaine';
+				else if (week == 1) w = 'La semaine prochaine';
+				else if (week > 1) w = 'Dans '+week+' semaines';
+				if (week<-2 || week>2) hidden = ' style="display:none"';
+				if (nbrEpisodes > 0) output += '</div>';
+				output += '<div class="week"'+hidden+'>';
+				output += '<div class="title">'+w+'</div>';
+			}
+		
+			output += '<div class="episode">';
+			
+			output += '<div class="left">';
+			output += '<span class="date">'+date('D d F', planning[e].date)+'</span> ';
+			output += planning[e].show+' <span class="num">['+planning[e].number+']</span>';
+			output += '</div>';
+			
+			output += '<div class="right">-';
+			output += '</div>';
+			
+			output += '</div>';
+			
+			nbrEpisodes++;
+		}
+		hide_contents();
+		$('#planning').show().html(output);
+	};
+	
+	/**
+	 * Mettre à jour les épisodes non vus
 	 */
 	var updateEpisodes = function(){
 		$(".action").css('opacity', '0.5');
@@ -270,12 +332,10 @@ $(document).ready(function(){
 		var params = "&token="+localStorage.token;
 		sendAjax("/members/infos/"+localStorage.login, params, 
 			function(data) {
-				console.log('infos online');
 				localStorage.infos = JSON.stringify(data.root.member);
 				displayInfos();
 			},
 			function() {
-				console.log('infos offline');
 				displayInfos();
 			}
 		);
@@ -322,6 +382,7 @@ $(document).ready(function(){
 	 * Cacher les contenus
 	 */
 	var hide_contents = function() {
+		$('#planning').hide();
 		$('#episodes').hide();
 		$('#infos').hide();
 	};
@@ -391,8 +452,10 @@ $(document).ready(function(){
 	
 	$('#logoLink').click(function(){openTab('http://betaseries.com', true); return false;});
 	$('#versionLink').click(function(){openTab('https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true); return false;});
+	$('#menu_planning').click(function(){updatePlanning(); return false;});
 	$('#menu_episodes').click(function(){updateEpisodes(); return false;});
 	$('#menu_infos').click(function(){updateInfos(); return false;});
+	//$('#menu_options').click(function(){displayOptions(); return false;});
 	
 	/**
 	 * Animations de chargement

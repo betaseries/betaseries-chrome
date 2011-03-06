@@ -1,0 +1,41 @@
+body {
+	font-size: 11px; width: 300px; margin: 0; color: #333;
+	font-family: "Lucida Grande", "Trebuchet MS", sans-serif;
+}
+
+/*Links*/
+a, a:visited {text-decoration: none; color: #009;}
+a:hover {text-decoration: underline; color: #006;}
+
+/*Pannel*/
+div#pannel table {width: 95%;}
+div#pannel {border-bottom: 1px solid #bbb;}
+
+/*Logo*/
+div.title {
+	border-bottom: 1px solid #dcdcdc;
+	font-weight: bold;
+	font-family: Helvetica, Arial, sans-serif;
+	text-transform: uppercase;
+	padding-top: 6px;
+}
+span#logo-beta {font-variant: small-caps; font-size: 20px; font-weight: bold; letter-spacing: 1px;}
+
+/*Actions*/
+td#actions {text-align: right;}
+td#actions img.action {opacity: 0.5; cursor: pointer;}
+td#actions img.action:hover {opacity: 1.0; cursor: pointer;}
+
+/*viewEpisodes*/
+div#episodes {width: 95%;}
+div.episode {border-bottom: 1px solid #dcdcdc; padding: 3px 0 0 0;}
+div.episode:hover {background-color: #eee;}
+div.new_show {background-color: #fff3ee;}
+img.subs{cursor: pointer;}
+span.num {color: #1a4377;}
+span.new {color: #900; font-size: 9px; font-variant: small-caps;}
+div#message {color: #900; margin: 3px 0 3px 0; text-align: center; background-color: #fc9;}
+div.left{float:left; width:240px;}
+div.right{margin-left: 240px; width:45px;}
+div.linkHidden {text-align: right; font-size: 9px; color: #666;}
+div.clear{clear: right;}
