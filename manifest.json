@@ -4,7 +4,7 @@
 	"description": "Extension Chrome pour Bétaséries (www.betaseries.com).",
 	"browser_action": {
 		"default_title": "Chrome Séries",
-		"default_icon": "icon_16.png",
+		"default_icon": "favicon.png",
 		"popup": "popup.html"
 	},
 	"icons": {
