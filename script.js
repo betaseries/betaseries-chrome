@@ -172,7 +172,7 @@ $(document).ready(function(){
 			actualWeek = Math.ceil((planning[e].date - today)/(3600*24*7));
 			if (actualWeek != week){
 				week = actualWeek;
-				var w, hidden;
+				var w, hidden = "";
 				if (week < -1) w = 'Il y a '+week+' semaines';
 				else if (week == -1) w = 'La semaine dernière';
 				else if (week == 0) w = 'Cette semaine';
@@ -184,14 +184,15 @@ $(document).ready(function(){
 				output += '<div class="title">'+w+'</div>';
 			}
 		
-			output += '<div class="episode">';
+			output += '<div class="episode '+date('D', planning[e].date).toLowerCase()+'">';
 			
 			output += '<div class="left">';
-			output += '<span class="date">'+date('D d F', planning[e].date)+'</span> ';
+			output += '<img src="img/plot_red.gif" /> ';
 			output += planning[e].show+' <span class="num">['+planning[e].number+']</span>';
 			output += '</div>';
 			
-			output += '<div class="right">-';
+			output += '<div class="right">';
+			output += '<span class="date">'+date('D d F', planning[e].date)+'</span>';
 			output += '</div>';
 			
 			output += '</div>';
