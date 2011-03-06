@@ -334,23 +334,26 @@ $(document).ready(function(){
 		var login = $('#login').attr('value');
 		var password = calcMD5($('#password').attr('value'));
 		var params = "&login="+login+"&password="+password;
-		loading_start();
-		send("/members/auth", params, function (data) {
-			if (data.root.member != undefined) {
-				token = data.root.member.token;
-				localStorage.login = login;
-				localStorage.token = data.root.member.token;
-				menu('show');
-				loading_end();
-				update('episodes');
-			}
-			else {
+		sendAjax("/members/auth", params, 
+			function (data) {
+				if (data.root.member != undefined) {
+					token = data.root.member.token;
+					localStorage.login = login;
+					localStorage.token = data.root.member.token;
+					menu('show');
+					updateEpisodes();
+				}
+				else {
+					$('#password').attr('value', '');
+					message('<img src="img/inaccurate.png" /> Login et/ou password incorrects!');
+					$('#connect').removeAttr('disabled');
+				}
+			},
+			function (){
 				$('#password').attr('value', '');
-				bgPage.message('Login et/ou password incorrects!');
 				$('#connect').removeAttr('disabled');
-				loading_end();	
 			}
-		});
+		);
 		return false;
 	});
 	
