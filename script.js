@@ -15,9 +15,9 @@ $(document).ready(function(){
 			url: bgPage.url_api+category+".json",
 			data: "key="+bgPage.key+params,
 			dataType: "json",
-			success: function(){
+			success: function(data){
 				message('');
-				successCallback();
+				successCallback(data);
 			},
 			error: function(){
 				message('<img src="img/inaccurate.png" /> Mode offline!');
@@ -433,6 +433,7 @@ $(document).ready(function(){
 					localStorage.login = login;
 					localStorage.token = data.root.member.token;
 					menu('show');
+					bgPage.initLocalStorage();
 					updateEpisodes();
 				}
 				else {
