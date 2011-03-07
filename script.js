@@ -192,17 +192,19 @@ $(document).ready(function(){
 		var nbrEpisodes = 0;
 		for (var e in planning){
 			var today = Math.floor(new Date().getTime() /1000);
+			var todayWeek = parseFloat(date('W', today));
+			var actualWeek = parseFloat(date('W', planning[e].date));
+			var diffWeek = actualWeek - todayWeek;
 			var plot = (planning[e].date < today) ? "red": "orange";
-			actualWeek = Math.ceil((planning[e].date - today)/(3600*24*7));
 			if (actualWeek != week){
 				week = actualWeek;
 				var w, hidden = "";
-				if (week < -1) w = 'Il y a '+week+' semaines';
-				else if (week == -1) w = 'La semaine dernière';
-				else if (week == 0) w = 'Cette semaine';
-				else if (week == 1) w = 'La semaine prochaine';
-				else if (week > 1) w = 'Dans '+week+' semaines';
-				if (week<-2 || week>2) hidden = ' style="display:none"';
+				if (diffWeek < -1) w = 'Il y a '+diffWeek+' semaines';
+				else if (diffWeek == -1) w = 'La semaine dernière';
+				else if (diffWeek == 0) w = 'Cette semaine';
+				else if (diffWeek == 1) w = 'La semaine prochaine';
+				else if (diffWeek > 1) w = 'Dans '+diffWeek+' semaines';
+				if (diffWeek<-2 || diffWeek>2) hidden = ' style="display:none"';
 				if (nbrEpisodes > 0) output += '</div>';
 				output += '<div class="week"'+hidden+'>';
 				output += '<div class="title">'+w+'</div>';
