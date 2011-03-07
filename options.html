@@ -45,6 +45,8 @@
 		<script>
 			$(document).ready(function(){
 			
+				var bgPage = chrome.extension.getBackgroundPage();
+				
 				$('#dl_srt_language').val(localStorage.dl_srt_language);
 				$('#nbr_episodes_per_serie').attr('value', localStorage.nbr_episodes_per_serie);
 				$('#badge_notification_type').val(localStorage.badge_notification_type);
@@ -53,6 +55,7 @@
 					localStorage.dl_srt_language = $('#dl_srt_language').val();
 					localStorage.nbr_episodes_per_serie = $('#nbr_episodes_per_serie').attr('value');
 					localStorage.badge_notification_type = $('#badge_notification_type').val();
+					bgPage.updateBadge();
 					$(this).html('Sauvegardé!');
 					$(this).css('color', '#090');
 					setTimeout(init_save, 1000*2);
