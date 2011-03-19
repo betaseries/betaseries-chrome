@@ -32,9 +32,9 @@ $(document).ready(function(){
 	$('.watched').livequery('click', function() { 
 		var node = $(this).parent().parent();
 		var season = node.attr('season');
-		var number = node.attr('number');
+		var episode = node.attr('episode');
 		var show = node.parent().attr('id');
-		var params = "&token="+localStorage.token+"&season="+season+"&episode="+number;
+		var params = "&token="+localStorage.token+"&season="+season+"&episode="+episode;
 		
 		// On cache les div
 		while(node.hasClass('episode')){
@@ -82,9 +82,9 @@ $(document).ready(function(){
 	$('.downloaded').livequery('click', function() { 
 		var node = $(this).parent().parent();
 		var season = node.attr('season');
-		var number = node.attr('number');
+		var episode = node.attr('episode');
 		var show = node.parent().attr('id');
-		var params = "&token="+localStorage.token+"&season="+season+"&episode="+number;
+		var params = "&token="+localStorage.token+"&season="+season+"&episode="+episode;
 		
 		// On rend tout de suite visible le changement
 		if ($(this).attr('src') == 'img/folder.png') $(this).attr('src', 'img/folder_add.png');
@@ -275,9 +275,9 @@ $(document).ready(function(){
 			}
 					
 			// Ajout d'une ligne épisode
+			console.log(episodes[n]);
+			var season = episodes[n].season;
 			var episode = episodes[n].episode;
-			var season = parseFloat(""+episode[1]+episode[2]);
-			var number = parseFloat(""+episode[4]+episode[5]);
 				
 			// Nouvel épisode
 			var date = Math.floor(new Date().getTime() /1000);
@@ -291,7 +291,7 @@ $(document).ready(function(){
 				classes += ' hidden';
 				hidden = ' style="display: none;"';
 			}
-			output += '<div class="episode'+classes+'"'+hidden+' season="'+season+'" number="'+number+'">';
+			output += '<div class="episode'+classes+'"'+hidden+' season="'+season+'" episode="'+episode+'">';
 				
 			// Titre de l'épisode
 			var texte2;
@@ -318,14 +318,16 @@ $(document).ready(function(){
 				}
 				nbSubs++;
 			}
-			var downloaded = (episodes[n].downloaded == 1);
-			var imgDownloaded;
-			var texte3;
-			if (downloaded) {imgDownloaded = "folder"; texte3 = "Marquer comme non-téléchargé"}
-			else {imgDownloaded = "folder_add"; texte3 = "Marquer comme téléchargé";}
-					
+			if (episodes[n].downloaded != -1){
+				var downloaded = (episodes[n].downloaded == 1);
+				var imgDownloaded;
+				var texte3;
+				if (downloaded) {imgDownloaded = "folder"; texte3 = "Marquer comme non-téléchargé"}
+				else {imgDownloaded = "folder_add"; texte3 = "Marquer comme téléchargé";}
+			}
 			output += '<div class="right">';
-			output += '<img src="img/'+imgDownloaded+'.png" class="downloaded" title="'+texte3+'" />';
+			if (episodes[n].downloaded != -1)
+				output += '<img src="img/'+imgDownloaded+'.png" class="downloaded" title="'+texte3+'" />';
 			if (quality > -1) output += ' <img src="img/srt.png" class="subs" link="'+url+'" quality="'+quality+'" title="Qualité SRT VF : '+quality+'/3" />';
 			output += '</div>';
 				

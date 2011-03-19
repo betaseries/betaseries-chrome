@@ -10,36 +10,127 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<style>
-			#save {
-				width: 85px; 
-				cursor: pointer; 
-				border: 1px solid #999; 
-				font-variant: small-caps;}
+			#save {padding:3px 6px;
+				-moz-border-radius:4px;
+				-webkit-border-radius:4px;
+				-o-border-radius:4px;
+				border-radius:4px;
+				margin:4px 0 0 0px;
+				-moz-box-shadow:0 0 2px #333333;
+				-webkit-box-shadow:0 0 2px #333333;
+				-o-box-shadow:0 0 2px #333333;
+				box-shadow:0 0 2px #333333;
+				border:1px solid #eafedf;
+				font-weight:bold;
+				background-color:#a6e086;
+				color:#fff;
+				cursor:pointer;
+				float:right;}
+			
+			body{
+				font-size: 11px; margin: 0; color: #333;
+				font-family: "Lucida Grande", "Trebuchet MS", sans-serif;
+				background: #C1E0FA;
+			}
+			.header{height: 38px; background: #3B8DD0; margin: 0; text-align: center;}
+			.title{
+				color: #fff; padding-top: 10px; font-size: 16px; font-weight: bold;
+				text-shadow: -1px -1px 0px #3B8DD0, 1px 1px 0px #3B8DD0;
+			}
+			.wrapper{width:950px; margin: auto; margin-top: 10px;}
+			.menu{float:left; width: 200px; margin:top-10px;}
+			.content{padding: 5px;margin-left: 201px;background: #fff;}
+			li{display: block; text-decoration: none; text-align: right; 
+				background: #fff;border-top:1px dashed #C1E0FA}
+			li.first{border-top: none;}
+			li:hover{opacity: 0.7; margin-left: 5px;}
+			.menu a, .menu a:visited {display: block; padding: 8px 10px; 
+				text-decoration: none; color: #333; text-transform: uppercase;}
+			.part a, .part a:visited {text-decoration: none; color: #900;}
+			.part a:hover {text-decoration: underline;}
+			h1 {
+				background:#ebf3f9;
+				margin:0;
+				padding:4px 8px 3px;
+				font-family:Helvetica, Arial, sans-serif;
+				text-shadow:1px 1px #ffffff;
+				font-size:11px;
+				text-transform:uppercase;
+				font-weight:bold;}
 		</style>
 	</head>
 	<body>
+	
+		<div class="header">
+			<div class="title">{ chromeseries.options }</div>
+		</div>
 		
-		<h1>Options</h1>
+		<!-- start -->
+		<div class="wrapper">
 		
-		<p>Langue des sous-titres : 
-		<select name="dl_srt_language" id="dl_srt_language">
-			<option value="VO">VO</option>
-			<option value="VF">VF</option>
-			<option value="ALL">VO & VF</option>
-		</select></p>
+		<div class="menu">
+			<ul>
+				<li class="general first"><a href="" id="general">général</a></li>
+				<li class="about"><a href="" class="about">à propos</a></li>
+			</ul>
+		</div>
 		
-		<p>Nbr d'épisodes à afficher par série : 
-		<input type="text" size="2" name="nbr_episodes_per_serie" id="nbr_episodes_per_serie" />
-		</p>
+		<div class="content">
 		
-		<p>La valeur du badge correspond à : 
-		<select name="badge_notification_type" id="badge_notification_type">
-			<option value="watched">Nbr d'épisodes non vus</option>
-			<option value="downloaded">Nbr d'épisodes non téléchargés</option>
-		</select>
-		</p>
+			<div class="part general">
+				<h1>Sous-titres</h1>
+				<p>Dans la section <i>Episodes non vus</i>, vous avez la possibilité de télécharger les derniers sous-titres de meilleure qualité (vous pouvez voir la qualité en passant simplement la souris sur l'icône des sous-titres). Vous avez la possibilité de définir les langues des sous-titres.</p>
+				<p>
+				<input type="radio" name="dl_srt_language" id="opt_VO" value="VO"> 
+				<label for="opt_VO">
+					Ne prendre que les sous-titres <b>en anglais</b> (VO) disponibles rapidement.
+				</label><br />
+				<input type="radio" name="dl_srt_language" id="opt_VF" value="VF"> 
+				<label for="opt_VF">
+					Ne prendre que les sous-titres <b>en français</b> (VF) 
+					disponibles bien après les sous-titres anglais
+				</label><br />
+				<input type="radio" name="dl_srt_language" id="opt_ALL" value="ALL"> 
+				<label for="opt_ALL">
+					Prendre tous les sous-titres, <b>peu importe la langue</b>, 
+					pourvu qu'il y ait des sous-titres :)
+				</label>
+				</p>
+				
+				<h1>Episodes</h1>
+				<p>Dans la section <i>Episodes non vus</i>, lorsqu'une série que vous suivez possède un grand nombre d'épisodes non vus, ChromeSeries limite l'affichage à un nombre défini d'épisodes que vous avez la possibilité de régler.</p>
+				<p>Nombre d'épisodes maximum affichés : 
+				<input type="text" size="2" name="nbr_episodes_per_serie" id="nbr_episodes_per_serie" />
+				</p>
+				
+				<h1>Badge</h1> 
+				<p>Situé à droite de la barre de recherche en haut à droite de votre navigateur, le badge porte un texte de notification. Vous avez la possibilité de définir le type de notification qui vous plaît.</p>
+				<p>
+				<input type="radio" name="badge_notification_type" id="opt_watched" value="watched"> 
+				<label for="opt_watched">Vous notifie sur le nombre d'épisodes <b>non vus</b></label><br />
+				<input type="radio" name="badge_notification_type" id="opt_downloaded" value="downloaded"> 
+				<label for="opt_downloaded">Vous notifie sur le nombre d'épisodes <b>non téléchargés</b> parmi les épisodes non vus</label><br />
+				</p>
+				
+				<span id="save">Sauvegarder</span>
+				<div style="clear:both;"></div>
+			</div>
+			
+			<div class="part about">
+				<h1>Auteur</h1>
+				<p>- Menencia <small>(<a href="http://menencia.com" target="_blank">site web</a>)</small></p>
+				<p>Si vous êtes programmeur et que vous voulez, vous aussi, aider au développement de ChromeSeries, vous pouvez aller sur <a href="https://github.com/Menencia/chrome-extension-betaseries" target="_blank">Github</a> et retrouver les fichiers sources de l'extension. Si vous avez des idées pour améliorer l'extension, vous pouvez m'en faire part sur la <a href="https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda" target="_blank">page officielle</a> de l'extension ou sur la <a href="http://www.betaseries.com/dev/wiki/Chrome%20S%C3%A9ries" target="_blank">page wiki</a> de Betaseries ou sur la page Facebook! Merci à vous tous d'utiliser mon extension ;)</p>
+				
+				<h1>Page Facebook</h1>
+				<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FChromeSeries%2F199020100116357&amp;width=292&amp;colorscheme=light&amp;show_faces=false&amp;stream=false&amp;header=false&amp;height=62" scrolling="no" frameborder="0" style="border:none; overflow:hidden; float:right; width:292px; height:62px;" allowTransparency="true"></iframe>
+				<p>La page officielle de ChromeSeries sur Facebook a été créée ! Rejoignez-nous pour être averti plus efficacement des mises à jour, des actuces du jour ou des problèmes connus ! N'hésitez pas non plus à réagir sur le mur dans le but d'encourager ou de remercier les développeurs :)</p>
+				<div style="clear:both;"></div>
+			</div>
+			
+		</div>
 		
-		<div id="save">Sauvegarder</div>
+		</div>
+		<!-- end -->
 		
 		<script src='jquery.js'></script>
 		<script>
@@ -47,25 +138,50 @@
 			
 				var bgPage = chrome.extension.getBackgroundPage();
 				
-				$('#dl_srt_language').val(localStorage.dl_srt_language);
+				$('#opt_'+localStorage.dl_srt_language).attr("checked", "checked");
 				$('#nbr_episodes_per_serie').attr('value', localStorage.nbr_episodes_per_serie);
-				$('#badge_notification_type').val(localStorage.badge_notification_type);
+				$('#opt_'+localStorage.badge_notification_type).attr("checked", "checked");
 				
 				$('#save').click(function(){
-					localStorage.dl_srt_language = $('#dl_srt_language').val();
+					localStorage.dl_srt_language = $('input[name=dl_srt_language]:checked').val();
 					localStorage.nbr_episodes_per_serie = $('#nbr_episodes_per_serie').attr('value');
-					localStorage.badge_notification_type = $('#badge_notification_type').val();
+					localStorage.badge_notification_type = $('input[name=badge_notification_type]:checked').val();
 					bgPage.updateBadge();
-					$(this).html('Sauvegardé!');
-					$(this).css('color', '#090');
-					setTimeout(init_save, 1000*2);
+					$(this).html('Sauvegardé !');
+					$(this).css('background-color', '#eafedf');
+					$('#save').css('color', '#999');
+					setTimeout(init_save, 1000*5);
 				});
 				
 				var init_save = function(){
-					console.log('here');
 					$('#save').html('Sauvegarder');
-					$('#save').css('color', '#000');
+					$('#save').css('background-color', '#a6e086');
+					$('#save').css('color', '#fff');
 				};
+				
+				$('.menu a').click(function(){
+					var menu = $(this).attr('class');
+					showPart(menu);
+					return false;
+				});
+				
+				var showPart = function(menu){
+					$('div.part').hide();
+					$('div.'+menu).slideDown();
+					
+					$('li.'+menu).css('opacity', '0.7');
+					$('li.'+menu).css('margin-left', '5px');
+					
+					if (currentMenu){
+						$('li.'+currentMenu).css('opacity', '1');
+						$('li.'+currentMenu).css('margin-left', '0px');
+					}
+					
+					currentMenu = menu;
+				};
+				
+				var currentMenu = "";
+				showPart("general");
 				
 			});
 		</script>
