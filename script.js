@@ -275,7 +275,6 @@ $(document).ready(function(){
 			}
 					
 			// Ajout d'une ligne épisode
-			console.log(episodes[n]);
 			var season = episodes[n].season;
 			var episode = episodes[n].episode;
 				
@@ -295,11 +294,13 @@ $(document).ready(function(){
 				
 			// Titre de l'épisode
 			var texte2;
+			var title = episodes[n].title;
 			if (posEpisode==1) texte2 = "Marquer comme vu cet épisode!";
 			else if (posEpisode>1) texte2 = "Marquer comme vu ces épisodes!";
 			output += '<div class="left">';
-			output += '<img src="img/plot_red.gif" class="watched" title="'+texte2+'" /> <span class="num">['+episodes[n].episode+']</span> '+episodes[n].title+' ';
-			if (newShow) output += '<span class="new">NEW!</span>';
+			output += '<img src="img/plot_red.gif" class="watched" title="'+texte2+'" /> <span class="num">['+episodes[n].number+']</span> '+title.substring(0, 20);
+			if (title.length>20) output += "..";
+			if (newShow) output += ' <span class="new">NEW!</span>';
 			output += '</div>';
 					
 			// Actions
@@ -318,6 +319,7 @@ $(document).ready(function(){
 				}
 				nbSubs++;
 			}
+			quality = Math.floor((quality+1)/2);
 			if (episodes[n].downloaded != -1){
 				var downloaded = (episodes[n].downloaded == 1);
 				var imgDownloaded;
@@ -381,7 +383,6 @@ $(document).ready(function(){
 		}
 		else {
 			var member = JSON.parse(localStorage.infos);
-			console.log(member);
 			output = "<table><tr>";
 			output += '<td><img src="'+member.avatar+'" width="50" /></td>';
 			output += '<td>'+member.login+' (<a href="" id="logout">déconnexion</a>)<br />';
