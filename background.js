@@ -6,14 +6,10 @@
  * 
  * 
  */
- 
-/**
- * Variables
- * 
- */
-var url_api = "http://api.betaseries.com";
-var site_url = "http://betaseries.com";
-var key = "6db16a6ffab9";
+
+var url_api 	= "http://api.betaseries.com";	// Url API
+var site_url 	= "http://betaseries.com";		// Url site
+var key 		= "6db16a6ffab9";				// Developer key
 
 /**
  * Initialise le badge
@@ -92,6 +88,7 @@ var initLocalStorage = function() {
 	if( ! localStorage.badge_notification_type) localStorage.badge_notification_type = 'watched';
 	
 	// VIEWS
+	if( ! localStorage.pages) localStorage.pages = [];
 	if( ! localStorage.planning) localStorage.planning = '';
 	if( ! localStorage.episodes) localStorage.episodes = '';
 	if( ! localStorage.infos) localStorage.infos = '';
