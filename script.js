@@ -250,14 +250,9 @@ $(document).ready(function(){
 		pages = {
 			'episodes': {
 				url: "/members/episodes/all",
-				msg: 'Mise à jour des épisodes non-vus',
 				root: 'episodes'
 			}
 		};
-		
-		// Message pour avertir de la mise 
-		// à jour des données en fond
-		message(pages[page].msg);
 		
 		// Mise à jour des données de la page
 		params = "&token="+localStorage.token;
@@ -527,7 +522,7 @@ $(document).ready(function(){
 	/**
 	 * Animations de chargement
 	 */
-	$("#loader").bind("ajaxSend", function(){
+	$("#sync").bind("ajaxSend", function(){
 		$(this).show();
 	}).bind("ajaxComplete", function(){
 		$(this).hide();
