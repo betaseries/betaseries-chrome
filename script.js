@@ -237,9 +237,6 @@ $(document).ready(function(){
 	 * Mettre à jour les données de la page
 	 */
 	var update = function(page){
-		// Menu
-		menu.highlight(page);
-		
 		// Affichage des données de la page
 		// seulement s'il y a des données en cache
 		if (localStorage[page]){
@@ -249,10 +246,14 @@ $(document).ready(function(){
 		// Liste des URLS de mises à jour
 		pages = {
 			'episodes': {
+				title: 'Episodes non vus',
 				url: "/members/episodes/all",
 				root: 'episodes'
 			}
 		};
+		
+		// Menu
+		menu.highlight(pages[page].title);
 		
 		// Mise à jour des données de la page
 		params = "&token="+localStorage.token;
@@ -503,11 +504,14 @@ $(document).ready(function(){
 	 * Afficher ou cacher le menu
 	 */
 	var menu = {
-		show: $('.action').show(),
-		hide: $('.action').hide(),
-		highlight: function(page){
-			$(".action").css('opacity', '0.5');
-			$("#menu_"+page).css('opacity', '1.0');
+		show: function(){
+			$('.action').show();
+		},
+		hide: function(){
+			$('.action').hide();
+		},
+		highlight: function(title){
+			$('#pagetitle').text(title);
 		}
 	};
 	
@@ -540,6 +544,7 @@ $(document).ready(function(){
 	 */
 	if (member.connected){
 		update('episodes');
+		menu.show();
 	}else{
 		view('connection');
 		menu.hide();
