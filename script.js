@@ -42,12 +42,40 @@ $(document).ready(function(){
 		connected: bgPage.connected()
 	};
 	
+	// Liste des URLS de mises à jour
+	var pages = {
+		'menu': {
+			title: 'Menu'
+		},
+		'planning': {
+			url: "/planning/member/"+localStorage.login,
+			params: "&token="+localStorage.token+"&view=unseen",
+			root: 'planning',
+			title: 'Planning'
+		},
+		'episodes': {
+			url: "/members/episodes/all",
+			params: "&token="+localStorage.token,
+			root: 'episodes',
+			title: 'Episodes non vus'
+		},
+		'infos': {
+			url: "/members/infos/"+localStorage.login,
+			params: "&token="+localStorage.token,
+			root: 'member',
+			title: 'Compte'
+		}
+	};
+	
 	/**
 	 * Mettre à jour les données de la page
 	 */
 	var update = function(page){
 		// Mise à jour de la page actuelle
 		currentPage = page;
+		
+		// Affichage du menu
+		menu.show();
 	
 		// Affichage des données de la page
 		// seulement s'il y a des données en cache
@@ -55,31 +83,10 @@ $(document).ready(function(){
 			view(page);
 		}
 		
-		// Liste des URLS de mises à jour
-		pages = {
-			'planning': {
-				url: "/planning/member/"+localStorage.login,
-				params: "&token="+localStorage.token+"&view=unseen",
-				root: 'planning'
-			},
-			'episodes': {
-				url: "/members/episodes/all",
-				params: "&token="+localStorage.token,
-				root: 'episodes'
-			},
-			'infos': {
-				url: "/members/infos/"+localStorage.login,
-				params: "&token="+localStorage.token,
-				root: 'member'
-			}
-		};
-		
 		// Mise à jour des données de la page
-		console.log('sendajax'+pages[page].params);
 		sendAjax(pages[page].url, pages[page].params, 
 			function(data) {
 				r = pages[page].root;
-				console.log(data);
 				localStorage[page] = JSON.stringify(data.root[r]);
 				
 				// TODO - Mise à jour des données si cache non récent
@@ -92,10 +99,15 @@ $(document).ready(function(){
 		// Données de la page en cache
 		if (localStorage[page]) data = JSON.parse(localStorage[page]);
 		
+		// Affichage du titre de la page
+		if (pages && pages[page] && pages[page].title) $('#title').text(pages[page].title);
+		else $('#title').text('');
+		
 		/*********************
 		  MENU
 		*********************/
 		if(page=='menu'){
+			menu.hideStatus();
 			output = "";
 			output += '<a href="#" id="planning">Planning</a><br />';
 			output += '<a href="#" id="episodes">Episodes non vus</a><br />';
@@ -437,7 +449,6 @@ $(document).ready(function(){
 					localStorage.login = login;
 					localStorage.token = data.root.member.token;
 					bgPage.initLocalStorage();
-					menu.show();
 					update('episodes');
 				}
 				else {
@@ -473,6 +484,7 @@ $(document).ready(function(){
 	var menu = {
 		show: function(){$('.action').show();},
 		hide: function(){$('.action').hide();},
+		hideStatus: function(){$('#status').hide();}
 	};
 	
 	$('#logoLink').click(function(){openTab('http://betaseries.com', true); return false;});
