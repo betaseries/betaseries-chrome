@@ -76,7 +76,10 @@ $(document).ready(function(){
 		
 		// Affichage du menu
 		menu.show();
-	
+		
+		//
+		$('#page').removeClass().addClass(page);
+		
 		// Affichage des données de la page
 		// seulement s'il y a des données en cache
 		if (localStorage[page] && localStorage[page]!="undefined"){

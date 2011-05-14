@@ -40,14 +40,14 @@ img.subs{cursor: pointer;}
 span.num {color: #1a4377;}
 span.new {color: #900; font-size: 9px; font-variant: small-caps;}
 div#message {color: #900; margin: 3px 0 3px 0; text-align: center; background-color: #fc9;}
-.left{float:left; width:240px;}
-.right{margin-left: 240px; width:45px;}
+.episodes .left{float:left; width:240px;}
+.episodes .right{margin-left: 240px; width:45px;}
 div.linkHidden {text-align: right; font-size: 9px; color: #666;}
 div.clear{clear: right;}
 
 /*viewPlanning*/
-#planning .left{float:left; width:205px;}
-#planning .right{margin-left: 205px; width:80px;}
+.planning .left{float:left; width:205px;}
+.planning .right{margin-left: 205px; width:80px;}
 .date {font-variant: small-caps; color: #888;}
 .lun {background:#fff9ee;}
 .mar {background:#fff3ee;}
@@ -56,3 +56,11 @@ div.clear{clear: right;}
 .ven {background:#eefff0;}
 .sam {background:#eef6ff;}
 .dim {background:#feeeff;}
+
+#title {
+	text-align: right;
+	color: #aaa;
+	font-variant: small-caps;
+	float: right;
+	padding-right: 5%;
+}
