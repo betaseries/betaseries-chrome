@@ -87,12 +87,6 @@ var initLocalStorage = function() {
 	if( ! localStorage.nbr_episodes_per_serie) localStorage.nbr_episodes_per_serie = 5;
 	if( ! localStorage.badge_notification_type) localStorage.badge_notification_type = 'watched';
 	
-	// VIEWS
-	if( ! localStorage.pages) localStorage.pages = [];
-	if( ! localStorage.planning) localStorage.planning = '';
-	if( ! localStorage.episodes) localStorage.episodes = '';
-	if( ! localStorage.infos) localStorage.infos = '';
-	
 	// BADGE
 	if( ! localStorage.badge_value) localStorage.badge_value = 0;
 	

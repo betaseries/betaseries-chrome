@@ -16,15 +16,27 @@ $(document).ready(function(){
 			data: "key="+bgPage.key+params,
 			dataType: "json",
 			success: function(data){
-				message('');
+				$('#status').attr('src', 'img/plot_green.gif');
 				successCallback(data);
 			},
 			error: function(){
-				message('<img src="img/inaccurate.png" /> Mode offline!');
+				$('#status').attr('src', 'img/plot_red.gif');
 				if (errorCallback) errorCallback();
 			}
 		});
 	};
+	
+	/**
+	 * Animations de chargement
+	 */
+	$("#sync").bind("ajaxSend", function(){
+		$(this).show();
+		$('#status').attr('src', 'img/plot_orange.gif');
+	}).bind("ajaxComplete", function(){
+		$(this).hide();
+	});
+	
+	var currentPage = "";
 	
 	var member = {
 		connected: bgPage.connected()
@@ -166,77 +178,14 @@ $(document).ready(function(){
 		hiddens.slideToggle();
 		return false;
 	});
-	
-	/**
-	 * Mettre à jour le planning
-	 */
-	var updatePlanning = function(){
-		$(".action").css('opacity', '0.5');
-		$("#menu_planning").css('opacity', '1.0');
-		var params = "&token="+localStorage.token+"&view=unseen";
-		sendAjax("/planning/member/"+localStorage.login, params, 
-			function(data) {
-				localStorage.planning = JSON.stringify(data.root.planning);
-				displayPlanning();
-			},
-			function() {
-				displayPlanning();
-			}
-		);
-	};
-	
-	/**
-	 * Affiche le planning
-	 */
-	var displayPlanning = function(){
-		var planning = JSON.parse(localStorage.planning);
-		var output = "";
-		var week = 100;
-		var MAX_WEEKS = 2;
-		var nbrEpisodes = 0;
-		for (var e in planning){
-			var today = Math.floor(new Date().getTime() /1000);
-			var todayWeek = parseFloat(date('W', today));
-			var actualWeek = parseFloat(date('W', planning[e].date));
-			var diffWeek = actualWeek - todayWeek;
-			var plot = (planning[e].date < today) ? "red": "orange";
-			if (actualWeek != week){
-				week = actualWeek;
-				var w, hidden = "";
-				if (diffWeek < -1) w = 'Il y a '+diffWeek+' semaines';
-				else if (diffWeek == -1) w = 'La semaine dernière';
-				else if (diffWeek == 0) w = 'Cette semaine';
-				else if (diffWeek == 1) w = 'La semaine prochaine';
-				else if (diffWeek > 1) w = 'Dans '+diffWeek+' semaines';
-				if (diffWeek<-2 || diffWeek>2) hidden = ' style="display:none"';
-				if (nbrEpisodes > 0) output += '</div>';
-				output += '<div class="week"'+hidden+'>';
-				output += '<div class="title">'+w+'</div>';
-			}
 		
-			output += '<div class="episode '+date('D', planning[e].date).toLowerCase()+'">';
-			
-			output += '<div class="left">';
-			output += '<img src="img/plot_'+plot+'.gif" /> ';
-			output += planning[e].show+' <span class="num">['+planning[e].number+']</span>';
-			output += '</div>';
-			
-			output += '<div class="right">';
-			output += '<span class="date">'+date('D d F', planning[e].date)+'</span>';
-			output += '</div>';
-			
-			output += '</div>';
-			
-			nbrEpisodes++;
-		}
-		hide_contents();
-		$('#planning').show().html(output);
-	};
-	
 	/**
 	 * Mettre à jour les données de la page
 	 */
 	var update = function(page){
+		// Mise à jour de la page actuelle
+		currentPage = page;
+	
 		// Affichage des données de la page
 		// seulement s'il y a des données en cache
 		if (localStorage[page]){
@@ -245,19 +194,25 @@ $(document).ready(function(){
 		
 		// Liste des URLS de mises à jour
 		pages = {
+			'planning': {
+				url: "/planning/member/"+localStorage.login,
+				params: "&token="+localStorage.token+"&view=unseen",
+				root: 'planning'
+			},
 			'episodes': {
-				title: 'Episodes non vus',
 				url: "/members/episodes/all",
+				params: "&token="+localStorage.token,
 				root: 'episodes'
+			},
+			'infos': {
+				url: "/members/infos/"+localStorage.login,
+				params: "&token="+localStorage.token,
+				root: 'member'
 			}
 		};
 		
-		// Menu
-		menu.highlight(pages[page].title);
-		
 		// Mise à jour des données de la page
-		params = "&token="+localStorage.token;
-		sendAjax(pages[page].url, params, 
+		sendAjax(pages[page].url, pages[page].params, 
 			function(data) {
 				r = pages[page].root;
 				localStorage[page] = JSON.stringify(data.root[r]);
@@ -270,10 +225,67 @@ $(document).ready(function(){
 	
 	var view = function(page){
 		// Données de la page en cache
-		var data = JSON.parse(localStorage[page]);
+		if (localStorage[page]) data = JSON.parse(localStorage[page]);
 		
-		if (page=='episodes'){
-			//var episodes = JSON.parse(localStorage.episodes);
+		/*********************
+		  MENU
+		*********************/
+		if(page=='menu'){
+			output = "";
+			output += '<a href="#" id="planning">Planning</a><br />';
+			output += '<a href="#" id="episodes">Episodes non vus</a><br />';
+			output += '<a href="#" id="infos">Mon compte</a>';
+		}
+		
+		/*********************
+		  PLANNING
+		*********************/
+		if(page=='planning'){
+			var output = "";
+			var week = 100;
+			var MAX_WEEKS = 2;
+			var nbrEpisodes = 0;
+			for (var e in data){
+				var today = Math.floor(new Date().getTime() /1000);
+				var todayWeek = parseFloat(date('W', today));
+				var actualWeek = parseFloat(date('W', data[e].date));
+				var diffWeek = actualWeek - todayWeek;
+				var plot = (data[e].date < today) ? "red": "orange";
+				if (actualWeek != week){
+					week = actualWeek;
+					var w, hidden = "";
+					if (diffWeek < -1) w = 'Il y a '+diffWeek+' semaines';
+					else if (diffWeek == -1) w = 'La semaine dernière';
+					else if (diffWeek == 0) w = 'Cette semaine';
+					else if (diffWeek == 1) w = 'La semaine prochaine';
+					else if (diffWeek > 1) w = 'Dans '+diffWeek+' semaines';
+					if (diffWeek<-2 || diffWeek>2) hidden = ' style="display:none"';
+					if (nbrEpisodes > 0) output += '</div>';
+					output += '<div class="week"'+hidden+'>';
+					output += '<div class="title">'+w+'</div>';
+				}
+			
+				output += '<div class="episode '+date('D', data[e].date).toLowerCase()+'">';
+				
+				output += '<div class="left">';
+				output += '<img src="img/plot_'+plot+'.gif" /> ';
+				output += data[e].show+' <span class="num">['+data[e].number+']</span>';
+				output += '</div>';
+				
+				output += '<div class="right">';
+				output += '<span class="date">'+date('D d F', data[e].date)+'</span>';
+				output += '</div>';
+				
+				output += '</div>';
+				
+				nbrEpisodes++;
+			}
+		}
+		
+		/*********************
+		  EPISODES
+		*********************/
+		if(page=='episodes'){
 			var show = "";
 			var output = "";
 			var nbrEpisodes = 0;
@@ -376,51 +388,24 @@ $(document).ready(function(){
 			}
 						
 			bgPage.updateBadge();
-			hide_contents();
 			if (nbrEpisodes==0) output = "<div>Aucun épisodes à voir!</div>";
 		}
 		
-		// Affichage des données de la page
-		$('#'+page).show().html(output);
-	};
-	
-	/**
-	 * Mettre à jour "Mon profil"
-	 */
-	var updateInfos = function(){
-		$(".action").css('opacity', '0.5');
-		$("#menu_infos").css('opacity', '1.0');
-		var params = "&token="+localStorage.token;
-		sendAjax("/members/infos/"+localStorage.login, params, 
-			function(data) {
-				localStorage.infos = JSON.stringify(data.root.member);
-				displayInfos();
-			},
-			function() {
-				displayInfos();
-			}
-		);
-	};
-	
-	/**
-	 * Afficher "Mon profil"
-	 */
-	var displayInfos = function() {
-		if (bgPage.connected() == false) {
-			displayConnection();
-		}
-		else {
-			var member = JSON.parse(localStorage.infos);
+		/*********************
+		  INFOS
+		*********************/
+		if(page=='infos'){
 			output = "<table><tr>";
-			output += '<td><img src="'+member.avatar+'" width="50" /></td>';
-			output += '<td>'+member.login+' (<a href="" id="logout">déconnexion</a>)<br />';
-			output += member.stats.badges+" badges, "+member.stats.shows+" séries<br />";
-			output += member.stats.seasons+" saisons, "+member.stats.episodes+" épisodes<br />";
-			output += "Avancement : "+member.stats.progress+"<br />";
+			output += '<td><img src="'+data.avatar+'" width="50" /></td>';
+			output += '<td>'+data.login+' (<a href="" id="logout">déconnexion</a>)<br />';
+			output += data.stats.badges+" badges, "+data.stats.shows+" séries<br />";
+			output += data.stats.seasons+" saisons, "+data.stats.episodes+" épisodes<br />";
+			output += "Avancement : "+data.stats.progress+"<br />";
 			output += '</td></tr></table>';
-			hide_contents();
-			$('#infos').show().html(output);
 		}
+		
+		// Affichage des données de la page
+		$('#page').html(output);
 	};
 	
 	/**
@@ -441,15 +426,6 @@ $(document).ready(function(){
 		hide_contents();
 		$('#infos').show().html(output);
 	}
-	
-	/**
-	 * Cacher les contenus
-	 */
-	var hide_contents = function() {
-		$('#planning').hide();
-		$('#episodes').hide();
-		$('#infos').hide();
-	};
 
 	/**
 	 * Connexion
@@ -518,19 +494,13 @@ $(document).ready(function(){
 	
 	$('#logoLink').click(function(){openTab('http://betaseries.com', true); return false;});
 	$('#versionLink').click(function(){openTab('https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true); return false;});
-	$('#menu_planning').click(function(){updatePlanning(); return false;});
-	$('#menu_episodes').click(function(){updateEpisodes(); return false;});
-	$('#menu_infos').click(function(){updateInfos(); return false;});
-	//$('#menu_options').click(function(){displayOptions(); return false;});
 	
-	/**
-	 * Animations de chargement
-	 */
-	$("#sync").bind("ajaxSend", function(){
-		$(this).show();
-	}).bind("ajaxComplete", function(){
-		$(this).hide();
-	});
+	$('#status').click(function(){update(currentPage); return false;});
+	$('#menu').click(function(){view('menu'); return false;});
+	
+	$('#planning').live('click', function(){update('planning'); return false;});
+	$('#episodes').live('click', function(){update('episodes'); return false;});
+	$('#infos').live('click', function(){update('infos'); return false;});
 	
 	/**
 	 * Afficher le message de confirmation
@@ -542,8 +512,9 @@ $(document).ready(function(){
 	/*
 	 * INIT
 	 */
+	console.log(localStorage);
 	if (member.connected){
-		update('episodes');
+		view('menu');
 		menu.show();
 	}else{
 		view('connection');
