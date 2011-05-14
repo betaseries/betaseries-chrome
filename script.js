@@ -262,7 +262,7 @@ $(document).ready(function(){
 		if(page=='infos'){
 			output = "<table><tr>";
 			output += '<td><img src="'+data.avatar+'" width="50" /></td>';
-			output += '<td>'+data.login+' (<a href="" id="logout">déconnexion</a>)<br />';
+			output += '<td>'+data.login+'<br />';
 			output += data.stats.badges+" badges, "+data.stats.shows+" séries<br />";
 			output += data.stats.seasons+" saisons, "+data.stats.episodes+" épisodes<br />";
 			output += "Avancement : "+data.stats.progress+"<br />";
@@ -273,7 +273,7 @@ $(document).ready(function(){
 		  CONNECTION
 		*********************/
 		if(page=='connection'){
-			console.log(localStorage);
+			menu.hide();
 			output = "";
 			output += '<table><tr>';
 			output += '<td>Login:</td>';
@@ -432,13 +432,13 @@ $(document).ready(function(){
 		var params = "&login="+login+"&password="+password;
 		sendAjax("/members/auth", params, 
 			function (data) {
-				if (data.root.member != undefined) {
+				if (data.root.member) {
 					token = data.root.member.token;
 					localStorage.login = login;
 					localStorage.token = data.root.member.token;
-					menu('show');
 					bgPage.initLocalStorage();
-					updateEpisodes();
+					menu.show();
+					update('episodes');
 				}
 				else {
 					$('#password').attr('value', '');
@@ -470,21 +470,10 @@ $(document).ready(function(){
 		return false;
 	});
 	
-	/**
-	 * Afficher ou cacher le menu
-	 */
 	var menu = {
-		show: function(){
-			$('.action').show();
-		},
-		hide: function(){
-			$('.action').hide();
-		},
-		highlight: function(title){
-			$('#pagetitle').text(title);
-		}
+		show: function(){$('.action').show();},
+		hide: function(){$('.action').hide();},
 	};
-	
 	
 	$('#logoLink').click(function(){openTab('http://betaseries.com', true); return false;});
 	$('#versionLink').click(function(){openTab('https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true); return false;});
@@ -507,12 +496,9 @@ $(document).ready(function(){
 	 * INIT
 	 */
 	if(member.connected){
-		//setTimeout(function(){view('planning');}, 3000);
 		update('episodes');
-		menu.show();
 	}else{
 		view('connection');
-		menu.hide();
 	}
 	
 });
