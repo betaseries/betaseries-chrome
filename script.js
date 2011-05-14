@@ -45,7 +45,7 @@ $(document).ready(function(){
 	/**
 	 * Marquer un ou des épisodes comme vu(s)
 	 */
-	$('.watched').livequery('click', function() { 
+	$('.watched').live('click', function(){ 
 		var node = $(this).parent().parent();
 		var season = node.attr('season');
 		var episode = node.attr('episode');
@@ -69,33 +69,36 @@ $(document).ready(function(){
 	/**
 	 * HOVER - Marquer un ou des épisodes comme vu(s)
 	 */
-	$('.watched').livequery(function(){ 
-		$(this).hover(function() { 
-				$(this).css('cursor','pointer');
-				$(this).attr('src', 'img/plot_green.gif');
-				var node = $(this).parent().parent().prev();
-				while(node.hasClass('episode')){
-					node.find('.watched').attr('src', 'img/plot_green.gif');
-					node = node.prev();
+	$('.watched').live({
+		mouseover: function(){ 
+			$(this).hover(function() { 
+					$(this).css('cursor','pointer');
+					$(this).attr('src', 'img/plot_green.gif');
+					var node = $(this).parent().parent().prev();
+					while(node.hasClass('episode')){
+						node.find('.watched').attr('src', 'img/plot_green.gif');
+						node = node.prev();
+					}
+				}, function() { 
+					$(this).css('cursor','auto');
+					$(this).attr('src', 'img/plot_red.gif');
+					var node = $(this).parent().parent().prev();
+					while(node.hasClass('episode')){
+						node.find('.watched').attr('src', 'img/plot_red.gif');
+						node = node.prev();
+					}
 				}
-			}, function() { 
-				$(this).css('cursor','auto');
-				$(this).attr('src', 'img/plot_red.gif');
-				var node = $(this).parent().parent().prev();
-				while(node.hasClass('episode')){
-					node.find('.watched').attr('src', 'img/plot_red.gif');
-					node = node.prev();
-				}
-			}
-		); 
-	}, function() { 
-		$(this).unbind('mouseover').unbind('mouseout'); 
+			); 
+		}, 
+		mouseout: function() { 
+			$(this).unbind('mouseover').unbind('mouseout'); 
+		}
 	});
 	
 	/**
 	 * Marquer un épisode comme téléchargé ou pas
 	 */
-	$('.downloaded').livequery('click', function() { 
+	$('.downloaded').live('click', function() { 
 		var node = $(this).parent().parent();
 		var season = node.attr('season');
 		var episode = node.attr('episode');
@@ -116,25 +119,28 @@ $(document).ready(function(){
 	/**
 	 * HOVER - Marquer un épisode comme téléchargé ou pas
 	 */
-	$('.downloaded').livequery(function(){ 
-		$(this).hover(function() { 
-				$(this).css('cursor','pointer');
-				if ($(this).attr('src') == 'img/folder_add.png') $(this).attr('src', 'img/folder_add.png');
-				if ($(this).attr('src') == 'img/folder.png') $(this).attr('src', 'img/folder_delete.png');
-			}, function() { 
-				$(this).css('cursor','auto');
-				if ($(this).attr('src') == 'img/folder_add.png') $(this).attr('src', 'img/folder_add.png');
-				if ($(this).attr('src') == 'img/folder_delete.png') $(this).attr('src', 'img/folder.png');
-			}
-		); 
-	}, function() { 
-		$(this).unbind('mouseover').unbind('mouseout'); 
+	$('.downloaded').live({
+		mouseover: function(){ 
+			$(this).hover(function() { 
+					$(this).css('cursor','pointer');
+					if ($(this).attr('src') == 'img/folder_add.png') $(this).attr('src', 'img/folder_add.png');
+					if ($(this).attr('src') == 'img/folder.png') $(this).attr('src', 'img/folder_delete.png');
+				}, function() { 
+					$(this).css('cursor','auto');
+					if ($(this).attr('src') == 'img/folder_add.png') $(this).attr('src', 'img/folder_add.png');
+					if ($(this).attr('src') == 'img/folder_delete.png') $(this).attr('src', 'img/folder.png');
+				}
+			); 
+		}, 
+		mouseout: function() { 
+			$(this).unbind('mouseover').unbind('mouseout'); 
+		}
 	});
 	
 	/**
 	 * Télécharger les sous-titres d'un épisode
 	 */
-	$('.subs').livequery('click', function() {
+	$('.subs').live('click', function() {
 		openTab($(this).attr('link'), false);
 		return false;
 	});
@@ -142,18 +148,21 @@ $(document).ready(function(){
 	/**
 	 * HOVER - Télécharger les sous-titres d'un épisode
 	 */
-	$('.subs').livequery(function(){ 
-		$(this).hover(function() { 
-				$(this).css('cursor','pointer');
-				var quality = $(this).attr('quality');
-				$(this).attr('src', 'img/dl_'+quality+'.png');
-			}, function() { 
-				$(this).attr('src', 'img/srt.png');
-				$(this).css('cursor','auto');
-			}
-		); 
-	}, function() { 
-		$(this).unbind('mouseover').unbind('mouseout'); 
+	$('.subs').live({
+		mouseover: function(){ 
+			$(this).hover(function() { 
+					$(this).css('cursor','pointer');
+					var quality = $(this).attr('quality');
+					$(this).attr('src', 'img/dl_'+quality+'.png');
+				}, function() { 
+					$(this).attr('src', 'img/srt.png');
+					$(this).css('cursor','auto');
+				}
+			); 
+		},
+		mouseout: function() { 
+			$(this).unbind('mouseover').unbind('mouseout'); 
+		}
 	});
 	
 	/**
@@ -173,7 +182,7 @@ $(document).ready(function(){
 	/**
 	 * Montrer ou cacher les épisodes en trop
 	 */
-	$('.showEpisodes').livequery('click', function() { 
+	$('.showEpisodes').live('click', function() { 
 		var hiddens = $(this).parent().parent().find('div.hidden');
 		hiddens.slideToggle();
 		return false;
@@ -430,7 +439,7 @@ $(document).ready(function(){
 	/**
 	 * Connexion
 	 */
-	$('#connect').livequery('click', function() { 
+	$('#connect').live('click', function() { 
 		$(this).attr('disabled', 'disabled');
 		var login = $('#login').attr('value');
 		var password = calcMD5($('#password').attr('value'));
@@ -462,7 +471,7 @@ $(document).ready(function(){
 	/**
 	 * Déconnexion
 	 */
-	$('#logout').livequery('click', function() { 
+	$('#logout').live('click', function() { 
 		var params = "&token="+localStorage.token;
 		sendAjax("/members/destroy", params, 
 			function(){
@@ -512,7 +521,6 @@ $(document).ready(function(){
 	/*
 	 * INIT
 	 */
-	console.log(localStorage);
 	if (member.connected){
 		view('menu');
 		menu.show();
