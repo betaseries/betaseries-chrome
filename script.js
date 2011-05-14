@@ -51,7 +51,7 @@ $(document).ready(function(){
 	
 		// Affichage des données de la page
 		// seulement s'il y a des données en cache
-		if (localStorage[page]){
+		if (localStorage[page] && localStorage[page]!="undefined"){
 			view(page);
 		}
 		
@@ -75,9 +75,11 @@ $(document).ready(function(){
 		};
 		
 		// Mise à jour des données de la page
+		console.log('sendajax'+pages[page].params);
 		sendAjax(pages[page].url, pages[page].params, 
 			function(data) {
 				r = pages[page].root;
+				console.log(data);
 				localStorage[page] = JSON.stringify(data.root[r]);
 				
 				// TODO - Mise à jour des données si cache non récent
@@ -267,6 +269,23 @@ $(document).ready(function(){
 			output += '</td></tr></table>';
 		}
 		
+		/*********************
+		  CONNECTION
+		*********************/
+		if(page=='connection'){
+			output = "";
+			output += '<table><tr>';
+			output += '<td>Login:</td>';
+			output += '<td><input type="text" name="login" id="login" /></td>';
+			output += '</tr><tr>';
+			output += '<td>Password:</td>';
+			output += '<td><input type="password" name="password" id="password" /></td>';
+			output += '</tr></table>';
+			output += '<div class="valid">';
+			output += '<button id="connect">Valider</button>';
+			output += '</div>';
+		}
+		
 		// Affichage des données de la page
 		$('#page').html(output);
 	};
@@ -416,25 +435,6 @@ $(document).ready(function(){
 		hiddens.slideToggle();
 		return false;
 	});
-	
-	/**
-	 * Afficher "Connexion"
-	 */
-	var displayConnection = function(){
-		output = "";
-		output += '<table><tr>';
-		output += '<td>Login:</td>';
-		output += '<td><input type="text" name="login" id="login" /></td>';
-		output += '</tr><tr>';
-		output += '<td>Password:</td>';
-		output += '<td><input type="password" name="password" id="password" /></td>';
-		output += '</tr></table>';
-		output += '<div class="valid">';
-		output += '<button id="connect">Valider</button>';
-		output += '</div>';
-		hide_contents();
-		$('#infos').show().html(output);
-	};
 
 	/**
 	 * Connexion
@@ -476,9 +476,8 @@ $(document).ready(function(){
 		sendAjax("/members/destroy", params, 
 			function(){
 				localStorage.clear();
-				menu('hide');
 				bgPage.initBadge();
-				displayConnection();
+				view('connection');
 			},
 			function (){}
 		);
@@ -523,7 +522,7 @@ $(document).ready(function(){
 	 */
 	if(member.connected){
 		//setTimeout(function(){view('planning');}, 3000);
-		view('planning');
+		update('episodes');
 		menu.show();
 	}else{
 		view('connection');
