@@ -309,7 +309,7 @@ $(document).ready(function(){
 		
 		// On lance la requête en fond
 		sendAjax("/members/watched/"+show, params, 
-			function () {updateEpisodes()},
+			function () {update('episodes')},
 			function () {registerAction("/members/watched/"+show, params)}
 		);
 		return false;
@@ -354,7 +354,7 @@ $(document).ready(function(){
 		else $(this).attr('src', 'img/folder.png');
 		
 		sendAjax("/members/downloaded/"+show, params, 
-			function () {updateEpisodes()},
+			function () {update('episodes')},
 			function () {registerAction("/members/downloaded/"+show, params)}
 		);
 		return false;
