@@ -82,7 +82,11 @@ $(document).ready(function(){
 		
 		// Affichage des données de la page
 		// seulement s'il y a des données en cache
-		view(page);
+		if(localStorage[page] && localStorage[page]!='undefined'){
+			view(page);
+		}else if(page=='menu' || page=='connection'){
+			view(page);
+		}
 		
 		//
 		if (!pages[page] || !pages[page].url) return;
@@ -101,7 +105,7 @@ $(document).ready(function(){
 	
 	var view = function(page){
 		// Données de la page en cache
-		if (localStorage[page]) data = JSON.parse(localStorage[page]);
+		if (localStorage[page] && localStorage[page]!='undefined') data = JSON.parse(localStorage[page]);
 		
 		// Affichage du titre de la page
 		if (pages && pages[page] && pages[page].title) $('#title').text(pages[page].title);
@@ -121,7 +125,7 @@ $(document).ready(function(){
 		/*********************
 		  PLANNING
 		*********************/
-		if(page=='planning'){
+		if(page=='planning' && data){
 			var output = "";
 			var week = 100;
 			var MAX_WEEKS = 2;
@@ -166,7 +170,7 @@ $(document).ready(function(){
 		/*********************
 		  EPISODES
 		*********************/
-		if(page=='episodes'){
+		if(page=='episodes' && data){
 			var show = "";
 			var output = "";
 			var nbrEpisodes = 0;
