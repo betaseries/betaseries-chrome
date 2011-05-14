@@ -70,7 +70,7 @@ $(document).ready(function(){
 	/**
 	 * Mettre à jour les données de la page
 	 */
-	var update = function(page){
+	var load = function(page){
 		// Mise à jour de la page actuelle
 		currentPage = page;
 		
@@ -82,9 +82,10 @@ $(document).ready(function(){
 		
 		// Affichage des données de la page
 		// seulement s'il y a des données en cache
-		if (localStorage[page] && localStorage[page]!="undefined"){
-			view(page);
-		}
+		view(page);
+		
+		//
+		if (!pages[page] || !pages[page].url) return;
 		
 		// Mise à jour des données de la page
 		sendAjax(pages[page].url, pages[page].params, 
@@ -324,7 +325,7 @@ $(document).ready(function(){
 		
 		// On lance la requête en fond
 		sendAjax("/members/watched/"+show, params, 
-			function () {update('episodes')},
+			function () {load('episodes')},
 			function () {registerAction("/members/watched/"+show, params)}
 		);
 		return false;
@@ -369,7 +370,7 @@ $(document).ready(function(){
 		else $(this).attr('src', 'img/folder.png');
 		
 		sendAjax("/members/downloaded/"+show, params, 
-			function () {update('episodes')},
+			function () {load('episodes')},
 			function () {registerAction("/members/downloaded/"+show, params)}
 		);
 		return false;
@@ -452,7 +453,7 @@ $(document).ready(function(){
 					localStorage.login = login;
 					localStorage.token = data.root.member.token;
 					bgPage.initLocalStorage();
-					update('episodes');
+					load('episodes');
 				}
 				else {
 					$('#password').attr('value', '');
@@ -493,12 +494,12 @@ $(document).ready(function(){
 	$('#logoLink').click(function(){openTab('http://betaseries.com', true); return false;});
 	$('#versionLink').click(function(){openTab('https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true); return false;});
 	
-	$('#status').click(function(){update(currentPage); return false;});
+	$('#status').click(function(){load(currentPage); return false;});
 	$('#menu').click(function(){view('menu'); return false;});
 	
-	$('#planning').live('click', function(){update('planning'); return false;});
-	$('#episodes').live('click', function(){update('episodes'); return false;});
-	$('#infos').live('click', function(){update('infos'); return false;});
+	$('#planning').live('click', function(){load('planning'); return false;});
+	$('#episodes').live('click', function(){load('episodes'); return false;});
+	$('#infos').live('click', function(){load('infos'); return false;});
 	
 	/**
 	 * Afficher le message de confirmation
@@ -511,9 +512,9 @@ $(document).ready(function(){
 	 * INIT
 	 */
 	if(member.connected){
-		update('episodes');
+		load('episodes');
 	}else{
-		view('connection');
+		load('connection');
 	}
 	
 });
