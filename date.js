@@ -1,4 +1,4 @@
-function date (format, timestamp) {
+function dateok (format, timestamp) {
     var that = this,
         jsdate, f, formatChr = /\\?([a-z])/gi,
         formatChrCb,

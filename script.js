@@ -187,235 +187,6 @@ $(document).ready(function(){
 		hiddens.slideToggle();
 		return false;
 	});
-		
-	/**
-	 * Mettre à jour les données de la page
-	 */
-	var update = function(page){
-		// Mise à jour de la page actuelle
-		currentPage = page;
-	
-		// Affichage des données de la page
-		// seulement s'il y a des données en cache
-		if (localStorage[page]){
-			view(page);
-		}
-		
-		// Liste des URLS de mises à jour
-		pages = {
-			'planning': {
-				url: "/planning/member/"+localStorage.login,
-				params: "&token="+localStorage.token+"&view=unseen",
-				root: 'planning'
-			},
-			'episodes': {
-				url: "/members/episodes/all",
-				params: "&token="+localStorage.token,
-				root: 'episodes'
-			},
-			'infos': {
-				url: "/members/infos/"+localStorage.login,
-				params: "&token="+localStorage.token,
-				root: 'member'
-			}
-		};
-		
-		// Mise à jour des données de la page
-		sendAjax(pages[page].url, pages[page].params, 
-			function(data) {
-				r = pages[page].root;
-				localStorage[page] = JSON.stringify(data.root[r]);
-				
-				// TODO - Mise à jour des données si cache non récent
-				if (true) view(page);
-			}
-		);
-	};
-	
-	var view = function(page){
-		// Données de la page en cache
-		if (localStorage[page]) data = JSON.parse(localStorage[page]);
-		
-		/*********************
-		  MENU
-		*********************/
-		if(page=='menu'){
-			output = "";
-			output += '<a href="#" id="planning">Planning</a><br />';
-			output += '<a href="#" id="episodes">Episodes non vus</a><br />';
-			output += '<a href="#" id="infos">Mon compte</a>';
-		}
-		
-		/*********************
-		  PLANNING
-		*********************/
-		if(page=='planning'){
-			var output = "";
-			var week = 100;
-			var MAX_WEEKS = 2;
-			var nbrEpisodes = 0;
-			for (var e in data){
-				var today = Math.floor(new Date().getTime() /1000);
-				var todayWeek = parseFloat(date('W', today));
-				var actualWeek = parseFloat(date('W', data[e].date));
-				var diffWeek = actualWeek - todayWeek;
-				var plot = (data[e].date < today) ? "red": "orange";
-				if (actualWeek != week){
-					week = actualWeek;
-					var w, hidden = "";
-					if (diffWeek < -1) w = 'Il y a '+diffWeek+' semaines';
-					else if (diffWeek == -1) w = 'La semaine dernière';
-					else if (diffWeek == 0) w = 'Cette semaine';
-					else if (diffWeek == 1) w = 'La semaine prochaine';
-					else if (diffWeek > 1) w = 'Dans '+diffWeek+' semaines';
-					if (diffWeek<-2 || diffWeek>2) hidden = ' style="display:none"';
-					if (nbrEpisodes > 0) output += '</div>';
-					output += '<div class="week"'+hidden+'>';
-					output += '<div class="title">'+w+'</div>';
-				}
-			
-				output += '<div class="episode '+date('D', data[e].date).toLowerCase()+'">';
-				
-				output += '<div class="left">';
-				output += '<img src="img/plot_'+plot+'.gif" /> ';
-				output += data[e].show+' <span class="num">['+data[e].number+']</span>';
-				output += '</div>';
-				
-				output += '<div class="right">';
-				output += '<span class="date">'+date('D d F', data[e].date)+'</span>';
-				output += '</div>';
-				
-				output += '</div>';
-				
-				nbrEpisodes++;
-			}
-		}
-		
-		/*********************
-		  EPISODES
-		*********************/
-		if(page=='episodes'){
-			var show = "";
-			var output = "";
-			var nbrEpisodes = 0;
-			var posEpisode = 1;
-			var MAX_EPISODES = localStorage.nbr_episodes_per_serie;
-			for(var n in data){
-				// Titre de la série
-				if (data[n].show != show) {
-					// Episodes cachés
-					var remain = posEpisode-MAX_EPISODES-1;
-					if (remain > 0) {
-						var texte1;
-						if (remain == 1) texte1 = "Montrer/cacher l'épisode suivant";
-						else if (remain > 1) texte1 = "Montrer/cacher les "+(posEpisode-MAX_EPISODES-1)+" épisodes suivants";
-						output += '<div class="linkHidden"><img src="img/downarrow.gif" class="showEpisodes" title="'+texte1+'" /> '+texte1+'</div>';
-					}
-				
-					if (nbrEpisodes>0) output += '</div>';
-					output += '<div class="show" id="'+data[n].url+'">';
-					output += '<div class="title">'+data[n].show+'</div>';
-					
-					show = data[n].show;
-					posEpisode = 1;
-				}
-						
-				// Ajout d'une ligne épisode
-				var season = data[n].season;
-				var episode = data[n].episode;
-					
-				// Nouvel épisode
-				var date = Math.floor(new Date().getTime() /1000);
-				var jours = Math.floor(date/(24*3600));
-				var date_0 = (24*3600)*jours-3600;
-				var newShow = (data[n].date >= date_0);
-				var classes = "";
-				var hidden = "";
-				if (newShow) classes = " new_show";
-				if (posEpisode > MAX_EPISODES) {
-					classes += ' hidden';
-					hidden = ' style="display: none;"';
-				}
-				output += '<div class="episode'+classes+'"'+hidden+' season="'+season+'" episode="'+episode+'">';
-					
-				// Titre de l'épisode
-				var texte2;
-				var title = data[n].title;
-				if (posEpisode==1) texte2 = "Marquer comme vu cet épisode!";
-				else if (posEpisode>1) texte2 = "Marquer comme vu ces épisodes!";
-				output += '<div class="left">';
-				output += '<img src="img/plot_red.gif" class="watched" title="'+texte2+'" /> <span class="num">['+data[n].number+']</span> '+title.substring(0, 20);
-				if (title.length>20) output += "..";
-				if (newShow) output += ' <span class="new">NEW!</span>';
-				output += '</div>';
-						
-				// Actions
-				var subs = data[n].subs;
-				var nbSubs = 0; 
-				var url = "";
-				var quality = -1;
-				for (var sub in subs) {
-					if ((localStorage.dl_srt_language == "VF" || localStorage.dl_srt_language == 'ALL') && subs[sub]['language'] == "VF" && subs[sub]['quality'] > quality) { 
-						quality = subs[sub]['quality'];
-						url = subs[sub]['url'];
-					}
-					if ((localStorage.dl_srt_language == "VO" || localStorage.dl_srt_language == 'ALL') && subs[sub]['language'] == "VO" && subs[sub]['quality'] > quality) { 
-						quality = subs[sub]['quality'];
-						url = subs[sub]['url'];
-					}
-					nbSubs++;
-				}
-				quality = Math.floor((quality+1)/2);
-				if (data[n].downloaded != -1){
-					var downloaded = (data[n].downloaded == 1);
-					var imgDownloaded;
-					var texte3;
-					if (downloaded) {imgDownloaded = "folder"; texte3 = "Marquer comme non-téléchargé"}
-					else {imgDownloaded = "folder_add"; texte3 = "Marquer comme téléchargé";}
-				}
-				output += '<div class="right">';
-				if (data[n].downloaded != -1)
-					output += '<img src="img/'+imgDownloaded+'.png" class="downloaded" title="'+texte3+'" />';
-				if (quality > -1) output += ' <img src="img/srt.png" class="subs" link="'+url+'" quality="'+quality+'" title="Qualité SRT VF : '+quality+'/3" />';
-				output += '</div>';
-					
-				// Clear
-				output += '<div class="clear"></div>';
-					
-				output += '</div>';
-				nbrEpisodes++;
-				posEpisode++;
-			}
-					
-			// Episodes cachés pour la dernière série
-			var remain = posEpisode-MAX_EPISODES-1;
-			if (remain > 0) {
-				var texte4;
-				if (remain == 1) texte4 = "Montrer/cacher l'épisode suivant";
-				else if (remain > 1) texte4 = "Montrer/cacher les "+(posEpisode-MAX_EPISODES-1)+" épisodes suivants";
-				output += '<div class="linkHidden"><img src="img/downarrow.gif" class="showEpisodes" title="'+texte4+'" /> '+texte4+'</div>';
-			}
-						
-			bgPage.updateBadge();
-			if (nbrEpisodes==0) output = "<div>Aucun épisodes à voir!</div>";
-		}
-		
-		/*********************
-		  INFOS
-		*********************/
-		if(page=='infos'){
-			output = "<table><tr>";
-			output += '<td><img src="'+data.avatar+'" width="50" /></td>';
-			output += '<td>'+data.login+' (<a href="" id="logout">déconnexion</a>)<br />';
-			output += data.stats.badges+" badges, "+data.stats.shows+" séries<br />";
-			output += data.stats.seasons+" saisons, "+data.stats.episodes+" épisodes<br />";
-			output += "Avancement : "+data.stats.progress+"<br />";
-			output += '</td></tr></table>';
-		}
-		
-		// Affichage des données de la page
-		$('#page').html(output);
-	};
 	
 	/**
 	 * Afficher "Connexion"
@@ -434,7 +205,7 @@ $(document).ready(function(){
 		output += '</div>';
 		hide_contents();
 		$('#infos').show().html(output);
-	}
+	};
 
 	/**
 	 * Connexion
@@ -521,8 +292,9 @@ $(document).ready(function(){
 	/*
 	 * INIT
 	 */
-	if (member.connected){
-		view('menu');
+	if(member.connected){
+		//setTimeout(function(){view('planning');}, 3000);
+		view('planning');
 		menu.show();
 	}else{
 		view('connection');
@@ -530,3 +302,233 @@ $(document).ready(function(){
 	}
 	
 });
+		
+/**
+ * Mettre à jour les données de la page
+ */
+function update(page){
+	// Mise à jour de la page actuelle
+	currentPage = page;
+
+	// Affichage des données de la page
+	// seulement s'il y a des données en cache
+	if (localStorage[page]){
+		view(page);
+	}
+	
+	// Liste des URLS de mises à jour
+	pages = {
+		'planning': {
+			url: "/planning/member/"+localStorage.login,
+			params: "&token="+localStorage.token+"&view=unseen",
+			root: 'planning'
+		},
+		'episodes': {
+			url: "/members/episodes/all",
+			params: "&token="+localStorage.token,
+			root: 'episodes'
+		},
+		'infos': {
+			url: "/members/infos/"+localStorage.login,
+			params: "&token="+localStorage.token,
+			root: 'member'
+		}
+	};
+	
+	// Mise à jour des données de la page
+	sendAjax(pages[page].url, pages[page].params, 
+		function(data) {
+			r = pages[page].root;
+			localStorage[page] = JSON.stringify(data.root[r]);
+			
+			// TODO - Mise à jour des données si cache non récent
+			if (true) view(page);
+		}
+	);
+};
+
+function view(page){
+	// Données de la page en cache
+	if (localStorage[page]) data = JSON.parse(localStorage[page]);
+	
+	/*********************
+	  MENU
+	*********************/
+	if(page=='menu'){
+		output = "";
+		output += '<a href="#" id="planning">Planning</a><br />';
+		output += '<a href="#" id="episodes">Episodes non vus</a><br />';
+		output += '<a href="#" id="infos">Mon compte</a>';
+	}
+	
+	/*********************
+	  PLANNING
+	*********************/
+	if(page=='planning'){
+		var output = "";
+		var week = 100;
+		var MAX_WEEKS = 2;
+		var nbrEpisodes = 0;
+		for (var e in data){
+			var today = Math.floor(new Date().getTime() /1000);
+			var todayWeek = parseFloat(dateok('W', today));
+			var actualWeek = parseFloat(dateok('W', data[e].date));
+			var diffWeek = actualWeek - todayWeek;
+			var plot = (data[e].date < today) ? "red": "orange";
+			if (actualWeek != week){
+				week = actualWeek;
+				var w, hidden = "";
+				if (diffWeek < -1) w = 'Il y a '+diffWeek+' semaines';
+				else if (diffWeek == -1) w = 'La semaine dernière';
+				else if (diffWeek == 0) w = 'Cette semaine';
+				else if (diffWeek == 1) w = 'La semaine prochaine';
+				else if (diffWeek > 1) w = 'Dans '+diffWeek+' semaines';
+				if (diffWeek<-2 || diffWeek>2) hidden = ' style="display:none"';
+				if (nbrEpisodes > 0) output += '</div>';
+				output += '<div class="week"'+hidden+'>';
+				output += '<div class="title">'+w+'</div>';
+			}
+		
+			output += '<div class="episode '+dateok('D', data[e].date).toLowerCase()+'">';
+			
+			output += '<div class="left">';
+			output += '<img src="img/plot_'+plot+'.gif" /> ';
+			output += data[e].show+' <span class="num">['+data[e].number+']</span>';
+			output += '</div>';
+			
+			output += '<div class="right">';
+			output += '<span class="date">'+dateok('D d F', data[e].date)+'</span>';
+			output += '</div>';
+			
+			output += '</div>';
+			
+			nbrEpisodes++;
+		}
+	}
+	
+	/*********************
+	  EPISODES
+	*********************/
+	if(page=='episodes'){
+		var show = "";
+		var output = "";
+		var nbrEpisodes = 0;
+		var posEpisode = 1;
+		var MAX_EPISODES = localStorage.nbr_episodes_per_serie;
+		for(var n in data){
+			// Titre de la série
+			if (data[n].show != show) {
+				// Episodes cachés
+				var remain = posEpisode-MAX_EPISODES-1;
+				if (remain > 0) {
+					var texte1;
+					if (remain == 1) texte1 = "Montrer/cacher l'épisode suivant";
+					else if (remain > 1) texte1 = "Montrer/cacher les "+(posEpisode-MAX_EPISODES-1)+" épisodes suivants";
+					output += '<div class="linkHidden"><img src="img/downarrow.gif" class="showEpisodes" title="'+texte1+'" /> '+texte1+'</div>';
+				}
+			
+				if (nbrEpisodes>0) output += '</div>';
+				output += '<div class="show" id="'+data[n].url+'">';
+				output += '<div class="title">'+data[n].show+'</div>';
+				
+				show = data[n].show;
+				posEpisode = 1;
+			}
+					
+			// Ajout d'une ligne épisode
+			var season = data[n].season;
+			var episode = data[n].episode;
+				
+			// Nouvel épisode
+			var date = Math.floor(new Date().getTime() /1000);
+			var jours = Math.floor(date/(24*3600));
+			var date_0 = (24*3600)*jours-3600;
+			var newShow = (data[n].date >= date_0);
+			var classes = "";
+			var hidden = "";
+			if (newShow) classes = " new_show";
+			if (posEpisode > MAX_EPISODES) {
+				classes += ' hidden';
+				hidden = ' style="display: none;"';
+			}
+			output += '<div class="episode'+classes+'"'+hidden+' season="'+season+'" episode="'+episode+'">';
+				
+			// Titre de l'épisode
+			var texte2;
+			var title = data[n].title;
+			if (posEpisode==1) texte2 = "Marquer comme vu cet épisode!";
+			else if (posEpisode>1) texte2 = "Marquer comme vu ces épisodes!";
+			output += '<div class="left">';
+			output += '<img src="img/plot_red.gif" class="watched" title="'+texte2+'" /> <span class="num">['+data[n].number+']</span> '+title.substring(0, 20);
+			if (title.length>20) output += "..";
+			if (newShow) output += ' <span class="new">NEW!</span>';
+			output += '</div>';
+					
+			// Actions
+			var subs = data[n].subs;
+			var nbSubs = 0; 
+			var url = "";
+			var quality = -1;
+			for (var sub in subs) {
+				if ((localStorage.dl_srt_language == "VF" || localStorage.dl_srt_language == 'ALL') && subs[sub]['language'] == "VF" && subs[sub]['quality'] > quality) { 
+					quality = subs[sub]['quality'];
+					url = subs[sub]['url'];
+				}
+				if ((localStorage.dl_srt_language == "VO" || localStorage.dl_srt_language == 'ALL') && subs[sub]['language'] == "VO" && subs[sub]['quality'] > quality) { 
+					quality = subs[sub]['quality'];
+					url = subs[sub]['url'];
+				}
+				nbSubs++;
+			}
+			quality = Math.floor((quality+1)/2);
+			if (data[n].downloaded != -1){
+				var downloaded = (data[n].downloaded == 1);
+				var imgDownloaded;
+				var texte3;
+				if (downloaded) {imgDownloaded = "folder"; texte3 = "Marquer comme non-téléchargé"}
+				else {imgDownloaded = "folder_add"; texte3 = "Marquer comme téléchargé";}
+			}
+			output += '<div class="right">';
+			if (data[n].downloaded != -1)
+				output += '<img src="img/'+imgDownloaded+'.png" class="downloaded" title="'+texte3+'" />';
+			if (quality > -1) output += ' <img src="img/srt.png" class="subs" link="'+url+'" quality="'+quality+'" title="Qualité SRT VF : '+quality+'/3" />';
+			output += '</div>';
+				
+			// Clear
+			output += '<div class="clear"></div>';
+				
+			output += '</div>';
+			nbrEpisodes++;
+			posEpisode++;
+		}
+				
+		// Episodes cachés pour la dernière série
+		var remain = posEpisode-MAX_EPISODES-1;
+		if (remain > 0) {
+			var texte4;
+			if (remain == 1) texte4 = "Montrer/cacher l'épisode suivant";
+			else if (remain > 1) texte4 = "Montrer/cacher les "+(posEpisode-MAX_EPISODES-1)+" épisodes suivants";
+			output += '<div class="linkHidden"><img src="img/downarrow.gif" class="showEpisodes" title="'+texte4+'" /> '+texte4+'</div>';
+		}
+					
+		bgPage.updateBadge();
+		if (nbrEpisodes==0) output = "<div>Aucun épisodes à voir!</div>";
+	}
+	
+	/*********************
+	  INFOS
+	*********************/
+	if(page=='infos'){
+		output = "<table><tr>";
+		output += '<td><img src="'+data.avatar+'" width="50" /></td>';
+		output += '<td>'+data.login+' (<a href="" id="logout">déconnexion</a>)<br />';
+		output += data.stats.badges+" badges, "+data.stats.shows+" séries<br />";
+		output += data.stats.seasons+" saisons, "+data.stats.episodes+" épisodes<br />";
+		output += "Avancement : "+data.stats.progress+"<br />";
+		output += '</td></tr></table>';
+	}
+	
+	// Affichage des données de la page
+	$('#page').html(output);
+}
+
