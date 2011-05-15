@@ -13,7 +13,7 @@ $(document).ready(function(){
 		$.ajax({
 			type: "POST",
 			url: bgPage.url_api+category+".json",
-			data: "key="+bgPage.key+params,
+			data: "key="+bgPage.key+params+"&token="+localStorage.token,
 			dataType: "json",
 			success: function(data){
 				$('#status').attr('src', 'img/plot_green.gif');
@@ -55,19 +55,19 @@ $(document).ready(function(){
 			},
 			'planning': {
 				url: "/planning/member/"+localStorage.login,
-				params: "&token="+localStorage.token+"&view=unseen",
+				params: "&view=unseen",
 				root: 'planning',
 				title: 'Planning'
 			},
 			'episodes': {
 				url: "/members/episodes/all",
-				params: "&token="+localStorage.token,
+				params: "",
 				root: 'episodes',
 				title: 'Episodes non vus'
 			},
 			'infos': {
 				url: "/members/infos/"+localStorage.login,
-				params: "&token="+localStorage.token,
+				params: "",
 				root: 'member',
 				title: 'Compte'
 			},
@@ -208,7 +208,7 @@ $(document).ready(function(){
 				// Nouvel épisode
 				var date = Math.floor(new Date().getTime() /1000);
 				var jours = Math.floor(date/(24*3600));
-				var date_0 = (24*3600)*jours-3600;
+				var date_0 = (24*3600)*jours-2*3600;
 				var newShow = (data[n].date >= date_0);
 				var classes = "";
 				var hidden = "";
@@ -284,7 +284,7 @@ $(document).ready(function(){
 		/*********************
 		  INFOS
 		*********************/
-		if(page=='infos'){
+		if(page=='infos' && data){
 			output += "<table><tr>";
 			output += '<td><img src="'+data.avatar+'" width="50" /></td>';
 			output += '<td>'+data.login+'<br />';
@@ -323,7 +323,7 @@ $(document).ready(function(){
 		var season = node.attr('season');
 		var episode = node.attr('episode');
 		var show = node.parent().attr('id');
-		var params = "&token="+localStorage.token+"&season="+season+"&episode="+episode;
+		var params = "&season="+season+"&episode="+episode;
 		
 		// On cache les div
 		while(node.hasClass('episode')){
@@ -371,7 +371,7 @@ $(document).ready(function(){
 		var season = node.attr('season');
 		var episode = node.attr('episode');
 		var show = node.parent().attr('id');
-		var params = "&token="+localStorage.token+"&season="+season+"&episode="+episode;
+		var params = "&season="+season+"&episode="+episode;
 		
 		// On rend tout de suite visible le changement
 		if ($(this).attr('src') == 'img/folder.png') $(this).attr('src', 'img/folder_add.png');
@@ -481,7 +481,7 @@ $(document).ready(function(){
 	 * Déconnexion
 	 */
 	$('#logout').live('click', function() { 
-		var params = "&token="+localStorage.token;
+		var params = "";
 		sendAjax("/members/destroy", params, 
 			function(){
 				localStorage.clear();
