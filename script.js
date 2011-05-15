@@ -74,6 +74,12 @@ $(document).ready(function(){
 				title: 'Connexion',
 				noData: true
 			},
+			'notifications': {
+				title: 'Notifications',
+				url: "/members/notifications",
+				params: "&summary=yes",
+				root: 'notifications',
+			},
 		};
 		
 		// Mise à jour de la page actuelle
@@ -148,7 +154,8 @@ $(document).ready(function(){
 			menu.hideMenu();
 			output += '<a href="#" id="planning">Planning</a><br />';
 			output += '<a href="#" id="episodes">Episodes non vus</a><br />';
-			output += '<a href="#" id="infos">Mon compte</a>';
+			output += '<a href="#" id="infos">Mon compte</a><br />';
+			output += '<a href="#" id="notifications">Notifications</a>';	
 		}
 		
 		/*********************
@@ -334,6 +341,13 @@ $(document).ready(function(){
 			output += '<div class="valid">';
 			output += '<button id="connect">Valider</button>';
 			output += '</div>';
+		}
+		
+		/*********************
+		  NOTIFICATIONS
+		*********************/
+		if(page=='notifications' && data){
+			console.log(data);
 		}
 		
 		// Affichage des données de la page
@@ -534,6 +548,7 @@ $(document).ready(function(){
 	$('#planning').live('click', function(){load('planning'); return false;});
 	$('#episodes').live('click', function(){load('episodes'); return false;});
 	$('#infos').live('click', function(){load('infos'); return false;});
+	$('#notifications').live('click', function(){load('notifications'); return false;});
 	
 	/**
 	 * Afficher le message de confirmation
