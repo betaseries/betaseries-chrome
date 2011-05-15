@@ -42,81 +42,88 @@ $(document).ready(function(){
 		connected: bgPage.connected()
 	};
 	
-	// Liste des URLS de mises à jour
-	var pages = {
-		'menu': {
-			title: 'Menu'
-		},
-		'planning': {
-			url: "/planning/member/"+localStorage.login,
-			params: "&token="+localStorage.token+"&view=unseen",
-			root: 'planning',
-			title: 'Planning'
-		},
-		'episodes': {
-			url: "/members/episodes/all",
-			params: "&token="+localStorage.token,
-			root: 'episodes',
-			title: 'Episodes non vus'
-		},
-		'infos': {
-			url: "/members/infos/"+localStorage.login,
-			params: "&token="+localStorage.token,
-			root: 'member',
-			title: 'Compte'
-		}
-	};
-	
 	/**
 	 * Mettre à jour les données de la page
 	 */
 	var load = function(page){
+		
+		// Liste des URLS de mises à jour
+		var pages = {
+			'menu': {
+				title: 'Menu',
+				noData: true
+			},
+			'planning': {
+				url: "/planning/member/"+localStorage.login,
+				params: "&token="+localStorage.token+"&view=unseen",
+				root: 'planning',
+				title: 'Planning'
+			},
+			'episodes': {
+				url: "/members/episodes/all",
+				params: "&token="+localStorage.token,
+				root: 'episodes',
+				title: 'Episodes non vus'
+			},
+			'infos': {
+				url: "/members/infos/"+localStorage.login,
+				params: "&token="+localStorage.token,
+				root: 'member',
+				title: 'Compte'
+			},
+			'connection': {
+				title: 'Connexion',
+				noData: true
+			},
+		};
+		
 		// Mise à jour de la page actuelle
 		currentPage = page;
 		
-		// Affichage du menu
+		// Affichage des boutons .action du menu
 		menu.show();
 		
-		//
+		// Ajout de la classe [page] à la section
 		$('#page').removeClass().addClass(page);
-		
-		// Affichage des données de la page
-		// seulement s'il y a des données en cache
-		if(localStorage[page] && localStorage[page]!='undefined'){
-			view(page);
-		}else if(page=='menu' || page=='connection'){
-			view(page);
-		}
-		
-		//
-		if (!pages[page] || !pages[page].url) return;
-		
-		// Mise à jour des données de la page
-		sendAjax(pages[page].url, pages[page].params, 
-			function(data) {
-				r = pages[page].root;
-				localStorage[page] = JSON.stringify(data.root[r]);
-				
-				// TODO - Mise à jour des données si cache non récent
-				if (true) view(page);
-			}
-		);
-	};
-	
-	var view = function(page){
-		// Données de la page en cache
-		if (localStorage[page] && localStorage[page]!='undefined') data = JSON.parse(localStorage[page]);
 		
 		// Affichage du titre de la page
 		if (pages && pages[page] && pages[page].title) $('#title').text(pages[page].title);
 		else $('#title').text('');
+		
+		// Affichage des données de la page
+		// si c'est une page sans données
+		view(page);
+		
+		// Vérifie si on peut mettre à jour les données de la page
+		if (pages[page] && pages[page].url){
+			sendAjax(pages[page].url, pages[page].params, 
+				function(data) {
+					r = pages[page].root;
+					localStorage[page] = JSON.stringify(data.root[r]);
+					
+					// TODO - Mise à jour des données si cache non récent
+					if (true) view(page);
+				}
+			);
+		}
+	};
+	
+	var view = function(page){
+		// Données de la page en cache
+		if (localStorage[page] && localStorage[page]!='undefined'){
+			data = JSON.parse(localStorage[page]);
+		}else{
+			data = false;
+		}
+		
+		// 
+		output = '';
 		
 		/*********************
 		  MENU
 		*********************/
 		if(page=='menu'){
 			menu.hideStatus();
-			output = "";
 			output += '<a href="#" id="planning">Planning</a><br />';
 			output += '<a href="#" id="episodes">Episodes non vus</a><br />';
 			output += '<a href="#" id="infos">Mon compte</a>';
@@ -126,7 +133,6 @@ $(document).ready(function(){
 		  PLANNING
 		*********************/
 		if(page=='planning' && data){
-			var output = "";
 			var week = 100;
 			var MAX_WEEKS = 2;
 			var nbrEpisodes = 0;
@@ -172,7 +178,6 @@ $(document).ready(function(){
 		*********************/
 		if(page=='episodes' && data){
 			var show = "";
-			var output = "";
 			var nbrEpisodes = 0;
 			var posEpisode = 1;
 			var MAX_EPISODES = localStorage.nbr_episodes_per_serie;
@@ -280,7 +285,7 @@ $(document).ready(function(){
 		  INFOS
 		*********************/
 		if(page=='infos'){
-			output = "<table><tr>";
+			output += "<table><tr>";
 			output += '<td><img src="'+data.avatar+'" width="50" /></td>';
 			output += '<td>'+data.login+'<br />';
 			output += data.stats.badges+" badges, "+data.stats.shows+" séries<br />";
@@ -294,7 +299,6 @@ $(document).ready(function(){
 		*********************/
 		if(page=='connection'){
 			menu.hide();
-			output = "";
 			output += '<table><tr>';
 			output += '<td>Login:</td>';
 			output += '<td><input type="text" name="login" id="login" /></td>';
