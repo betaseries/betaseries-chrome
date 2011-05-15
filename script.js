@@ -87,7 +87,6 @@ $(document).ready(function(){
 		else $('#title').text('');
 		
 		// Affichage des données de la page
-		// si c'est une page sans données
 		view(page);
 		
 		// Cache des données [1h]
@@ -111,7 +110,7 @@ $(document).ready(function(){
 			sendAjax(pages[page].url, pages[page].params, 
 				function(data) {
 					r = pages[page].root;
-					localStorage[page] = JSON.stringify(data.root[r]);
+					localStorage['p_'+page] = JSON.stringify(data.root[r]);
 					
 					// Mise à jour des données si cache non récent
 					view(page);
@@ -125,8 +124,8 @@ $(document).ready(function(){
 	 */
 	var view = function(page){
 		// Données de la page en cache
-		if (localStorage[page] && localStorage[page]!='undefined'){
-			data = JSON.parse(localStorage[page]);
+		if (localStorage['p_'+page] && localStorage['p_'+page]!='undefined'){
+			data = JSON.parse(localStorage['p_'+page]);
 		}else{
 			data = false;
 		}
