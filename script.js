@@ -560,7 +560,8 @@ $(document).ready(function(){
 	 * INIT
 	 */
 	if(member.connected){
-		load('episodes');
+		url = (localStorage.badgeType!='') ? localStorage.badgeType : 'episodes';
+		load(url);
 	}else{
 		load('connection');
 	}

@@ -31,20 +31,23 @@ var updateBadge = function(){
 		url: url_api+"/members/notifications.json",
 		data: "key="+key+"&token="+localStorage.token+"&summary=yes",
 		dataType: "json",
+		async: false,
 		success: function(data){
 			var notifs = data.root.notifications;
 			var j = notifs.total;
-			localStorage.badge_value = j;
-			displayBadge(j);
+			localStorage.badgeValue = j;
+			localStorage.badgeType = 'notifications';
+			displayBadge(j, localStorage.badgeType);
 		},
 		error: function (){
-			var j = localStorage.badge_value;
-			displayBadge(j);
+			var value = localStorage.badgeValue;
+			var type = localStorage.badgeType;
+			displayBadge(value, type);
 		}
 	});
 	
 	// Nombre d'épisodes non vus
-	if (localStorage.badge_value==0){
+	if (localStorage.badgeValue==0){
 		$.ajax({
 			type: "POST",
 			url: url_api+"/members/episodes/all.json",
@@ -59,23 +62,29 @@ var updateBadge = function(){
 						if (localStorage.badge_notification_type == 'downloaded' && episodes[i].downloaded != 1) j++;
 					}
 				}
-				localStorage.badge_value = j;
-				displayBadge(j);
+				localStorage.badgeValue = j;
+				localStorage.badgeType = 'episodes';
+				displayBadge(j, localStorage.badgeType);
 			},
 			error: function (){
-				var j = localStorage.badge_value;
-				displayBadge(j);
+				var value = localStorage.badgeValue;
+				var type = localStorage.badgeType;
+				displayBadge(value, type);
 			}
 		});
 	}
 }
 
-var displayBadge = function(texte){
-	if(texte==0){
+var displayBadge = function(value, type){
+	if(value==0){
 		chrome.browserAction.setBadgeText({text: ""});
 	}else{
-		chrome.browserAction.setBadgeBackgroundColor({color: [200, 50, 50, 255]});		
-		chrome.browserAction.setBadgeText({text: ""+texte});
+		colors = {
+			notifications: [200, 50, 50, 255],
+			episodes: [50, 50, 200, 255]
+		};
+		chrome.browserAction.setBadgeBackgroundColor({color: colors[type]});		
+		chrome.browserAction.setBadgeText({text: ""+value});
 	}
 };
 
@@ -112,7 +121,8 @@ var initLocalStorage = function() {
 	if( ! localStorage.timestamps) localStorage.timestamps = "";
 	
 	// BADGE
-	if( ! localStorage.badge_value) localStorage.badge_value = 0;
+	if( ! localStorage.badgeValue) localStorage.badgeValue = 0;
+	if( ! localStorage.badgeUrl) localStorage.badgeUrl = '';
 	
 	// TOKEN
 	if( ! localStorage.token) localStorage.token = '';
