@@ -47,7 +47,7 @@ $(document).ready(function(){
 		if(!force) force = false;
 		
 		// Liste des URLS de mises à jour
-		var pages = {
+		pages = {
 			'menu': {
 				title: 'Menu',
 				noData: true
@@ -78,6 +78,7 @@ $(document).ready(function(){
 		
 		// Mise à jour de la page actuelle
 		currentPage = page;
+		console.log(page);
 		
 		// Affichage des boutons .action du menu
 		menu.show();
@@ -86,7 +87,7 @@ $(document).ready(function(){
 		$('#page').removeClass().addClass(page);
 		
 		// Affichage du titre de la page
-		if (pages && pages[page] && pages[page].title) $('#title').text(pages[page].title);
+		if (pages[page] && pages[page].title) $('#title').text(pages[page].title);
 		else $('#title').text('');
 		
 		// Affichage des données de la page
@@ -119,6 +120,9 @@ $(document).ready(function(){
 					view(page);
 				}
 			);
+		}else{
+			// Signifie que les données du cache sont OK.
+			$('#status').attr('src', 'img/plot_green.gif');
 		}
 	};
 	
@@ -141,6 +145,7 @@ $(document).ready(function(){
 		*********************/
 		if(page=='menu'){
 			menu.hideStatus();
+			menu.hideMenu();
 			output += '<a href="#" id="planning">Planning</a><br />';
 			output += '<a href="#" id="episodes">Episodes non vus</a><br />';
 			output += '<a href="#" id="infos">Mon compte</a>';
@@ -516,14 +521,15 @@ $(document).ready(function(){
 	var menu = {
 		show: function(){$('.action').show();},
 		hide: function(){$('.action').hide();},
-		hideStatus: function(){$('#status').hide();}
+		hideStatus: function(){$('#status').hide();},
+		hideMenu: function(){$('#menu').hide();}
 	};
 	
 	$('#logoLink').click(function(){openTab('http://betaseries.com', true); return false;});
 	$('#versionLink').click(function(){openTab('https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true); return false;});
 	
 	$('#status').click(function(){load(currentPage, true); return false;});
-	$('#menu').click(function(){view('menu'); return false;});
+	$('#menu').click(function(){load('menu'); return false;});
 	
 	$('#planning').live('click', function(){load('planning'); return false;});
 	$('#episodes').live('click', function(){load('episodes'); return false;});
