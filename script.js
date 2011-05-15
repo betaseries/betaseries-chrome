@@ -77,7 +77,7 @@ $(document).ready(function(){
 			'notifications': {
 				title: 'Notifications',
 				url: "/members/notifications",
-				params: "&summary=yes",
+				params: "",
 				root: 'notifications',
 			},
 		};
@@ -309,7 +309,7 @@ $(document).ready(function(){
 			}
 						
 			bgPage.updateBadge();
-			if (nbrEpisodes==0) output = "<div>Aucun épisodes à voir!</div>";
+			if (nbrEpisodes==0) output = "<div>Aucun épisode à voir !</div>";
 		}
 		
 		/*********************
@@ -347,6 +347,15 @@ $(document).ready(function(){
 		*********************/
 		if(page=='notifications' && data){
 			console.log(data);
+			var nbrNotifications = 0;
+			
+			for(var n in data){
+				output += '<div>'+data[n].html+'</div>';
+				nbrNotifications++;	
+			}
+			
+			bgPage.updateBadge();
+			if (nbrNotifications==0) output = "<div>Aucune notification !</div>";
 		}
 		
 		// Affichage des données de la page
@@ -560,7 +569,7 @@ $(document).ready(function(){
 	 * INIT
 	 */
 	if(member.connected){
-		url = (localStorage.badgeType!='') ? localStorage.badgeType : 'episodes';
+		url = (localStorage.badgeType!='') ? localStorage.badgeType : 'menu';
 		load(url);
 	}else{
 		load('connection');
