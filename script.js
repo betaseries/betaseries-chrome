@@ -3,11 +3,7 @@ $(document).ready(function(){
 	var bgPage = chrome.extension.getBackgroundPage();
 	
 	/**
-	 * Envoie des données en GET vers un des WS de Bétaséries
-	 * 
-	 * @param category 		Un des WS de Bétaséries
-	 * @param params 		Arguments supplémentaires à envoyer
-	 * @return callback		Fonction de retour
+	 * Envoie des données en POST vers un des WS de BetaSeries
 	 */
 	var sendAjax = function(category, params, successCallback, errorCallback) {
 		$.ajax({
@@ -27,7 +23,7 @@ $(document).ready(function(){
 	};
 	
 	/**
-	 * Animations de chargement
+	 * Animations de chargement liés à une requête ajax
 	 */
 	$("#sync").bind("ajaxSend", function(){
 		$(this).show();
@@ -43,7 +39,7 @@ $(document).ready(function(){
 	};
 	
 	/**
-	 * Mettre à jour les données de la page
+	 * Mettre à jour les données de [page]
 	 */
 	var load = function(page){
 		
@@ -94,20 +90,39 @@ $(document).ready(function(){
 		// si c'est une page sans données
 		view(page);
 		
+		// Cache des données [1h]
+		update = false;
+		timestamp = Math.floor(new Date().getTime() /1000);
+		if(localStorage.timestamps){
+			t = JSON.parse(localStorage.timestamps);
+			tPage = (t[page]) ? t[page]: 0;
+		}else{
+			tPage = 0;
+		}
+		if(timestamp - tPage > 3600){
+			update = true;
+			if(!localStorage.timestamps) t = {};
+			t[page] = timestamp;
+			localStorage.timestamps = JSON.stringify(t);
+		}
+		
 		// Vérifie si on peut mettre à jour les données de la page
-		if (pages[page] && pages[page].url){
+		if (update && pages[page] && pages[page].url){
 			sendAjax(pages[page].url, pages[page].params, 
 				function(data) {
 					r = pages[page].root;
 					localStorage[page] = JSON.stringify(data.root[r]);
 					
-					// TODO - Mise à jour des données si cache non récent
-					if (true) view(page);
+					// Mise à jour des données si cache non récent
+					view(page);
 				}
 			);
 		}
 	};
 	
+	/*
+	 * Affiche les données de [page]
+	 */
 	var view = function(page){
 		// Données de la page en cache
 		if (localStorage[page] && localStorage[page]!='undefined'){

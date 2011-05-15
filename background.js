@@ -87,6 +87,9 @@ var initLocalStorage = function() {
 	if( ! localStorage.nbr_episodes_per_serie) localStorage.nbr_episodes_per_serie = 5;
 	if( ! localStorage.badge_notification_type) localStorage.badge_notification_type = 'watched';
 	
+	// timestamps
+	if( ! localStorage.timestamps) localStorage.timestamps = "";
+	
 	// BADGE
 	if( ! localStorage.badge_value) localStorage.badge_value = 0;
 	
