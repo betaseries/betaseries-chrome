@@ -84,7 +84,6 @@ $(document).ready(function(){
 		
 		// Mise à jour de la page actuelle
 		currentPage = page;
-		console.log(page);
 		
 		// Affichage des boutons .action du menu
 		menu.show();
