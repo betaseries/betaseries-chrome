@@ -41,7 +41,10 @@ $(document).ready(function(){
 	/**
 	 * Mettre à jour les données de [page]
 	 */
-	var load = function(page){
+	var load = function(page, force){
+	
+		// Récupération de la force :)
+		if(!force) force = false;
 		
 		// Liste des URLS de mises à jour
 		var pages = {
@@ -106,7 +109,7 @@ $(document).ready(function(){
 		}
 		
 		// Vérifie si on peut mettre à jour les données de la page
-		if (update && pages[page] && pages[page].url){
+		if ((update || force) && pages[page] && pages[page].url){
 			sendAjax(pages[page].url, pages[page].params, 
 				function(data) {
 					r = pages[page].root;
@@ -239,7 +242,10 @@ $(document).ready(function(){
 				if (posEpisode==1) texte2 = "Marquer comme vu cet épisode!";
 				else if (posEpisode>1) texte2 = "Marquer comme vu ces épisodes!";
 				output += '<div class="left">';
-				output += '<img src="img/plot_red.gif" class="watched" title="'+texte2+'" /> <span class="num">['+data[n].number+']</span> '+title.substring(0, 20);
+				output += '<img src="img/plot_red.gif" class="watched" title="'+texte2+'" /> <span class="num">';
+				output += '['+data[n].number+']';
+				//output += '#'+data[n].global;
+				output += '</span> '+title.substring(0, 20);
 				if (title.length>20) output += "..";
 				if (newShow) output += ' <span class="new">NEW!</span>';
 				output += '</div>';
@@ -516,7 +522,7 @@ $(document).ready(function(){
 	$('#logoLink').click(function(){openTab('http://betaseries.com', true); return false;});
 	$('#versionLink').click(function(){openTab('https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true); return false;});
 	
-	$('#status').click(function(){load(currentPage); return false;});
+	$('#status').click(function(){load(currentPage, true); return false;});
 	$('#menu').click(function(){view('menu'); return false;});
 	
 	$('#planning').live('click', function(){load('planning'); return false;});
