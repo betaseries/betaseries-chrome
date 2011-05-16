@@ -41,10 +41,11 @@ $(document).ready(function(){
 	/**
 	 * Mettre à jour les données de [page]
 	 */
-	var load = function(page, force){
+	var load = function(page, force, noCache){
 	
 		// Récupération de la force :)
 		if(!force) force = false;
+		if(!noCache) noCache = false;
 		
 		// Liste des URLS de mises à jour
 		pages = {
@@ -96,7 +97,7 @@ $(document).ready(function(){
 		else $('#title').text('');
 		
 		// Affichage des données de la page
-		view(page);
+		if (!noCache) view(page);
 		
 		// Cache des données [1h]
 		update = false;
@@ -380,7 +381,7 @@ $(document).ready(function(){
 		
 		// On lance la requête en fond
 		sendAjax("/members/watched/"+show, params, 
-			function () {load('episodes')},
+			function () {load('episodes', true, true)},
 			function () {registerAction("/members/watched/"+show, params)}
 		);
 		return false;
@@ -425,7 +426,7 @@ $(document).ready(function(){
 		else $(this).attr('src', 'img/folder.png');
 		
 		sendAjax("/members/downloaded/"+show, params, 
-			function () {load('episodes')},
+			function () {load('episodes', true, true)},
 			function () {registerAction("/members/downloaded/"+show, params)}
 		);
 		return false;
