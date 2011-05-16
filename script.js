@@ -310,7 +310,7 @@ $(document).ready(function(){
 				output += '<div class="linkHidden"><img src="img/downarrow.gif" class="showEpisodes" title="'+texte4+'" /> '+texte4+'</div>';
 			}
 						
-			bgPage.updateBadge();
+			bgPage.updateBadgeEpisodes();
 			if (nbrEpisodes==0) output = "<div>Aucun épisode à voir !</div>";
 		}
 		
@@ -356,7 +356,7 @@ $(document).ready(function(){
 				nbrNotifications++;	
 			}
 			
-			bgPage.updateBadge();
+			bgPage.updateBadgeNotifications();
 			if (nbrNotifications==0) output = "<div>Aucune notification !</div>";
 		}
 		

@@ -21,11 +21,24 @@ var initBadge = function(){
 };
 
 /**
- * Mets à jour le badge
+ * Mets à jour le badge (notifications, puis épisodes)
  * 
  */
 var updateBadge = function(){
 	// Nombre de notifications
+	updateBadgeNotifications();
+	
+	// Nombre d'épisodes non vus
+	if (localStorage.badgeValue==0){
+		updateBadgeEpisodes();
+	}
+}
+
+/**
+ * Mets à jour le badge (notifications)
+ * 
+ */
+var updateBadgeNotifications = function(){
 	$.ajax({
 		type: "POST",
 		url: url_api+"/members/notifications.json",
@@ -45,35 +58,38 @@ var updateBadge = function(){
 			displayBadge(value, type);
 		}
 	});
-	
-	// Nombre d'épisodes non vus
-	if (localStorage.badgeValue==0){
-		$.ajax({
-			type: "POST",
-			url: url_api+"/members/episodes/all.json",
-			data: "key="+key+"&token="+localStorage.token,
-			dataType: "json",
-			success: function(data){
-				var episodes = data.root.episodes;
-				var j = 0;
-				for (var i in episodes){
-					if (episodes.hasOwnProperty(i)) {
-						if (localStorage.badge_notification_type == 'watched') j++;
-						if (localStorage.badge_notification_type == 'downloaded' && episodes[i].downloaded != 1) j++;
-					}
+};
+
+/**
+ * Mets à jour le badge (épisodes)
+ * 
+ */
+var updateBadgeEpisodes = function(){
+	$.ajax({
+		type: "POST",
+		url: url_api+"/members/episodes/all.json",
+		data: "key="+key+"&token="+localStorage.token,
+		dataType: "json",
+		success: function(data){
+			var episodes = data.root.episodes;
+			var j = 0;
+			for (var i in episodes){
+				if (episodes.hasOwnProperty(i)) {
+					if (localStorage.badge_notification_type == 'watched') j++;
+					if (localStorage.badge_notification_type == 'downloaded' && episodes[i].downloaded != 1) j++;
 				}
-				localStorage.badgeValue = j;
-				localStorage.badgeType = 'episodes';
-				displayBadge(j, localStorage.badgeType);
-			},
-			error: function (){
-				var value = localStorage.badgeValue;
-				var type = localStorage.badgeType;
-				displayBadge(value, type);
 			}
-		});
-	}
-}
+			localStorage.badgeValue = j;
+			localStorage.badgeType = 'episodes';
+			displayBadge(j, localStorage.badgeType);
+		},
+		error: function (){
+			var value = localStorage.badgeValue;
+			var type = localStorage.badgeType;
+			displayBadge(value, type);
+		}
+	});
+};
 
 var displayBadge = function(value, type){
 	if(value==0){
