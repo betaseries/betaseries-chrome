@@ -105,7 +105,7 @@ var autoUpdateBadge = function() {
  * @return boolean
  */
 var connected = function() {
-	return (localStorage.token != "");
+    return (localStorage.token !== undefined && localStorage.token !== '');
 };
 
 /**
