@@ -117,18 +117,16 @@ $(document).ready(function(){
 		
 		// Vérifie si on peut mettre à jour les données de la page
 		if ((update || force) && pages[page] && pages[page].url){
-			sendAjax(pages[page].url, pages[page].params, 
-				function(data) {
-					r = pages[page].root;
-					localStorage['p_'+page] = JSON.stringify(data.root[r]);
-					
-					// Mise à jour des données si cache non récent
-					view(page);
-				}
-			);
+			sendAjax(pages[page].url, pages[page].params, function(data){
+				r = pages[page].root;
+				localStorage['p_'+page] = JSON.stringify(data.root[r]);
+				
+				// Mise à jour des données si cache non récent
+				view(page);
+			});
 		}else{
-			// Signifie que les données du cache sont OK.
-			$('#status').attr('src', 'img/plot_green.gif');
+			// TODO Vérifie l'état de connexion
+			//sendAjax("check_member", "");
 		}
 	};
 	
@@ -332,16 +330,43 @@ $(document).ready(function(){
 		*********************/
 		if(page=='connection'){
 			menu.hide();
-			output += '<table><tr>';
-			output += '<td>Login:</td>';
-			output += '<td><input type="text" name="login" id="login" /></td>';
-			output += '</tr><tr>';
-			output += '<td>Password:</td>';
-			output += '<td><input type="password" name="password" id="password" /></td>';
-			output += '</tr></table>';
-			output += '<div class="valid">';
-			output += '<button id="connect">Valider</button>';
-			output += '</div>';
+			
+			// Création du formulaire
+			var form = $(document.createElement('form'));
+			form.html(
+				 '<table><tr><td>Login :</td><td><input type="text" name="login" id="login" /></td></tr>'
+				+'<tr><td>Password :</td><td><input type="password" name="password" id="password" /></td></tr>'
+				+'</table>'
+				+'<div class="valid"><input type="submit" id="connect" value="Valider"></div>'
+			);
+			output += form.html();
+			
+			// Processus de connexion
+			$('#connect').live('click', function(){
+				console.log('test');
+				var login = $('#login').val();
+				var password = calcMD5($('#password').val());
+				var inputs = $(this).find('input').attr({disabled: 'disabled'});
+				var params = "&login=" + login + "&password=" + password;
+				sendAjax("/members/auth", params, function (data) {
+					if (data.root.member != undefined) {
+						form.remove();
+						token = data.root.member.token;
+						localStorage.login = login;
+						localStorage.token = data.root.member.token;
+						bgPage.initLocalStorage();
+						load('episodes');
+					}else{
+						$('#password').attr('value', '');
+						message('<img src="img/inaccurate.png" /> Login et/ou password incorrects!');
+						inputs.removeAttr('disabled');
+					}
+				}, function (){
+					$('#password').attr('value', '');
+					inputs.removeAttr('disabled');
+				});
+				return false;
+			});
 		}
 		
 		/*********************
@@ -492,37 +517,6 @@ $(document).ready(function(){
 	$('.showEpisodes').live('click', function() { 
 		var hiddens = $(this).parent().parent().find('div.hidden');
 		hiddens.slideToggle();
-		return false;
-	});
-
-	/**
-	 * Connexion
-	 */
-	$('#connect').live('click', function() { 
-		$(this).attr('disabled', 'disabled');
-		var login = $('#login').attr('value');
-		var password = calcMD5($('#password').attr('value'));
-		var params = "&login="+login+"&password="+password;
-		sendAjax("/members/auth", params, 
-			function (data) {
-				if (data.root.member) {
-					token = data.root.member.token;
-					localStorage.login = login;
-					localStorage.token = data.root.member.token;
-					bgPage.initLocalStorage();
-					load('episodes');
-				}
-				else {
-					$('#password').attr('value', '');
-					message('<img src="img/inaccurate.png" /> Login et/ou password incorrects!');
-					$('#connect').removeAttr('disabled');
-				}
-			},
-			function (){
-				$('#password').attr('value', '');
-				$('#connect').removeAttr('disabled');
-			}
-		);
 		return false;
 	});
 	
