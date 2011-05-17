@@ -381,7 +381,7 @@ $(document).ready(function(){
 				nbrNotifications++;	
 			}
 			
-			bgPage.updateBadgeNotifications();
+			bgPage.updateBadge();
 			if (nbrNotifications==0) output = "<div>Aucune notification !</div>";
 		}
 		
