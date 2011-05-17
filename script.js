@@ -6,6 +6,7 @@ $(document).ready(function(){
 	 * Envoie des données en POST vers un des WS de BetaSeries
 	 */
 	var sendAjax = function(category, params, successCallback, errorCallback) {
+		params = params || '';
 		$.ajax({
 			type: "POST",
 			url: bgPage.url_api+category+".json",
@@ -13,7 +14,7 @@ $(document).ready(function(){
 			dataType: "json",
 			success: function(data){
 				$('#status').attr('src', 'img/plot_green.gif');
-				successCallback(data);
+				if (successCallback) successCallback(data);
 			},
 			error: function(){
 				$('#status').attr('src', 'img/plot_red.gif');
@@ -125,8 +126,8 @@ $(document).ready(function(){
 				view(page);
 			});
 		}else{
-			// TODO Vérifie l'état de connexion
-			//sendAjax("check_member", "");
+			// Vérifie l'état de connexion
+			sendAjax("/members/is_active");
 		}
 	};
 	
