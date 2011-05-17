@@ -154,7 +154,12 @@ $(document).ready(function(){
 			output += '<a href="#" id="planning">Planning</a><br />';
 			output += '<a href="#" id="episodes">Episodes non vus</a><br />';
 			output += '<a href="#" id="infos">Mon compte</a><br />';
-			output += '<a href="#" id="notifications">Notifications</a>';	
+			output += '<a href="#" id="notifications">Notifications</a>';
+			
+			$('#planning').live('click', function(){load('planning'); return false;});
+			$('#episodes').live('click', function(){load('episodes'); return false;});
+			$('#infos').live('click', function(){load('infos'); return false;});
+			$('#notifications').live('click', function(){load('notifications'); return false;});
 		}
 		
 		/*********************
@@ -542,18 +547,15 @@ $(document).ready(function(){
 		hideMenu: function(){$('#menu').hide();}
 	};
 	
+	// HEADER links
 	$('#logoLink').click(function(){openTab('http://betaseries.com', true); return false;});
 	$('#versionLink').click(function(){openTab('https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true); return false;});
 	
+	// MENU actions
 	$('#status').click(function(){load(currentPage, true); return false;});
 	$('#menu').click(function(){load('menu'); return false;});
 	$('#options').click(function(){openTab(chrome.extension.getURL("options.html"), true); return false;});
 	$('#close').click(function(){window.close(); return false;});
-	
-	$('#planning').live('click', function(){load('planning'); return false;});
-	$('#episodes').live('click', function(){load('episodes'); return false;});
-	$('#infos').live('click', function(){load('infos'); return false;});
-	$('#notifications').live('click', function(){load('notifications'); return false;});
 	
 	/**
 	 * Afficher le message de confirmation
