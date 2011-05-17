@@ -332,18 +332,15 @@ $(document).ready(function(){
 			menu.hide();
 			
 			// Création du formulaire
-			var form = $(document.createElement('form'));
-			form.html(
-				 '<table><tr><td>Login :</td><td><input type="text" name="login" id="login" /></td></tr>'
+			output += '<form id="connect">'
+				+'<table><tr><td>Login :</td><td><input type="text" name="login" id="login" /></td></tr>'
 				+'<tr><td>Password :</td><td><input type="password" name="password" id="password" /></td></tr>'
 				+'</table>'
-				+'<div class="valid"><input type="submit" id="connect" value="Valider"></div>'
-			);
-			output += form.html();
+				+'<div class="valid"><input type="submit" value="Valider"></div>'
+				+'</form>';
 			
 			// Processus de connexion
-			$('#connect').live('click', function(){
-				console.log('test');
+			$('#connect').live('submit', function(){
 				var login = $('#login').val();
 				var password = calcMD5($('#password').val());
 				var inputs = $(this).find('input').attr({disabled: 'disabled'});
