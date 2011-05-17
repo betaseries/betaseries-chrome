@@ -548,6 +548,7 @@ $(document).ready(function(){
 	$('#status').click(function(){load(currentPage, true); return false;});
 	$('#menu').click(function(){load('menu'); return false;});
 	$('#options').click(function(){openTab(chrome.extension.getURL("options.html"), true); return false;});
+	$('#close').click(function(){window.close(); return false;});
 	
 	$('#planning').live('click', function(){load('planning'); return false;});
 	$('#episodes').live('click', function(){load('episodes'); return false;});
