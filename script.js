@@ -533,7 +533,7 @@ $(document).ready(function(){
 			function(){
 				localStorage.clear();
 				bgPage.initBadge();
-				view('connection');
+				load('connection');
 			},
 			function (){}
 		);
