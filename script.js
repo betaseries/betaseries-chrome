@@ -347,7 +347,7 @@ $(document).ready(function(){
 				var params = "&login=" + login + "&password=" + password;
 				sendAjax("/members/auth", params, function (data) {
 					if (data.root.member != undefined) {
-						form.remove();
+						$(this).remove();
 						token = data.root.member.token;
 						localStorage.login = login;
 						localStorage.token = data.root.member.token;
