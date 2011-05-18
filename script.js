@@ -2,6 +2,9 @@ $(document).ready(function(){
 
 	var bgPage = chrome.extension.getBackgroundPage();
 	
+	/**
+	 * Internationalisation
+	 */
 	var __ = function(msgname){
 		return chrome.i18n.getMessage(msgname);
 	};
@@ -41,6 +44,13 @@ $(document).ready(function(){
 	
 	var member = {
 		connected: bgPage.connected()
+	};
+	
+	var menu = {
+		show: function(){$('.action').show();},
+		hide: function(){$('.action').hide();},
+		hideStatus: function(){$('#status').hide();},
+		hideMenu: function(){$('#menu').hide();}
 	};
 	
 	/**
@@ -527,17 +537,6 @@ $(document).ready(function(){
 		hiddens.slideToggle();
 		return false;
 	});
-	
-	/**
-	 * Déconnexion
-	 */
-	
-	var menu = {
-		show: function(){$('.action').show();},
-		hide: function(){$('.action').hide();},
-		hideStatus: function(){$('#status').hide();},
-		hideMenu: function(){$('#menu').hide();}
-	};
 	
 	// HEADER links
 	$('#logoLink')
