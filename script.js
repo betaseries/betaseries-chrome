@@ -2,6 +2,10 @@ $(document).ready(function(){
 
 	var bgPage = chrome.extension.getBackgroundPage();
 	
+	var __ = function(msgname){
+		return chrome.i18n.getMessage(msgname);
+	};
+	
 	/**
 	 * Envoie des données en POST vers un des WS de BetaSeries
 	 */
@@ -527,18 +531,6 @@ $(document).ready(function(){
 	/**
 	 * Déconnexion
 	 */
-	$('#logout').live('click', function() { 
-		var params = "";
-		sendAjax("/members/destroy", params, 
-			function(){
-				localStorage.clear();
-				bgPage.initBadge();
-				load('connection');
-			},
-			function (){}
-		);
-		return false;
-	});
 	
 	var menu = {
 		show: function(){$('.action').show();},
@@ -548,19 +540,42 @@ $(document).ready(function(){
 	};
 	
 	// HEADER links
-	$('#logoLink').click(function(){openTab('http://betaseries.com', true); return false;});
-	$('#versionLink').click(function(){openTab('https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true); return false;});
+	$('#logoLink')
+		.click(function(){openTab('http://betaseries.com', true); return false;})
+		.attr('title', __("logo"));
+	$('#versionLink')
+		.click(function(){openTab('https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true); return false;})
+		.attr('title', __("version"));
 	
 	// MENU actions
-	$('#status').click(function(){load(currentPage, true); return false;});
-	$('#menu').click(function(){load('menu'); return false;});
-	$('#options').click(function(){openTab(chrome.extension.getURL("options.html"), true); return false;});
-	$('#close').click(function(){window.close(); return false;});
+	$('#status')
+		.click(function(){load(currentPage, true); return false;})
+		.attr('title', __("refresh"));
+	$('#menu')
+		.click(function(){load('menu'); return false;})
+		.attr('title', __("menu"));
+	$('#options')
+		.click(function(){openTab(chrome.extension.getURL("options.html"), true); return false;})
+		.attr('title', __("options"));
+	$('#logout')
+		.live('click', function() { 
+			var params = "";
+			sendAjax("/members/destroy", params, function(){
+				localStorage.clear();
+				bgPage.initBadge();
+				load('connection');
+			});
+			return false;
+		})
+		.attr('title', __("logout"));
+	$('#close')
+		.click(function(){window.close(); return false;})
+		.attr('title', __('close'));
 	
 	/**
 	 * Afficher le message de confirmation
 	 */
-	var message = function(content) {
+	var message = function(content){
 		$('#message').html(content);
 	};
 	
