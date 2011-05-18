@@ -17,8 +17,15 @@ div.title {
 	font-weight: bold;
 	font-family: Helvetica, Arial, sans-serif;
 	text-transform: uppercase;
-	padding-top: 6px;
+	margin-top: 6px;
+	height: 12px;
 }
+img.archive{
+	display:none; 
+	margin-bottom:-1px; 
+	height:11px;
+}
+img.archive:hover{cursor: pointer;}
 span#logo-beta {
 	font-variant: small-caps; 
 	font-size: 20px; 

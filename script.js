@@ -242,7 +242,8 @@ $(document).ready(function(){
 				
 					if (nbrEpisodes>0) output += '</div>';
 					output += '<div class="show" id="'+data[n].url+'">';
-					output += '<div class="title">'+data[n].show+'</div>';
+					output += '<div class="title">'+data[n].show;
+					output += ' <img src="img/archive.png" class="archive" /></div>';
 					
 					show = data[n].show;
 					posEpisode = 1;
@@ -391,7 +392,6 @@ $(document).ready(function(){
 		  NOTIFICATIONS
 		*********************/
 		if(page=='notifications' && data){
-			console.log(data);
 			var nbrNotifications = 0;
 			
 			for(var n in data){
@@ -504,15 +504,44 @@ $(document).ready(function(){
 	 * HOVER - Télécharger les sous-titres d'un épisode
 	 */
 	$('.subs').live({
-		mouseover: function(){ 
+		mouseenter: function(){ 
 			$(this).css('cursor','pointer');
 			var quality = $(this).attr('quality');
 			$(this).attr('src', 'img/dl_'+quality+'.png');
 		},
-		mouseout: function(){ 
+		mouseleave: function(){ 
 			$(this).attr('src', 'img/srt.png');
 			$(this).css('cursor','auto');
 		}
+	});
+	
+	/**
+	 * HOVER - Faire apparaître les actions liés à la série
+	 */
+	$('.title').live({
+		mouseenter: function(){ 
+			$(this).find('img').show();
+		},
+		mouseleave: function(){ 
+			$(this).find('img').hide();
+		}
+	});
+	
+	/**
+	 * HOVER - Archiver une série
+	 * @see https://www.betaseries.com/bugs/api/23
+	 */
+	$('.archive').live('click', function(){
+		show = $(this).parent().parent().attr('id');
+		
+		// On efface la série tout de suite
+		$('#'+show).slideUp();
+		
+		sendAjax("/shows/archive/"+show, "", 
+			function () {load('episodes', false, true/*, true, true*/)},
+			function () {registerAction("/shows/archive/"+show, "")}
+		);
+		return false;
 	});
 	
 	/**
