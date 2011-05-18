@@ -80,6 +80,12 @@ $(document).ready(function(){
 				root: 'episodes',
 				title: 'Episodes non vus'
 			},
+			'timeline_friends': {
+				url: "/timeline/friends",
+				params: "&number=15",
+				root: 'timeline',
+				title: 'Evénements'
+			},
 			'infos': {
 				url: "/members/infos/"+localStorage.login,
 				params: "",
@@ -167,11 +173,13 @@ $(document).ready(function(){
 			menu.hideMenu();
 			output += '<a href="#" id="planning">Planning</a><br />';
 			output += '<a href="#" id="episodes">Episodes non vus</a><br />';
+			output += '<a href="#" id="timeline_friends">Evénements</a><br />';
 			output += '<a href="#" id="infos">Mon compte</a><br />';
 			output += '<a href="#" id="notifications">Notifications</a>';
 			
 			$('#planning').live('click', function(){load('planning'); return false;});
 			$('#episodes').live('click', function(){load('episodes'); return false;});
+			$('#timeline_friends').live('click', function(){load('timeline_friends'); return false;});
 			$('#infos').live('click', function(){load('infos'); return false;});
 			$('#notifications').live('click', function(){load('notifications'); return false;});
 		}
@@ -331,6 +339,18 @@ $(document).ready(function(){
 						
 			bgPage.updateBadgeEpisodes();
 			if (nbrEpisodes==0) output = "<div>Aucun épisode à voir !</div>";
+		}
+		
+		/*********************
+		  TIMELINE_FRIENDS
+		*********************/
+		if(page=='timeline_friends' && data){
+			console.log(data);
+			for(var n in data){
+				output += "<div>";
+				output += data[n].login+' '+data[n].html;
+				output += "</div>";
+			}
 		}
 		
 		/*********************
