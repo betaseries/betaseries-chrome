@@ -6,6 +6,6 @@
 	"menu": {"message": "Menu"},
 	"options": {"message": "Options"},
 	"logout": {"message": "Déconnexion"},
-	"close": {"message": "Fermer"}
-	
+	"close": {"message": "Fermer"},
+	"archive": {"message": "Archiver"}
 }

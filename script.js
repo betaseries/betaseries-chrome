@@ -251,7 +251,7 @@ $(document).ready(function(){
 					if (nbrEpisodes>0) output += '</div>';
 					output += '<div class="show" id="'+data[n].url+'">';
 					output += '<div class="title">'+data[n].show;
-					output += ' <img src="img/archive.png" class="archive" /></div>';
+					output += ' <img src="img/archive.png" class="archive" title="'+__("archive")+'" /></div>';
 					
 					show = data[n].show;
 					posEpisode = 1;
