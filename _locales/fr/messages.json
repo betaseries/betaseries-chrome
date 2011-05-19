@@ -1,11 +1,19 @@
 {
 	"extDesc": {"message": "Extension Chrome pour BetaSeries (www.betaseries.com)"},
+	
 	"logo": {"message": "Aller sur le site de BetaSeries!"},
 	"version": {"message": "Commenter/noter cette extension!"},
+	
 	"refresh": {"message": "Actualiser"},
-	"menu": {"message": "Menu"},
 	"options": {"message": "Options"},
 	"logout": {"message": "Déconnexion"},
 	"close": {"message": "Fermer"},
+	
+	"planning": {"message": "Planning"},
+	"episodes": {"message": "Episodes non vus"},
+	"timeline": {"message": "Evénements"},
+	"notifications": {"message": "Notifications"},
+	"infos": {"message": "Compte"},
+	
 	"archive": {"message": "Archiver"}
 }

@@ -598,11 +598,21 @@ $(document).ready(function(){
 		.click(function(){window.close(); return false;})
 		.attr('title', __('close'));
 		
-	$('#planning').live('click', function(){load('planning'); return false;});
-	$('#episodes').live('click', function(){load('episodes'); return false;});
-	$('#timeline').live('click', function(){load('timeline'); return false;});
-	$('#notifications').live('click', function(){load('notifications'); return false;});
-	$('#infos').live('click', function(){load('infos'); return false;});
+	$('#planning')
+		.live('click', function(){load('planning'); return false;})
+		.attr('title', __("planning"));
+	$('#episodes')
+		.live('click', function(){load('episodes'); return false;})
+		.attr('title', __("episodes"));
+	$('#timeline')
+		.live('click', function(){load('timeline'); return false;})
+		.attr('title', __("timeline"));
+	$('#notifications')
+		.live('click', function(){load('notifications'); return false;})
+		.attr('title', __("notifications"));
+	$('#infos')
+		.live('click', function(){load('infos'); return false;})
+		.attr('title', __("infos"));
 	
 	/**
 	 * Afficher le message de confirmation
