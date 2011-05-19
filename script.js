@@ -80,7 +80,7 @@ $(document).ready(function(){
 				root: 'episodes',
 				title: 'Episodes non vus'
 			},
-			'timeline_friends': {
+			'timeline': {
 				url: "/timeline/friends",
 				params: "&number=15",
 				root: 'timeline',
@@ -323,9 +323,9 @@ $(document).ready(function(){
 		}
 		
 		/*********************
-		  TIMELINE_FRIENDS
+		  TIMELINE
 		*********************/
-		if(page=='timeline_friends' && data){
+		if(page=='timeline' && data){
 			console.log(data);
 			for(var n in data){
 				output += "<div>";
@@ -600,7 +600,7 @@ $(document).ready(function(){
 		
 	$('#planning').live('click', function(){load('planning'); return false;});
 	$('#episodes').live('click', function(){load('episodes'); return false;});
-	$('#timeline').live('click', function(){load('timeline_friends'); return false;});
+	$('#timeline').live('click', function(){load('timeline'); return false;});
 	$('#notifications').live('click', function(){load('notifications'); return false;});
 	$('#infos').live('click', function(){load('infos'); return false;});
 	
