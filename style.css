@@ -37,6 +37,9 @@ span#logo-beta {
 td#actions {text-align: right;}
 td#actions img.action {opacity: 0.5; cursor: pointer;}
 td#actions img.action:hover {opacity: 1.0; cursor: pointer;}
+td#menu {text-align:right;}
+td#menu img.action {opacity: 0.5; cursor: pointer;}
+td#menu img.action:hover {opacity: 1.0; cursor: pointer;}
 
 /*viewEpisodes*/
 div#page {width: 95%;}

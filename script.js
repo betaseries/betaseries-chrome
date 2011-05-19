@@ -166,25 +166,6 @@ $(document).ready(function(){
 		output = '';
 		
 		/*********************
-		  MENU
-		*********************/
-		if(page=='menu'){
-			menu.hideStatus();
-			menu.hideMenu();
-			output += '<a href="#" id="planning">Planning</a><br />';
-			output += '<a href="#" id="episodes">Episodes non vus</a><br />';
-			output += '<a href="#" id="timeline_friends">Evénements</a><br />';
-			output += '<a href="#" id="infos">Mon compte</a><br />';
-			output += '<a href="#" id="notifications">Notifications</a>';
-			
-			$('#planning').live('click', function(){load('planning'); return false;});
-			$('#episodes').live('click', function(){load('episodes'); return false;});
-			$('#timeline_friends').live('click', function(){load('timeline_friends'); return false;});
-			$('#infos').live('click', function(){load('infos'); return false;});
-			$('#notifications').live('click', function(){load('notifications'); return false;});
-		}
-		
-		/*********************
 		  PLANNING
 		*********************/
 		if(page=='planning' && data){
@@ -599,9 +580,6 @@ $(document).ready(function(){
 	$('#status')
 		.click(function(){load(currentPage, true); return false;})
 		.attr('title', __("refresh"));
-	$('#menu')
-		.click(function(){load('menu'); return false;})
-		.attr('title', __("menu"));
 	$('#options')
 		.click(function(){openTab(chrome.extension.getURL("options.html"), true); return false;})
 		.attr('title', __("options"));
@@ -619,6 +597,12 @@ $(document).ready(function(){
 	$('#close')
 		.click(function(){window.close(); return false;})
 		.attr('title', __('close'));
+		
+	$('#planning').live('click', function(){load('planning'); return false;});
+	$('#episodes').live('click', function(){load('episodes'); return false;});
+	$('#timeline').live('click', function(){load('timeline_friends'); return false;});
+	$('#notifications').live('click', function(){load('notifications'); return false;});
+	$('#infos').live('click', function(){load('infos'); return false;});
 	
 	/**
 	 * Afficher le message de confirmation
