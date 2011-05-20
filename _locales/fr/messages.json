@@ -15,5 +15,7 @@
 	"notifications": {"message": "Notifications"},
 	"infos": {"message": "Compte"},
 	
+	"connection": {"message": "Connexion"},
+	
 	"archive": {"message": "Archiver"}
 }

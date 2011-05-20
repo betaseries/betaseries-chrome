@@ -64,44 +64,34 @@ $(document).ready(function(){
 		
 		// Liste des URLS de mises à jour
 		pages = {
-			'menu': {
-				title: 'Menu',
-				noData: true
-			},
 			'planning': {
 				url: "/planning/member/"+localStorage.login,
 				params: "&view=unseen",
-				root: 'planning',
-				title: 'Planning'
+				root: 'planning'
 			},
 			'episodes': {
 				url: "/members/episodes/all",
 				params: "",
-				root: 'episodes',
-				title: 'Episodes non vus'
+				root: 'episodes'
 			},
 			'timeline': {
 				url: "/timeline/friends",
 				params: "&number=10",
-				root: 'timeline',
-				title: 'Evénements'
-			},
-			'infos': {
-				url: "/members/infos/"+localStorage.login,
-				params: "",
-				root: 'member',
-				title: 'Compte'
-			},
-			'connection': {
-				title: 'Connexion',
-				noData: true
+				root: 'timeline'
 			},
 			'notifications': {
-				title: 'Notifications',
 				url: "/members/notifications",
 				params: "",
 				root: 'notifications',
 			},
+			'infos': {
+				url: "/members/infos/"+localStorage.login,
+				params: "",
+				root: 'member'
+			},
+			'connection': {
+				noData: true
+			}
 		};
 		
 		// Mise à jour de la page actuelle
@@ -114,8 +104,7 @@ $(document).ready(function(){
 		$('#page').removeClass().addClass(page);
 		
 		// Affichage du titre de la page
-		if (pages[page] && pages[page].title) $('#title').text(pages[page].title);
-		else $('#title').text('');
+		$('#title').text(__(page));
 		
 		// Affichage des données de la page
 		if (!noCache) view(page);
