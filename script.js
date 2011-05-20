@@ -82,7 +82,7 @@ $(document).ready(function(){
 			},
 			'timeline': {
 				url: "/timeline/friends",
-				params: "&number=15",
+				params: "&number=10",
 				root: 'timeline',
 				title: 'Evénements'
 			},
@@ -326,11 +326,13 @@ $(document).ready(function(){
 		  TIMELINE
 		*********************/
 		if(page=='timeline' && data){
-			console.log(data);
+			output += '<div style="height:10px;"></div>';
 			for(var n in data){
-				output += "<div>";
-				output += data[n].login+' '+data[n].html;
-				output += "</div>";
+				output += '<div class="event '+dateok('D', data[n].date).toLowerCase()+'">';
+				output += '<div class="left"><span class="login">'+data[n].login+'</span> '+data[n].html+'</div>';
+				output += '<div class="right"><span class="date">'+dateok('D d F', data[n].date)+'</span></div>';
+				output += '<div class="clear"></div>';
+				output += '</div>';
 			}
 		}
 		

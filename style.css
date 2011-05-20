@@ -53,7 +53,7 @@ div#message {color: #900; margin: 3px 0 3px 0; text-align: center; background-co
 .episodes .left{float:left; width:240px;}
 .episodes .right{margin-left: 240px; width:45px;}
 div.linkHidden {text-align: right; font-size: 9px; color: #666;}
-div.clear{clear: right;}
+div.clear{clear: both;}
 
 /*viewPlanning*/
 .planning .left{float:left; width:205px;}
@@ -66,6 +66,12 @@ div.clear{clear: right;}
 .ven {background:#eefff0;}
 .sam {background:#eef6ff;}
 .dim {background:#feeeff;}
+
+/*view timeline*/
+.timeline .left {float:left; width:205px;}
+.timeline .right {margin-left: 205px; width:80px;}
+.timeline div.event {padding: 5px 0 5px 0; border-bottom: 1px solid #dcdcdc;}
+.timeline span.login {color: #54709D;}
 
 #title {
 	text-align: right;
