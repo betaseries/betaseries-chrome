@@ -67,9 +67,9 @@ div.clear{clear: both;}
 .sam {background:#eef6ff;}
 .dim {background:#feeeff;}
 
-/*view timeline*/
-.timeline .left {float:left; width:205px;}
-.timeline .right {margin-left: 205px; width:80px;}
+/*view timeline, notifications*/
+.timeline .left, .notifications .left {float:left; width:205px;}
+.timeline .right, .notifications .left {margin-left: 205px; width:80px;}
 .timeline div.event {padding: 5px 0 5px 0; border-bottom: 1px solid #dcdcdc;}
 .timeline span.login {color: #54709D;}
 

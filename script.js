@@ -397,8 +397,13 @@ $(document).ready(function(){
 		if(page=='notifications' && data){
 			var nbrNotifications = 0;
 			
+			output += '<div style="height:10px;"></div>';
 			for(var n in data){
-				output += '<div>'+data[n].html+'</div>';
+				output += '<div class="event '+dateok('D', data[n].date).toLowerCase()+'">';
+				output += '<div class="left">'+data[n].html+'</div>';
+				output += '<div class="right"><span class="date">'+dateok('D d F', data[n].date)+'</span></div>';
+				output += '<div class="clear"></div>';
+				output += '</div>';
 				nbrNotifications++;	
 			}
 			
