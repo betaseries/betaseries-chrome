@@ -21,11 +21,11 @@ $(document).ready(function(){
 			data: "key="+bgPage.key+params+"&token="+localStorage.token,
 			dataType: "json",
 			success: function(data){
-				$('#status').attr('src', 'img/plot_green.gif');
+				$('#status').attr('src', '../img/plot_green.gif');
 				if (successCallback) successCallback(data);
 			},
 			error: function(){
-				$('#status').attr('src', 'img/plot_red.gif');
+				$('#status').attr('src', '../img/plot_red.gif');
 				if (errorCallback) errorCallback();
 			}
 		});
@@ -36,7 +36,7 @@ $(document).ready(function(){
 	 */
 	$("#sync").bind("ajaxSend", function(){
 		$(this).show();
-		$('#status').attr('src', 'img/plot_orange.gif');
+		$('#status').attr('src', '../img/plot_orange.gif');
 	}).bind("ajaxComplete", function(){
 		$(this).hide();
 	});
@@ -185,7 +185,7 @@ $(document).ready(function(){
 				output += '<div class="episode '+dateok('D', data[e].date).toLowerCase()+'">';
 				
 				output += '<div class="left">';
-				output += '<img src="img/plot_'+plot+'.gif" /> ';
+				output += '<img src="../img/plot_'+plot+'.gif" /> ';
 				output += data[e].show+' <span class="num">['+data[e].number+']</span>';
 				output += '</div>';
 				
@@ -216,13 +216,13 @@ $(document).ready(function(){
 						var texte1;
 						if (remain == 1) texte1 = "Montrer/cacher l'épisode suivant";
 						else if (remain > 1) texte1 = "Montrer/cacher les "+(posEpisode-MAX_EPISODES-1)+" épisodes suivants";
-						output += '<div class="linkHidden"><img src="img/downarrow.gif" class="showEpisodes" title="'+texte1+'" /> '+texte1+'</div>';
+						output += '<div class="linkHidden"><img src="../img/downarrow.gif" class="showEpisodes" title="'+texte1+'" /> '+texte1+'</div>';
 					}
 				
 					if (nbrEpisodes>0) output += '</div>';
 					output += '<div class="show" id="'+data[n].url+'">';
 					output += '<div class="title">'+data[n].show;
-					output += ' <img src="img/archive.png" class="archive" title="'+__("archive")+'" /></div>';
+					output += ' <img src="../img/archive.png" class="archive" title="'+__("archive")+'" /></div>';
 					
 					show = data[n].show;
 					posEpisode = 1;
@@ -252,7 +252,7 @@ $(document).ready(function(){
 				if (posEpisode==1) texte2 = "Marquer comme vu cet épisode!";
 				else if (posEpisode>1) texte2 = "Marquer comme vu ces épisodes!";
 				output += '<div class="left">';
-				output += '<img src="img/plot_red.gif" class="watched" title="'+texte2+'" /> <span class="num">';
+				output += '<img src="../img/plot_red.gif" class="watched" title="'+texte2+'" /> <span class="num">';
 				output += '['+data[n].number+']';
 				//output += '#'+data[n].global;
 				output += '</span> '+title.substring(0, 20);
@@ -287,8 +287,8 @@ $(document).ready(function(){
 				}
 				output += '<div class="right">';
 				if (data[n].downloaded != -1)
-					output += '<img src="img/'+imgDownloaded+'.png" class="downloaded" title="'+texte3+'" />';
-				if (nbSubs>0) output += ' <img src="img/srt.png" class="subs" link="'+url+'" quality="'+quality+'" title="Qualité SRT VF : '+quality+'/3" />';
+					output += '<img src="../img/'+imgDownloaded+'.png" class="downloaded" title="'+texte3+'" />';
+				if (nbSubs>0) output += ' <img src="../img/srt.png" class="subs" link="'+url+'" quality="'+quality+'" title="Qualité SRT VF : '+quality+'/3" />';
 				output += '</div>';
 					
 				// Clear
@@ -305,7 +305,7 @@ $(document).ready(function(){
 				var texte4;
 				if (remain == 1) texte4 = "Montrer/cacher l'épisode suivant";
 				else if (remain > 1) texte4 = "Montrer/cacher les "+(posEpisode-MAX_EPISODES-1)+" épisodes suivants";
-				output += '<div class="linkHidden"><img src="img/downarrow.gif" class="showEpisodes" title="'+texte4+'" /> '+texte4+'</div>';
+				output += '<div class="linkHidden"><img src="../img/downarrow.gif" class="showEpisodes" title="'+texte4+'" /> '+texte4+'</div>';
 			}
 						
 			bgPage.updateBadgeEpisodes();
@@ -388,7 +388,7 @@ $(document).ready(function(){
 						load('episodes');
 					}else{
 						$('#password').attr('value', '');
-						message('<img src="img/inaccurate.png" /> Login et/ou password incorrects!');
+						message('<img src="../img/inaccurate.png" /> Login et/ou password incorrects!');
 						inputs.removeAttr('disabled');
 					}
 				}, function (){
@@ -433,19 +433,19 @@ $(document).ready(function(){
 	$('.watched').live({
 		mouseenter: function(){ 
 			$(this).css('cursor','pointer');
-			$(this).attr('src', 'img/plot_green.gif');
+			$(this).attr('src', '../img/plot_green.gif');
 			var node = $(this).parent().parent().prev();
 			while(node.hasClass('episode')){
-				node.find('.watched').attr('src', 'img/plot_green.gif');
+				node.find('.watched').attr('src', '../img/plot_green.gif');
 				node = node.prev();
 			} 
 		}, 
 		mouseleave: function(){ 
 			$(this).css('cursor','auto');
-			$(this).attr('src', 'img/plot_red.gif');
+			$(this).attr('src', '../img/plot_red.gif');
 			var node = $(this).parent().parent().prev();
 			while(node.hasClass('episode')){
-				node.find('.watched').attr('src', 'img/plot_red.gif');
+				node.find('.watched').attr('src', '../img/plot_red.gif');
 				node = node.prev();
 			}
 		}
@@ -462,8 +462,8 @@ $(document).ready(function(){
 		var params = "&season="+season+"&episode="+episode;
 		
 		// On rend tout de suite visible le changement
-		if ($(this).attr('src') == 'img/folder.png') $(this).attr('src', 'img/folder_add.png');
-		else $(this).attr('src', 'img/folder.png');
+		if ($(this).attr('src') == '../img/folder.png') $(this).attr('src', '../img/folder_add.png');
+		else $(this).attr('src', '../img/folder.png');
 		
 		sendAjax("/members/downloaded/"+show, params, 
 			function () {load('episodes', true, true)},
@@ -478,13 +478,13 @@ $(document).ready(function(){
 	$('.downloaded').live({
 		mouseenter: function(){ 
 			$(this).css('cursor','pointer');
-			if ($(this).attr('src') == 'img/folder_add.png') $(this).attr('src', 'img/folder_add.png');
-			if ($(this).attr('src') == 'img/folder.png') $(this).attr('src', 'img/folder_delete.png');
+			if ($(this).attr('src') == '../img/folder_add.png') $(this).attr('src', '../img/folder_add.png');
+			if ($(this).attr('src') == '../img/folder.png') $(this).attr('src', '../img/folder_delete.png');
 		}, 
 		mouseleave: function(){ 
 			$(this).css('cursor','auto');
-			if ($(this).attr('src') == 'img/folder_add.png') $(this).attr('src', 'img/folder_add.png');
-			if ($(this).attr('src') == 'img/folder_delete.png') $(this).attr('src', 'img/folder.png');
+			if ($(this).attr('src') == '../img/folder_add.png') $(this).attr('src', '../img/folder_add.png');
+			if ($(this).attr('src') == '../img/folder_delete.png') $(this).attr('src', '../img/folder.png');
 		}
 	});
 	
@@ -503,10 +503,10 @@ $(document).ready(function(){
 		mouseenter: function(){ 
 			$(this).css('cursor','pointer');
 			var quality = $(this).attr('quality');
-			$(this).attr('src', 'img/dl_'+quality+'.png');
+			$(this).attr('src', '../img/dl_'+quality+'.png');
 		},
 		mouseleave: function(){ 
-			$(this).attr('src', 'img/srt.png');
+			$(this).attr('src', '../img/srt.png');
 			$(this).css('cursor','auto');
 		}
 	});
@@ -576,7 +576,7 @@ $(document).ready(function(){
 		.click(function(){load(currentPage, true); return false;})
 		.attr('title', __("refresh"));
 	$('#options')
-		.click(function(){openTab(chrome.extension.getURL("options.html"), true); return false;})
+		.click(function(){openTab(chrome.extension.getURL("../html/options.html"), true); return false;})
 		.attr('title', __("options"));
 	$('#logout')
 		.live('click', function() { 

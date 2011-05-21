@@ -5,14 +5,14 @@
 	"default_locale": "fr",
 	"browser_action": {
 		"default_title": "ChromeSeries",
-		"default_icon": "favicon.png",
-		"popup": "popup.html"
+		"default_icon": "img/favicon.png",
+		"popup": "html/popup.html"
 	},
-	"options_page": "options.html",
+	"options_page": "html/options.html",
 	"icons": {
-		"128": "icon_128.png"
+		"128": "img/icon_128.png"
 	},
-	"background_page": "background.html",
+	"background_page": "html/background.html",
 	"permissions": [
 		"http://api.betaseries.com/*"
 	]
