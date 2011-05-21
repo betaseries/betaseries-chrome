@@ -150,9 +150,9 @@ $(document).ready(function(){
 				
 				// Si notifications, ne pas juste remplacer
 				tab = data.root[r];
-				if(page=='notifications'){
+				if(page=='notifications' && localStorage['p_'+page]){
 					tab1 = data.root[r];
-					tab2 = JSON.parse(localStorage.p_notifications);
+					tab2 = JSON.parse(localStorage['p_'+page]);
 					tab = concat(tab1, tab2);
 				}
 				
