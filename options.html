@@ -70,8 +70,8 @@
 		
 		<div class="menu">
 			<ul>
-				<li class="general first"><a href="" id="general">général</a></li>
-				<li class="about"><a href="" class="about">à propos</a></li>
+				<li id="general" class="first"><a href="" id="general">général</a></li>
+				<li id="about" class="about"><a href="" id="about">à propos</a></li>
 			</ul>
 		</div>
 		
@@ -167,15 +167,15 @@
 				});
 				
 				var showPart = function(menu){
-					$('div.part').hide();
-					$('div.'+menu).slideDown();
+					$('.content div.part').hide();
+					$('.content div#'+menu).slideDown();
 					
-					$('li.'+menu).css('opacity', '0.7');
-					$('li.'+menu).css('margin-left', '5px');
+					$('li#'+menu).css('opacity', '0.7');
+					$('li#'+menu).css('margin-left', '5px');
 					
 					if (currentMenu){
-						$('li.'+currentMenu).css('opacity', '1');
-						$('li.'+currentMenu).css('margin-left', '0px');
+						$('li#'+currentMenu).css('opacity', '1');
+						$('li#'+currentMenu).css('margin-left', '0px');
 					}
 					
 					currentMenu = menu;
