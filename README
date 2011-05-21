@@ -1,14 +1,14 @@
-!Chrome Séries
+!ChromeSeries
 
-> Extension Google Chrome pour BétaSéries.
+> Extension Google Chrome pour BetaSeries.
 
 !!Fonctionnalités.
 
 * Connexion/Déconnexion à un compte Bétaséries
-* Plusieurs vues disponibles : épisodes non vus, profil, planning
+* Plusieurs vues disponibles : planning, épisodes non vus, événements, notifications, compte
 * Possibilité de marquer comme vu un ou plusieurs épisodes
-* Possibilité de marquer comme téléchargé un épisode
-* Possibilité de télécharger le meilleur sous-titre actuel
+* Possibilité de marquer comme téléchargé ou pas un épisode
+* Possibilité de télécharger le meilleur sous-titre actuel (VF ou VO)
 * Possibilité de consulter l'extension en mode déconnecté
 * Paramétrer son extension via la page des options
 
@@ -27,12 +27,13 @@ _Note_ : Il vous est conseillé de vous déconnecter après utilisation, uniquem
 
 !!Version actuelle
 
-*Version 0.3.5
-** Troncature des noms d'épisodes trop long
-** Correction du numéro de saison
-** Correction de l'affichage de la qualité des sous-titres au survol de la souris
-
-_Ces changements ne concernent que le section "Episodes non vus"_
+*Version 0.4
+**Vitesse de chargement du popup amélioré !
+**Ajout de 2 nouvelles sections : notifications et événements !
+**Nouveaux boutons d'actions : actualisation, options, déconnexion, fermeture du popup.
+**Système de mise en cache des données (1h) pour une navigation plus fluide. (vous pouvez actualiser pour vider le cache)
+**Possibilité d'archiver une série ! (croix à coté du titre de la série, dans la section "épisodes non vus")
+**Nouveau système de notifications : en rouge, les notifications du site de BetaSeries, en bleu, les notifications des épisodes non vus (ou non téléchargés)
 
 !!Problèmes
 
