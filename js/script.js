@@ -59,10 +59,12 @@ $(document).ready(function(){
 	 */
 	var concat = function(){
 		ret = {};
+		n = 0;
 		for(var i=0; i<arguments.length; i++){
 			for(p in arguments[i]){
-				if(arguments[i].hasOwnProperty(p)){
+				if(arguments[i].hasOwnProperty(p) && n<10){
 					ret[p] = arguments[i][p];
+					n++;
 				}
 			}
 		}
