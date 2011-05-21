@@ -162,8 +162,8 @@ $(document).ready(function(){
 				view(page);
 			});
 		}else{
-			// Vérifie l'état de connexion
-			sendAjax("/members/is_active");
+			// Indique qu'on utilise les données de cache
+			$('#status').attr('src', '../img/plot_orange.gif');
 		}
 	};
 	
