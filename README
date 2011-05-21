@@ -15,7 +15,7 @@
 !!Installation.
 
 * Installer Google Chrome.
-* [Installer l'extension Chrome Séries|https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda]
+* [Installer l'extension ChromeSeries|https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda]
 
 Les mises à jour de l'extension se feront ensuite automatiquement s'ils sont disponibles.
 
@@ -41,16 +41,19 @@ _Note_ : Il vous est conseillé de vous déconnecter après utilisation, uniquem
 **Le titre de la page a été déplacé sous le logo
 **Correction du bug qui empêche d'afficher la page des options 
 
-!!Problèmes
+!!Problèmes connus
 
-_Vous avez trouvé un bug ?_
+*Impossible d'afficher la page des notifications
 
-Reportez les problèmes dans le [bugtraker|http://www.betaseries.com/bugs/chromeseries].
+!! Votre avis
 
-_Vous pouvez aussi donner votre avis pour m'aider à améliorer l'extension ;)_
+Vous pouvez aussi donner votre avis pour m'aider à améliorer l'extension ;)
+N'hésitez pas à commenter et/ou noter cette extension.
 
-!!Auteur
+!!Liens
 
-[Menencia|http://www.betaseries.com/membres/menencia]
-
-[Devenez fan de la page Facebook !|http://www.facebook.com/pages/ChromeSeries/199020100116357]
+*[Site Web|http://www.menencia.com]
+*[Profil BetaSeries|http://www.betaseries.com/membres/menencia]
+*[Bugtraker Github|https://github.com/Menencia/chrome-extension-betaseries/issues]
+*[Bugtraker BetaSeries|http://www.betaseries.com/bugs/chromeseries]
+*[Page Facebook|http://www.facebook.com/pages/ChromeSeries/199020100116357]
