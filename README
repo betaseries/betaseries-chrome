@@ -35,6 +35,12 @@ _Note_ : Il vous est conseillé de vous déconnecter après utilisation, uniquem
 **Possibilité d'archiver une série ! (croix à coté du titre de la série, dans la section "épisodes non vus")
 **Nouveau système de notifications : en rouge, les notifications du site de BetaSeries, en bleu, les notifications des épisodes non vus (ou non téléchargés)
 
+*Version 0.4.1 
+**Mise en place d'un historique des notifications (limité à 10)
+**Correction de mise en page des notifications
+**Le titre de la page a été déplacé sous le logo
+**Correction du bug qui empêche d'afficher la page des options 
+
 !!Problèmes
 
 _Vous avez trouvé un bug ?_
@@ -45,6 +51,6 @@ _Vous pouvez aussi donner votre avis pour m'aider à améliorer l'extension ;)_
 
 !!Auteur
 
-_[Menencia|http://www.betaseries.com/membres/menencia]_
+[Menencia|http://www.betaseries.com/membres/menencia]
 
-_[Devenez fan de la page Facebook !|http://www.facebook.com/pages/ChromeSeries/199020100116357]_
+[Devenez fan de la page Facebook !|http://www.facebook.com/pages/ChromeSeries/199020100116357]
