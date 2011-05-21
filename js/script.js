@@ -55,6 +55,21 @@ $(document).ready(function(){
 	};
 	
 	/**
+	 * Concaténer plusieurs objets (notifications page)
+	 */
+	var concat = function(){
+		ret = {};
+		for(var i=0; i<arguments.length; i++){
+			for(p in arguments[i]){
+				if(arguments[i].hasOwnProperty(p)){
+					ret[p] = arguments[i][p];
+				}
+			}
+		}
+		return ret;
+	};
+	
+	/**
 	 * Mettre à jour les données de [page]
 	 */
 	var load = function(page, force, noCache){
@@ -130,7 +145,16 @@ $(document).ready(function(){
 		if ((update || force) && pages[page] && pages[page].url){
 			sendAjax(pages[page].url, pages[page].params, function(data){
 				r = pages[page].root;
-				localStorage['p_'+page] = JSON.stringify(data.root[r]);
+				
+				// Si notifications, ne pas juste remplacer
+				tab = data.root[r];
+				if(page=='notifications'){
+					tab1 = data.root[r];
+					tab2 = JSON.parse(localStorage.p_notifications);
+					tab = concat(tab1, tab2);
+				}
+				
+				localStorage['p_'+page] = JSON.stringify(tab);
 				
 				// Mise à jour des données si cache non récent
 				view(page);
