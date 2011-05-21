@@ -366,6 +366,7 @@ $(document).ready(function(){
 				nbrNotifications++;	
 			}
 			
+			bgPage.updateBadgeEpisodes();
 			if (nbrNotifications==0) output = "<div>Aucune notification !</div>";
 		}
 		
