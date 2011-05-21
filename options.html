@@ -139,14 +139,17 @@
 			
 				var bgPage = chrome.extension.getBackgroundPage();
 				
-				$('#opt_'+localStorage.dl_srt_language).attr("checked", "checked");
-				$('#nbr_episodes_per_serie').attr('value', localStorage.nbr_episodes_per_serie);
-				$('#opt_'+localStorage.badge_notification_type).attr("checked", "checked");
+				options = JSON.parse(localStorage.options);
+				
+				$('#opt_'+options['dl_srt_language']).attr("checked", "checked");
+				$('#nbr_episodes_per_serie').attr('value', options['nbr_episodes_per_serie']);
+				$('#opt_'+options['badge_notification_type']).attr("checked", "checked");
 				
 				$('#save').click(function(){
-					localStorage.dl_srt_language = $('input[name=dl_srt_language]:checked').val();
-					localStorage.nbr_episodes_per_serie = $('#nbr_episodes_per_serie').attr('value');
-					localStorage.badge_notification_type = $('input[name=badge_notification_type]:checked').val();
+					options['dl_srt_language'] = $('input[name=dl_srt_language]:checked').val();
+					options['nbr_episodes_per_serie'] = $('#nbr_episodes_per_serie').attr('value');
+					options['badge_notification_type'] = $('input[name=badge_notification_type]:checked').val();
+					localStorage.options = JSON.stringify(options);
 					bgPage.updateBadge();
 					$(this).html('Sauvegardé !');
 					$(this).css('background-color', '#eafedf');

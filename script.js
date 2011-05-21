@@ -1,6 +1,7 @@
 $(document).ready(function(){
 
 	var bgPage = chrome.extension.getBackgroundPage();
+	var options = JSON.parse(localStorage.options);
 	
 	/**
 	 * Internationalisation
@@ -205,7 +206,7 @@ $(document).ready(function(){
 			var show = "";
 			var nbrEpisodes = 0;
 			var posEpisode = 1;
-			var MAX_EPISODES = localStorage.nbr_episodes_per_serie;
+			var MAX_EPISODES = options['nbr_episodes_per_serie'];
 			for(var n in data){
 				// Titre de la série
 				if (data[n].show != show) {
@@ -265,12 +266,12 @@ $(document).ready(function(){
 				var url = "";
 				var quality = -1;
 				for(var sub in subs){
-					if ((localStorage.dl_srt_language == "VF" || localStorage.dl_srt_language == 'ALL') && subs[sub]['language'] == "VF" && subs[sub]['quality'] > quality) { 
+					if ((options['dl_srt_language'] == "VF" || options['dl_srt_language'] == 'ALL') && subs[sub]['language'] == "VF" && subs[sub]['quality'] > quality) { 
 						quality = subs[sub]['quality'];
 						url = subs[sub]['url'];
 						nbSubs++;
 					}
-					if ((localStorage.dl_srt_language == "VO" || localStorage.dl_srt_language == 'ALL') && subs[sub]['language'] == "VO" && subs[sub]['quality'] > quality) { 
+					if ((options['dl_srt_language'] == "VO" || options['dl_srt_language'] == 'ALL') && subs[sub]['language'] == "VO" && subs[sub]['quality'] > quality) { 
 						quality = subs[sub]['quality'];
 						url = subs[sub]['url'];
 						nbSubs++;

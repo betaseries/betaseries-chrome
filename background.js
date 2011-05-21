@@ -129,12 +129,17 @@ var connected = function() {
  */
 var initLocalStorage = function() { 
 	// OPTIONS
-	if( ! localStorage.dl_srt_language) localStorage.dl_srt_language = 'VF';
-	if( ! localStorage.nbr_episodes_per_serie) localStorage.nbr_episodes_per_serie = 5;
-	if( ! localStorage.badge_notification_type) localStorage.badge_notification_type = 'watched';
+	if( ! localStorage.options){
+		o = {
+			dl_srt_language: 'VF',
+			nbr_episodes_per_serie: 5,
+			badge_notification_type: 'watched'
+		}
+		localStorage.options = JSON.stringify(o);
+	}
 	
 	// timestamps
-	if( ! localStorage.timestamps) localStorage.timestamps = "";
+	if( ! localStorage.timestamps) localStorage.timestamps = '';
 	
 	// BADGE
 	if( ! localStorage.badgeValue) localStorage.badgeValue = 0;
