@@ -77,7 +77,7 @@
 		
 		<div class="content">
 		
-			<div class="part general">
+			<div id="general" class="part">
 				<h1>Sous-titres</h1>
 				<p>Dans la section <i>Episodes non vus</i>, vous avez la possibilité de télécharger les derniers sous-titres de meilleure qualité (vous pouvez voir la qualité en passant simplement la souris sur l'icône des sous-titres). Vous avez la possibilité de définir les langues des sous-titres.</p>
 				<p>
@@ -116,7 +116,7 @@
 				<div style="clear:both;"></div>
 			</div>
 			
-			<div class="part about">
+			<div id="about" class="part">
 				<h1>Auteurs</h1>
 				<p>- Menencia <small>(<a href="https://github.com/Menencia" target="_blank">profil github</a>)</small></p>
 				<p>- tusbar <small>(<a href="https://github.com/tusbar" target="_blank">profil github</a>)</small></p>
@@ -161,7 +161,7 @@
 				};
 				
 				$('.menu a').click(function(){
-					var menu = $(this).attr('class');
+					var menu = $(this).attr('id');
 					showPart(menu);
 					return false;
 				});
