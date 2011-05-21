@@ -315,7 +315,6 @@ $(document).ready(function(){
 		  TIMELINE
 		*********************/
 		if(page=='timeline' && data){
-			output += '<div style="height:10px;"></div>';
 			for(var n in data){
 				output += '<div class="event '+dateok('D', data[n].date).toLowerCase()+'">';
 				output += '<div class="left"><span class="login">'+data[n].login+'</span> '+data[n].html+'</div>';
@@ -323,6 +322,25 @@ $(document).ready(function(){
 				output += '<div class="clear"></div>';
 				output += '</div>';
 			}
+		}
+		
+		/*********************
+		  NOTIFICATIONS
+		*********************/
+		if(page=='notifications' && data){
+			var nbrNotifications = 0;
+			
+			for(var n in data){
+				output += '<div class="event '+dateok('D', data[n].date).toLowerCase()+'">';
+				output += '<div class="left">'+data[n].html+'</div>';
+				output += '<div class="right"><span class="date">'+dateok('D d F', data[n].date)+'</span></div>';
+				output += '<div class="clear"></div>';
+				output += '</div>';
+				nbrNotifications++;	
+			}
+			
+			bgPage.updateBadge();
+			if (nbrNotifications==0) output = "<div>Aucune notification !</div>";
 		}
 		
 		/*********************
@@ -378,26 +396,6 @@ $(document).ready(function(){
 				});
 				return false;
 			});
-		}
-		
-		/*********************
-		  NOTIFICATIONS
-		*********************/
-		if(page=='notifications' && data){
-			var nbrNotifications = 0;
-			
-			output += '<div style="height:10px;"></div>';
-			for(var n in data){
-				output += '<div class="event '+dateok('D', data[n].date).toLowerCase()+'">';
-				output += '<div class="left">'+data[n].html+'</div>';
-				output += '<div class="right"><span class="date">'+dateok('D d F', data[n].date)+'</span></div>';
-				output += '<div class="clear"></div>';
-				output += '</div>';
-				nbrNotifications++;	
-			}
-			
-			bgPage.updateBadge();
-			if (nbrNotifications==0) output = "<div>Aucune notification !</div>";
 		}
 		
 		// Affichage des données de la page

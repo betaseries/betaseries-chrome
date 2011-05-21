@@ -37,9 +37,10 @@ span#logo-beta {
 td#actions {text-align: right;}
 td#actions img.action {opacity: 0.5; cursor: pointer;}
 td#actions img.action:hover {opacity: 1.0; cursor: pointer;}
-td#menu {text-align:right;}
+td#menu {width:100px; text-align:right;}
 td#menu img.action {opacity: 0.5; cursor: pointer;}
 td#menu img.action:hover {opacity: 1.0; cursor: pointer;}
+td#title {color: #aaa; font-variant: small-caps;}
 
 /*viewEpisodes*/
 div#page {width: 95%;}
@@ -72,11 +73,3 @@ div.clear{clear: both;}
 .timeline .right, .notifications .left {margin-left: 205px; width:80px;}
 .timeline div.event {padding: 5px 0 5px 0; border-bottom: 1px solid #dcdcdc;}
 .timeline span.login {color: #54709D;}
-
-#title {
-	text-align: right;
-	color: #aaa;
-	font-variant: small-caps;
-	float: right;
-	padding-right: 5%;
-}
