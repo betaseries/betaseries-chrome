@@ -65,6 +65,7 @@ var updateBadgeNotifications = function(){
  * 
  */
 var updateBadgeEpisodes = function(){
+	options = JSON.parse(localStorage.options);
 	$.ajax({
 		type: "POST",
 		url: url_api+"/members/episodes/all.json",
@@ -75,8 +76,8 @@ var updateBadgeEpisodes = function(){
 			var j = 0;
 			for (var i in episodes){
 				if (episodes.hasOwnProperty(i)) {
-					if (localStorage.badge_notification_type == 'watched') j++;
-					if (localStorage.badge_notification_type == 'downloaded' && episodes[i].downloaded != 1) j++;
+					if (options['badge_notification_type'] == 'watched') j++;
+					if (options['badge_notification_type'] == 'downloaded' && episodes[i].downloaded != 1) j++;
 				}
 			}
 			localStorage.badgeValue = j;

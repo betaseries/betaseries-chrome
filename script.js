@@ -619,6 +619,7 @@ $(document).ready(function(){
 	/*
 	 * INIT
 	 */
+	bgPage.initLocalStorage();
 	if(member.connected){
 		url = (localStorage.badgeType!='') ? localStorage.badgeType : 'menu';
 		load(url);

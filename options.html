@@ -139,7 +139,7 @@
 			
 				var bgPage = chrome.extension.getBackgroundPage();
 				
-				options = JSON.parse(localStorage.options);
+				var options = JSON.parse(localStorage.options);
 				
 				$('#opt_'+options['dl_srt_language']).attr("checked", "checked");
 				$('#nbr_episodes_per_serie').attr('value', options['nbr_episodes_per_serie']);
