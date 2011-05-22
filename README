@@ -41,6 +41,12 @@ _Note_ : Il vous est conseillé de vous déconnecter après utilisation, uniquem
 **Le titre de la page a été déplacé sous le logo
 **Correction du bug qui empêche d'afficher la page des options 
 
+*Version 0.4.2
+**Ajout de l'option 'afficher le numéro global d'un épisode'
+**Correction du bug qui empêche d'afficher la page des notifications après connexion
+**Nouvelle mise en page plus simple des options
+**Correction de la bulle d'aide des sous-titres
+
 !!Problèmes connus
 
 *Impossible d'afficher la page des notifications
