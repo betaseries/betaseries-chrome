@@ -275,14 +275,14 @@ $(document).ready(function(){
 				// Titre de l'épisode
 				var texte2;
 				var title = data[n].title;
+				console.log(options['display_global']);
+				if (options['display_global']=='true') title = '#'+data[n].global+' '+title;
 				if (posEpisode==1) texte2 = "Marquer comme vu cet épisode!";
 				else if (posEpisode>1) texte2 = "Marquer comme vu ces épisodes!";
 				output += '<div class="left">';
 				output += '<img src="../img/plot_red.gif" class="watched" title="'+texte2+'" /> <span class="num">';
-				output += '['+data[n].number+']';
-				//output += '#'+data[n].global;
-				output += '</span> '+title.substring(0, 20);
-				if (title.length>20) output += "..";
+				output += '['+data[n].number+']</span> '+title.substring(0,22);
+				if (title.length>22) output += "..";
 				if (newShow) output += ' <span class="new">NEW!</span>';
 				output += '</div>';
 						

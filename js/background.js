@@ -130,14 +130,18 @@ var connected = function() {
  */
 var initLocalStorage = function() { 
 	// OPTIONS
-	if( ! localStorage.options){
-		o = {
-			dl_srt_language: 'VF',
-			nbr_episodes_per_serie: 5,
-			badge_notification_type: 'watched'
-		}
-		localStorage.options = JSON.stringify(o);
+	options = {
+		badge_notification_type: 'watched',
+		dl_srt_language: 'VF',
+		nbr_episodes_per_serie: 5,
+		display_global: 'false'
 	}
+	if(!localStorage.options) o = {};
+	else o = JSON.parse(localStorage.options);
+	for(var option in options){
+		if (!o[option]) o[option] = options[option];
+	}
+	localStorage.options = JSON.stringify(o);
 	
 	// timestamps
 	if( ! localStorage.timestamps) localStorage.timestamps = '';

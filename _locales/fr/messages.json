@@ -19,8 +19,12 @@
 	
 	"archive": {"message": "Archiver"},
 	
-	"dl_srt_language": {"message": "Langage des sous-titres : "},
-	"nbr_episodes_per_serie": {"message": "Nombre d'épisodes maximum affichés : "},
-	"badge_notification_type": {"message": "Type de notification : "}
+	"badge_notification_type": {"message": "Type de notification : "},
+	
+	"dl_srt_language": {"message": "Langage des sous-titres d'un épisode : "},
+	"nbr_episodes_per_serie": {"message": "Nombre d'épisodes maximum affichés d'une série : "},
+	"display_global": {"message": "Afficher le numéro global d'un épisode : "}
+	
+	
 	
 }

@@ -15,17 +15,20 @@ $(document).ready(function(){
 	$('#dl_srt_language').text(__("dl_srt_language"));
 	$('#nbr_episodes_per_serie').text(__("nbr_episodes_per_serie"));
 	$('#badge_notification_type').text(__("badge_notification_type"));
+	$('#display_global').text(__("display_global"));
 	
 	// Remplissage des champs
+	$('select[name=badge_notification_type]').val(options['badge_notification_type']);
 	$('select[name=dl_srt_language]').val(options['dl_srt_language']);
 	$('input[name=nbr_episodes_per_serie]').attr('value', options['nbr_episodes_per_serie']);
-	$('select[name=badge_notification_type]').val(options['badge_notification_type']);
+	$('select[name=display_global]').val(options['display_global']);
 	
 	$('#save').click(function(){
 		options = {
+			badge_notification_type: $('select[name=badge_notification_type] :selected').val(),
 			dl_srt_language: $('select[name=dl_srt_language] :selected').val(),
 			nbr_episodes_per_serie: $('input[name=nbr_episodes_per_serie]').attr('value'),
-			badge_notification_type: $('select[name=badge_notification_type] :selected').val()
+			display_global: $('select[name=display_global] :selected').val()
 		};
 		localStorage.options = JSON.stringify(options);
 		bgPage.updateBadge();
