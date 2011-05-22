@@ -4,15 +4,15 @@ $(document).ready(function(){
 	
 	var options = JSON.parse(localStorage.options);
 	
-	$('#opt_'+options['dl_srt_language']).attr("checked", "checked");
-	$('#nbr_episodes_per_serie').attr('value', options['nbr_episodes_per_serie']);
-	$('#opt_'+options['badge_notification_type']).attr("checked", "checked");
+	$('select[name=dl_srt_language]').val(options['dl_srt_language']);
+	$('input[name=nbr_episodes_per_serie]').attr('value', options['nbr_episodes_per_serie']);
+	$('select[name=badge_notification_type]').val(options['badge_notification_type']);
 	
 	$('#save').click(function(){
 		options = {
-			dl_srt_language: $('input[name=dl_srt_language]:checked').val(),
-			nbr_episodes_per_serie: $('#nbr_episodes_per_serie').attr('value'),
-			badge_notification_type: $('input[name=badge_notification_type]:checked').val()
+			dl_srt_language: $('select[name=dl_srt_language] :selected').val(),
+			nbr_episodes_per_serie: $('input[name=nbr_episodes_per_serie]').attr('value'),
+			badge_notification_type: $('select[name=badge_notification_type] :selected').val()
 		};
 		localStorage.options = JSON.stringify(options);
 		bgPage.updateBadge();

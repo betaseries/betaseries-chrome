@@ -15,7 +15,7 @@
 				-webkit-border-radius:4px;
 				-o-border-radius:4px;
 				border-radius:4px;
-				margin:4px 0 0 0px;
+				margin:4px;
 				-moz-box-shadow:0 0 2px #333333;
 				-webkit-box-shadow:0 0 2px #333333;
 				-o-box-shadow:0 0 2px #333333;
@@ -78,41 +78,31 @@
 		<div class="content">
 		
 			<div id="general" class="part">
-				<h1>Sous-titres</h1>
-				<p>Dans la section <i>Episodes non vus</i>, vous avez la possibilité de télécharger les derniers sous-titres de meilleure qualité (vous pouvez voir la qualité en passant simplement la souris sur l'icône des sous-titres). Vous avez la possibilité de définir les langues des sous-titres.</p>
+				<h1>Page "Episodes non vus"</h1>
 				<p>
-				<input type="radio" name="dl_srt_language" id="opt_VO" value="VO"> 
-				<label for="opt_VO">
-					Ne prendre que les sous-titres <b>en anglais</b> (VO) disponibles rapidement.
-				</label><br />
-				<input type="radio" name="dl_srt_language" id="opt_VF" value="VF"> 
-				<label for="opt_VF">
-					Ne prendre que les sous-titres <b>en français</b> (VF) 
-					disponibles bien après les sous-titres anglais
-				</label><br />
-				<input type="radio" name="dl_srt_language" id="opt_ALL" value="ALL"> 
-				<label for="opt_ALL">
-					Prendre tous les sous-titres, <b>peu importe la langue</b>, 
-					pourvu qu'il y ait des sous-titres :)
-				</label>
+				<span>Langage des sous-titres : </span>
+				<select name="dl_srt_language">
+					<option value="VF">VF</option>
+					<option value="VO">VO</option>
+					<option value="ALL">ALL</option>
+				</select>
 				</p>
 				
-				<h1>Episodes</h1>
-				<p>Dans la section <i>Episodes non vus</i>, lorsqu'une série que vous suivez possède un grand nombre d'épisodes non vus, ChromeSeries limite l'affichage à un nombre défini d'épisodes que vous avez la possibilité de régler.</p>
-				<p>Nombre d'épisodes maximum affichés : 
-				<input type="text" size="2" name="nbr_episodes_per_serie" id="nbr_episodes_per_serie" />
+				<p>
+				<span>Nombre d'épisodes maximum affichés : </span>
+				<input type="text" name="nbr_episodes_per_serie" size="2" />
 				</p>
 				
 				<h1>Badge</h1> 
-				<p>Situé à droite de la barre de recherche en haut à droite de votre navigateur, le badge porte un texte de notification. Vous avez la possibilité de définir le type de notification qui vous plaît.</p>
 				<p>
-				<input type="radio" name="badge_notification_type" id="opt_watched" value="watched"> 
-				<label for="opt_watched">Vous notifie sur le nombre d'épisodes <b>non vus</b></label><br />
-				<input type="radio" name="badge_notification_type" id="opt_downloaded" value="downloaded"> 
-				<label for="opt_downloaded">Vous notifie sur le nombre d'épisodes <b>non téléchargés</b> parmi les épisodes non vus</label><br />
+				<span>Type de notification : </span>
+				<select name="badge_notification_type">
+					<option value="watched">Episodes non vus</option>
+					<option value="downloaded">Episodes non téléchargés</option>
+				</select>
 				</p>
 				
-				<span id="save">Sauvegarder</span>
+				<p><span id="save">Sauvegarder</span></p>
 				<div style="clear:both;"></div>
 			</div>
 			
