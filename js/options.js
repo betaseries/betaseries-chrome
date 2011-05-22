@@ -4,6 +4,19 @@ $(document).ready(function(){
 	
 	var options = JSON.parse(localStorage.options);
 	
+	/**
+	 * Internationalisation
+	 */
+	var __ = function(msgname){
+		return chrome.i18n.getMessage(msgname);
+	};
+	
+	// Internationalisation
+	$('#dl_srt_language').text(__("dl_srt_language"));
+	$('#nbr_episodes_per_serie').text(__("nbr_episodes_per_serie"));
+	$('#badge_notification_type').text(__("badge_notification_type"));
+	
+	// Remplissage des champs
 	$('select[name=dl_srt_language]').val(options['dl_srt_language']);
 	$('input[name=nbr_episodes_per_serie]').attr('value', options['nbr_episodes_per_serie']);
 	$('select[name=badge_notification_type]').val(options['badge_notification_type']);
