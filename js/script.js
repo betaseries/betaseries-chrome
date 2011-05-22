@@ -291,15 +291,18 @@ $(document).ready(function(){
 				var nbSubs = 0; 
 				var url = "";
 				var quality = -1;
+				var lang = "";
 				for(var sub in subs){
 					if ((options['dl_srt_language'] == "VF" || options['dl_srt_language'] == 'ALL') && subs[sub]['language'] == "VF" && subs[sub]['quality'] > quality) { 
 						quality = subs[sub]['quality'];
 						url = subs[sub]['url'];
+						lang = subs[sub]['language'];
 						nbSubs++;
 					}
 					if ((options['dl_srt_language'] == "VO" || options['dl_srt_language'] == 'ALL') && subs[sub]['language'] == "VO" && subs[sub]['quality'] > quality) { 
 						quality = subs[sub]['quality'];
 						url = subs[sub]['url'];
+						lang = subs[sub]['language'];
 						nbSubs++;
 					}
 				}
@@ -314,7 +317,7 @@ $(document).ready(function(){
 				output += '<div class="right">';
 				if (data[n].downloaded != -1)
 					output += '<img src="../img/'+imgDownloaded+'.png" class="downloaded" title="'+texte3+'" />';
-				if (nbSubs>0) output += ' <img src="../img/srt.png" class="subs" link="'+url+'" quality="'+quality+'" title="Qualité SRT VF : '+quality+'/3" />';
+				if (nbSubs>0) output += ' <img src="../img/srt.png" class="subs" link="'+url+'" quality="'+quality+'" title="Qualité SRT '+lang+' : '+quality+'/3" />';
 				output += '</div>';
 					
 				// Clear
