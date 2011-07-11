@@ -197,7 +197,7 @@ $(document).ready(function(){
 				if (actualWeek != week){
 					week = actualWeek;
 					var w, hidden = "";
-					if (diffWeek < -1) w = 'Il y a '+diffWeek+' semaines';
+					if (diffWeek < -1) w = 'Il y a '+Math.abs(diffWeek)+' semaines';
 					else if (diffWeek == -1) w = 'La semaine dernière';
 					else if (diffWeek == 0) w = 'Cette semaine';
 					else if (diffWeek == 1) w = 'La semaine prochaine';
