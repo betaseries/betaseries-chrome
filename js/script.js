@@ -58,10 +58,10 @@ $(document).ready(function(){
 	 * Concaténer plusieurs objets (notifications page)
 	 */
 	var concat = function(){
-		ret = {};
-		n = 0;
+		var ret = {};
+		var n = 0;
 		for(var i=0; i<arguments.length; i++){
-			for(p in arguments[i]){
+			for(var p in arguments[i]){
 				if(arguments[i].hasOwnProperty(p) && n<10){
 					ret[p] = arguments[i][p];
 					n++;
@@ -149,7 +149,7 @@ $(document).ready(function(){
 				r = pages[page].root;
 				
 				// Si notifications, ne pas juste remplacer
-				tab = data.root[r];
+				var tab = data.root[r];
 				if(page=='notifications' && localStorage['p_'+page]){
 					tab1 = data.root[r];
 					tab2 = JSON.parse(localStorage['p_'+page]);
