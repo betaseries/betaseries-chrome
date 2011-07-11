@@ -275,7 +275,6 @@ $(document).ready(function(){
 				// Titre de l'épisode
 				var texte2;
 				var title = data[n].title;
-				console.log(options['display_global']);
 				if (options['display_global']=='true') title = '#'+data[n].global+' '+title;
 				if (posEpisode==1) texte2 = "Marquer comme vu cet épisode!";
 				else if (posEpisode>1) texte2 = "Marquer comme vu ces épisodes!";
