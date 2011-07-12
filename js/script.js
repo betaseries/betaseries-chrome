@@ -63,7 +63,7 @@ $(document).ready(function(){
 		for(var i=0; i<arguments.length; i++){
 			for(var p in arguments[i]){
 				if(arguments[i].hasOwnProperty(p) && n<10){
-					ret[p] = arguments[i][p];
+					ret[n] = arguments[i][p];
 					n++;
 				}
 			}
