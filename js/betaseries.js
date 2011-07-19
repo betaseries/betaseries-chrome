@@ -96,6 +96,7 @@ var BS = {
 			// Recherche et affichage des données
 			var data = JSON.parse(DB.get('page.'+o.id));
 			if (data) $('#page').html(o.content(data));
+			else $('#page').html(o.content());
 		}
 	},
 
@@ -360,7 +361,7 @@ var BS = {
 		this.view({
 			id: 'connection',
 			name: 'connection',
-			content: function(data){
+			content: function(){
 				menu.hide();
 				output = '<form id="connect">'
 					+'<table><tr><td>Login :</td><td><input type="text" name="login" id="login" /></td></tr>'

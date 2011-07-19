@@ -96,7 +96,7 @@ var badge = {
  * @return boolean
  */
 var connected = function(){
-	return (DB.get('member.token', null) == null);
+	return (DB.get('member.token', null) != null);
 };
 				
 
