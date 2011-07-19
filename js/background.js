@@ -11,150 +11,92 @@ var url_api 	= "http://api.betaseries.com";	// Url API
 var site_url 	= "http://betaseries.com";		// Url site
 var key 		= "6db16a6ffab9";				// Developer key
 
-/**
- * Initialise le badge
- * 
- */
-var initBadge = function(){
-	chrome.browserAction.setBadgeText({text: "?"});
-	chrome.browserAction.setBadgeBackgroundColor({color: [200, 200, 200, 255]});
-};
+var badge = {
+	/**
+	 * Initialise le badge
+	 * 
+	 */
+	init: function(){
+		chrome.browserAction.setBadgeText({text: "?"});
+		chrome.browserAction.setBadgeBackgroundColor({color: [200, 200, 200, 255]});
+	},
 
-/**
- * Mets à jour le badge (notifications, puis épisodes)
- * 
- */
-var updateBadge = function(){
-	// Nombre de notifications
-	updateBadgeNotifications();
-	
-	// Nombre d'épisodes non vus
-	if (localStorage.badgeValue==0){
-		updateBadgeEpisodes();
-	}
-}
-
-/**
- * Mets à jour le badge (notifications)
- * 
- */
-var updateBadgeNotifications = function(){
-	$.ajax({
-		type: "POST",
-		url: url_api+"/members/notifications.json",
-		data: "key="+key+"&token="+localStorage.token+"&summary=yes",
-		dataType: "json",
-		async: false,
-		success: function(data){
+	/**
+	 * Mets à jour le badge (notifications, puis épisodes)
+	 * TODO ajouter le async
+	 * 
+	 */
+	update: function(){
+		// Nombre de notifications
+		ajax.post('/members/notifications', '&summary=yes', function(data){
 			var notifs = data.root.notifications;
 			var j = notifs.total;
-			localStorage.badgeValue = j;
-			localStorage.badgeType = 'notifications';
-			displayBadge(j, localStorage.badgeType);
-		},
-		error: function (){
-			var value = localStorage.badgeValue;
-			var type = localStorage.badgeType;
-			displayBadge(value, type);
-		}
-	});
-};
-
-/**
- * Mets à jour le badge (épisodes)
- * 
- */
-var updateBadgeEpisodes = function(){
-	options = JSON.parse(localStorage.options);
-	$.ajax({
-		type: "POST",
-		url: url_api+"/members/episodes/all.json",
-		data: "key="+key+"&token="+localStorage.token,
-		dataType: "json",
-		success: function(data){
-			var episodes = data.root.episodes;
-			var j = 0;
-			for (var i in episodes){
-				if (episodes.hasOwnProperty(i)) {
-					if (options['badge_notification_type'] == 'watched') j++;
-					if (options['badge_notification_type'] == 'downloaded' && episodes[i].downloaded != 1) j++;
+			DB.set('badge.value', j);
+			DB.set('badge.type', 'membersNotifications');
+			badge.display(j, 'membersNotifications');
+		}, function(){
+			var value = DB.get('badge.value');
+			var type = DB.get('badge.type');
+			badge.display(value, type);
+		});
+		
+		// Nombre d'épisodes non vus
+		if (DB.get('badge.value')==0){
+			ajax.post('/members/episodes/all', '&summary=yes', function(data){
+				var episodes = data.root.episodes;
+				var j = 0;
+				for (var i in episodes){
+					if (episodes.hasOwnProperty(i)) {
+						var badgeNotificationType = DB.get('options.badge_notification_type');
+						if (badgeNotificationType == 'watched') j++;
+						if (badgeNotificationType == 'downloaded' && episodes[i].downloaded != 1) j++;
+					}
 				}
-			}
-			localStorage.badgeValue = j;
-			localStorage.badgeType = 'episodes';
-			displayBadge(j, localStorage.badgeType);
-		},
-		error: function (){
-			var value = localStorage.badgeValue;
-			var type = localStorage.badgeType;
-			displayBadge(value, type);
+				localStorage.badgeValue = j;
+				localStorage.badgeType = 'membersEpisodes';
+				badge.display(j, 'membersEpisodes');
+			}, function(){
+				var value = DB.get('badge.value');
+				var type = DB.get('badge.type');
+				badge.display(value, type);
+			});
 		}
-	});
-};
+	},
 
-var displayBadge = function(value, type){
-	if(value==0){
-		chrome.browserAction.setBadgeText({text: ""});
-	}else{
-		colors = {
-			notifications: [200, 50, 50, 255],
-			episodes: [50, 50, 200, 255]
-		};
-		chrome.browserAction.setBadgeBackgroundColor({color: colors[type]});		
-		chrome.browserAction.setBadgeText({text: ""+value});
-	}
-};
+	display: function(value, type){
+		if(value==0){
+			chrome.browserAction.setBadgeText({text: ""});
+		}else{
+			colors = {
+				notifications: [200, 50, 50, 255],
+				episodes: [50, 50, 200, 255]
+			};
+			chrome.browserAction.setBadgeBackgroundColor({color: colors[type]});		
+			chrome.browserAction.setBadgeText({text: ""+value});
+		}
+	},
 
-/**
- * Lance la mise à jour automatique du badge
- *
- */
-var autoUpdateBadge = function() {
-	if (connected()){
-		updateBadge();
-		setTimeout(autoUpdateBadge, 1000*60*60); // Mise à jour toutes les heures.
+	/**
+	 * Lance la mise à jour automatique du badge
+	 * Mise à jour toutes les heures
+	 *
+	 */
+	autoUpdate: function() {
+		if (connected()){
+			this.update();
+			setTimeout(this.update, 1000*60*60); 
+		}
 	}
-}
+
+};
 
 /**
  * Retourne vrai si l'utilisateur est connecté, faux sinon
  *
  * @return boolean
  */
-var connected = function() {
-    return (localStorage.token !== undefined && localStorage.token !== '');
-};
-
-/**
- *
- */
-var initLocalStorage = function() { 
-	// OPTIONS
-	options = {
-		badge_notification_type: 'watched',
-		dl_srt_language: 'VF',
-		nbr_episodes_per_serie: 5,
-		display_global: 'false'
-	}
-	if(!localStorage.options) o = {};
-	else o = JSON.parse(localStorage.options);
-	for(var option in options){
-		if (!o[option]) o[option] = options[option];
-	}
-	localStorage.options = JSON.stringify(o);
-	
-	// timestamps
-	if( ! localStorage.timestamps) localStorage.timestamps = '';
-	
-	// BADGE
-	if( ! localStorage.badgeValue) localStorage.badgeValue = 0;
-	if( ! localStorage.badgeUrl) localStorage.badgeUrl = '';
-	
-	// TOKEN
-	if( ! localStorage.token) localStorage.token = '';
-	
-	// LOGIN
-	if( ! localStorage.login) localStorage.login = '';
+var connected = function(){
+	return (DB.get('member.token', null) == null);
 };
 				
 
@@ -162,6 +104,6 @@ var initLocalStorage = function() {
  * INIT
  *
  */
-initLocalStorage();
-initBadge();
-autoUpdateBadge();
+DB.init();
+badge.init();
+badge.autoUpdate();
