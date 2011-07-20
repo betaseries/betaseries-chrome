@@ -8,18 +8,22 @@ var bgPage = chrome.extension.getBackgroundPage();
 
 var ajax = {
 	
+	url_api: "http://api.betaseries.com",	// Url API
+	site_url: "http://betaseries.com",		// Url site
+	key: "6db16a6ffab9",					// Developer key
+	
 	/**
 	 * Envoie des données en POST vers un des WS de BetaSeries
 	 *
 	 */
 	post: function(category, params, successCallback, errorCallback){
 		params = params || '';
+		var token = (DB.get('member.token') == null) ? '': "&token="+DB.get('member.token');
 		$.ajax({
 			type: "POST",
-			url: bgPage.url_api+category+".json",
-			data: "key="+bgPage.key+params+"&token="+localStorage.token,
+			url: this.url_api+category+".json",
+			data: "key="+this.key+params+token,
 			dataType: "json",
-			async: false, // ???
 			success: function(data){
 				$('#status').attr('src', '../img/plot_green.gif');
 				if (successCallback) successCallback(data);

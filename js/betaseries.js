@@ -60,6 +60,7 @@ var BS = {
 		if(update || force){
 			ajax.post(o.url, o.params, function(data){
 				var r = o.root;
+				console.log(data);
 				
 				// Si notifications, ne pas juste remplacer
 				var tab = data.root[r];
@@ -306,7 +307,7 @@ var BS = {
 					output += '<div class="linkHidden"><img src="../img/downarrow.gif" class="showEpisodes" title="'+texte4+'" /> '+texte4+'</div>';
 				}
 							
-				bgPage.updateBadgeEpisodes();
+				bgPage.badge.update();
 				if (nbrEpisodes==0) output = "<div>Aucun épisode à voir !</div>";
 				
 				return output;

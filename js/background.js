@@ -7,10 +7,6 @@
  * 
  */
 
-var url_api 	= "http://api.betaseries.com";	// Url API
-var site_url 	= "http://betaseries.com";		// Url site
-var key 		= "6db16a6ffab9";				// Developer key
-
 var badge = {
 	/**
 	 * Initialise le badge
@@ -28,7 +24,7 @@ var badge = {
 	 */
 	update: function(){
 		// Nombre de notifications
-		ajax.post('/members/notifications', '&summary=yes', function(data){
+		/*ajax.post('/members/notifications', '&summary=yes', function(data){
 			var notifs = data.root.notifications;
 			var j = notifs.total;
 			DB.set('badge.value', j);
@@ -38,11 +34,11 @@ var badge = {
 			var value = DB.get('badge.value');
 			var type = DB.get('badge.type');
 			badge.display(value, type);
-		});
+		});*/
 		
 		// Nombre d'épisodes non vus
-		if (DB.get('badge.value')==0){
-			ajax.post('/members/episodes/all', '&summary=yes', function(data){
+		//if (DB.get('badge.value')==0){
+			ajax.post('/members/episodes/all', '', function(data){
 				var episodes = data.root.episodes;
 				var j = 0;
 				for (var i in episodes){
@@ -52,15 +48,16 @@ var badge = {
 						if (badgeNotificationType == 'downloaded' && episodes[i].downloaded != 1) j++;
 					}
 				}
-				localStorage.badgeValue = j;
-				localStorage.badgeType = 'membersEpisodes';
+				console.log(j);
+				DB.set('badge.value', j);
+				DB.set('badge.type', 'membersEpisodes');
 				badge.display(j, 'membersEpisodes');
 			}, function(){
 				var value = DB.get('badge.value');
 				var type = DB.get('badge.type');
 				badge.display(value, type);
 			});
-		}
+		//}
 	},
 
 	display: function(value, type){
@@ -68,9 +65,10 @@ var badge = {
 			chrome.browserAction.setBadgeText({text: ""});
 		}else{
 			colors = {
-				notifications: [200, 50, 50, 255],
-				episodes: [50, 50, 200, 255]
+				membersNotifications: [200, 50, 50, 255],
+				membersEpisodes: [50, 50, 200, 255]
 			};
+			console.log(value);
 			chrome.browserAction.setBadgeBackgroundColor({color: colors[type]});		
 			chrome.browserAction.setBadgeText({text: ""+value});
 		}

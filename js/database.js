@@ -45,7 +45,7 @@ var DB = {
 	set: function(field, value, init){
 		if (!init) init = false;
 		
-		if (!init || (init && localStorage[field] !== undefined)){
+		if (!init || (init && localStorage[field] === undefined)){
 			localStorage[field] = value;
 		}
 	},
