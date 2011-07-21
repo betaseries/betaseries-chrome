@@ -20,10 +20,7 @@ var menu = {
 var BS = {
 
 	/**/
-	currentPage: '',
-	
-	/**/
-	noDisplay: false,
+	currentPage: null,
 
 	/**
 	 * Mettre à jour les données
@@ -52,11 +49,11 @@ var BS = {
 		}
 		
 		// Affichage des données
-		if(!this.noDisplay) this.view(o);
+		if(!o.noview) this.view(o);
 		
 		// Détecte si on est déja sur cette page
 		// Dans ce cas, on force l'actualisation des données
-		var force = (this.currentPage.id == o.id);
+		var force = (this.currentPage && this.currentPage.id == o.id);
 		this.currentPage = o;
 		
 		// Vérifie si on peut mettre à jour les données de la page
@@ -76,8 +73,8 @@ var BS = {
 				DB.set('page.'+o.id, JSON.stringify(tab));
 				
 				// Mise à jour des données si cache non récent
-				if(!BS.noDisplay) BS.view(o);
-				BS.noDisplay = false;
+				if(!o.noview) BS.view(o);
+				else o.removeItem('noview');
 			});
 		}else{
 			// Indique qu'on utilise les données de cache
@@ -107,7 +104,11 @@ var BS = {
 	},
 	
 	refresh: function(){
-		BS[this.currentPage.name]();
+		this.load(this.currentPage);
+	},
+	
+	noview: function(){
+		this.currentPage.noview = true;
 	},
 	
 	/**

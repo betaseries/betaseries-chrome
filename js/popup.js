@@ -90,7 +90,7 @@ $(document).ready(function(){
 		else $(this).attr('src', '../img/folder.png');
 		
 		ajax.post("/members/downloaded/"+show, params, 
-			function () {BS.noDisplay = true; BS.membersEpisodes();},
+			function () {BS.noview(); BS.refresh();},
 			function () {registerAction("/members/downloaded/"+show, params)}
 		);
 		return false;
