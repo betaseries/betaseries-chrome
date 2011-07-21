@@ -21,6 +21,9 @@ var BS = {
 
 	/**/
 	currentPage: '',
+	
+	/**/
+	noDisplay: false,
 
 	/**
 	 * Mettre à jour les données
@@ -49,7 +52,7 @@ var BS = {
 		}
 		
 		// Affichage des données
-		if(!o.noview) this.view(o);
+		if(!this.noDisplay) this.view(o);
 		
 		// Détecte si on est déja sur cette page
 		// Dans ce cas, on force l'actualisation des données
@@ -73,14 +76,13 @@ var BS = {
 				DB.set('page.'+o.id, JSON.stringify(tab));
 				
 				// Mise à jour des données si cache non récent
-				if(!o.noview) BS.view(o);
+				if(!BS.noDisplay) BS.view(o);
+				BS.noDisplay = false;
 			});
 		}else{
 			// Indique qu'on utilise les données de cache
 			$('#status').attr('src', '../img/plot_orange.gif');
 		}
-		
-		if (o.noview) o.removeItem('noview');
 	},
 	
 	/**
@@ -107,7 +109,7 @@ var BS = {
 	refresh: function(){
 		BS[this.currentPage.name]();
 	},
-
+	
 	/**
 	 *
 	 *
