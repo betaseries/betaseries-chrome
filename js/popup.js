@@ -10,48 +10,6 @@ $(document).ready(function(){
 	};
 	
 	/**
-	 * Envoie des données en POST vers un des WS de BetaSeries
-	 */
-	var sendAjax = function(category, params, successCallback, errorCallback) {
-		params = params || '';
-		$.ajax({
-			type: "POST",
-			url: bgPage.url_api+category+".json",
-			data: "key="+bgPage.key+params+"&token="+localStorage.token,
-			dataType: "json",
-			success: function(data){
-				$('#status').attr('src', '../img/plot_green.gif');
-				if (successCallback) successCallback(data);
-			},
-			error: function(){
-				$('#status').attr('src', '../img/plot_red.gif');
-				if (errorCallback) errorCallback();
-			}
-		});
-	};
-	
-	/**
-	 * Animations de chargement liés à une requête ajax
-	 */
-	$("#sync").bind("ajaxSend", function(){
-		$(this).show();
-		$('#status').attr('src', '../img/plot_orange.gif');
-	}).bind("ajaxComplete", function(){
-		$(this).hide();
-	});
-	
-	var member = {
-		connected: bgPage.connected()
-	};
-	
-	var menu = {
-		show: function(){$('.action').show();},
-		hide: function(){$('.action').hide();},
-		hideStatus: function(){$('#status').hide();},
-		hideMenu: function(){$('#menu').hide();}
-	};
-	
-	/**
 	 * Concaténer plusieurs objets (notifications page)
 	 */
 	var concat = function(){
@@ -86,7 +44,7 @@ $(document).ready(function(){
 		}
 		
 		// On lance la requête en fond
-		sendAjax("/members/watched/"+show, params, 
+		ajax.post("/members/watched/"+show, params, 
 			function () {load('episodes', true, true)},
 			function () {registerAction("/members/watched/"+show, params)}
 		);
@@ -131,7 +89,7 @@ $(document).ready(function(){
 		if ($(this).attr('src') == '../img/folder.png') $(this).attr('src', '../img/folder_add.png');
 		else $(this).attr('src', '../img/folder.png');
 		
-		sendAjax("/members/downloaded/"+show, params, 
+		ajax.post("/members/downloaded/"+show, params, 
 			function () {load('episodes', true, true)},
 			function () {registerAction("/members/downloaded/"+show, params)}
 		);
@@ -199,14 +157,16 @@ $(document).ready(function(){
 		// On efface la série tout de suite
 		$('#'+show).slideUp();
 		
-		sendAjax("/shows/archive/"+show, "", 
+		ajax.post("/shows/archive/"+show, "", 
 			function () {load('episodes', false, true/*, true, true*/)},
 			function () {registerAction("/shows/archive/"+show, "")}
 		);
 		return false;
 	});
 	
-	// Processus de connexion
+	/**
+	 * Se connecter
+	 */
 	$('#connect').live('submit', function(){
 		var login = $('#login').val();
 		var password = calcMD5($('#password').val());
@@ -266,18 +226,17 @@ $(document).ready(function(){
 	
 	// MENU actions
 	$('#status')
-		.click(function(){load(currentPage, true); return false;})
+		.click(function(){BS.refresh(); return false;})
 		.attr('title', __("refresh"));
 	$('#options')
 		.click(function(){openTab(chrome.extension.getURL("../html/options.html"), true); return false;})
 		.attr('title', __("options"));
 	$('#logout')
 		.live('click', function() { 
-			var params = "";
-			sendAjax("/members/destroy", params, function(){
-				localStorage.clear();
-				bgPage.initBadge();
-				load('connection');
+			ajax.post("/members/destroy", '', function(){
+				DB.deleteAll();
+				bgPage.badge.init();
+				BS.connection();
 			});
 			return false;
 		})
@@ -285,21 +244,22 @@ $(document).ready(function(){
 	$('#close')
 		.click(function(){window.close(); return false;})
 		.attr('title', __('close'));
-		
+	
+	// MENU sections
 	$('#planning')
-		.live('click', function(){load('planning'); return false;})
+		.live('click', function(){BS.planningMember(); return false;})
 		.attr('title', __("planning"));
 	$('#episodes')
-		.live('click', function(){load('episodes'); return false;})
+		.live('click', function(){BS.membersEpisodes(); return false;})
 		.attr('title', __("episodes"));
 	$('#timeline')
-		.live('click', function(){load('timeline'); return false;})
+		.live('click', function(){BS.timelineFriends(); return false;})
 		.attr('title', __("timeline"));
 	$('#notifications')
-		.live('click', function(){load('notifications'); return false;})
+		.live('click', function(){BS.membersNotifications(); return false;})
 		.attr('title', __("notifications"));
 	$('#infos')
-		.live('click', function(){load('infos'); return false;})
+		.live('click', function(){BS.membersInfos(); return false;})
 		.attr('title', __("infos"));
 	
 	/**
@@ -313,15 +273,9 @@ $(document).ready(function(){
 	 * INIT
 	 */
 	DB.init();
-	if(member.connected){
+	if(bgPage.connected()){
 		var badgeType = DB.get('badge.type', 'membersEpisodes');
-		//BS[badgeType];
-		if (badgeType == 'membersEpisodes'){
-			BS.membersEpisodes();
-		}else if (badgeType == 'membersNotifications'){
-			BS.membersNotifications();
-		}
-	
+		BS[badgeType]();
 	}else{
 		BS.connection();
 	}

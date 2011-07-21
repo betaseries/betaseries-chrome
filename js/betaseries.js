@@ -34,7 +34,7 @@ var BS = {
 	 * function view		Fonction d'affichage des données reçues
 	 */
 	load: function(o){
-	
+		
 		// Initialisation des arguments
 		if(!o.force) o.force = false;
 		if(!o.noCache) o.noCache = false;
@@ -53,14 +53,14 @@ var BS = {
 		
 		// Détecte si on est déja sur cette page
 		// Dans ce cas, on force l'actualisation des données
-		var force = (this.currentPage == o.id);
-		this.currentPage = o.id;
+		var force = (this.currentPage.id == o.id);
+		this.currentPage = o;
 		
 		// Vérifie si on peut mettre à jour les données de la page
 		if(update || force){
+			var params = (!o.params) ? '': o.params; 
 			ajax.post(o.url, o.params, function(data){
 				var r = o.root;
-				console.log(data);
 				
 				// Si notifications, ne pas juste remplacer
 				var tab = data.root[r];
@@ -87,18 +87,23 @@ var BS = {
 	 * array o
 	 */
 	view: function(o){
-		if(o.content){
-			// Affichage du titre
-			$('#title').text(__(o.name));
-			
-			// Ajout de la classe
-			$('#page').removeClass().addClass(o.name);
-			
-			// Recherche et affichage des données
+		// Affichage du titre
+		$('#title').text(__(o.name));
+		
+		// Ajout de la classe
+		$('#page').removeClass().addClass(o.name);
+		
+		// Recherche et affichage des données
+		if(o.url){
 			var data = JSON.parse(DB.get('page.'+o.id));
 			if (data) $('#page').html(o.content(data));
-			else $('#page').html(o.content());
+		}else{ 
+			$('#page').html(o.content());
 		}
+	},
+	
+	refresh: function(){
+		BS[this.currentPage.name]();
 	},
 
 	/**
@@ -119,7 +124,7 @@ var BS = {
 	},
 	
 	planningMember: function(login){
-		if(!login) login = DB.get('login');
+		if(!login) login = DB.get('member.login');
 		this.load({
 			id: 'planningMember.'+login,
 			name: 'planningMember',
@@ -127,6 +132,7 @@ var BS = {
 			params: "&view=unseen",
 			root: 'planning',
 			content: function(data){	
+				var output = '';
 				var week = 100;
 				var MAX_WEEKS = 2;
 				var nbrEpisodes = 0;
@@ -165,19 +171,20 @@ var BS = {
 					
 					nbrEpisodes++;
 				}
+				return output;
 			}
 		});
 	},
 	
 	membersInfos: function(login){
-		if(!login) login = DB.get('login');
+		if(!login) login = DB.get('member.login');
 		this.load({
 			id: 'membersInfos.'+login,
 			name: 'membersInfos',
-			url: '/members/infos/'+url,
+			url: '/members/infos/'+login,
 			root: 'member',
 			content: function(data){
-				output = '';
+				var output = '';
 				output += "<table><tr>";
 				output += '<td><img src="'+data.avatar+'" width="50" /></td>';
 				output += '<td>'+data.login+'<br />';
@@ -346,7 +353,8 @@ var BS = {
 			url: '/timeline/friends',
 			params: '&number=10',
 			root: 'timeline',
-			content: function(){
+			content: function(data){
+				var output = '';
 				for(var n in data){
 					output += '<div class="event '+dateok('D', data[n].date).toLowerCase()+'">';
 					output += '<div class="left"><span class="login">'+data[n].login+'</span> '+data[n].html+'</div>';
@@ -354,6 +362,7 @@ var BS = {
 					output += '<div class="clear"></div>';
 					output += '</div>';
 				}
+				return output;
 			}
 		});
 	},
