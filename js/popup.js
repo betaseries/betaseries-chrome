@@ -8,18 +8,6 @@ $(document).ready(function(){
 	var __ = function(msgname){
 		return chrome.i18n.getMessage(msgname);
 	};
-	
-	
-	/**
-	 * Animations de chargement liés à une requête ajax
-	 */
-	$(window).bind("ajaxSend", function(){
-		console.log('here');
-		$('#sync').show();
-		$('#status').attr('src', '../img/plot_orange.gif');
-	}).bind("ajaxComplete", function(){
-		$('#sync').hide();
-	});
 
 	/**
 	 * Concaténer plusieurs objets (notifications page)
