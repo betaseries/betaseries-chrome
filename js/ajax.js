@@ -19,6 +19,7 @@ var ajax = {
 	post: function(category, params, successCallback, errorCallback){
 		params = params || '';
 		var token = (DB.get('member.token') == null) ? '': "&token="+DB.get('member.token');
+		$('#sync').show();
 		$.ajax({
 			type: "POST",
 			url: this.url_api+category+".json",
@@ -26,9 +27,11 @@ var ajax = {
 			dataType: "json",
 			success: function(data){
 				$('#status').attr('src', '../img/plot_green.gif');
+				$('#sync').hide();
 				if (successCallback) successCallback(data);
 			},
 			error: function(){
+				$('#sync').hide();
 				$('#status').attr('src', '../img/plot_red.gif');
 				if (errorCallback) errorCallback();
 			}
@@ -36,13 +39,3 @@ var ajax = {
 	},
 	
 };
-	
-/**
- * Animations de chargement liés à une requête ajax
- */
-$("#sync").bind("ajaxSend", function(){
-	$(this).show();
-	$('#status').attr('src', '../img/plot_orange.gif');
-}).bind("ajaxComplete", function(){
-	$(this).hide();
-});
