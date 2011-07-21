@@ -39,9 +39,6 @@ var BS = {
 		if(!o.force) o.force = false;
 		if(!o.noCache) o.noCache = false;
 		
-		// Affichage des données
-		if(o.content) this.view(o);
-		
 		// Cache des données [3600s]
 		var update = false;
 		var time = Math.floor(new Date().getTime() /1000);
@@ -50,6 +47,9 @@ var BS = {
 			update = true;
 			DB.set('time.'+o.id, time);
 		}
+		
+		// Affichage des données
+		if(o.content && tPage!=0) this.view(o);
 		
 		// Détecte si on est déja sur cette page
 		// Dans ce cas, on force l'actualisation des données

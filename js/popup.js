@@ -90,7 +90,7 @@ $(document).ready(function(){
 		else $(this).attr('src', '../img/folder.png');
 		
 		ajax.post("/members/downloaded/"+show, params, 
-			function () {load('episodes', true, true)},
+			function () {DB.delete('time.'+BS.currentPage.id)},
 			function () {registerAction("/members/downloaded/"+show, params)}
 		);
 		return false;
@@ -180,6 +180,7 @@ $(document).ready(function(){
 				DB.init();
 				DB.set('member.login', login);
 				DB.set('member.token', data.root.member.token);
+				menu.show();
 				BS.membersEpisodes();
 			}else{
 				$('#password').attr('value', '');

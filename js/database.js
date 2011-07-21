@@ -26,7 +26,8 @@ var DB = {
 	 *	
 	 */
 	get: function(field, defaultValue){
-		if (!defaultValue) defaultValue = null;
+		if (!defaultValue && defaultValue!=0) 
+			defaultValue = null;
 		
 		if(localStorage[field] !== undefined){
 			defaultValue = localStorage[field];
