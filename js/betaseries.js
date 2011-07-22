@@ -333,7 +333,8 @@ var BS = {
 			name: 'membersNotifications',
 			url: '/members/notifications',
 			root: 'notifications',
-			content: function(){
+			content: function(data){
+				var output = '';
 				var nbrNotifications = 0;
 				
 				for(var n in data){
@@ -345,8 +346,9 @@ var BS = {
 					nbrNotifications++;	
 				}
 				
-				bgPage.updateBadgeEpisodes();
+				bgPage.badge.update();
 				if (nbrNotifications==0) output = "<div>Aucune notification !</div>";
+				return output;
 			}
 		});
 	},
