@@ -99,7 +99,8 @@ var BS = {
 			var data = JSON.parse(DB.get('page.'+o.id));
 			if (data) $('#page').html(o.content(data));
 		}else{ 
-			$('#page').html(o.content());
+			var content = o.content();
+			$('#page').html(content);
 		}
 	},
 	
@@ -393,17 +394,25 @@ var BS = {
 			id: 'blog',
 			name: 'blog',
 			content: function(){
+				var output = '';
 				$.ajax({
 					type: 'GET',
 					url: 'https://www.betaseries.com/blog/feed/',
 					dataType: 'xml',
+					async: false,
 					success: function(data){
 						var items = $(data).find('item');
-						for (var i in items){
-							console.log(i);
+						for(var n=0; n<items.length; n++){
+							var item = $(items[n]);
+							output += '<div class="event">';
+							output += '<div class="left">'+item.find('title').text()+'</div>';
+							//output += '<div class="right"><span class="date">'+dateok('D d F', data[n].date)+'</span></div>';
+							output += '<div class="clear"></div>';
+							output += '</div>';
 						}
 					}
 				});
+				return output;
 			}
 		});
 	}
