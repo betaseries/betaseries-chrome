@@ -45,7 +45,7 @@ $(document).ready(function(){
 		
 		// On lance la requête en fond
 		ajax.post("/members/watched/"+show, params, 
-			function () {load('episodes', true, true)},
+			function () {BS.refresh();},
 			function () {registerAction("/members/watched/"+show, params)}
 		);
 		return false;
@@ -90,7 +90,7 @@ $(document).ready(function(){
 		else $(this).attr('src', '../img/folder.png');
 		
 		ajax.post("/members/downloaded/"+show, params, 
-			function () {BS.noview(); BS.refresh();},
+			function () {BS.refresh();},
 			function () {registerAction("/members/downloaded/"+show, params)}
 		);
 		return false;

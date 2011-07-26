@@ -104,11 +104,8 @@ var BS = {
 	},
 	
 	refresh: function(){
-		this.load(this.currentPage);
-	},
-	
-	noview: function(){
 		this.currentPage.noview = true;
+		this.load(this.currentPage);
 	},
 	
 	/**
@@ -389,6 +386,26 @@ var BS = {
 				return output;
 			}
 		});
-	}	
+	}, 
+	
+	blog: function(){
+		this.view({
+			id: 'blog',
+			name: 'blog',
+			content: function(){
+				$.ajax({
+					type: 'GET',
+					url: 'https://www.betaseries.com/blog/feed/',
+					dataType: 'xml',
+					success: function(data){
+						var items = $(data).find('item');
+						for (var i in items){
+							console.log(i);
+						}
+					}
+				});
+			}
+		});
+	}
 
 };
