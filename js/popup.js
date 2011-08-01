@@ -61,8 +61,8 @@ $(document).ready(function(){
 		var params = "&season="+season+"&episode="+episode;
 		
 		// On rend tout de suite visible le changement
-		if ($(this).attr('src') == '../img/folder.png') $(this).attr('src', '../img/folder_add.png');
-		else $(this).attr('src', '../img/folder.png');
+		if ($(this).attr('src') == '../img/folder_delete.png') $(this).attr('src', '../img/folder_add.png');
+		else if ($(this).attr('src') == '../img/folder_add.png') $(this).attr('src', '../img/folder_delete.png');
 		
 		ajax.post("/members/downloaded/"+show, params, 
 			function () {BS.refresh();},
@@ -77,12 +77,12 @@ $(document).ready(function(){
 	$('.downloaded').live({
 		mouseenter: function(){ 
 			$(this).css('cursor','pointer');
-			if ($(this).attr('src') == '../img/folder_add.png') $(this).attr('src', '../img/folder_add.png');
+			if ($(this).attr('src') == '../img/folder_off.png') $(this).attr('src', '../img/folder_add.png');
 			if ($(this).attr('src') == '../img/folder.png') $(this).attr('src', '../img/folder_delete.png');
 		}, 
 		mouseleave: function(){ 
 			$(this).css('cursor','auto');
-			if ($(this).attr('src') == '../img/folder_add.png') $(this).attr('src', '../img/folder_add.png');
+			if ($(this).attr('src') == '../img/folder_add.png') $(this).attr('src', '../img/folder_off.png');
 			if ($(this).attr('src') == '../img/folder_delete.png') $(this).attr('src', '../img/folder.png');
 		}
 	});

@@ -288,7 +288,7 @@ var BS = {
 						var imgDownloaded;
 						var texte3;
 						if (downloaded) {imgDownloaded = "folder"; texte3 = "Marquer comme non-téléchargé"}
-						else {imgDownloaded = "folder_add"; texte3 = "Marquer comme téléchargé";}
+						else {imgDownloaded = "folder_off"; texte3 = "Marquer comme téléchargé";}
 					}
 					output += '<div class="right">';
 					if (data[n].downloaded != -1)
