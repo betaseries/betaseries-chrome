@@ -64,11 +64,7 @@ var BS = {
 				
 				// Si notifications, ne pas juste remplacer
 				var tab = data.root[r];
-				/*if(page=='notifications' && localStorage['p_'+page]){
-					tab1 = data.root[r];
-					tab2 = JSON.parse(localStorage['p_'+page]);
-					tab = concat(tab1, tab2);
-				}*/
+				if (o.postData) o.postData(tab);
 				
 				DB.set('page.'+o.id, JSON.stringify(tab));
 				
@@ -141,8 +137,8 @@ var BS = {
 				var nbrEpisodes = 0;
 				for (var e in data){
 					var today = Math.floor(new Date().getTime() /1000);
-					var todayWeek = parseFloat(dateok('W', today));
-					var actualWeek = parseFloat(dateok('W', data[e].date));
+					var todayWeek = parseFloat(Fx.date('W', today));
+					var actualWeek = parseFloat(Fx.date('W', data[e].date));
 					var diffWeek = actualWeek - todayWeek;
 					var plot = (data[e].date < today) ? "red": "orange";
 					if (actualWeek != week){
@@ -159,7 +155,7 @@ var BS = {
 						output += '<div class="title">'+w+'</div>';
 					}
 				
-					output += '<div class="episode '+dateok('D', data[e].date).toLowerCase()+'">';
+					output += '<div class="episode '+Fx.date('D', data[e].date).toLowerCase()+'">';
 					
 					output += '<div class="left">';
 					output += '<img src="../img/plot_'+plot+'.gif" /> ';
@@ -167,7 +163,7 @@ var BS = {
 					output += '</div>';
 					
 					output += '<div class="right">';
-					output += '<span class="date">'+dateok('D d F', data[e].date)+'</span>';
+					output += '<span class="date">'+Fx.date('D d F', data[e].date)+'</span>';
 					output += '</div>';
 					
 					output += '</div>';
@@ -331,14 +327,18 @@ var BS = {
 			name: 'membersNotifications',
 			url: '/members/notifications',
 			root: 'notifications',
+			postData: function(tab){
+				var tab2 = JSON.parse(DB.get(o.id, ''));
+				return Fx.concat(tab, tab2);
+			},
 			content: function(data){
 				var output = '';
 				var nbrNotifications = 0;
 				
 				for(var n in data){
-					output += '<div class="event '+dateok('D', data[n].date).toLowerCase()+'">';
+					output += '<div class="event '+Fx.date('D', data[n].date).toLowerCase()+'">';
 					output += '<div class="left">'+data[n].html+'</div>';
-					output += '<div class="right"><span class="date">'+dateok('D d F', data[n].date)+'</span></div>';
+					output += '<div class="right"><span class="date">'+Fx.date('D d F', data[n].date)+'</span></div>';
 					output += '<div class="clear"></div>';
 					output += '</div>';
 					nbrNotifications++;	
@@ -361,9 +361,9 @@ var BS = {
 			content: function(data){
 				var output = '';
 				for(var n in data){
-					output += '<div class="event '+dateok('D', data[n].date).toLowerCase()+'">';
+					output += '<div class="event '+Fx.date('D', data[n].date).toLowerCase()+'">';
 					output += '<div class="left"><span class="login">'+data[n].login+'</span> '+data[n].html+'</div>';
-					output += '<div class="right"><span class="date">'+dateok('D d F', data[n].date)+'</span></div>';
+					output += '<div class="right"><span class="date">'+Fx.date('D d F', data[n].date)+'</span></div>';
 					output += '<div class="clear"></div>';
 					output += '</div>';
 				}
@@ -406,7 +406,7 @@ var BS = {
 							var item = $(items[n]);
 							output += '<div class="event">';
 							output += '<div class="left">'+item.find('title').text()+'</div>';
-							//output += '<div class="right"><span class="date">'+dateok('D d F', data[n].date)+'</span></div>';
+							//output += '<div class="right"><span class="date">'+Fx.date('D d F', data[n].date)+'</span></div>';
 							output += '<div class="clear"></div>';
 							output += '</div>';
 						}

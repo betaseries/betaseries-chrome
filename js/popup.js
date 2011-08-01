@@ -3,31 +3,6 @@ $(document).ready(function(){
 	var bgPage = chrome.extension.getBackgroundPage();
 	
 	/**
-	 * Internationalisation
-	 */
-	var __ = function(msgname){
-		return chrome.i18n.getMessage(msgname);
-	};
-
-	/**
-	 * Concaténer plusieurs objets (notifications page)
-	 */
-	var concat = function(){
-		var ret = {};
-		var n = 0;
-		for(var i=0; i<arguments.length; i++){
-			for(var p in arguments[i]){
-				if(arguments[i].hasOwnProperty(p) && n<10){
-					ret[n] = arguments[i][p];
-					n++;
-				}
-			}
-		}
-		return ret;
-	};
-	
-	
-	/**
 	 * Marquer un ou des épisodes comme vu(s)
 	 */
 	$('.watched').live('click', function(){ 
