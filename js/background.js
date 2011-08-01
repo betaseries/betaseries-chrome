@@ -23,37 +23,36 @@ var badge = {
 	 * 
 	 */
 	update: function(){
-		// Nombre d'épisodes non vus
-		ajax.post('/members/episodes/all', '', function(data){
-			var episodes = data.root.episodes;
-			var j = 0;
-			for (var i in episodes){
-				if (episodes.hasOwnProperty(i)) {
-					var badgeNotificationType = DB.get('options.badge_notification_type');
-					if (badgeNotificationType == 'watched') j++;
-					if (badgeNotificationType == 'downloaded' && episodes[i].downloaded != 1) j++;
-				}
-			}
-			console.log(j);
-			DB.set('badge.value', j);
-			DB.set('badge.type', 'membersEpisodes');
-			badge.display(j, 'membersEpisodes');
-			badge.notify();
-		}, function(){
-			var value = DB.get('badge.value');
-			var type = DB.get('badge.type');
-			badge.display(value, type);
-		});
-	},
-	
-	notify: function(){
 		// Nombre de notifications
 		ajax.post('/members/notifications', '&summary=yes', function(data){
 			var notifs = data.root.notifications;
 			var j = notifs.total;
 			DB.set('badge.value', j);
 			DB.set('badge.type', 'membersNotifications');
-			badge.display(j, 'membersNotifications');
+			if (j>0){
+				badge.display(j, 'membersNotifications');
+			}else{
+				// Nombre d'épisodes non vus
+				ajax.post('/members/episodes/all', '', function(data){
+					var episodes = data.root.episodes;
+					var j = 0;
+					for (var i in episodes){
+						if (episodes.hasOwnProperty(i)) {
+							var badgeNotificationType = DB.get('options.badge_notification_type');
+							if (badgeNotificationType == 'watched') j++;
+							if (badgeNotificationType == 'downloaded' && episodes[i].downloaded != 1) j++;
+						}
+					}
+					console.log(j);
+					DB.set('badge.value', j);
+					DB.set('badge.type', 'membersEpisodes');
+					badge.display(j, 'membersEpisodes');
+				}, function(){
+					var value = DB.get('badge.value');
+					var type = DB.get('badge.type');
+					badge.display(value, type);
+				});
+			}
 		}, function(){
 			var value = DB.get('badge.value');
 			var type = DB.get('badge.type');
