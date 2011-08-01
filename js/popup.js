@@ -224,19 +224,19 @@ $(document).ready(function(){
 	// MENU sections
 	$('#planning')
 		.live('click', function(){BS.planningMember(); return false;})
-		.attr('title', __("planning"));
+		.attr('title', __("planningMember"));
 	$('#episodes')
 		.live('click', function(){BS.membersEpisodes(); return false;})
-		.attr('title', __("episodes"));
+		.attr('title', __("membersEpisodes"));
 	$('#timeline')
 		.live('click', function(){BS.timelineFriends(); return false;})
-		.attr('title', __("timeline"));
+		.attr('title', __("timelineFriends"));
 	$('#notifications')
 		.live('click', function(){BS.membersNotifications(); return false;})
-		.attr('title', __("notifications"));
+		.attr('title', __("membersNotifications"));
 	$('#infos')
 		.live('click', function(){BS.membersInfos(); return false;})
-		.attr('title', __("infos"));
+		.attr('title', __("membersInfos"));
 	
 	/**
 	 * Afficher le message de confirmation
