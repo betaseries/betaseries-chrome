@@ -9,18 +9,17 @@
 	"logout": {"message": "Déconnexion"},
 	"close": {"message": "Fermer"},
 	
-	"planning": {"message": "Planning"},
-	"episodes": {"message": "Episodes non vus"},
-	"timeline": {"message": "Evénements"},
-	"notifications": {"message": "Notifications"},
-	"infos": {"message": "Compte"},
+	"planningMember": {"message": "Planning"},
+	"membersEpisodes": {"message": "Episodes non vus"},
+	"timelineFriends": {"message": "Evénements"},
+	"membersNotifications": {"message": "Notifications"},
+	"membersInfos": {"message": "Compte"},
 	
 	"connection": {"message": "Connexion"},
 	
 	"archive": {"message": "Archiver"},
 	
 	"badge_notification_type": {"message": "Type de notification : "},
-	
 	"dl_srt_language": {"message": "Langage des sous-titres d'un épisode : "},
 	"nbr_episodes_per_serie": {"message": "Nombre d'épisodes maximum affichés d'une série : "},
 	"display_global": {"message": "Afficher le numéro global d'un épisode : "}
