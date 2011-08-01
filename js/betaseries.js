@@ -328,7 +328,7 @@ var BS = {
 			url: '/members/notifications',
 			root: 'notifications',
 			postData: function(tab){
-				var tab2 = JSON.parse(DB.get(o.id, ''));
+				var tab2 = JSON.parse(DB.get('page.membersNotifications', ''));
 				return Fx.concat(tab, tab2);
 			},
 			content: function(data){
