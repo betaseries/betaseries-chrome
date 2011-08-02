@@ -37,7 +37,7 @@ var BS = {
 		
 		// Initialisation des arguments
 		if(!o.force) o.force = false;
-		if(!o.noCache) o.noCache = false;
+		if(!o.noview) o.noview = false;
 		
 		// Cache des données [3600s]
 		var update = false;
@@ -70,7 +70,7 @@ var BS = {
 				
 				// Mise à jour des données si cache non récent
 				if(!o.noview) BS.view(o);
-				else o.removeItem('noview');
+				else delete o.noview;
 			});
 		}else{
 			// Indique qu'on utilise les données de cache
@@ -84,19 +84,23 @@ var BS = {
 	 * array o
 	 */
 	view: function(o){
-		// Affichage du titre
-		$('#title').text(__(o.name));
-		
-		// Ajout de la classe
-		$('#page').removeClass().addClass(o.name);
-		
 		// Recherche et affichage des données
 		if(o.url){
 			var data = JSON.parse(DB.get('page.'+o.id));
-			if (data) $('#page').html(o.content(data));
+			if (data) {
+				$('#page').html(o.content(data));
+				
+				// Titre et classe
+				$('#title').text(__(o.name));
+				$('#page').removeClass().addClass(o.name);				
+			}
 		}else{ 
 			var content = o.content();
 			$('#page').html(content);
+			
+			// Titre et classe
+			$('#title').text(__(o.name));
+			$('#page').removeClass().addClass(o.name);			
 		}
 	},
 	
