@@ -122,6 +122,29 @@ var BS = {
 		});
 	},
 	
+	/**
+	 *
+	 *
+	 */
+	showsEpisodes: function(url, season, episode){
+		this.load({
+			id: 'showsEpisodes.'+url+'.'+'season'+'.'+episode,
+			name: 'showsEpisodes',
+			url: '/shows/episodes/'+url,
+			params: '&season='+season+'&episode='+episode,
+			root: 'seasons',
+			content: function(data){
+				var episode = data['0']['episodes']['0'];
+				
+				var output = '';
+				output += '<div>['+episode.number+'] '+episode.title+'</div>';
+				output += '<img src="'+episode.screen+'" width="100" /><br />';
+				output += '<div>'+episode.description+'</div>';
+				return output;
+			}
+		});
+	},
+	
 	planningMember: function(login){
 		if(!login) login = DB.get('member.login');
 		this.load({
@@ -256,7 +279,7 @@ var BS = {
 					else if (posEpisode>1) texte2 = "Marquer comme vu ces épisodes!";
 					output += '<div class="left">';
 					output += '<img src="../img/plot_red.gif" class="watched" title="'+texte2+'" /> <span class="num">';
-					output += '['+data[n].number+']</span> '+title.substring(0,22);
+					output += '['+data[n].number+']</span> <span class="title">'+title.substring(0,22)+'</span>';
 					if (title.length>22) output += "..";
 					if (newShow) output += ' <span class="new">NEW!</span>';
 					output += '</div>';

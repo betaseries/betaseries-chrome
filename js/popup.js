@@ -95,6 +95,18 @@ $(document).ready(function(){
 	});
 	
 	/**
+	 * Accéder à la fiche d'un épisode
+	 */
+	 $('.title').live('click', function(){
+		var node = $(this).parent().parent();
+		var url = node.parent().attr('id');
+		var season = node.attr('season');
+		var episode = node.attr('episode');
+		BS.showsEpisodes(url, season, episode);
+		return false;
+	});
+	
+	/**
 	 * Télécharger les sous-titres d'un épisode
 	 */
 	$('.subs').live('click', function(){
