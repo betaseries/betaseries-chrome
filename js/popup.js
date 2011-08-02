@@ -13,10 +13,17 @@ $(document).ready(function(){
 		var params = "&season="+season+"&episode="+episode;
 		
 		// On cache les div
+		var n = 0;
 		while(node.hasClass('episode')){
 			node.slideToggle();
+			node.addClass('toDelete');
 			node = node.prev();
+			n++;
 		}
+		// On supprime ces div cachés
+		$('.toDelete').remove();
+		// On fait apparaitre les suivants
+		$('#'+show+' .episode:hidden:lt('+n+')').slideToggle();
 		
 		// On lance la requête en fond
 		ajax.post("/members/watched/"+show, params, 
