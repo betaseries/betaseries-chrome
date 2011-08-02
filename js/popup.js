@@ -107,6 +107,18 @@ $(document).ready(function(){
 	});
 	
 	/**
+	 * HOVER - Accéder à la fiche d'un épisode
+	 */
+	$('.title').live({
+		mouseenter: function(){ 
+			$(this).css('cursor','pointer');
+		}, 
+		mouseleave: function(){ 
+			$(this).css('cursor','auto');
+		}
+	});
+	
+	/**
 	 * Télécharger les sous-titres d'un épisode
 	 */
 	$('.subs').live('click', function(){
