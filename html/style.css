@@ -12,7 +12,7 @@ div#pannel table {width: 95%;}
 div#pannel {border-bottom: 1px solid #bbb;}
 
 /*Logo*/
-div.title {
+div.showtitle {
 	border-bottom: 1px solid #dcdcdc;
 	font-weight: bold;
 	font-family: Helvetica, Arial, sans-serif;

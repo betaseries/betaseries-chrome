@@ -144,7 +144,7 @@ $(document).ready(function(){
 	/**
 	 * HOVER - Faire apparaître les actions liés à la série
 	 */
-	$('.title').live({
+	$('.showtitle').live({
 		mouseenter: function(){ 
 			$(this).find('img').show();
 		},
