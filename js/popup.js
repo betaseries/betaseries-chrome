@@ -16,12 +16,12 @@ $(document).ready(function(){
 		var n = 0;
 		while(node.hasClass('episode')){
 			node.slideToggle();
-			node.addClass('toDelete');
+			node.removeClass('episode');
 			node = node.prev();
 			n++;
 		}
 		// On supprime ces div cachés
-		$('.toDelete').remove();
+		//$('.toDelete').remove();
 		// On fait apparaitre les suivants
 		$('#'+show+' .episode:hidden:lt('+n+')').slideToggle();
 		
