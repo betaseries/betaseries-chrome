@@ -141,9 +141,20 @@ var BS = {
 				var episode = data['0']['episodes']['0'];
 				
 				var output = '';
-				output += '<div>['+episode.number+'] '+episode.title+'</div>';
-				output += '<img src="'+episode.screen+'" width="100" /><br />';
-				output += '<div>'+episode.description+'</div>';
+				output += '<div style="float:left; width:176px; padding-right:5px;">';
+				var title = episode.title;
+				if (DB.get('options.display_global') == 'true') title = '#'+episode.global+' '+title;
+				output += '<div><span class="num">['+episode.number+']</span> '+episode.title+'</div>';
+				output += 	'<span class="date">'+Fx.date('D d F', episode.date)+'</span>';
+				output += 	'<div style="text-align:justify;">'+episode.description+'</div>';
+				output += '</div>';
+				
+				output += '<div style="float:left; width:100px; text-align:center;">';
+				output += 	'<img src="'+episode.screen+'" width="100" style="border:1px solid #999999; padding:1px;" /><br />';
+				output += 	'Note : '+episode.note.mean+' ('+episode.note.members+')<br />';
+				output += 	'Seen: '+episode.has_seen+'<br />';
+				output += 	'Downloaded: '+episode.downloaded;
+				output += '</div>';
 				return output;
 			}
 		});
