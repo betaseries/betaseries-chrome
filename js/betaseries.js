@@ -144,13 +144,15 @@ var BS = {
 				output += '<div style="float:left; width:176px; padding-right:5px;">';
 				var title = episode.title;
 				if (DB.get('options.display_global') == 'true') title = '#'+episode.global+' '+title;
-				output += '<div><span class="num">['+episode.number+']</span> '+episode.title+'</div>';
-				output += 	'<span class="date">'+Fx.date('D d F', episode.date)+'</span>';
-				output += 	'<div style="text-align:justify;">'+episode.description+'</div>';
+				output += 	'<div class="showtitle">'+url+'</div>';
+				output += 	'<div><span class="num">['+episode.number+']</span> '+episode.title+'</div>';
+				output += 	'<div><span class="date">'+Fx.date('D d F', episode.date)+'</span></div>';
+				output += 	'<div style="height:10px;"></div>';
+				output += 	'<div>'+episode.description+'</div>';
 				output += '</div>';
 				
 				output += '<div style="float:left; width:100px; text-align:center;">';
-				output += 	'<img src="'+episode.screen+'" width="100" style="border:1px solid #999999; padding:1px;" /><br />';
+				output += 	'<img src="'+episode.screen+'" width="100" style="border:1px solid #999999; padding:1px; margin-top:18px;" /><br />';
 				output += 	'Note : '+episode.note.mean+' ('+episode.note.members+')<br />';
 				output += 	'Seen: '+episode.has_seen+'<br />';
 				output += 	'Downloaded: '+episode.downloaded;
