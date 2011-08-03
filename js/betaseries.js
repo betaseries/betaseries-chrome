@@ -140,10 +140,13 @@ var BS = {
 			content: function(data){
 				var episode = data['0']['episodes']['0'];
 				
-				var output = '';
-				output += '<div style="float:left; width:176px; padding-right:5px;">';
 				var title = episode.title;
 				if (DB.get('options.display_global') == 'true') title = '#'+episode.global+' '+title;
+				if (episode.downloaded) {imgDownloaded = "folder"; texte3 = "Marquer comme non-téléchargé"}
+				else {imgDownloaded = "folder_off"; texte3 = "Marquer comme téléchargé";}
+				
+				var output = '<div id="'+url+'" season="'+data['0']['number']+'" episode="'+episode.episode+'">';
+				output += '<div style="float:left; width:176px; padding-right:5px;">';
 				output += 	'<div class="showtitle">'+url+'</div>';
 				output += 	'<div><span class="num">['+episode.number+']</span> '+episode.title+'</div>';
 				output += 	'<div><span class="date">'+Fx.date('D d F', episode.date)+'</span></div>';
@@ -153,9 +156,10 @@ var BS = {
 				
 				output += '<div style="float:left; width:100px; text-align:center;">';
 				output += 	'<img src="'+episode.screen+'" width="100" style="border:1px solid #999999; padding:1px; margin-top:18px;" /><br />';
-				output += 	'Note : '+episode.note.mean+' ('+episode.note.members+')<br />';
-				output += 	'Seen: '+episode.has_seen+'<br />';
-				output += 	'Downloaded: '+episode.downloaded;
+				output += 	'Note moyenne<br />'+episode.note.mean+' ('+episode.note.members+')<br />';
+				output += 	episode.has_seen+' ';
+				output += 	'<img src="../img/'+imgDownloaded+'.png" class="downloaded" title="'+texte3+'" />';
+				output += '</div>';
 				output += '</div>';
 				return output;
 			}

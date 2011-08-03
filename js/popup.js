@@ -60,11 +60,32 @@ $(document).ready(function(){
 	/**
 	 * Marquer un épisode comme téléchargé ou pas
 	 */
-	$('.downloaded').live('click', function() { 
+	$('.membersEpisodes .downloaded').live('click', function() { 
 		var node = $(this).parent().parent();
 		var season = node.attr('season');
 		var episode = node.attr('episode');
 		var show = node.parent().attr('id');
+		var params = "&season="+season+"&episode="+episode;
+		
+		// On rend tout de suite visible le changement
+		if ($(this).attr('src') == '../img/folder_delete.png') $(this).attr('src', '../img/folder_add.png');
+		else if ($(this).attr('src') == '../img/folder_add.png') $(this).attr('src', '../img/folder_delete.png');
+		
+		ajax.post("/members/downloaded/"+show, params, 
+			function () {BS.refresh();},
+			function () {registerAction("/members/downloaded/"+show, params)}
+		);
+		return false;
+	});
+	
+	/**
+	 * Marquer un épisode comme téléchargé ou pas
+	 */
+	$('.showsEpisodes .downloaded').live('click', function() { 
+		var node = $(this).parent().parent();
+		var season = node.attr('season');
+		var episode = node.attr('episode');
+		var show = node.attr('id');
 		var params = "&season="+season+"&episode="+episode;
 		
 		// On rend tout de suite visible le changement
