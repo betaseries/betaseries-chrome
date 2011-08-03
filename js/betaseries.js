@@ -128,7 +128,7 @@ var BS = {
 	
 	/**
 	 *
-	 *
+	 * @bug : La valeur de downloaded est fausse
 	 */
 	showsEpisodes: function(url, season, episode){
 		this.load({
@@ -139,11 +139,12 @@ var BS = {
 			root: 'seasons',
 			content: function(data){
 				var episode = data['0']['episodes']['0'];
+				console.log(episode);
 				
 				var title = episode.title;
 				if (DB.get('options.display_global') == 'true') title = '#'+episode.global+' '+title;
-				if (episode.downloaded) {imgDownloaded = "folder"; texte3 = "Marquer comme non-téléchargé"}
-				else {imgDownloaded = "folder_off"; texte3 = "Marquer comme téléchargé";}
+				if(episode.downloaded==1) {imgDownloaded = "folder"; texte3 = "Marquer comme non-téléchargé"}
+				else if(episode.downloaded==0) {imgDownloaded = "folder_off"; texte3 = "Marquer comme téléchargé";}
 				
 				var output = '<div id="'+url+'" season="'+data['0']['number']+'" episode="'+episode.episode+'">';
 				output += '<div style="float:left; width:176px; padding-right:5px;">';

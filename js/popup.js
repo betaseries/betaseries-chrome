@@ -61,7 +61,7 @@ $(document).ready(function(){
 	 * Marquer un épisode comme téléchargé ou pas
 	 */
 	$('.downloaded').live('click', function(){
-		var view = $(this).attr('view'); 
+		var view = BS.currentPage.name; 
 		var node = $(this).parent().parent();
 		var season = node.attr('season');
 		var episode = node.attr('episode');

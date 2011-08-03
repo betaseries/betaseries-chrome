@@ -43,7 +43,6 @@ var badge = {
 							if (badgeNotificationType == 'downloaded' && episodes[i].downloaded != 1) j++;
 						}
 					}
-					console.log(j);
 					DB.set('badge.value', j);
 					DB.set('badge.type', 'membersEpisodes');
 					badge.display(j, 'membersEpisodes');
