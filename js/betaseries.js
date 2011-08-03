@@ -35,10 +35,6 @@ var BS = {
 	 */
 	load: function(o){
 		
-		// Initialisation des arguments
-		if(!o.force) o.force = false;
-		if(!o.noview) o.noview = false;
-		
 		// Cache des données [3600s]
 		var update = false;
 		var time = Math.floor(new Date().getTime() /1000);
@@ -48,13 +44,17 @@ var BS = {
 			DB.set('time.'+o.id, time);
 		}
 		
-		// Affichage des données
-		if(!o.noview) this.view(o);
-		
 		// Détecte si on est déja sur cette page
 		// Dans ce cas, on force l'actualisation des données
 		var force = (this.currentPage && this.currentPage.id == o.id);
 		this.currentPage = o;
+		
+		// Accès aux vues
+		o.view1st = o.view1st || !(update || force) || false;
+		o.view2nd = o.view2nd || (update || force) || false;
+		
+		// Affichage des données
+		if(o.view1st) this.view(o);
 		
 		// Vérifie si on peut mettre à jour les données de la page
 		if(update || force){
@@ -69,8 +69,7 @@ var BS = {
 				DB.set('page.'+o.id, JSON.stringify(tab));
 				
 				// Mise à jour des données si cache non récent
-				if(!o.noview) BS.view(o);
-				else delete o.noview;
+				if(o.view2nd) BS.view(o);
 			});
 		}else{
 			// Indique qu'on utilise les données de cache
@@ -105,7 +104,6 @@ var BS = {
 	},
 	
 	refresh: function(){
-		this.currentPage.noview = true;
 		this.load(this.currentPage);
 	},
 	
