@@ -157,7 +157,6 @@ var BS = {
 				output += '<div style="float:left; width:100px; text-align:center;">';
 				output += 	'<img src="'+episode.screen+'" width="100" style="border:1px solid #999999; padding:1px; margin-top:18px;" /><br />';
 				output += 	'Note moyenne<br />'+episode.note.mean+' ('+episode.note.members+')<br />';
-				output += 	episode.has_seen+' ';
 				output += 	'<img src="../img/'+imgDownloaded+'.png" class="downloaded" title="'+texte3+'" />';
 				output += '</div>';
 				output += '</div>';
