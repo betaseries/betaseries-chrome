@@ -27,7 +27,7 @@ $(document).ready(function(){
 		
 		// On lance la requête en fond
 		ajax.post("/members/watched/"+show, params, 
-			function () {BS.refresh();},
+			function () {BS.refresh(); bgPage.badge.update();},
 			function () {registerAction("/members/watched/"+show, params)}
 		);
 		return false;
