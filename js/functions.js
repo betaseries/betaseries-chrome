@@ -14,7 +14,7 @@ var Fx = {
 		return newtable.slice(0,10);
 	},
 	
-	date: function(format, timestamp) {
+	_date: function(format, timestamp) {
 	    var that = this,
 	        jsdate, f, formatChr = /\\?([a-z])/gi,
 	        formatChrCb,
