@@ -370,8 +370,14 @@ var BS = {
 			url: '/members/notifications',
 			root: 'notifications',
 			postData: function(tab){
-				var tab2 = JSON.parse(DB.get('page.membersNotifications', ''));
-				return Fx.concat(tab, tab2);
+				var res = tab;
+				try{
+					var tab2 = JSON.parse(DB.get('page.membersNotifications', ''));
+					res = Fx._concat(tab, tab2);
+			    }catch(e){
+			    	console.log(e);
+			    }
+				return res;
 			},
 			content: function(data){
 				var output = '';

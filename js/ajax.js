@@ -26,7 +26,6 @@ var ajax = {
 			data: "key="+this.key+params+token,
 			dataType: "json",
 			success: function(data){
-				console.log(data);
 				$('#status').attr('src', '../img/plot_green.gif');
 				$('#sync').hide();
 				if (successCallback) successCallback(data);

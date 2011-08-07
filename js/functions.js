@@ -9,7 +9,7 @@ var Fx = {
 	/**
 	 * Concaténer plusieurs objets (notifications page)
 	 */
-	concat: function(oldtable, newtable){
+	_concat: function(oldtable, newtable){
 		var newtable = newtable.concat(oldtable);
 		return newtable.slice(0,10);
 	},
