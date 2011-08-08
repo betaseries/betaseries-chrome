@@ -9,9 +9,18 @@ var Fx = {
 	/**
 	 * Concaténer plusieurs objets (notifications page)
 	 */
-	_concat: function(oldtable, newtable){
-		var newtable = newtable.concat(oldtable);
-		return newtable.slice(0,10);
+	_concat: function(){
+		var ret = {};
+		var n = 0;
+		for(var i=0; i<arguments.length; i++){
+			for(var p in arguments[i]){
+				if(arguments[i].hasOwnProperty(p) && n<10){
+					ret[n] = arguments[i][p];
+					n++;
+				}
+			}
+		}
+		return ret;
 	},
 	
 	_date: function(format, timestamp) {

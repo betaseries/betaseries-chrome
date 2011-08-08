@@ -369,11 +369,11 @@ var BS = {
 			name: 'membersNotifications',
 			url: '/members/notifications',
 			root: 'notifications',
-			postData: function(tab){
-				var res = tab;
+			postData: function(tab1){
+				var res = tab1;
 				try{
 					var tab2 = JSON.parse(DB.get('page.membersNotifications', ''));
-					res = Fx._concat(tab, tab2);
+					res = Fx._concat(tab1, tab2);
 			    }catch(e){
 			    	console.log(e);
 			    }
