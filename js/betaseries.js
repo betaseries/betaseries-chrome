@@ -372,7 +372,8 @@ var BS = {
 			postData: function(tab1){
 				var res = tab1;
 				try{
-					var tab2 = JSON.parse(DB.get('page.membersNotifications', ''));
+					var temp = DB.get('page.membersNotifications', null);
+					var tab2 = (temp != null) ? JSON.parse(temp) : [];
 					res = Fx._concat(tab1, tab2);
 			    }catch(e){
 			    	console.log(e);
