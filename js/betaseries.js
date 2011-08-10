@@ -23,7 +23,7 @@ var BS = {
 	currentPage: null,
 
 	/**
-	 * Mettre à jour les données
+	 * Mettre à jour les données de la page
 	 *
 	 * array o
 	 * string id			Identifiant de la page
@@ -35,50 +35,42 @@ var BS = {
 	 */
 	load: function(o){
 		
-		// Cache des données [3600s]
-		var update = false;
-		var time = Math.floor(new Date().getTime() /1000);
-		var tPage = DB.get('time.'+o.id, 0);
-		if(time - tPage > 3600){
-			update = true;
-			DB.set('time.'+o.id, time);
-		}
+		// Vérification du cache de la page [3600s]
+		var time = Math.floor(new Date().getTime() / 1000);
+		var updatePage = DB.get('update.'+o.id, 0);
+		var update = (time - updatePage > 3600 || (this.currentPage && this.currentPage.id == o.id));
 		
-		// Détecte si on est déja sur cette page
-		// Dans ce cas, on force l'actualisation des données
-		var force = (this.currentPage && this.currentPage.id == o.id);
+		// Enregistrement de la page actuelle
 		this.currentPage = o;
 		
-		// Accès aux vues
-		o.view1st = o.view1st || !(update || force) || false;
-		o.view2nd = o.view2nd || (update || force) || false;
-		
-		// Affichage des données
-		if(o.view1st) this.view(o);
-		
-		// Vérifie si on peut mettre à jour les données de la page
-		if(update || force){
-			var params = (!o.params) ? '': o.params; 
-			ajax.post(o.url, o.params, function(data){
+		// Mise à jour du cache de la page
+		if (update) {
+			var params = o.params || ''; 
+			ajax.post(o.url, params, function (data) {
 				var r = o.root;
-				
-				// Si notifications, ne pas juste remplacer
 				var tab = data.root[r];
+				
+				// Opérations supp. sur les données reçues
 				if (o.postData) o.postData(tab);
 				
+				// Mise à jour du cache de la page
 				DB.set('page.'+o.id, JSON.stringify(tab));
+				DB.set('update.'+o.id, time);
 				
-				// Mise à jour des données si cache non récent
-				if(o.view2nd) BS.view(o);
+				// Affichage de le page
+				BS.view(o);
 			});
-		}else{
+		} else {
+			// Affichage de la page
+			this.view(o);
+			
 			// Indique qu'on utilise les données de cache
 			$('#status').attr('src', '../img/plot_orange.gif');
 		}
 	},
 	
 	/**
-	 * Afficher les données
+	 * Afficher la page
 	 *
 	 * array o
 	 */
@@ -101,6 +93,15 @@ var BS = {
 			$('#title').text(__(o.name));
 			$('#page').removeClass().addClass(o.name);			
 		}
+	},
+	
+	/**
+	 * Vider le cache de la page
+	 *
+	 */
+	clean: function(id){
+		DB.remove('page.'+id);
+		DB.remove('update.'+id);
 	},
 	
 	refresh: function(){
@@ -137,7 +138,6 @@ var BS = {
 			root: 'seasons',
 			content: function(data){
 				var episode = data['0']['episodes']['0'];
-				console.log(episode);
 				
 				var title = episode.title;
 				if (DB.get('options.display_global') == 'true') title = '#'+episode.global+' '+title;

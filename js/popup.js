@@ -27,7 +27,7 @@ $(document).ready(function(){
 		
 		// On lance la requête en fond
 		ajax.post("/members/watched/"+show, params, 
-			function () {BS.refresh(); bgPage.badge.update();},
+			function () {BS.clean('membersEpisodes.all'); bgPage.badge.update();},
 			function () {registerAction("/members/watched/"+show, params)}
 		);
 		return false;
@@ -74,7 +74,7 @@ $(document).ready(function(){
 		else if ($(this).attr('src') == '../img/folder_add.png') $(this).attr('src', '../img/folder_delete.png');
 		
 		ajax.post("/members/downloaded/"+show, params, 
-			function () {BS.refresh();},
+			function () {BS.clean('membersEpisodes.all');},
 			function () {registerAction("/members/downloaded/"+show, params)}
 		);
 		return false;
@@ -243,7 +243,7 @@ $(document).ready(function(){
 	$('#logout')
 		.live('click', function() { 
 			ajax.post("/members/destroy", '', function(){
-				DB.deleteAll();
+				DB.removeAll();
 				bgPage.badge.init();
 				BS.connection();
 			});

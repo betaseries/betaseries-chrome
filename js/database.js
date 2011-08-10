@@ -56,7 +56,7 @@ var DB = {
 	 *
 	 * field	<string>	Chemin + nom du champ
 	 */
-	delete: function(field){
+	remove: function(field){
 		localStorage.removeItem(field);
 	},
 	
@@ -64,7 +64,7 @@ var DB = {
 	 * Supprimer TOUS les champs de la BD
 	 *
 	 */
-	deleteAll: function(){
+	removeAll: function(){
 		localStorage.clear();
 	}
 
