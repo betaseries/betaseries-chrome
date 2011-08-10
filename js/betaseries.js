@@ -59,6 +59,16 @@ var BS = {
 				
 				// Affichage de le page
 				BS.view(o);
+			}, function(){
+				// Affichage de la page
+				if (DB.get('page.'+o.id, null) != null) {
+					BS.view(o);
+				} else {
+					console.log('Pas de connexion.');
+				}
+				
+				// Affichage de la page si pas de connexion
+				BS.view(o);
 			});
 		} else {
 			// Affichage de la page

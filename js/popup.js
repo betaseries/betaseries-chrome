@@ -282,10 +282,11 @@ $(document).ready(function(){
 	 * INIT
 	 */
 	DB.init();
-	if(bgPage.connected()){
+	if (bgPage.connected()) {
 		var badgeType = DB.get('badge.type', 'membersEpisodes');
+		BS.currentPage = null;
 		BS[badgeType]();
-	}else{
+	} else {
 		BS.connection();
 	}
 	
