@@ -99,7 +99,7 @@ $(document).ready(function(){
 	/**
 	 * Accéder à la fiche d'un épisode
 	 */
-	 $('.title').live('click', function(){
+	 $('.num').live('click', function(){
 		var node = $(this).parent().parent();
 		var url = node.parent().attr('id');
 		var season = node.attr('season');
@@ -111,7 +111,7 @@ $(document).ready(function(){
 	/**
 	 * HOVER - Accéder à la fiche d'un épisode
 	 */
-	$('.title').live({
+	$('.num').live({
 		mouseenter: function(){ 
 			$(this).css('cursor','pointer');
 		}, 
