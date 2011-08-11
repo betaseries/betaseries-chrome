@@ -47,7 +47,7 @@ td#menu img.action {opacity: 0.5; cursor: pointer;}
 td#menu img.action:hover {opacity: 1.0; cursor: pointer;}
 td#title {color: #aaa; font-variant: small-caps;}
 
-/*viewEpisodes*/
+/*membersEpisodes*/
 div#page {width: 95%;}
 div.episode {height: 18px; border-bottom: 1px solid #dcdcdc; padding: 3px 0 0 0;}
 div.episode:hover {background-color: #eee;}
@@ -61,7 +61,7 @@ div#message {color: #900; margin: 3px 0 3px 0; text-align: center; background-co
 div.linkHidden {text-align: right; font-size: 9px; color: #666;}
 div.clear{clear: both;}
 
-/*viewPlanning*/
+/*planningMember*/
 .planningMember .left{float:left; width:205px;}
 .planningMember .right{margin-left: 205px; width:80px;}
 .date {font-variant: small-caps; color: #888;}

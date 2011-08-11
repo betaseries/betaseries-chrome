@@ -205,7 +205,7 @@ var BS = {
 						if (diffWeek<-2 || diffWeek>2) hidden = ' style="display:none"';
 						if (nbrEpisodes > 0) output += '</div>';
 						output += '<div class="week"'+hidden+'>';
-						output += '<div class="title">'+w+'</div>';
+						output += '<div class="showtitle">'+w+'</div>';
 					}
 				
 					output += '<div class="episode '+Fx._date('D', data[e].date).toLowerCase()+'">';
