@@ -26,17 +26,14 @@ img.archive{
 	height:11px;
 }
 img.archive:hover{cursor: pointer;}
-span.logoPart {
-	float:left;
+#logoLink, #logoLink:visited {
 	font-variant: small-caps; 
-	font-size: 20px; 
-	font-weight: bold; 
-	letter-spacing: 1px;
+	font-size: 20px;  
+	letter-spacing: 2px;
 }
-span.capital {
-	margin-top: 1px;
+#logoLink:hover {
+	text-decoration: none;
 }
-#versionLink {margin-left: 2px;}
 
 /*Actions*/
 td#actions {text-align: right;}
