@@ -1,7 +1,7 @@
 /**
  * Classe Database
+ 
  * @author Menencia
- *
  */
 var DB = {
 

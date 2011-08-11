@@ -1,9 +1,8 @@
 /**
  * Functions (Fx)
  *
- *
+ * @author Menencia
  */
- 
 var Fx = {
 
 	/**

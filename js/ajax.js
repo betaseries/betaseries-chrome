@@ -1,9 +1,8 @@
 /**
  * Classe Ajax
- * @author Menencia
  *
+ * @author Menencia
  */
- 
 var bgPage = chrome.extension.getBackgroundPage();
 
 var ajax = {
