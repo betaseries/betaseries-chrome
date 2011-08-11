@@ -100,11 +100,25 @@ $(document).ready(function(){
 	 * Accéder à la fiche d'un épisode
 	 */
 	 $('.num').live('click', function(){
-		var node = $(this).parent().parent();
-		var url = node.parent().attr('id');
-		var season = node.attr('season');
-		var episode = node.attr('episode');
-		BS.showsEpisodes(url, season, episode);
+		var view = BS.currentPage.name;
+		
+		if (view == 'membersEpisodes') {
+			var node = $(this).parent().parent();
+			var url = node.parent().attr('id');
+			var season = node.attr('season');
+			var episode = node.attr('episode');
+			var show = $('#'+url+' .showtitle').text();
+		} else if (view == 'planningMember') {
+			var node = $(this).parent();
+			var url = node.attr('url');
+			var season = node.attr('season');
+			var episode = node.attr('episode');
+			var show = $(this).prev().text();
+		}
+		
+		console.log(url+' '+season+' '+episode+' '+show);
+		
+		BS.showsEpisodes(url, season, episode, show);
 		return false;
 	});
 	

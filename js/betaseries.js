@@ -140,7 +140,7 @@ var BS = {
 	 *
 	 * @bug : La valeur de downloaded est fausse
 	 */
-	showsEpisodes: function(url, season, episode){
+	showsEpisodes: function(url, season, episode, show){
 		this.load({
 			id: 'showsEpisodes.'+url+'.'+'season'+'.'+episode,
 			name: 'showsEpisodes',
@@ -157,7 +157,7 @@ var BS = {
 				
 				var output = '<div id="'+url+'" season="'+data['0']['number']+'" episode="'+episode.episode+'">';
 				output += '<div style="float:left; width:176px; padding-right:5px;">';
-				output += 	'<div class="showtitle">'+url+'</div>';
+				output += 	'<div class="showtitle">'+show+'</div>';
 				output += 	'<div><span class="num">['+episode.number+']</span> '+episode.title+'</div>';
 				output += 	'<div><span class="date">'+Fx._date('D d F', episode.date)+'</span></div>';
 				output += 	'<div style="height:10px;"></div>';
@@ -210,9 +210,10 @@ var BS = {
 				
 					output += '<div class="episode '+Fx._date('D', data[e].date).toLowerCase()+'">';
 					
-					output += '<div class="left">';
+					output += '<div url="'+data[e].url+'" season="'+data[e].season+'" episode="'+data[e].episode+'" class="left">';
 					output += '<img src="../img/plot_'+plot+'.gif" /> ';
-					output += data[e].show+' <span class="num">['+data[e].number+']</span>';
+					output += '<span class="show">'+data[e].show+'</span> ';
+					output += '<span class="num">['+data[e].number+']</span>';
 					output += '</div>';
 					
 					output += '<div class="right">';
