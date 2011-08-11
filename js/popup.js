@@ -157,7 +157,6 @@ $(document).ready(function(){
 	
 	/**
 	 * HOVER - Archiver une série
-	 * @see https://www.betaseries.com/bugs/api/23
 	 */
 	$('.archive').live('click', function(){
 		show = $(this).parent().parent().attr('id');
@@ -166,7 +165,7 @@ $(document).ready(function(){
 		$('#'+show).slideUp();
 		
 		ajax.post("/shows/archive/"+show, "", 
-			function () {load('episodes', false, true/*, true, true*/)},
+			function () {BS.clean('membersEpisodes.all');},
 			function () {registerAction("/shows/archive/"+show, "")}
 		);
 		return false;
@@ -284,7 +283,6 @@ $(document).ready(function(){
 	DB.init();
 	if (bgPage.connected()) {
 		var badgeType = DB.get('badge.type', 'membersEpisodes');
-		BS.currentPage = null;
 		BS[badgeType]();
 	} else {
 		BS.connection();

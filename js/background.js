@@ -1,10 +1,8 @@
 /**
  * Background.js
- * Init & auto-update processes
+ * Gestion du badge
  * 
  * @author Menencia
- * 
- * 
  */
 
 var badge = {

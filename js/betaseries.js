@@ -14,8 +14,9 @@ var menu = {
 
 /**
  * Classe BetaSeries
- * @author Menencia
+ * Gestion des pages 
  *
+ * @author Menencia
  */
 var BS = {
 
