@@ -116,8 +116,6 @@ $(document).ready(function(){
 			var show = $(this).prev().text();
 		}
 		
-		console.log(url+' '+season+' '+episode+' '+show);
-		
 		BS.showsEpisodes(url, season, episode, show);
 		return false;
 	});

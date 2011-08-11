@@ -42,6 +42,7 @@ var BS = {
 		var update = (time - updatePage > 3600 || (this.currentPage && this.currentPage.id == o.id));
 		
 		// Enregistrement de la page actuelle
+		var lastPage = this.currentPage;
 		this.currentPage = o;
 		
 		// Mise à jour du cache de la page
@@ -65,6 +66,7 @@ var BS = {
 				if (DB.get('page.'+o.id, null) != null) {
 					BS.view(o);
 				} else {
+					BS.currentPage = lastPage;
 					console.log('Pas de connexion.');
 				}
 				
