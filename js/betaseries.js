@@ -53,7 +53,7 @@ var BS = {
 				var tab = data.root[r];
 				
 				// Opérations supp. sur les données reçues
-				if (o.postData) o.postData(tab);
+				if (o.postData) tab = o.postData(tab);
 				
 				// Mise à jour du cache de la page
 				DB.set('page.'+o.id, JSON.stringify(tab));
