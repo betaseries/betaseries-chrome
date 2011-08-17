@@ -65,7 +65,6 @@ var badge = {
 				membersNotifications: [200, 50, 50, 255],
 				membersEpisodes: [50, 50, 200, 255]
 			};
-			console.log(value);
 			chrome.browserAction.setBadgeBackgroundColor({color: colors[type]});		
 			chrome.browserAction.setBadgeText({text: ""+value});
 		}
@@ -79,10 +78,26 @@ var badge = {
 	autoUpdate: function() {
 		if (connected()){
 			this.update();
-			setTimeout(this.update, 1000*60*60); 
+			setTimeout(function{
+				this.update();
+				cleanCache();
+			}, 1000*3600); 
 		}
 	}
 
+};
+
+var cleanCache = function(){
+	var time = Math.floor(new Date().getTime() / 1000);
+	for(var i in localStorage){
+		if (i.indexOf('update.') == 0) {
+			if (time - localStorage[i] >= 3600) {
+				var suffix = i.substring(7);
+				DB.remove('update.' + suffix);
+				DB.remove('page.' + suffix);
+			}
+		}
+	}
 };
 
 /**
