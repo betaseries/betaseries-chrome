@@ -126,9 +126,11 @@ $(document).ready(function(){
 	$('.num').live({
 		mouseenter: function(){ 
 			$(this).css('cursor','pointer');
+			$(this).css('color','#900');
 		}, 
 		mouseleave: function(){ 
 			$(this).css('cursor','auto');
+			$(this).css('color','#1a4377');
 		}
 	});
 	
