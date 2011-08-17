@@ -30,9 +30,10 @@ img.archive:hover{cursor: pointer;}
 	font-variant: small-caps; 
 	font-size: 20px;  
 	letter-spacing: 2px;
+	margin-right: 2px;
 }
 #logoLink:hover {
-	text-decoration: none;
+	text-decoration: underline;
 }
 
 /*Actions*/
