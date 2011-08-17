@@ -78,26 +78,10 @@ var badge = {
 	autoUpdate: function() {
 		if (connected()){
 			this.update();
-			setTimeout(function{
-				this.update();
-				cleanCache();
-			}, 1000*3600); 
+			setTimeout(this.update, 1000*3600); 
 		}
 	}
 
-};
-
-var cleanCache = function(){
-	var time = Math.floor(new Date().getTime() / 1000);
-	for(var i in localStorage){
-		if (i.indexOf('update.') == 0) {
-			if (time - localStorage[i] >= 3600) {
-				var suffix = i.substring(7);
-				DB.remove('update.' + suffix);
-				DB.remove('page.' + suffix);
-			}
-		}
-	}
 };
 
 /**
