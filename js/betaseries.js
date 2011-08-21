@@ -5,6 +5,10 @@ var __ = function(msgname){
 	return chrome.i18n.getMessage(msgname);
 };
 
+/**
+ * Menu
+ *
+ */
 var menu = {
 	show: function(){$('.action').show();},
 	hide: function(){$('.action').hide();},
@@ -20,62 +24,42 @@ var menu = {
  */
 var BS = {
 
-	/**/
+	/* Vue actuelle */
 	currentPage: null,
+	
+	/* Vue chargée */
+	loadedPage: null,
+	
+	/**
+	 * Charger les infos d'une page
+	 *
+	 */
+	load: function() {
+		var args = Array.prototype.slice.call(arguments);
+		this.loadedPage = BS[arguments[0]].apply(args.shift(), args);
+		return this;
+	},
 
 	/**
-	 * Mettre à jour les données de la page
+	 * Mettre à jour les données de la page && afficher la page
 	 *
-	 * array o
-	 * string id			Identifiant de la page
-	 * string name			Nom générique de la page
-	 * string url			Url de correspondance avec l'API BetaSeries
-	 * string params		Paramètres supplémentaires de l'url (optionnel)
-	 * string root			Nom de la racine des données reçues
-	 * function view		Fonction d'affichage des données reçues
 	 */
-	load: function(o){
+	refresh: function() {
+		o = this.loadedPage;
 		
 		// Vérification du cache de la page [3600s]
 		var time = Math.floor(new Date().getTime() / 1000);
 		var updatePage = DB.get('update.'+o.id, 0);
 		var update = (time - updatePage > 3600 || (this.currentPage && this.currentPage.id == o.id));
 		
-		// Enregistrement de la page actuelle
-		var lastPage = this.currentPage;
-		this.currentPage = o;
-		
 		// Mise à jour du cache de la page
 		if (update) {
-			var params = o.params || ''; 
-			ajax.post(o.url, params, function (data) {
-				var r = o.root;
-				var tab = data.root[r];
-				
-				// Opérations supp. sur les données reçues
-				if (o.postData) tab = o.postData(tab);
-				
-				// Mise à jour du cache de la page
-				DB.set('page.'+o.id, JSON.stringify(tab));
-				DB.set('update.'+o.id, time);
-				
-				// Affichage de le page
-				BS.view(o);
-			}, function(){
-				// Affichage de la page
-				if (DB.get('page.'+o.id, null) != null) {
-					BS.view(o);
-				} else {
-					BS.currentPage = lastPage;
-					console.log('Pas de connexion.');
-				}
-				
-				// Affichage de la page si pas de connexion
-				BS.view(o);
-			});
+			BS.update(function(){
+				BS.display();
+			});	
 		} else {
-			// Affichage de la page
-			this.view(o);
+			// Affichage de la page en cache
+			BS.display();
 			
 			// Indique qu'on utilise les données de cache
 			$('#status').attr('src', '../img/plot_orange.gif');
@@ -83,29 +67,59 @@ var BS = {
 	},
 	
 	/**
+	 * Mettre à jour les données de la page
+	 *
+	 */
+	update: function(callback) {
+		o = this.loadedPage;
+		
+		var params = o.params || ''; 
+		ajax.post(o.url, params, function (data) {
+			var r = o.root;
+			var tab = data.root[r];
+			
+			// Opérations supp. sur les données reçues
+			if (o.postData) {
+				tab = o.postData(tab);
+			}
+			
+			// Mise à jour du cache de la page
+			var time = Math.floor(new Date().getTime() / 1000);
+			DB.set('page.'+o.id, JSON.stringify(tab));
+			DB.set('update.'+o.id, time);
+			
+			// Callback
+			if (callback) {
+				callback();
+			}
+		}, function(){
+			// Callback
+			if (callback) {
+				callback();
+			}
+		});
+	},
+	
+	/**
 	 * Afficher la page
 	 *
-	 * array o
 	 */
-	view: function(o){
-		// Recherche et affichage des données
-		if(o.url){
-			var data = JSON.parse(DB.get('page.'+o.id));
-			if (data) {
-				$('#page').html(o.content(data));
-				
-				// Titre et classe
-				$('#title').text(__(o.name));
-				$('#page').removeClass().addClass(o.name);				
-			}
-		}else{ 
-			var content = o.content();
-			$('#page').html(content);
-			
-			// Titre et classe
-			$('#title').text(__(o.name));
-			$('#page').removeClass().addClass(o.name);			
+	display: function() {
+		o = this.loadedPage;
+		this.currentPage = o;
+		
+		// Recherche d'un cache de page existant
+		var cache = DB.get('page.'+o.id, null);
+		if (cache) {
+			data = JSON.parse(cache);
+			$('#page').html(o.content(data));
+		} else {
+			$('#page').html(o.content());
 		}
+		
+		// Titre et classe
+		$('#title').text(__(o.name));
+		$('#page').removeClass().addClass(o.name);
 	},
 	
 	/**
@@ -117,16 +131,12 @@ var BS = {
 		DB.remove('update.'+id);
 	},
 	
-	refresh: function(){
-		this.load(this.currentPage);
-	},
-	
 	/**
 	 *
 	 *
 	 */
 	showsDisplay: function(url){
-		this.load({
+		return {
 			id: 'showsDisplay.'+url,
 			name: 'showsDisplay',
 			url: '/display/show/'+url,
@@ -135,7 +145,7 @@ var BS = {
 				output = 'test';
 				return output;
 			}
-		});
+		};
 	},
 	
 	/**
@@ -143,7 +153,7 @@ var BS = {
 	 * @bug : La valeur de downloaded est fausse
 	 */
 	showsEpisodes: function(url, season, episode, show){
-		this.load({
+		return {
 			id: 'showsEpisodes.'+url+'.'+'season'+'.'+episode,
 			name: 'showsEpisodes',
 			url: '/shows/episodes/'+url,
@@ -174,12 +184,12 @@ var BS = {
 				output += '</div>';
 				return output;
 			}
-		});
+		};
 	},
 	
 	planningMember: function(login){
 		if(!login) login = DB.get('member.login');
-		this.load({
+		return {
 			id: 'planningMember.'+login,
 			name: 'planningMember',
 			url: '/planning/member/'+login,
@@ -228,12 +238,12 @@ var BS = {
 				}
 				return output;
 			}
-		});
+		};
 	},
 	
 	membersInfos: function(login){
 		if(!login) login = DB.get('member.login');
-		this.load({
+		return {
 			id: 'membersInfos.'+login,
 			name: 'membersInfos',
 			url: '/members/infos/'+login,
@@ -249,12 +259,12 @@ var BS = {
 				output += '</td></tr></table>';
 				return output;
 			}
-		});
+		};
 	},
 	
 	membersEpisodes: function(lang){
 		if(!lang) lang = 'all';
-		this.load({	
+		return {	
 			id: 'membersEpisodes.'+lang,
 			name: 'membersEpisodes',
 			url: '/members/episodes/'+lang,
@@ -374,11 +384,11 @@ var BS = {
 				
 				return output;
 			}
-		});
+		};
 	},
 	
 	membersNotifications: function(){
-		this.load({
+		return {
 			id: 'membersNotifications',
 			name: 'membersNotifications',
 			url: '/members/notifications',
@@ -411,11 +421,11 @@ var BS = {
 				if (nbrNotifications==0) output = "<div>Aucune notification !</div>";
 				return output;
 			}
-		});
+		};
 	},
 	
 	timelineFriends: function(){
-		this.load({
+		return {
 			id: 'timelineFriends',
 			name: 'timelineFriends',
 			url: '/timeline/friends',
@@ -432,11 +442,11 @@ var BS = {
 				}
 				return output;
 			}
-		});
+		};
 	},
 	
 	connection: function(){
-		this.view({
+		return {
 			id: 'connection',
 			name: 'connection',
 			content: function(){
@@ -449,11 +459,11 @@ var BS = {
 					+'</form>';
 				return output;
 			}
-		});
+		};
 	}, 
 	
 	blog: function(){
-		this.view({
+		return {
 			id: 'blog',
 			name: 'blog',
 			content: function(){
@@ -477,7 +487,7 @@ var BS = {
 				});
 				return output;
 			}
-		});
+		};
 	}
 
 };

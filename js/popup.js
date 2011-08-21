@@ -27,7 +27,7 @@ $(document).ready(function(){
 		
 		// On lance la requête en fond
 		ajax.post("/members/watched/"+show, params, 
-			function () {BS.clean('membersEpisodes.all'); bgPage.badge.update();},
+			function () {BS.load('membersEpisodes').update(); bgPage.badge.update();},
 			function () {registerAction("/members/watched/"+show, params)}
 		);
 		return false;
@@ -269,19 +269,19 @@ $(document).ready(function(){
 	
 	// MENU sections
 	$('#planning')
-		.live('click', function(){BS.planningMember(); return false;})
+		.live('click', function(){BS.load('planningMember').refresh(); return false;})
 		.attr('title', __("planningMember"));
 	$('#episodes')
-		.live('click', function(){BS.membersEpisodes(); return false;})
+		.live('click', function(){BS.load('membersEpisodes').refresh(); return false;})
 		.attr('title', __("membersEpisodes"));
 	$('#timeline')
-		.live('click', function(){BS.timelineFriends(); return false;})
+		.live('click', function(){BS.load('timelineFriends').refresh(); return false;})
 		.attr('title', __("timelineFriends"));
 	$('#notifications')
-		.live('click', function(){BS.membersNotifications(); return false;})
+		.live('click', function(){BS.load('membersNotifications').refresh(); return false;})
 		.attr('title', __("membersNotifications"));
 	$('#infos')
-		.live('click', function(){BS.membersInfos(); return false;})
+		.live('click', function(){BS.load('membersInfos').refresh(); return false;})
 		.attr('title', __("membersInfos"));
 	
 	/**
@@ -296,9 +296,9 @@ $(document).ready(function(){
 	 */
 	DB.init();
 	if (bgPage.connected()) {
-		Fx._cleanCache();
+		//Fx._cleanCache();
 		var badgeType = DB.get('badge.type', 'membersEpisodes');
-		BS[badgeType]();
+		BS.load(badgeType).refresh();
 	} else {
 		BS.connection();
 	}
