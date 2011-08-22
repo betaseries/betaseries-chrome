@@ -321,7 +321,7 @@ $(document).ready(function(){
 	 */
 	DB.init();
 	if (bgPage.connected()) {
-		//Fx._cleanCache();
+		Fx._cleanCache();
 		var badgeType = DB.get('badge.type', 'membersEpisodes');
 		BS.load(badgeType).refresh();
 	} else {
