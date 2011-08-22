@@ -190,7 +190,7 @@ $(document).ready(function(){
 	 */
 	$('#connect').live('submit', function(){
 		var login = $('#login').val();
-		var password = calcMD5($('#password').val());
+		var password = hex_md5($('#password').val());
 		var inputs = $(this).find('input').attr({disabled: 'disabled'});
 		var params = "&login=" + login + "&password=" + password;
 		ajax.post("/members/auth", params, function (data) {
