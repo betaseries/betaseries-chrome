@@ -1,4 +1,11 @@
 /**
+ * Internationalisation
+ */
+var __ = function(msgname){
+	return chrome.i18n.getMessage(msgname);
+};
+
+/**
  * Functions (Fx)
  *
  * @author Menencia
@@ -49,7 +56,7 @@ var Fx = {
 	                return n;
 	            }
 	        },
-	        txt_words = ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"],
+	        txt_words = [__("sun"), __("mon"), __("tue"), __("wed"), __("thu"), __("fri"), __("sat"), __("january"), __("february"), __("march"), __("april"), __("may"), __("june"), __("july"), __("august"), __("september"), __("october"), __("november"), __("december")],
 	        txt_ordin = {
 	            1: "st",
 	            2: "nd",
@@ -251,11 +258,4 @@ var Fx = {
 	    return this.date(format, timestamp);
 	}
 
-};
-
-/**
- * Internationalisation
- */
-var __ = function(msgname){
-	return chrome.i18n.getMessage(msgname);
 };
