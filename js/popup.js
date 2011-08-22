@@ -232,9 +232,18 @@ $(document).ready(function(){
 	/**
 	 * Montrer ou cacher les épisodes en trop
 	 */
-	$('.showEpisodes').live('click', function() { 
-		var hiddens = $(this).parent().parent().find('div.hidden');
+	$('.toggleEpisodes').live('click', function() { 
+		var hiddens = $(this).parent().find('div.episode.hidden');
 		hiddens.slideToggle();
+		
+		var labelRemain = $(this).find('.labelRemain');
+		console.log(labelRemain);
+		if (labelRemain.text() == __('hide_episodes')) {
+			labelRemain.text(__('show_episodes'));
+		} else {
+			labelRemain.text(__('hide_episodes'));
+		}
+		
 		return false;
 	});
 	

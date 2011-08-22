@@ -42,6 +42,9 @@
 	"september": {"message": "Sept"},
 	"october": {"message": "Oct"},
 	"november": {"message": "Nov"},
-	"december": {"message": "Déc"}
+	"december": {"message": "Déc"},
+	
+	"show_episodes": {"message": "Voir"},
+	"hide_episodes": {"message": "Cacher"}
 	
 }

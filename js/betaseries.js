@@ -281,10 +281,11 @@ var BS = {
 						// Episodes cachés
 						var remain = posEpisode-nbrEpisodesPerSerie-1;
 						if (remain > 0) {
-							var texte1;
-							if (remain == 1) texte1 = "Montrer/cacher l'épisode suivant";
-							else if (remain > 1) texte1 = "Montrer/cacher les "+(posEpisode-nbrEpisodesPerSerie-1)+" épisodes suivants";
-							output += '<div class="linkHidden"><img src="../img/downarrow.gif" class="showEpisodes" title="'+texte1+'" /> '+texte1+'</div>';
+							output += '<div class="toggleEpisodes">';
+							output += '<span class="labelRemain">' + __('show_episodes') +'</span>';
+							output += ' (<span class="remain">' + remain + '</span>)';
+							output += ' <img src="../img/downarrow.gif" style="margin-bottom:-2px;" />';
+							output += '</div>';
 						}
 					
 						if (nbrEpisodes>0) output += '</div>';
@@ -373,10 +374,11 @@ var BS = {
 				// Episodes cachés pour la dernière série
 				var remain = posEpisode-nbrEpisodesPerSerie-1;
 				if (remain > 0) {
-					var texte4;
-					if (remain == 1) texte4 = "Montrer/cacher l'épisode suivant";
-					else if (remain > 1) texte4 = "Montrer/cacher les "+(posEpisode-nbrEpisodesPerSerie-1)+" épisodes suivants";
-					output += '<div class="linkHidden"><img src="../img/downarrow.gif" class="showEpisodes" title="'+texte4+'" /> '+texte4+'</div>';
+					output += '<div class="toggleEpisodes">';
+					output += '<span class="labelRemain">' + __('show_episodes') +'</span>';
+					output += ' (<span class="remain">' + remain + '</span>)';
+					output += ' <img src="../img/downarrow.gif" style="margin-bottom:-2px;" />';
+					output += '</div>';
 				}
 							
 				bgPage.badge.update();

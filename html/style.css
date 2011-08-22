@@ -56,7 +56,7 @@ span.new {color: #900; font-size: 9px; font-variant: small-caps;}
 div#message {color: #900; margin: 3px 0 3px 0; text-align: center; background-color: #fc9;}
 .membersEpisodes .left{float:left; width:240px;}
 .membersEpisodes .right{margin-left: 240px; width:45px;}
-div.linkHidden {text-align: right; font-size: 9px; color: #666;}
+div.toggleEpisodes {text-align: right; font-size: 9px; color: #666; margin-right: 10px;}
 div.clear{clear: both;}
 
 /*planningMember*/
