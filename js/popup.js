@@ -170,7 +170,7 @@ $(document).ready(function(){
 	});
 	
 	/**
-	 * HOVER - Archiver une série
+	 * Archiver une série
 	 */
 	$('.archive').live('click', function(){
 		show = $(this).parent().parent().attr('id');
@@ -240,11 +240,27 @@ $(document).ready(function(){
 		console.log(labelRemain);
 		if (labelRemain.text() == __('hide_episodes')) {
 			labelRemain.text(__('show_episodes'));
+			$(this).find('img').attr('src', '../img/downarrow.gif');
 		} else {
 			labelRemain.text(__('hide_episodes'));
+			$(this).find('img').attr('src', '../img/uparrow.gif');
 		}
 		
 		return false;
+	});
+	
+	/**
+	 * HOVER - Montrer ou cacher les épisodes en trop
+	 */
+	$('.toggleEpisodes').live({
+		mouseenter: function() { 
+			$(this).css('cursor','pointer');
+			$(this).css('color','#900');
+		},
+		mouseleave: function() { 
+			$(this).css('cursor','auto');
+			$(this).css('color','#000');
+		}
 	});
 	
 	// HEADER links
