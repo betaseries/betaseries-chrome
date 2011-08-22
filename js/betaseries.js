@@ -92,7 +92,7 @@ var BS = {
 			if (callback) {
 				callback();
 			}
-		}, function(){
+		}, function() {
 			// Callback
 			if (callback) {
 				callback();

@@ -74,7 +74,7 @@ $(document).ready(function(){
 		else if ($(this).attr('src') == '../img/folder_add.png') $(this).attr('src', '../img/folder_delete.png');
 		
 		ajax.post("/members/downloaded/"+show, params, 
-			function () {BS.clean('membersEpisodes.all');},
+			function () {BS.load('membersEpisodes').update();},
 			function () {registerAction("/members/downloaded/"+show, params)}
 		);
 		return false;
@@ -116,7 +116,7 @@ $(document).ready(function(){
 			var show = $(this).prev().text();
 		}
 		
-		BS.showsEpisodes(url, season, episode, show);
+		BS.load('showsEpisodes', url, season, episode, show).refresh();
 		return false;
 	});
 	
@@ -179,7 +179,7 @@ $(document).ready(function(){
 		$('#'+show).slideUp();
 		
 		ajax.post("/shows/archive/"+show, "", 
-			function () {BS.clean('membersEpisodes.all');},
+			function () {BS.load('membersEpisodes').refresh();},
 			function () {registerAction("/shows/archive/"+show, "")}
 		);
 		return false;
@@ -202,7 +202,7 @@ $(document).ready(function(){
 				DB.set('member.login', login);
 				DB.set('member.token', data.root.member.token);
 				menu.show();
-				BS.membersEpisodes();
+				BS.load('membersEpisodes').refresh();
 			}else{
 				$('#password').attr('value', '');
 				message('<img src="../img/inaccurate.png" /> Login et/ou password incorrects!');
@@ -258,7 +258,7 @@ $(document).ready(function(){
 			ajax.post("/members/destroy", '', function(){
 				DB.removeAll();
 				bgPage.badge.init();
-				BS.connection();
+				BS.load('connection').refresh();
 			});
 			return false;
 		})
@@ -300,7 +300,7 @@ $(document).ready(function(){
 		var badgeType = DB.get('badge.type', 'membersEpisodes');
 		BS.load(badgeType).refresh();
 	} else {
-		BS.connection();
+		BS.load('connection').display();
 	}
 	
 });
