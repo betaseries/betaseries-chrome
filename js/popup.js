@@ -25,6 +25,14 @@ $(document).ready(function(){
 		// On fait apparaitre les suivants
 		$('#'+show+' .episode:hidden:lt('+n+')').slideToggle();
 		
+		// Mise à jour du remain
+		var remain = node.parent().find('.remain');
+		var newremain = parseInt(remain.text()) - n;
+		remain.text(newremain);
+		if (newremain<1) {
+			remain.parent().hide();
+		}
+		
 		// On lance la requête en fond
 		ajax.post("/members/watched/"+show, params, 
 			function () {BS.load('membersEpisodes').update(); bgPage.badge.update();},
