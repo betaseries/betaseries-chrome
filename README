@@ -5,7 +5,7 @@
 !!Fonctionnalités.
 
 * Connexion/Déconnexion à un compte Bétaséries
-* Plusieurs vues disponibles : planning, épisodes non vus, événements, notifications, compte
+* Plusieurs vues disponibles : planning, épisodes non vus, événements, notifications, compte, profil d'un épisode
 * Possibilité de marquer comme vu un ou plusieurs épisodes
 * Possibilité de marquer comme téléchargé ou pas un épisode
 * Possibilité de télécharger le meilleur sous-titre actuel (VF ou VO)
@@ -27,33 +27,21 @@ _Note_ : Il vous est conseillé de vous déconnecter après utilisation, uniquem
 
 !!Version actuelle
 
-*Version 0.4
-**Vitesse de chargement du popup amélioré !
-**Ajout de 2 nouvelles sections : notifications et événements !
-**Nouveaux boutons d'actions : actualisation, options, déconnexion, fermeture du popup.
-**Système de mise en cache des données (1h) pour une navigation plus fluide. (vous pouvez actualiser pour vider le cache)
-**Possibilité d'archiver une série ! (croix à coté du titre de la série, dans la section "épisodes non vus")
-**Nouveau système de notifications : en rouge, les notifications du site de BetaSeries, en bleu, les notifications des épisodes non vus (ou non téléchargés)
-
-*Version 0.4.1 
-**Mise en place d'un historique des notifications (limité à 10)
-**Correction de mise en page des notifications
-**Le titre de la page a été déplacé sous le logo
-**Correction du bug qui empêche d'afficher la page des options 
-
-*Version 0.4.2
-**Ajout de l'option 'afficher le numéro global d'un épisode'
-**Correction du bug qui empêche d'afficher la page des notifications après connexion
-**Nouvelle mise en page plus simple des options
-**Correction de la bulle d'aide des sous-titres
-
-!!Problèmes connus
-
-*Impossible d'afficher la page des notifications
+*Version 0.5
+**Réécriture totale du code (pour mieux supporter les prochaines fonctionnalités)
+**Ajout de la vue "profil d'un épisode"
+**Ajout d'un forum de suggestions
+**Ajout de nouveaux effets d'animations
+**Possibilité de marquer un épisode comme vu dans une liste déroulée sans la refermer
+**Seules les pages du menu sont gardés en cache
+**Divers changements de mise en page
+**Correction d'un bug empêchant l'affichage de nouvelles notification
+**Correction d'un bug empêchant la connexion avec un mot de passe comprenant des caractères UTF8
+**Correction de l'encodage des caractères des noms de mois
 
 !! Votre avis
 
-Vous pouvez aussi donner votre avis pour m'aider à améliorer l'extension ;)
+Vous avez des [suggestions|http://chromeseries.uservoice.com] ?
 N'hésitez pas à commenter et/ou noter cette extension.
 
 !!Liens
