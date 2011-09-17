@@ -17,7 +17,8 @@
 	
 	"connection": {"message": "Connexion"},
 	
-	"archive": {"message": "Archiver"},
+	"archive": {"message": "Archiver la série"},
+	"unarchive": {"message": "Sortir la série des archives"},
 	
 	"badge_notification_type": {"message": "Type de notification : "},
 	"dl_srt_language": {"message": "Langage des sous-titres d'un épisode : "},

@@ -20,12 +20,11 @@ div.showtitle {
 	margin-top: 6px;
 	height: 12px;
 }
-img.archive{
-	display:none; 
+img.archive,img.unarchive{
 	margin-bottom:-1px; 
 	height:11px;
 }
-img.archive:hover{cursor: pointer;}
+img.archive:hover,img.unarchive:hover{cursor: pointer;}
 #logoLink, #logoLink:visited {
 	font-variant: small-caps; 
 	font-size: 20px;  

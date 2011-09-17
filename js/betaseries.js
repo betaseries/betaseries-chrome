@@ -257,6 +257,17 @@ var BS = {
 				output += data.stats.seasons+" saisons, "+data.stats.episodes+" épisodes<br />";
 				output += "Avancement : "+data.stats.progress+"<br />";
 				output += '</td></tr></table>';
+				
+				output += '<div class="showtitle">Séries archivées</div>';
+				for (var i in data.shows) {
+					if (data.shows[i].archive === "1") {
+						output += '<div class="episode" id="'+data.shows[i].url+'">';
+						output += data.shows[i].title;
+						output += ' <img src="../img/unarchive.png" class="unarchive" title="'+__("unarchive")+'" />';
+						output += '</div>';
+					}
+				}
+				
 				return output;
 			}
 		};

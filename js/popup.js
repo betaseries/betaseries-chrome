@@ -166,18 +166,6 @@ $(document).ready(function(){
 	});
 	
 	/**
-	 * HOVER - Faire apparaître les actions liés à la série
-	 */
-	$('.showtitle').live({
-		mouseenter: function(){ 
-			$(this).find('img').show();
-		},
-		mouseleave: function(){ 
-			$(this).find('img').hide();
-		}
-	});
-	
-	/**
 	 * Archiver une série
 	 */
 	$('.archive').live('click', function(){
@@ -189,6 +177,22 @@ $(document).ready(function(){
 		ajax.post("/shows/archive/"+show, "", 
 			function () {BS.load('membersEpisodes').refresh();},
 			function () {registerAction("/shows/archive/"+show, "")}
+		);
+		return false;
+	});
+	
+	/**
+	 * Sortir une série des archives
+	 */
+	$('.unarchive').live('click', function(){
+		show = $(this).parent().attr('id');
+		
+		// On ajoute la série tout de suite
+		$('#'+show).find('img').hide();
+		
+		ajax.post("/shows/unarchive/"+show, "", 
+			function () {BS.load('membersEpisodes').refresh(); BS.load('membersInfos').refresh();},
+			function () {registerAction("/shows/unarchive/"+show, "")}
 		);
 		return false;
 	});
