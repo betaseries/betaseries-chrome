@@ -12,6 +12,11 @@ var __ = function(msgname){
  */
 var Fx = {
 
+	_openTab: function(url, selected){
+		chrome.tabs.create({"url": url, "selected": selected});
+		return false;
+	},
+
 	/**
 	 * Concaténer plusieurs objets (notifications page)
 	 */

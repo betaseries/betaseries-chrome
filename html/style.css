@@ -50,7 +50,7 @@ img.archive:hover,img.unarchive:hover{cursor: pointer;}
 td#actions {text-align: right;}
 td#actions img.action {opacity: 0.5; cursor: pointer;}
 td#actions img.action:hover {opacity: 1.0; cursor: pointer;}
-td#menu {width:100px; text-align:right;}
+td#menu {width:115px; text-align:right;}
 td#menu img.action {opacity: 0.5; cursor: pointer;}
 td#menu img.action:hover {opacity: 1.0; cursor: pointer;}
 td#title {color: #aaa; font-variant: small-caps;}

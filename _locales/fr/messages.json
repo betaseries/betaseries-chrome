@@ -9,6 +9,7 @@
 	"logout": {"message": "Déconnexion"},
 	"close": {"message": "Fermer"},
 	
+	"blog": {"message": "Blog"},
 	"planningMember": {"message": "Planning"},
 	"membersEpisodes": {"message": "Episodes non vus"},
 	"timelineFriends": {"message": "Evénements"},

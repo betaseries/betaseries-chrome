@@ -150,8 +150,7 @@ $(document).ready(function(){
 	 * Télécharger les sous-titres d'un épisode
 	 */
 	$('.subs').live('click', function(){
-		openTab($(this).attr('link'), false);
-		return false;
+		Fx._openTab($(this).attr('link'), false);
 	});
 	
 	/**
@@ -179,7 +178,11 @@ $(document).ready(function(){
 		$('#'+show).slideUp();
 		
 		ajax.post("/shows/archive/"+show, "", 
-			function () {BS.load('membersEpisodes').update();},
+			function () {
+				BS.load('membersEpisodes').update(); 
+				BS.load('membersInfos').update(); 
+				bgPage.badge.update();
+			},
 			function () {registerAction("/shows/archive/"+show, "")}
 		);
 		
@@ -251,13 +254,6 @@ $(document).ready(function(){
 	};
 	
 	/**
-	 * Ouvrir un onglet
-	 */
-	var openTab = function(url, selected) {
-		chrome.tabs.create({"url": url, "selected": selected});
-	};
-	
-	/**
 	 * Montrer ou cacher les épisodes en trop
 	 */
 	$('.toggleEpisodes').live('click', function() { 
@@ -296,10 +292,10 @@ $(document).ready(function(){
 	
 	// HEADER links
 	$('#logoLink')
-		.click(function(){openTab('http://betaseries.com', true); return false;})
+		.click(function(){Fx._openTab('http://betaseries.com', true);})
 		.attr('title', __("logo"));
 	$('#versionLink')
-		.click(function(){openTab('https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true); return false;})
+		.click(function(){Fx._openTab('https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true);})
 		.attr('title', __("version"));
 	
 	// MENU actions
@@ -307,7 +303,7 @@ $(document).ready(function(){
 		.click(function(){BS.refresh(); return false;})
 		.attr('title', __("refresh"));
 	$('#options')
-		.click(function(){openTab(chrome.extension.getURL("../html/options.html"), true); return false;})
+		.click(function(){Fx._openTab(chrome.extension.getURL("../html/options.html"), true);})
 		.attr('title', __("options"));
 	$('#logout')
 		.live('click', function() { 
@@ -324,6 +320,9 @@ $(document).ready(function(){
 		.attr('title', __('close'));
 	
 	// MENU sections
+	$('#blog')
+		.live('click', function(){BS.load('blog').refresh(); return false;})
+		.attr('title', __("blog"));
 	$('#planning')
 		.live('click', function(){BS.load('planningMember').refresh(); return false;})
 		.attr('title', __("planningMember"));

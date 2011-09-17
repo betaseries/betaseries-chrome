@@ -491,13 +491,24 @@ var BS = {
 					async: false,
 					success: function(data){
 						var items = $(data).find('item');
-						for(var n=0; n<items.length; n++){
+						for(var n=0; n<Math.min(5,items.length); n++){
 							var item = $(items[n]);
-							output += '<div class="event">';
-							output += '<div class="left">'+item.find('title').text()+'</div>';
-							//output += '<div class="right"><span class="date">'+Fx._date('D d F', data[n].date)+'</span></div>';
-							output += '<div class="clear"></div>';
+							console.log(item);
+							
+							var titleOrig = item.find('title').text();
+							var title = titleOrig.substring(0,40);
+							if (titleOrig.length>40) title += '..';
+							
+							output += '<div class="showtitle">'+title;
+							//output += ' <span class="date">'+Fx._date('D d F', data[n].date)+'</span>';
 							output += '</div>';
+							
+							var desc = item.find('description').text();
+							var linkOrig = item.find('link').text();
+							var link = '<a href="#" onclick="Fx._openTab(\''+linkOrig+'\');">(Lire l\'article)</a>';
+							output += '<div>'+desc.replace(/<a(.*)a>/, link)+'</div>';
+							
+							output += '<div style="height:11px;"></div>';
 						}
 					}
 				});
