@@ -251,7 +251,6 @@ var BS = {
 			root: 'member',
 			content: function(data){
 				var output = '';
-				console.log(data);
 				output += '<div class="showtitle">'+data.login+'</div>';
 				output += '<img src="'+data.avatar+'" width="50" style="position:absolute; right:0;" />';
 				output += '<div class="episode lun"><img src="../img/infos.png" class="icon"> '+data.stats.friends+' amis</div>';
@@ -261,6 +260,7 @@ var BS = {
 				output += '<div class="episode lun"><img src="../img/script.png" class="icon"> '+data.stats.episodes+' épisodes</div>';
 				output += '<div class="episode lun"><img src="../img/location.png" class="icon">'+data.stats.progress+' <small>(avancement)</small></div>';
 				
+				output += '<div style="height:11px;"></div>';
 				output += '<div class="showtitle">Séries archivées</div>';
 				for (var i in data.shows) {
 					if (data.shows[i].archive === "1") {

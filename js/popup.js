@@ -179,7 +179,7 @@ $(document).ready(function(){
 		$('#'+show).slideUp();
 		
 		ajax.post("/shows/archive/"+show, "", 
-			function () {BS.load('membersEpisodes').refresh();},
+			function () {BS.load('membersEpisodes').update();},
 			function () {registerAction("/shows/archive/"+show, "")}
 		);
 		
@@ -199,7 +199,11 @@ $(document).ready(function(){
 		$('#'+show).hide();
 		
 		ajax.post("/shows/unarchive/"+show, "", 
-			function () {BS.load('membersEpisodes').refresh(); BS.load('membersInfos').refresh();},
+			function () {
+				BS.load('membersEpisodes').update(); 
+				BS.load('membersInfos').update();
+				bgPage.badge.update();
+			},
 			function () {registerAction("/shows/unarchive/"+show, "")}
 		);
 		
