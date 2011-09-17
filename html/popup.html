@@ -16,6 +16,7 @@
 	<script src="../js/md5.js"></script>
 	<script src="../js/functions.js"></script>
 	<script src="../js/jquery.js"></script>
+	<script src="../js/lib/jquery.tinyscrollbar.min.js"></script>
 	<script src="../js/database.js"></script>
 	<script src="../js/ajax.js"></script>
 	<script src="../js/betaseries.js"></script>
@@ -23,6 +24,7 @@
 </head>
 
 <body>
+		
 	<div id="pannel">
 		<table>
 			<tr>
@@ -49,10 +51,20 @@
 			</tr>
 		</table>
 	</div>
-	
+				
 	<div id="message"></div>
 	
-	<div id="page"></div>
+	<div id="scrollbar">
+		<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
+		<div class="viewport">
+			<div class="overview">
+			
+				<div id="page"></div>
+			
+			</div>
+		</div>
+	</div>
+	
 </body>
 
 </html>

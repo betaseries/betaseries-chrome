@@ -38,6 +38,10 @@ $(document).ready(function(){
 			function () {BS.load('membersEpisodes').update(); bgPage.badge.update();},
 			function () {registerAction("/members/watched/"+show, params)}
 		);
+		
+		setTimeout(function(){
+			$('#scrollbar').tinyscrollbar_update('relative');
+		}, 1000);
 		return false;
 	});
 	
@@ -178,6 +182,10 @@ $(document).ready(function(){
 			function () {BS.load('membersEpisodes').refresh();},
 			function () {registerAction("/shows/archive/"+show, "")}
 		);
+		
+		setTimeout(function(){
+			$('#scrollbar').tinyscrollbar_update('relative');
+		}, 1000);
 		return false;
 	});
 	
@@ -194,6 +202,10 @@ $(document).ready(function(){
 			function () {BS.load('membersEpisodes').refresh(); BS.load('membersInfos').refresh();},
 			function () {registerAction("/shows/unarchive/"+show, "")}
 		);
+		
+		setTimeout(function(){
+			$('#scrollbar').tinyscrollbar_update('relative');
+		}, 1000);
 		return false;
 	});
 	
@@ -258,6 +270,9 @@ $(document).ready(function(){
 			$(this).find('img').attr('src', '../img/uparrow.gif');
 		}
 		
+		setTimeout(function(){
+			$('#scrollbar').tinyscrollbar_update('relative');
+		}, 1000);
 		return false;
 	});
 	

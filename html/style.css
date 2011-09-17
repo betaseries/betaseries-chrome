@@ -7,8 +7,19 @@ body {
 a, a:visited {text-decoration: none; color: #009;}
 a:hover {text-decoration: underline; color: #006;}
 
+#scrollbar { width: 300px; clear: both; }
+#scrollbar .viewport { width: 295px; height: 200px; overflow: hidden; position: relative; }
+#scrollbar .overview { list-style: none; position: absolute; left: 0; top: 0; }
+#scrollbar .thumb { background-color: #bbb; }
+#scrollbar .thumb:hover { background-color: #666; }
+#scrollbar .scrollbar { position: relative; float: right; width: 5px; }
+#scrollbar .track { background-color: #fff; height: 100%; width: 3px; position: relative; padding: 0 1px; }
+#scrollbar .thumb { height: 20px; width: 13px; cursor: pointer; overflow: hidden; position: absolute; top: 0; }
+#scrollbar .thumb .end { overflow: hidden; height: 5px; width: 13px; }
+#scrollbar .disable{ display: none; }
+
 /*Pannel*/
-div#pannel table {width: 95%;}
+div#pannel table {width: 300px;}
 div#pannel {border-bottom: 1px solid #bbb;}
 
 /*Logo*/
@@ -45,7 +56,7 @@ td#menu img.action:hover {opacity: 1.0; cursor: pointer;}
 td#title {color: #aaa; font-variant: small-caps;}
 
 /*membersEpisodes*/
-div#page {width: 95%;}
+div#page {width: 294px;}
 div.episode {height: 18px; border-bottom: 1px solid #dcdcdc; padding: 3px 0 0 0;}
 div.episode:hover {background-color: #eee;}
 div.new_show {background-color: #fff3ee;}
@@ -53,8 +64,8 @@ img.subs{cursor: pointer;}
 span.num {color: #1a4377;}
 span.new {color: #900; font-size: 9px; font-variant: small-caps;}
 div#message {color: #900; margin: 3px 0 3px 0; text-align: center; background-color: #fc9;}
-.membersEpisodes .left{float:left; width:240px;}
-.membersEpisodes .right{margin-left: 240px; width:45px;}
+.membersEpisodes .left{float:left; width:250px;}
+.membersEpisodes .right{margin-left: 250px; width:45px;}
 div.toggleEpisodes {text-align: right; font-size: 9px; color: #666; margin-right: 10px;}
 div.clear{clear: both;}
 

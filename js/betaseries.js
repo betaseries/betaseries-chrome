@@ -120,6 +120,7 @@ var BS = {
 		// Titre et classe
 		$('#title').text(__(o.name));
 		$('#page').removeClass().addClass(o.name);
+		$('#scrollbar').tinyscrollbar();
 	},
 	
 	/**
