@@ -4,7 +4,7 @@
 
 !!Fonctionnalités.
 
-* Connexion/Déconnexion à un compte Bétaséries
+* Connexion/Déconnexion à un compte BetaSeries
 * Plusieurs vues disponibles : planning, épisodes non vus, événements, notifications, compte, profil d'un épisode
 * Possibilité de marquer comme vu un ou plusieurs épisodes
 * Possibilité de marquer comme téléchargé ou pas un épisode
@@ -39,6 +39,12 @@ _Note_ : Il vous est conseillé de vous déconnecter après utilisation, uniquem
 **Correction d'un bug empêchant la connexion avec un mot de passe comprenant des caractères UTF8
 **Correction de l'encodage des caractères des noms de mois
 
+*Version 0.5.1
+**Ajout de la section "Blog"
+**Possibilité de sortir une série des archives
+**Nouveau design de la section "Compte"
+**Customisation de la barre de défilement
+
 !! Votre avis
 
 Vous avez des [suggestions|http://chromeseries.uservoice.com] ?
@@ -48,6 +54,5 @@ N'hésitez pas à commenter et/ou noter cette extension.
 
 *[Site Web|http://www.menencia.com]
 *[Profil BetaSeries|http://www.betaseries.com/membres/menencia]
-*[Bugtraker Github|https://github.com/Menencia/chromeseries/issues]
-*[Bugtraker BetaSeries|http://www.betaseries.com/bugs/chromeseries]
+*[Bugtraker|http://www.betaseries.com/bugs/chromeseries]
 *[Page Facebook|http://www.facebook.com/pages/ChromeSeries/199020100116357]
