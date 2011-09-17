@@ -254,12 +254,12 @@ var BS = {
 				console.log(data);
 				output += '<div class="showtitle">'+data.login+'</div>';
 				output += '<img src="'+data.avatar+'" width="50" style="position:absolute; right:0;" />';
-				output += '<div class="episode lun">'+data.stats.friends+' amis</div>';
-				output += '<div class="episode lun">'+data.stats.badges+' badges</div>';
-				output += '<div class="episode lun">'+data.stats.shows+' séries</div>';
-				output += '<div class="episode lun">'+data.stats.seasons+' saisons</div>';
-				output += '<div class="episode lun">'+data.stats.episodes+' épisodes</div>';
-				output += '<div class="episode lun">Avancement: '+data.stats.progress+'</div>';
+				output += '<div class="episode lun"><img src="../img/infos.png" class="icon"> '+data.stats.friends+' amis</div>';
+				output += '<div class="episode lun"><img src="../img/medal.png" class="icon"> '+data.stats.badges+' badges</div>';
+				output += '<div class="episode lun"><img src="../img/episodes.png" class="icon"> '+data.stats.shows+' séries</div>';
+				output += '<div class="episode lun"><img src="../img/report.png" class="icon"> '+data.stats.seasons+' saisons</div>';
+				output += '<div class="episode lun"><img src="../img/script.png" class="icon"> '+data.stats.episodes+' épisodes</div>';
+				output += '<div class="episode lun"><img src="../img/location.png" class="icon">'+data.stats.progress+' <small>(avancement)</small></div>';
 				
 				output += '<div class="showtitle">Séries archivées</div>';
 				for (var i in data.shows) {

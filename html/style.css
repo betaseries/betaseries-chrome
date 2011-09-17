@@ -81,6 +81,8 @@ div.clear{clear: both;}
 .sam {background:#eef6ff;}
 .dim {background:#feeeff;}
 
+.icon{float:left;margin-right:4px;}
+
 /*view timeline, notifications*/
 .timelineFriends .left, .membersNotifications .left {float:left; width:205px;}
 .timelineFriends .right, .membersNotifications .right {margin-left: 205px; width:80px;}
