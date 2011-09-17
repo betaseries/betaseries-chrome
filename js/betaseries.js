@@ -251,13 +251,15 @@ var BS = {
 			root: 'member',
 			content: function(data){
 				var output = '';
-				output += "<table><tr>";
-				output += '<td><img src="'+data.avatar+'" width="50" /></td>';
-				output += '<td>'+data.login+'<br />';
-				output += data.stats.badges+" badges, "+data.stats.shows+" séries<br />";
-				output += data.stats.seasons+" saisons, "+data.stats.episodes+" épisodes<br />";
-				output += "Avancement : "+data.stats.progress+"<br />";
-				output += '</td></tr></table>';
+				console.log(data);
+				output += '<div class="showtitle">'+data.login+'</div>';
+				output += '<img src="'+data.avatar+'" width="50" style="position:absolute; right:0;" />';
+				output += '<div class="episode lun">'+data.stats.friends+' amis</div>';
+				output += '<div class="episode lun">'+data.stats.badges+' badges</div>';
+				output += '<div class="episode lun">'+data.stats.shows+' séries</div>';
+				output += '<div class="episode lun">'+data.stats.seasons+' saisons</div>';
+				output += '<div class="episode lun">'+data.stats.episodes+' épisodes</div>';
+				output += '<div class="episode lun">Avancement: '+data.stats.progress+'</div>';
 				
 				output += '<div class="showtitle">Séries archivées</div>';
 				for (var i in data.shows) {

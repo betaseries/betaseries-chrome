@@ -196,7 +196,7 @@ $(document).ready(function(){
 		show = $(this).parent().attr('id');
 		
 		// On ajoute la série tout de suite
-		$('#'+show).find('img').hide();
+		$('#'+show).hide();
 		
 		ajax.post("/shows/unarchive/"+show, "", 
 			function () {BS.load('membersEpisodes').refresh(); BS.load('membersInfos').refresh();},
