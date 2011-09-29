@@ -120,7 +120,16 @@ var BS = {
 		// Titre et classe
 		$('#title').text(__(o.name));
 		$('#page').removeClass().addClass(o.name);
-		$('#scrollbar').tinyscrollbar();
+		if ($('#page').height() >= 200) {
+			$('.viewport').css('height', 200);
+			$('.viewport').css('overflow', 'hidden');
+			$('.scrollbar').show();
+			$('#scrollbar').tinyscrollbar();
+		} else {
+			$('.viewport').css('height', $('#page').height());
+			$('.viewport').css('overflow', 'inherit');
+			$('.scrollbar').hide();
+		}
 	},
 	
 	/**
