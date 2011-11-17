@@ -120,6 +120,8 @@ var BS = {
 		// Titre et classe
 		$('#title').text(__(o.name));
 		$('#page').removeClass().addClass(o.name);
+		
+		// Réglage de la hauteur du popup
 		if ($('#page').height() >= 200) {
 			$('.viewport').css('height', 200);
 			$('.viewport').css('overflow', 'hidden');
