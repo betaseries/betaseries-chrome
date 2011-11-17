@@ -451,6 +451,27 @@ var BS = {
 		};
 	},
 	
+	commentsEpisode: function(url, season, episode){
+		return {
+			id: 'commentsEpisode.'+url+'.'+season+'.'+episode,
+			name: 'commentsEpisode',
+			url: '/comments/episode/'+url,
+			params: '&season='+season+'&episode='+episode,
+			root: 'comments',
+			content: function(data){
+				var output = '';
+				for(var n in data.reverse()){
+					output += '<div class="event '+Fx._date('D', data[n].date).toLowerCase()+'">';
+					output += '<div class="left"><span class="login">'+data[n].login+'</span> '+data[n].text+'</div>';
+					output += '<div class="right"><span class="date">'+Fx._date('D d F', data[n].date)+'</span></div>';
+					output += '<div class="clear"></div>';
+					output += '</div>';
+				}
+				return output;
+			}
+		};
+	},
+	
 	timelineFriends: function(){
 		return {
 			id: 'timelineFriends',
@@ -504,7 +525,6 @@ var BS = {
 						var items = $(data).find('item');
 						for(var n=0; n<Math.min(5,items.length); n++){
 							var item = $(items[n]);
-							console.log(item);
 							
 							var titleOrig = item.find('title').text();
 							var title = titleOrig.substring(0,40);

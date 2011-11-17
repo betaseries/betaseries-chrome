@@ -83,8 +83,12 @@ div.clear{clear: both;}
 
 .icon{float:left;margin-right:4px;}
 
-/*view timeline, notifications*/
-.timelineFriends .left, .membersNotifications .left {float:left; width:205px;}
-.timelineFriends .right, .membersNotifications .right {margin-left: 205px; width:80px;}
-.timelineFriends div.event, .membersNotifications div.event {padding: 5px 0 5px 0; border-bottom: 1px solid #dcdcdc;}
-.timelineFriends span.login {color: #54709D;}
+/*view timeline, notifications, commentsEpisode*/
+.timelineFriends .left, .membersNotifications .left, .commentsEpisode .left 
+	{float:left; width:205px;}
+.timelineFriends .right, .membersNotifications .right, .commentsEpisode .right 
+	{margin-left: 205px; width:80px;}
+.timelineFriends .event, .membersNotifications .event, .commentsEpisode .event 
+	{padding: 5px 0 5px 0; border-bottom: 1px solid #dcdcdc;}
+.timelineFriends .login, .commentsEpisode .login 
+	{color: #54709D;}

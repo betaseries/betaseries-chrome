@@ -15,6 +15,7 @@
 	"timelineFriends": {"message": "Evénements"},
 	"membersNotifications": {"message": "Notifications"},
 	"membersInfos": {"message": "Compte"},
+	"commentsEpisode": {"message": "Commentaires d'un épisode"},
 	
 	"connection": {"message": "Connexion"},
 	
