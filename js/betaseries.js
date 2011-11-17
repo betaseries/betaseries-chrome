@@ -191,7 +191,8 @@ var BS = {
 				output += '<div style="float:left; width:100px; text-align:center;">';
 				output += 	'<img src="'+episode.screen+'" width="100" style="border:1px solid #999999; padding:1px; margin-top:18px;" /><br />';
 				output += 	'Note moyenne<br />'+episode.note.mean+' ('+episode.note.members+')<br />';
-				output += 	'<img src="../img/'+imgDownloaded+'.png" class="downloaded" title="'+texte3+'" />';
+				output += 	'<img src="../img/'+imgDownloaded+'.png" class="downloaded" title="'+texte3+'" /> ';
+				output += 	'<img src="../img/comment.png" class="commentList" title="Liste des commentaires" />';
 				output += '</div>';
 				output += '</div>';
 				return output;
@@ -460,7 +461,7 @@ var BS = {
 			root: 'comments',
 			content: function(data){
 				var output = '';
-				for(var n in data.reverse()){
+				for(var n in data){
 					output += '<div class="event '+Fx._date('D', data[n].date).toLowerCase()+'">';
 					output += '<div class="left"><span class="login">'+data[n].login+'</span> '+data[n].text+'</div>';
 					output += '<div class="right"><span class="date">'+Fx._date('D d F', data[n].date)+'</span></div>';

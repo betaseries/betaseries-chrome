@@ -109,6 +109,29 @@ $(document).ready(function(){
 	});
 	
 	/**
+	 * Accéder à la liste des commentaires d'un épisode
+	 */
+	$('.commentList').live('click', function(){
+		var view = BS.currentPage.name; 
+		var node = $(this).parent().parent();
+		var season = node.attr('season');
+		var episode = node.attr('episode');
+		var url = node.attr('id');
+		
+		BS.load('commentsEpisode', url, season, episode).refresh();
+		
+		return false;
+	});
+	
+	/**
+	 * HOVER - Accéder à la liste des commentaires d'un épisode
+	 */
+	$('.commentList').live({
+		mouseenter: function(){$(this).css('cursor','pointer');}, 
+		mouseleave: function(){$(this).css('cursor','auto');}
+	});
+	
+	/**
 	 * Accéder à la fiche d'un épisode
 	 */
 	 $('.num').live('click', function(){
