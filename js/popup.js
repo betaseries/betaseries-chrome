@@ -290,7 +290,7 @@ $(document).ready(function(){
 		}
 		if (pass) {
 			ajax.post("/members/signup", params, function (data) {
-				if (data.root.errors) {
+				if (data.root.errors.error) {
 					var err = data.root.errors.error;
 					console.log("error code : " + err.code);
 					message('<img src="../img/inaccurate.png" /> ' + __('err' + err.code));
@@ -301,7 +301,7 @@ $(document).ready(function(){
 					BS.load('connection').display();
 					$('#login').val(login);
 					$('#password').val(password);
-					$('#register').trigger('submit');
+					$('#connect').trigger('submit');
 				}
 			}, function (){
 				$('#password').attr('value', '');
