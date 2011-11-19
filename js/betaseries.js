@@ -504,12 +504,33 @@ var BS = {
 					+'<table><tr><td>Login :</td><td><input type="text" name="login" id="login" /></td></tr>'
 					+'<tr><td>Password :</td><td><input type="password" name="password" id="password" /></td></tr>'
 					+'</table>'
-					+'<div class="valid"><input type="submit" value="Valider"></div>'
+					+'<div class="valid"><input type="submit" value="se connecter"> ou '
+					+'	<a href="#" onclick="BS.load(\'registration\').display(); return false;">s\'inscrire</a></div>'
 					+'</form>';
 				return output;
 			}
 		};
-	}, 
+	},
+	
+	registration: function(){
+		return {
+			id: 'registration',
+			name: 'registration',
+			content: function(){
+				menu.hide();
+				output = '<form id="register">'
+					+'<table><tr><td>Login :</td><td><input type="text" name="login" id="login" /></td></tr>'
+					+'<tr><td>Password :</td><td><input type="password" name="password" id="password" /></td></tr>'
+					+'<tr><td>Répéter password :</td><td><input type="password" name="repassword" id="repassword" /></td></tr>'
+					+'<tr><td>Mail :</td><td><input type="text" name="mail" id="mail" /></td></tr>'
+					+'</table>'
+					+'<div class="valid"><input type="submit" value="s\'inscrire"> ou '
+					+'	<a href="#" onclick="BS.load(\'connection\').display(); return false;">se connecter</a></div>'
+					+'</form>';
+				return output;
+			}
+		};
+	},  
 	
 	blog: function(){
 		return {

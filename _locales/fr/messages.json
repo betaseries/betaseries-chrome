@@ -18,6 +18,14 @@
 	"commentsEpisode": {"message": "Commentaires d'un épisode"},
 	
 	"connection": {"message": "Connexion"},
+	"registration": {"message": "Inscription"},
+	
+	"password_not_matching": {"message": "Mot de passe invalide."},
+	"long_login": {"message": "Login trop long (<24 caractères)."},
+	"err3001": {"message": "Une variable est manquante"},
+	"err3005": {"message": "Caractères non autorisés"},
+	"err3006": {"message": "Adresse e-mail invalide"},
+	"err4004": {"message": "L'utilisateur existe déjà"},
 	
 	"archive": {"message": "Archiver la série"},
 	"unarchive": {"message": "Sortir la série des archives"},

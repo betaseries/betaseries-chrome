@@ -270,6 +270,53 @@ $(document).ready(function(){
 	});
 	
 	/**
+	 * S'inscrire
+	 */
+	$('#register').live('submit', function(){
+		var login = $('#login').val();
+		var password = $('#password').val();
+		var repassword = $('#repassword').val();
+		var mail = $('#mail').val();
+		var inputs = $(this).find('input').attr({disabled: 'disabled'});
+		var params = "&login=" + login + "&password=" + password + "&mail=" + mail;
+		var pass = true;
+		if (password !== repassword) {
+			pass = false;
+			message('<img src="../img/inaccurate.png" /> '+ __("password_not_matching") );
+		}
+		if (login.length > 24) {
+			pass = false;
+			message('<img src="../img/inaccurate.png" /> '+ __("long_login") );
+		}
+		if (pass) {
+			ajax.post("/members/signup", params, function (data) {
+				if (data.root.errors) {
+					var err = data.root.errors.error;
+					console.log("error code : " + err.code);
+					message('<img src="../img/inaccurate.png" /> ' + __('err' + err.code));
+					$('#password').attr('value', '');
+					$('#repassword').attr('value', '');
+					inputs.removeAttr('disabled');
+				} else {
+					BS.load('connection').display();
+					$('#login').val(login);
+					$('#password').val(password);
+					$('#register').trigger('submit');
+				}
+			}, function (){
+				$('#password').attr('value', '');
+				$('#repassword').attr('value', '');
+				inputs.removeAttr('disabled');
+			});
+		} else {
+			$('#password').attr('value', '');
+			$('#repassword').attr('value', '');
+			inputs.removeAttr('disabled');
+		}
+		return false;
+	});
+	
+	/**
 	 * Enregistrer une action offline
 	 */
 	var registerAction = function(category, params){
@@ -331,6 +378,10 @@ $(document).ready(function(){
 	$('#logout')
 		.live('click', function() { 
 			ajax.post("/members/destroy", '', function(){
+				DB.removeAll();
+				bgPage.badge.init();
+				BS.load('connection').refresh();
+			}, function(){
 				DB.removeAll();
 				bgPage.badge.init();
 				BS.load('connection').refresh();
