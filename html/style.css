@@ -1,10 +1,10 @@
 body {
-	font-size: 11px; width: 300px; margin: 0; color: #333;
+	font-size: 11px; width: 301px; margin: 0; color: #333;
 	font-family: "Lucida Grande", "Trebuchet MS", sans-serif;
 }
 
 /*Links*/
-a, a:visited {text-decoration: none; color: #009;}
+a, a:visited {text-decoration: none; color: #009; outline: none;}
 a:hover {text-decoration: underline; color: #006;}
 
 #scrollbar { width: 300px; clear: both; }
@@ -14,8 +14,8 @@ a:hover {text-decoration: underline; color: #006;}
 #scrollbar .thumb:hover { background-color: #666; }
 #scrollbar .scrollbar { position: relative; float: right; width: 5px; }
 #scrollbar .track { background-color: #fff; height: 100%; width: 3px; position: relative; padding: 0 1px; }
-#scrollbar .thumb { height: 20px; width: 13px; cursor: pointer; overflow: hidden; position: absolute; top: 0; }
-#scrollbar .thumb .end { overflow: hidden; height: 5px; width: 13px; }
+#scrollbar .thumb { height: 20px; width: 5px; cursor: pointer; overflow: hidden; position: absolute; top: 0; }
+#scrollbar .thumb .end { overflow: hidden; height: 5px; width: 5px; }
 #scrollbar .disable{ display: none; }
 
 /*Pannel*/

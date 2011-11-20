@@ -131,6 +131,7 @@ var BS = {
 			$('.viewport').css('height', $('#page').height());
 			$('.viewport').css('overflow', 'inherit');
 			$('.scrollbar').hide();
+			$('#scrollbar').tinyscrollbar_update({scroll: false});
 		}
 	},
 	
