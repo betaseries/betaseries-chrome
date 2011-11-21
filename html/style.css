@@ -19,8 +19,7 @@ a:hover {text-decoration: underline; color: #006;}
 #scrollbar .disable{ display: none; }
 
 /*Pannel*/
-div#pannel table {width: 300px;}
-div#pannel {border-bottom: 1px solid #bbb;}
+div#pannel {padding-bottom: 3px; border-bottom: 1px solid #bbb;}
 
 /*Logo*/
 div.showtitle {
@@ -47,13 +46,15 @@ img.archive:hover,img.unarchive:hover{cursor: pointer;}
 }
 
 /*Actions*/
-td#actions {text-align: right;}
-td#actions img.action {opacity: 0.5; cursor: pointer;}
-td#actions img.action:hover {opacity: 1.0; cursor: pointer;}
-td#menu {width:115px; text-align:right;}
-td#menu img.action {opacity: 0.5; cursor: pointer;}
-td#menu img.action:hover {opacity: 1.0; cursor: pointer;}
-td#title {color: #aaa; font-variant: small-caps;}
+#logo {float: left; width: 200px;}
+#actions {text-align: right; padding: 2px 3px 0 0;}
+#actions img.action {opacity: 0.5; cursor: pointer;}
+#actions img.action:hover {opacity: 1.0; cursor: pointer;}
+
+#title {float: left; width: 160px; color: #aaa; font-variant: small-caps;}
+#menu {text-align:right;}
+#menu img.action {opacity: 0.5; cursor: pointer;}
+#menu img.action:hover {opacity: 1.0; cursor: pointer;}
 
 /*membersEpisodes*/
 div#page {width: 294px;}
