@@ -116,9 +116,10 @@ $(document).ready(function(){
 		var node = $(this).parent().parent();
 		var season = node.attr('season');
 		var episode = node.attr('episode');
-		var url = node.attr('id');
+		if (view=='membersEpisodes') var show = node.parent().attr('id');
+		else if (view=='showsEpisodes') var show = node.attr('id');
 		
-		BS.load('commentsEpisode', url, season, episode).refresh();
+		BS.load('commentsEpisode', show, season, episode).refresh();
 		
 		return false;
 	});

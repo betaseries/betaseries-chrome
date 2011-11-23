@@ -389,9 +389,10 @@ var BS = {
 						else {imgDownloaded = "folder_off"; texte3 = "Marquer comme téléchargé";}
 					}
 					output += '<div class="right">';
+					output += '	<img src="../img/comment.png" class="commentList" title="Liste des commentaires" /> ';
 					if (data[n].downloaded != -1)
-						output += '<img src="../img/'+imgDownloaded+'.png" class="downloaded" title="'+texte3+'" />';
-					if (nbSubs>0) output += ' <img src="../img/srt.png" class="subs" link="'+url+'" quality="'+quality+'" title="Qualité SRT '+lang+' : '+quality+'/3" />';
+						output += '<img src="../img/'+imgDownloaded+'.png" class="downloaded" title="'+texte3+'" /> ';
+					if (nbSubs>0) output += '<img src="../img/srt.png" class="subs" link="'+url+'" quality="'+quality+'" title="Qualité SRT '+lang+' : '+quality+'/3" /> ';
 					output += '</div>';
 						
 					// Clear

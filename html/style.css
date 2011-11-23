@@ -65,8 +65,8 @@ img.subs{cursor: pointer;}
 span.num {color: #1a4377;}
 span.new {color: #900; font-size: 9px; font-variant: small-caps;}
 div#message {color: #900; margin: 3px 0 3px 0; text-align: center; background-color: #fc9;}
-.membersEpisodes .left{float:left; width:250px;}
-.membersEpisodes .right{margin-left: 250px; width:45px;}
+.membersEpisodes .left{float:left; width:230px;}
+.membersEpisodes .right{margin-left: 230px; width:60px;}
 div.toggleEpisodes {text-align: right; font-size: 9px; color: #666; margin-right: 10px;}
 div.clear{clear: both;}
 
