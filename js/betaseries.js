@@ -152,7 +152,8 @@ var BS = {
 		return {
 			id: 'showsDisplay.'+url,
 			name: 'showsDisplay',
-			url: '/display/show/'+url,
+			url: '/display/show',
+			params: '&title='+url,
 			root: 'show',
 			content: function(){
 				output = 'test';
@@ -257,6 +258,7 @@ var BS = {
 	
 	membersInfos: function(login){
 		if(!login) login = DB.get('member.login');
+		var myLogin = (login == DB.get('member.login'));
 		return {
 			id: 'membersInfos.'+login,
 			name: 'membersInfos',
@@ -273,14 +275,16 @@ var BS = {
 				output += '<div class="episode lun"><img src="../img/script.png" class="icon"> '+data.stats.episodes+' épisodes</div>';
 				output += '<div class="episode lun"><img src="../img/location.png" class="icon">'+data.stats.progress+' <small>(avancement)</small></div>';
 				
-				output += '<div style="height:11px;"></div>';
-				output += '<div class="showtitle">Séries archivées</div>';
-				for (var i in data.shows) {
-					if (data.shows[i].archive === "1") {
-						output += '<div class="episode" id="'+data.shows[i].url+'">';
-						output += data.shows[i].title;
-						output += ' <img src="../img/unarchive.png" class="unarchive" title="'+__("unarchive")+'" />';
-						output += '</div>';
+				if (myLogin) {
+					output += '<div style="height:11px;"></div>';
+					output += '<div class="showtitle">Séries archivées</div>';
+					for (var i in data.shows) {
+						if (data.shows[i].archive === "1") {
+							output += '<div class="episode" id="'+data.shows[i].url+'">';
+							output += data.shows[i].title;
+							output += ' <img src="../img/unarchive.png" class="unarchive" title="'+__("unarchive")+'" />';
+							output += '</div>';
+						}
 					}
 				}
 				
