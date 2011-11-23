@@ -531,6 +531,23 @@ var BS = {
 				return output;
 			}
 		};
+	},
+	
+	searchForm: function(terms){
+		return {
+			id: 'searchForm',
+			name: 'searchForm',
+			content: function(){
+				output = '<form id="search0">'
+					+'<input type="text" name="terms" id="terms" /> '
+					+'<input type="submit" value="chercher" />'
+					+'</form>'
+					+'<div id="shows-results"></div>'
+					+'<div id="members-results"></div>';
+				//setTimeout(function(){$('#terms').focus()}, 100);
+				return output;
+			}
+		};
 	},  
 	
 	blog: function(){

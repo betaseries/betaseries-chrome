@@ -317,6 +317,48 @@ $(document).ready(function(){
 	});
 	
 	/**
+	 * Faire une recherche
+	 */
+	$('#search0').live('submit', function(){
+		var terms = $('#terms').val();
+		//var inputs = $(this).find('input').attr({disabled: 'disabled'});
+		
+		var params = "&title=" + terms;
+		ajax.post("/shows/search", params, function (data) {
+			if (data.root.shows != undefined) {
+				var content = '';
+				for (var n in data.root.shows) {
+					var show = data.root.shows[n];
+					content += ''+show.title+' <br />';
+				}
+				$('#shows-results').html(content);
+			}else{
+				$('#shows-results').html('Aucune série correspondante.');
+			}
+		}, function (){
+			//inputs.removeAttr('disabled');
+		});
+		
+		var params = "&login=" + terms;
+		ajax.post("/members/search", params, function (data) {
+			if (data.root.members != undefined) {
+				var content = '';
+				for (var n in data.root.members) {
+					var member = data.root.members[n];
+					content += ''+member.login+' <br />';
+				}
+				$('#members-results').html(content);
+			}else{
+				$('#members-results').html('Aucune membre correspondant.');
+			}
+		}, function (){
+			//inputs.removeAttr('disabled');
+		});
+		
+		return false;
+	});
+	
+	/**
 	 * Enregistrer une action offline
 	 */
 	var registerAction = function(category, params){
@@ -412,6 +454,9 @@ $(document).ready(function(){
 	$('#infos')
 		.live('click', function(){BS.load('membersInfos').refresh(); return false;})
 		.attr('title', __("membersInfos"));
+	$('#search')
+		.live('click', function(){BS.load('searchForm').display(); return false;})
+		.attr('title', __("searchForm"));
 	
 	/**
 	 * Afficher le message de confirmation

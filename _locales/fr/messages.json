@@ -19,6 +19,7 @@
 	
 	"connection": {"message": "Connexion"},
 	"registration": {"message": "Inscription"},
+	"searchForm": {"message": "Faire une recherche"},
 	
 	"password_not_matching": {"message": "Mot de passe invalide."},
 	"long_login": {"message": "Login trop long (<24 caractères)."},
