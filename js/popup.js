@@ -326,14 +326,14 @@ $(document).ready(function(){
 		var params = "&title=" + terms;
 		ajax.post("/shows/search", params, function (data) {
 			if (data.root.shows != undefined) {
-				var content = '';
+				var content = '<br /><b>Séries</b><br />';
 				for (var n in data.root.shows) {
 					var show = data.root.shows[n];
-					content += ''+show.title+' <br />';
+					content += '* <a href="#" onclick="BS.load(\'showsDisplay\', \''+show.url+'\').refresh(); return false;">'+show.title+'</a> <br />';
 				}
 				$('#shows-results').html(content);
 			}else{
-				$('#shows-results').html('Aucune série correspondante.');
+				$('#shows-results').html('<br />Aucune série correspondante.');
 			}
 		}, function (){
 			//inputs.removeAttr('disabled');
@@ -342,14 +342,14 @@ $(document).ready(function(){
 		var params = "&login=" + terms;
 		ajax.post("/members/search", params, function (data) {
 			if (data.root.members != undefined) {
-				var content = '';
+				var content = '<br /><b>Membres</b><br />';
 				for (var n in data.root.members) {
 					var member = data.root.members[n];
-					content += ''+member.login+' <br />';
+					content += '* <a href="#" onclick="BS.load(\'membersInfos\', \''+member.login+'\').refresh(); return false;">'+member.login+'</a> <br />';
 				}
 				$('#members-results').html(content);
 			}else{
-				$('#members-results').html('Aucune membre correspondant.');
+				$('#members-results').html('<br />Aucun membre correspondant.');
 			}
 		}, function (){
 			//inputs.removeAttr('disabled');
