@@ -487,6 +487,9 @@ var BS = {
 					output += '</div>';
 					i++;
 				}
+				if (i==1) {
+					output += 'Aucun commentaire pour cet épisode !';
+				}
 				return output;
 			}
 		};
