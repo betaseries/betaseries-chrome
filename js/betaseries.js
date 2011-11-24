@@ -122,17 +122,17 @@ var BS = {
 		$('#page').removeClass().addClass(o.name);
 		
 		// Réglage de la hauteur du popup
+		$('#scrollbar').tinyscrollbar();
 		if ($('#page').height() >= 200) {
 			$('.viewport').css('height', 200);
 			$('.viewport').css('overflow', 'hidden');
 			$('.scrollbar').show();
-			$('#scrollbar').tinyscrollbar();
 		} else {
 			$('.viewport').css('height', $('#page').height());
 			$('.viewport').css('overflow', 'inherit');
 			$('.scrollbar').hide();
-			$('#scrollbar').tinyscrollbar_update({scroll: false});
 		}
+		$('#scrollbar').tinyscrollbar_update();
 	},
 	
 	/**
