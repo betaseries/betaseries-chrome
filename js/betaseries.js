@@ -472,10 +472,18 @@ var BS = {
 			content: function(data){
 				var output = '';
 				var i = 1;
+				var date = '';
 				for(var n in data){
+					var new_date = Fx._date('D d F', data[n].date);
+					if (new_date!=date) {
+						date = new_date;
+						output += '<div class="showtitle">'+date+'</div>';
+					}
 					output += '<div class="event '+Fx._date('D', data[n].date).toLowerCase()+'">';
-					output += '<b>#'+ i +'</b> <span class="login">'+data[n].login+'</span> ';
-					output += '<small>('+Fx._date('D d F', data[n].date)+')</small><br />'+data[n].text;
+					output += '<b>'+Fx._date('H:i', data[n].date)+'</b> ';
+					output += '<span class="login">'+data[n].login+'</span> ';
+					output += '<small>#'+ i +'</small><br />';
+					output += data[n].text;
 					output += '</div>';
 					i++;
 				}
@@ -492,12 +500,17 @@ var BS = {
 			params: '&number=10',
 			root: 'timeline',
 			content: function(data){
-				console.log(data);
 				var output = '';
+				var date = '';
 				for(var n in data){
+					var new_date = Fx._date('D d F', data[n].date);
+					if (new_date!=date) {
+						date = new_date;
+						output += '<div class="showtitle">'+date+'</div>';
+					}
 					output += '<div class="event '+Fx._date('D', data[n].date).toLowerCase()+'">';
-					output += '<b>#</b> <span class="login">'+data[n].login+'</span> ';
-					output += '<small>('+Fx._date('D d F', data[n].date)+')</small><br />'+data[n].html;
+					output += '<b>'+Fx._date('H:i', data[n].date)+'</b> ';
+					output += '<span class="login">'+data[n].login+'</span> '+data[n].html;
 					output += '</div>';
 				}
 				return output;
