@@ -570,7 +570,7 @@ var BS = {
 					+'</form>'
 					+'<div id="shows-results"></div>'
 					+'<div id="members-results"></div>';
-				//setTimeout(function(){$('#terms').focus()}, 100);
+				setTimeout(function(){$('#terms').focus()}, 100);
 				return output;
 			}
 		};
