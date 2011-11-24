@@ -467,11 +467,13 @@ var BS = {
 			root: 'comments',
 			content: function(data){
 				var output = '';
+				var i = 1;
 				for(var n in data){
 					output += '<div class="event '+Fx._date('D', data[n].date).toLowerCase()+'">';
-					output += '<span class="login"><b>#'+(n+1)+'</b> ';
+					output += '<span class="login"><b>#'+ i +'</b> ';
 					output += data[n].login+'</span> <small>('+Fx._date('D d F', data[n].date)+')</small><br />'+data[n].text;
 					output += '</div>';
+					i++;
 				}
 				return output;
 			}

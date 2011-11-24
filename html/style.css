@@ -89,7 +89,7 @@ div.clear{clear: both;}
 	{float:left; width:205px;}
 .timelineFriends .right, .membersNotifications .right
 	{margin-left: 205px; width:80px;}
-.timelineFriends .event, .membersNotifications .event 
+.timelineFriends .event, .membersNotifications .event, .commentsEpisode .event 
 	{padding: 5px 0 5px 0; border-bottom: 1px solid #dcdcdc;}
 .timelineFriends .login, .commentsEpisode .login 
 	{color: #54709D;}
