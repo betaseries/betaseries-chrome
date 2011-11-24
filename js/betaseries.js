@@ -152,11 +152,14 @@ var BS = {
 		return {
 			id: 'showsDisplay.'+url,
 			name: 'showsDisplay',
-			url: '/display/show',
-			params: '&title='+url,
+			url: '/shows/display/'+url,
 			root: 'show',
-			content: function(){
-				output = 'test';
+			content: function(data){
+				output  = '<img src="'+data.banner+'" width="290" alt="banner" /><br />';
+				output += data.title+'<br />';
+				output += data.description+'<br />';
+				output += data.status+'<br />';
+				output += data.note.mean+'/5 ('+data.note.members+')<br />';
 				return output;
 			}
 		};
