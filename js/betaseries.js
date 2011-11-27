@@ -145,7 +145,7 @@ var BS = {
 	},
 	
 	/**
-	 *
+	 * Vue d'une série
 	 *
 	 */
 	showsDisplay: function(url){
@@ -155,11 +155,17 @@ var BS = {
 			url: '/shows/display/'+url,
 			root: 'show',
 			content: function(data){
+				console.log(data);
 				output  = '<img src="'+data.banner+'" width="290" alt="banner" /><br />';
 				output += data.title+'<br />';
 				output += data.description+'<br />';
 				output += data.status+'<br />';
 				output += data.note.mean+'/5 ('+data.note.members+')<br />';
+				if (data.is_in_account == 1) {
+					output += '<a href="#'+data.url+'" id="showsRemove">Retirer de mes séries</a><br />';
+				} else {
+					output += '<a href="#'+data.url+'" id="showsAdd">Ajouter à mes séries</a><br />';
+				}
 				return output;
 			}
 		};

@@ -241,6 +241,48 @@ $(document).ready(function(){
 	});
 	
 	/**
+	 * Ajoute à mes séries
+	 */
+	$('#showsAdd').live('click', function(){
+		show = $(this).attr('href').substring(1);
+		
+		// On ajoute la série tout de suite
+		$('#showsAdd').html('Série ajoutée!');
+		
+		ajax.post("/shows/add/"+show, "", 
+			function () {
+				BS.load('membersEpisodes').update(); 
+				BS.load('membersInfos').update();
+				bgPage.badge.update();
+			},
+			function () {registerAction("/shows/add/"+show, "")}
+		);
+		
+		return false;
+	});
+	
+	/**
+	 * Retirer de mes séries
+	 */
+	$('#showsRemove').live('click', function(){
+		show = $(this).attr('href').substring(1);
+		
+		// On retire la série tout de suite
+		$('#showsRemove').html('Série retirée!');
+		
+		ajax.post("/shows/remove/"+show, "", 
+			function () {
+				BS.load('membersEpisodes').update(); 
+				BS.load('membersInfos').update();
+				bgPage.badge.update();
+			},
+			function () {registerAction("/shows/remove/"+show, "")}
+		);
+		
+		return false;
+	});
+	
+	/**
 	 * Se connecter
 	 */
 	$('#connect').live('submit', function(){
