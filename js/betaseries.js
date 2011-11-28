@@ -155,7 +155,6 @@ var BS = {
 			url: '/shows/display/'+url,
 			root: 'show',
 			content: function(data){
-				console.log(data);
 				output  = '<img src="'+data.banner+'" width="290" alt="banner" /><br />';
 				output += data.title+'<br />';
 				output += data.description+'<br />';
@@ -330,7 +329,7 @@ var BS = {
 					
 						if (nbrEpisodes>0) output += '</div>';
 						output += '<div class="show" id="'+data[n].url+'">';
-						output += '<div class="showtitle">'+data[n].show;
+						output += '<div class="showtitle"><a href="" onclick="BS.load(\'showsDisplay\', \''+data[n].url+'\').refresh(); return false;">'+data[n].show+'</a>';
 						output += ' <img src="../img/archive.png" class="archive" title="'+__("archive")+'" /></div>';
 						
 						show = data[n].show;
