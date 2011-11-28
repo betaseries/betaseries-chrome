@@ -182,7 +182,6 @@ var BS = {
 			params: '&season='+season+'&episode='+episode,
 			root: 'seasons',
 			content: function(data){
-				console.log(data);
 				var episode = data['0']['episodes']['0'];
 				
 				var title = episode.title;
@@ -207,6 +206,17 @@ var BS = {
 					output += 	'<img src="../img/comment.png" class="commentList" title="'+episode.comments+' commentaires" />';
 				output += '</div>';
 				output += '</div>';
+				
+				output += '<div style="clear:both;"></div>';
+				output += '<div class="showtitle">Sous-titres</div>';
+				for (var n in episode.subs) {
+					var sub = episode.subs[n];
+					var file = sub.file;
+					var fileLength = file.length;
+					var subFile = file.substring(fileLength, Math.max(0, fileLength-20));
+					if (subFile.length < fileLength) subFile = '..'+subFile;
+					output += '['+sub.quality+'] '+sub.language+' <a href="" class="subs" title="'+file+'" link="'+sub.url+'">'+subFile+'</a> ('+sub.source+')<br />';
+				}
 				return output;
 			}
 		};

@@ -173,6 +173,7 @@ $(document).ready(function(){
 	 */
 	$('.subs').live('click', function(){
 		Fx._openTab($(this).attr('link'), false);
+		return false;
 	});
 	
 	/**
