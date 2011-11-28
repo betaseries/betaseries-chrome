@@ -143,16 +143,14 @@ $(document).ready(function(){
 			var url = node.parent().attr('id');
 			var season = node.attr('season');
 			var episode = node.attr('episode');
-			var show = $('#'+url+' .showtitle').text();
 		} else if (view == 'planningMember') {
 			var node = $(this).parent();
 			var url = node.attr('url');
 			var season = node.attr('season');
 			var episode = node.attr('episode');
-			var show = $(this).prev().text();
 		}
 		
-		BS.load('showsEpisodes', url, season, episode, show).refresh();
+		BS.load('showsEpisodes', url, season, episode).refresh();
 		return false;
 	});
 	

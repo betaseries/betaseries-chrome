@@ -174,7 +174,7 @@ var BS = {
 	 *
 	 * @bug : La valeur de downloaded est fausse
 	 */
-	showsEpisodes: function(url, season, episode, show){
+	showsEpisodes: function(url, season, episode){
 		return {
 			id: 'showsEpisodes.'+url+'.'+'season'+'.'+episode,
 			name: 'showsEpisodes',
@@ -182,6 +182,7 @@ var BS = {
 			params: '&season='+season+'&episode='+episode,
 			root: 'seasons',
 			content: function(data){
+				console.log(data);
 				var episode = data['0']['episodes']['0'];
 				
 				var title = episode.title;
@@ -191,7 +192,7 @@ var BS = {
 				
 				var output = '<div id="'+url+'" season="'+data['0']['number']+'" episode="'+episode.episode+'">';
 				output += '<div style="float:left; width:176px; padding-right:5px;">';
-				output += 	'<div class="showtitle">'+show+'</div>';
+				output += 	'<div class="showtitle">'+episode.show+'</div>';
 				output += 	'<div><span class="num">['+episode.number+']</span> '+episode.title+'</div>';
 				output += 	'<div><span class="date">'+Fx._date('D d F', episode.date)+'</span></div>';
 				output += 	'<div style="height:10px;"></div>';
