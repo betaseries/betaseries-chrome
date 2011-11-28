@@ -203,7 +203,8 @@ var BS = {
 				output += 	'<img src="'+episode.screen+'" width="100" style="border:1px solid #999999; padding:1px; margin-top:18px;" /><br />';
 				output += 	'Note moyenne<br />'+episode.note.mean+' ('+episode.note.members+')<br />';
 				output += 	'<img src="../img/'+imgDownloaded+'.png" class="downloaded" title="'+texte3+'" /> ';
-				output += 	'<img src="../img/comment.png" class="commentList" title="Liste des commentaires" />';
+				if (episode.comments)
+					output += 	'<img src="../img/comment.png" class="commentList" title="'+episode.comments+' commentaires" />';
 				output += '</div>';
 				output += '</div>';
 				return output;
