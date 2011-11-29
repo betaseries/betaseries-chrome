@@ -34,12 +34,30 @@ var Fx = {
 		return ret;
 	},
 	
+	_inArray: function(elem, array){
+		for (var n in array) {
+			if (array[n] == elem) {
+				return true;
+			}
+		}
+		return false;
+	},
+	
 	_cleanCache: function(){
+		var login = DB.get('member.login');
 		var time = Math.floor(new Date().getTime() / 1000);
-		for(var i in localStorage){
-			if (i.indexOf('update.showsEpisodes.') == 0) {
-				if (time - localStorage[i] >= 3600) {
-					var suffix = i.substring(7);
+		var persistentViews = [
+			'blog',
+			'planningMember.'+login,
+			'membersEpisodes',
+			'timelineFriends',
+			'membersNotifications',
+			'membersInfos.'+login
+		];
+		for (var i in localStorage){
+			if (i.indexOf('update.') == 0) {
+				var suffix = i.substring(7);
+				if (!this._inArray(suffix, persistentViews) && (time - localStorage[i] >= 3600)) {
 					DB.remove('update.' + suffix);
 					DB.remove('page.' + suffix);
 				}

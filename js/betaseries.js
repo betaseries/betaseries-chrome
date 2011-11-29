@@ -316,7 +316,7 @@ var BS = {
 	membersEpisodes: function(lang){
 		if(!lang) lang = 'all';
 		return {	
-			id: 'membersEpisodes.'+lang,
+			id: 'membersEpisodes',
 			name: 'membersEpisodes',
 			url: '/members/episodes/'+lang,
 			root: 'episodes',
