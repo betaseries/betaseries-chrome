@@ -40,7 +40,7 @@ $(document).ready(function(){
 		);
 		
 		setTimeout(function(){
-			$('#scrollbar').tinyscrollbar_update('relative');
+			$('#scrollbar1').tinyscrollbar_update('relative');
 		}, 1000);
 		return false;
 	});
@@ -210,7 +210,7 @@ $(document).ready(function(){
 		);
 		
 		setTimeout(function(){
-			$('#scrollbar').tinyscrollbar_update('relative');
+			$('#scrollbar1').tinyscrollbar_update('relative');
 		}, 1000);
 		return false;
 	});
@@ -234,7 +234,7 @@ $(document).ready(function(){
 		);
 		
 		setTimeout(function(){
-			$('#scrollbar').tinyscrollbar_update('relative');
+			$('#scrollbar1').tinyscrollbar_update('relative');
 		}, 1000);
 		return false;
 	});
@@ -424,7 +424,7 @@ $(document).ready(function(){
 		}
 		
 		setTimeout(function(){
-			$('#scrollbar').tinyscrollbar_update('relative');
+			$('#scrollbar1').tinyscrollbar_update('relative');
 		}, 1000);
 		return false;
 	});
@@ -510,6 +510,7 @@ $(document).ready(function(){
 	 * INIT
 	 */
 	DB.init();
+	$('#scrollbar1').tinyscrollbar();
 	if (bgPage.connected()) {
 		Fx._cleanCache();
 		var badgeType = DB.get('badge.type', 'membersEpisodes');
