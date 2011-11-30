@@ -246,7 +246,7 @@ $(document).ready(function(){
 		show = $(this).attr('href').substring(1);
 		
 		// On ajoute la série tout de suite
-		$('#showsAdd').html('Série ajoutée!');
+		$('#showsAdd').html(__('show_added'));
 		
 		ajax.post("/shows/add/"+show, "", 
 			function () {
@@ -267,7 +267,7 @@ $(document).ready(function(){
 		show = $(this).attr('href').substring(1);
 		
 		// On retire la série tout de suite
-		$('#showsRemove').html('Série retirée!');
+		$('#showsRemove').html(__('show_removed'));
 		
 		ajax.post("/shows/remove/"+show, "", 
 			function () {
@@ -301,7 +301,7 @@ $(document).ready(function(){
 				BS.load('membersEpisodes').refresh();
 			}else{
 				$('#password').attr('value', '');
-				message('<img src="../img/inaccurate.png" /> Login et/ou password incorrects!');
+				message('<img src="../img/inaccurate.png" /> '+__('wrong_login_or_password'));
 				inputs.removeAttr('disabled');
 			}
 		}, function (){
@@ -368,14 +368,14 @@ $(document).ready(function(){
 		var params = "&title=" + terms;
 		ajax.post("/shows/search", params, function (data) {
 			if (data.root.shows != undefined) {
-				var content = '<br /><b>Séries</b><br />';
+				var content = '<br /><b>'+__('shows')+'</b><br />';
 				for (var n in data.root.shows) {
 					var show = data.root.shows[n];
 					content += '* <a href="#" onclick="BS.load(\'showsDisplay\', \''+show.url+'\').refresh(); return false;">'+show.title+'</a> <br />';
 				}
 				$('#shows-results').html(content);
 			}else{
-				$('#shows-results').html('<br />Aucune série correspondante.');
+				$('#shows-results').html('<br />'+__('no_shows_found'));
 			}
 		}, function (){
 			//inputs.removeAttr('disabled');
@@ -384,14 +384,14 @@ $(document).ready(function(){
 		var params = "&login=" + terms;
 		ajax.post("/members/search", params, function (data) {
 			if (data.root.members != undefined) {
-				var content = '<br /><b>Membres</b><br />';
+				var content = '<br /><b>'+__('members')+'</b><br />';
 				for (var n in data.root.members) {
 					var member = data.root.members[n];
 					content += '* <a href="#" onclick="BS.load(\'membersInfos\', \''+member.login+'\').refresh(); return false;">'+member.login+'</a> <br />';
 				}
 				$('#members-results').html(content);
 			}else{
-				$('#members-results').html('<br />Aucun membre correspondant.');
+				$('#members-results').html('<br />'+__('no_members_found'));
 			}
 		}, function (){
 			//inputs.removeAttr('disabled');
@@ -415,7 +415,6 @@ $(document).ready(function(){
 		hiddens.slideToggle();
 		
 		var labelRemain = $(this).find('.labelRemain');
-		console.log(labelRemain);
 		if (labelRemain.text() == __('hide_episodes')) {
 			labelRemain.text(__('show_episodes'));
 			$(this).find('img').attr('src', '../img/downarrow.gif');

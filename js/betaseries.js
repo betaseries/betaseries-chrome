@@ -1,11 +1,4 @@
 /**
- * Internationalisation
- */
-var __ = function(msgname){
-	return chrome.i18n.getMessage(msgname);
-};
-
-/**
  * Menu
  *
  */
@@ -161,9 +154,9 @@ var BS = {
 				output += data.status+'<br />';
 				output += data.note.mean+'/5 ('+data.note.members+')<br />';
 				if (data.is_in_account == 1) {
-					output += '<a href="#'+data.url+'" id="showsRemove">Retirer de mes séries</a><br />';
+					output += '<a href="#'+data.url+'" id="showsRemove">'+__('show_remove')+'</a><br />';
 				} else {
-					output += '<a href="#'+data.url+'" id="showsAdd">Ajouter à mes séries</a><br />';
+					output += '<a href="#'+data.url+'" id="showsAdd">'+__('show_add')+'</a><br />';
 				}
 				return output;
 			}
@@ -186,8 +179,8 @@ var BS = {
 				
 				var title = episode.title;
 				if (DB.get('options.display_global') == 'true') title = '#'+episode.global+' '+title;
-				if(episode.downloaded==1) {imgDownloaded = "folder"; texte3 = "Marquer comme non-téléchargé"}
-				else if(episode.downloaded==0) {imgDownloaded = "folder_off"; texte3 = "Marquer comme téléchargé";}
+				if(episode.downloaded==1) {imgDownloaded = "folder"; texte3 = __('mark_as_not_dl');}
+				else if(episode.downloaded==0) {imgDownloaded = "folder_off"; texte3 = __('mark_as_dl');}
 				
 				var output = '<div id="'+url+'" season="'+data['0']['number']+'" episode="'+episode.episode+'">';
 				output += '<div style="float:left; width:176px; padding-right:5px;">';
@@ -200,15 +193,15 @@ var BS = {
 				
 				output += '<div style="float:left; width:100px; text-align:center;">';
 				output += 	'<img src="'+episode.screen+'" width="100" style="border:1px solid #999999; padding:1px; margin-top:18px;" /><br />';
-				output += 	'Note moyenne<br />'+episode.note.mean+' ('+episode.note.members+')<br />';
+				output += 	__('avg_note')+'<br />'+episode.note.mean+' ('+episode.note.members+')<br />';
 				output += 	'<img src="../img/'+imgDownloaded+'.png" class="downloaded" title="'+texte3+'" /> ';
 				if (episode.comments)
-					output += 	'<img src="../img/comment.png" class="commentList" title="'+episode.comments+' commentaires" />';
+					output += 	'<img src="../img/comment.png" class="commentList" title="'+__('nbr_comments', [episode.comments])+'" />';
 				output += '</div>';
 				output += '</div>';
 				
 				output += '<div style="clear:both;"></div>';
-				output += '<div class="showtitle">Sous-titres</div>';
+				output += '<div class="showtitle">'+__('subtitles')+'</div>';
 				for (var n in episode.subs) {
 					var sub = episode.subs[n];
 					var file = sub.file;
@@ -244,11 +237,11 @@ var BS = {
 					if (actualWeek != week){
 						week = actualWeek;
 						var w, hidden = "";
-						if (diffWeek < -1) w = 'Il y a '+Math.abs(diffWeek)+' semaines';
-						else if (diffWeek == -1) w = 'La semaine dernière';
-						else if (diffWeek == 0) w = 'Cette semaine';
-						else if (diffWeek == 1) w = 'La semaine prochaine';
-						else if (diffWeek > 1) w = 'Dans '+diffWeek+' semaines';
+						if (diffWeek < -1) w = __('weeks_ago', [Math.abs(diffWeek)]);
+						else if (diffWeek == -1) w = __('last_week');
+						else if (diffWeek == 0) w = __('this_week');
+						else if (diffWeek == 1) w = __('next_week');
+						else if (diffWeek > 1) w = __('next_weeks', [diffWeek]);
 						if (diffWeek<-2 || diffWeek>2) hidden = ' style="display:none"';
 						if (nbrEpisodes > 0) output += '</div>';
 						output += '<div class="week"'+hidden+'>';
@@ -288,16 +281,16 @@ var BS = {
 				var output = '';
 				output += '<div class="showtitle">'+data.login+'</div>';
 				output += '<img src="'+data.avatar+'" width="50" style="position:absolute; right:0;" />';
-				output += '<div class="episode lun"><img src="../img/infos.png" class="icon"> '+data.stats.friends+' amis</div>';
-				output += '<div class="episode lun"><img src="../img/medal.png" class="icon"> '+data.stats.badges+' badges</div>';
-				output += '<div class="episode lun"><img src="../img/episodes.png" class="icon"> '+data.stats.shows+' séries</div>';
-				output += '<div class="episode lun"><img src="../img/report.png" class="icon"> '+data.stats.seasons+' saisons</div>';
-				output += '<div class="episode lun"><img src="../img/script.png" class="icon"> '+data.stats.episodes+' épisodes</div>';
-				output += '<div class="episode lun"><img src="../img/location.png" class="icon">'+data.stats.progress+' <small>(avancement)</small></div>';
+				output += '<div class="episode lun"><img src="../img/infos.png" class="icon"> '+__('nbr_friends', [data.stats.friends])+' </div>';
+				output += '<div class="episode lun"><img src="../img/medal.png" class="icon"> '+__('nbr_badges', [data.stats.badges])+' </div>';
+				output += '<div class="episode lun"><img src="../img/episodes.png" class="icon"> '+__('nbr_shows', [data.stats.shows])+' </div>';
+				output += '<div class="episode lun"><img src="../img/report.png" class="icon"> '+__('nbr_seasons', [data.stats.seasons])+' </div>';
+				output += '<div class="episode lun"><img src="../img/script.png" class="icon"> '+__('nbr_episodes', [data.stats.episodes])+' </div>';
+				output += '<div class="episode lun"><img src="../img/location.png" class="icon">'+data.stats.progress+' <small>('+__('progress')+')</small></div>';
 				
 				if (myLogin) {
 					output += '<div style="height:11px;"></div>';
-					output += '<div class="showtitle">Séries archivées</div>';
+					output += '<div class="showtitle">'+__('archived_shows')+'</div>';
 					for (var i in data.shows) {
 						if (data.shows[i].archive === "1") {
 							output += '<div class="episode" id="'+data.shows[i].url+'">';
@@ -370,13 +363,13 @@ var BS = {
 					var texte2;
 					var title = data[n].title;
 					if (DB.get('options.display_global') == 'true') title = '#'+data[n].global+' '+title;
-					if (posEpisode==1) texte2 = "Marquer comme vu cet épisode!";
-					else if (posEpisode>1) texte2 = "Marquer comme vu ces épisodes!";
+					if (posEpisode==1) texte2 = __('mark_as_seen');
+					else if (posEpisode>1) texte2 = __('mark_as_seen_pl');
 					output += '<div class="left">';
 					output += '<img src="../img/plot_red.gif" class="watched" title="'+texte2+'" /> <span class="num">';
 					output += '['+data[n].number+']</span> <span class="title">'+title.substring(0,22)+'</span>';
 					if (title.length>22) output += "..";
-					if (newShow) output += ' <span class="new">NEW!</span>';
+					if (newShow) output += ' <span class="new">'+__('new')+'</span>';
 					output += '</div>';
 							
 					// Actions
@@ -405,15 +398,15 @@ var BS = {
 						var downloaded = (data[n].downloaded == 1);
 						var imgDownloaded;
 						var texte3;
-						if (downloaded) {imgDownloaded = "folder"; texte3 = "Marquer comme non-téléchargé"}
-						else {imgDownloaded = "folder_off"; texte3 = "Marquer comme téléchargé";}
+						if (downloaded) {imgDownloaded = "folder"; texte3 = __('mark_as_not_dl');}
+						else {imgDownloaded = "folder_off"; texte3 = __('mark_as_dl');}
 					}
 					output += '<div class="right">';
 					if (data[n].comments > 0)	
-						output += '	<img src="../img/comment.png" class="commentList" title="'+data[n].comments+' commentaires" /> ';
+						output += '	<img src="../img/comment.png" class="commentList" title="'+__('nbr_comments', [data[n].comments])+'" /> ';
 					if (data[n].downloaded != -1)
 						output += '<img src="../img/'+imgDownloaded+'.png" class="downloaded" title="'+texte3+'" /> ';
-					if (nbSubs>0) output += '<img src="../img/srt.png" class="subs" link="'+url+'" quality="'+quality+'" title="Qualité SRT '+lang+' : '+quality+'/3" /> ';
+					if (nbSubs>0) output += '<img src="../img/srt.png" class="subs" link="'+url+'" quality="'+quality+'" title="'+__('srt_quality', [lang, quality])+'" /> ';
 					output += '</div>';
 						
 					// Clear
@@ -435,7 +428,7 @@ var BS = {
 				}
 							
 				bgPage.badge.update();
-				if (nbrEpisodes==0) output = "<div>Aucun épisode à voir !</div>";
+				if (nbrEpisodes==0) output += __('no_episodes_to_see');
 				
 				return output;
 			}
@@ -477,7 +470,7 @@ var BS = {
 				}
 				
 				bgPage.badge.update();
-				if (nbrNotifications==0) output = "<div>Aucune notification !</div>";
+				if (nbrNotifications==0) output += __('no_notifications');
 				return output;
 			}
 		};
@@ -509,7 +502,7 @@ var BS = {
 					i++;
 				}
 				if (i==1) {
-					output += 'Aucun commentaire pour cet épisode !';
+					output += __('no_comments');
 				}
 				return output;
 			}
@@ -549,11 +542,11 @@ var BS = {
 			content: function(){
 				menu.hide();
 				output = '<form id="connect">'
-					+'<table><tr><td>Login :</td><td><input type="text" name="login" id="login" /></td></tr>'
-					+'<tr><td>Password :</td><td><input type="password" name="password" id="password" /></td></tr>'
+					+'<table><tr><td>'+__('login')+'</td><td><input type="text" name="login" id="login" /></td></tr>'
+					+'<tr><td>'+__('password')+'</td><td><input type="password" name="password" id="password" /></td></tr>'
 					+'</table>'
-					+'<div class="valid"><input type="submit" value="se connecter"> ou '
-					+'	<a href="#" onclick="BS.load(\'registration\').display(); return false;">s\'inscrire</a></div>'
+					+'<div class="valid"><input type="submit" value="'+__('sign_in')+'"> ou '
+					+'	<a href="#" onclick="BS.load(\'registration\').display(); return false;">'+__('sign_up')+'</a></div>'
 					+'</form>';
 				return output;
 			}
@@ -567,13 +560,13 @@ var BS = {
 			content: function(){
 				menu.hide();
 				output = '<form id="register">'
-					+'<table><tr><td>Login :</td><td><input type="text" name="login" id="login" /></td></tr>'
-					+'<tr><td>Password :</td><td><input type="password" name="password" id="password" /></td></tr>'
-					+'<tr><td>Répéter password :</td><td><input type="password" name="repassword" id="repassword" /></td></tr>'
-					+'<tr><td>Mail :</td><td><input type="text" name="mail" id="mail" /></td></tr>'
+					+'<table><tr><td>'+__('login')+'</td><td><input type="text" name="login" id="login" /></td></tr>'
+					+'<tr><td>'+__('password')+'</td><td><input type="password" name="password" id="password" /></td></tr>'
+					+'<tr><td>'+__('repassword')+'</td><td><input type="password" name="repassword" id="repassword" /></td></tr>'
+					+'<tr><td>'+__('email')+'</td><td><input type="text" name="mail" id="mail" /></td></tr>'
 					+'</table>'
-					+'<div class="valid"><input type="submit" value="s\'inscrire"> ou '
-					+'	<a href="#" onclick="BS.load(\'connection\').display(); return false;">se connecter</a></div>'
+					+'<div class="valid"><input type="submit" value="'+__('sign_up')+'"> ou '
+					+'	<a href="#" onclick="BS.load(\'connection\').display(); return false;">'+__('sign_in')+'</a></div>'
 					+'</form>';
 				return output;
 			}
@@ -623,7 +616,7 @@ var BS = {
 							
 							var desc = item.find('description').text();
 							var linkOrig = item.find('link').text();
-							var link = '<a href="#" onclick="Fx._openTab(\''+linkOrig+'\');">(Lire l\'article)</a>';
+							var link = '<a href="#" onclick="Fx._openTab(\''+linkOrig+'\');">('+__('read_article')+')</a>';
 							output += '<div>'+desc.replace(/<a(.*)a>/, link)+'</div>';
 							
 							output += '<div style="height:11px;"></div>';

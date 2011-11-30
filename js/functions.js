@@ -1,8 +1,8 @@
 /**
  * Internationalisation
  */
-var __ = function(msgname){
-	return chrome.i18n.getMessage(msgname);
+var __ = function(msgname, placeholders){
+	return chrome.i18n.getMessage(msgname, placeholders);
 };
 
 /**

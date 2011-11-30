@@ -1,62 +1,320 @@
 {
-	"extDesc": {"message": "Extension Chrome pour BetaSeries (www.betaseries.com)"},
-	
-	"logo": {"message": "Aller sur le site de BetaSeries!"},
-	"version": {"message": "Commenter/noter cette extension!"},
-	
-	"refresh": {"message": "Actualiser"},
-	"options": {"message": "Options"},
-	"logout": {"message": "Déconnexion"},
-	"close": {"message": "Fermer"},
-	
-	"blog": {"message": "Blog"},
-	"planningMember": {"message": "Planning"},
-	"membersEpisodes": {"message": "Episodes non vus"},
-	"timelineFriends": {"message": "Evénements"},
-	"membersNotifications": {"message": "Notifications"},
-	"membersInfos": {"message": "Compte"},
-	"commentsEpisode": {"message": "Commentaires d'un épisode"},
-	
-	"connection": {"message": "Connexion"},
-	"registration": {"message": "Inscription"},
-	"searchForm": {"message": "Faire une recherche"},
-	
-	"password_not_matching": {"message": "Mot de passe invalide."},
-	"long_login": {"message": "Login trop long (<24 caractères)."},
-	"err3001": {"message": "Une variable est manquante"},
-	"err3005": {"message": "Caractères non autorisés"},
-	"err3006": {"message": "Adresse e-mail invalide"},
-	"err4004": {"message": "L'utilisateur existe déjà"},
-	
-	"archive": {"message": "Archiver la série"},
-	"unarchive": {"message": "Sortir la série des archives"},
-	
-	"badge_notification_type": {"message": "Type de notification : "},
-	"dl_srt_language": {"message": "Langage des sous-titres d'un épisode : "},
-	"nbr_episodes_per_serie": {"message": "Nombre d'épisodes maximum affichés d'une série : "},
-	"display_global": {"message": "Afficher le numéro global d'un épisode : "},
-	
-	"sun": {"message": "Dim"},
-	"mon": {"message": "Lun"},
-	"tue": {"message": "Mar"},
-	"wed": {"message": "Mer"},
-	"thu": {"message": "Jeu"},
-	"fri": {"message": "Ven"},
-	"sat": {"message": "Sam"},
-	"january": {"message": "Janv"},
-	"february": {"message": "Févr"},
-	"march": {"message": "Mars"},
-	"april": {"message": "Avr"},
-	"may": {"message": "Mai"},
-	"june": {"message": "Juin"},
-	"july": {"message": "Juil"},
-	"august": {"message": "Août"},
-	"september": {"message": "Sept"},
-	"october": {"message": "Oct"},
-	"november": {"message": "Nov"},
-	"december": {"message": "Déc"},
-	
-	"show_episodes": {"message": "Voir"},
-	"hide_episodes": {"message": "Cacher"}
-	
+	"april": {
+		"message": "Avr"
+	},
+	"archive": {
+		"message": "Archiver la série"
+	},
+	"archived_shows": {
+		"message": "Séries archivées"
+	},
+	"august": {
+		"message": "Août"
+	},
+	"avg_note": {
+		"message": "Note moyenne"
+	},
+	"badge_notification_type": {
+		"message": "Type de notification : "
+	},
+	"blog": {
+		"message": "Blog"
+	},
+	"close": {
+		"message": "Fermer"
+	},
+	"commentsEpisode": {
+		"message": "Commentaires d'un épisode"
+	},
+	"connection": {
+		"message": "Connexion"
+	},
+	"december": {
+		"message": "Déc"
+	},
+	"display_global": {
+		"message": "Afficher le numéro global d'un épisode : "
+	},
+	"dl_srt_language": {
+		"message": "Langage des sous-titres d'un épisode : "
+	},
+	"email": {
+		"message": "Email :"
+	},
+	"err3001": {
+		"message": "Une variable est manquante"
+	},
+	"err3005": {
+		"message": "Caractères non autorisés"
+	},
+	"err3006": {
+		"message": "Adresse e-mail invalide"
+	},
+	"err4004": {
+		"message": "L'utilisateur existe déjà"
+	},
+	"extDesc": {
+		"message": "Extension Chrome pour BetaSeries (www.betaseries.com)"
+	},
+	"february": {
+		"message": "Févr"
+	},
+	"fri": {
+		"message": "Ven"
+	},
+	"january": {
+		"message": "Janv"
+	},
+	"july": {
+		"message": "Juil"
+	},
+	"june": {
+		"message": "Juin"
+	},
+	"hide_episodes": {
+		"message": "Cacher"
+	},
+	"last_week": {
+		"message": "La semaine dernière"
+	},
+	"login": {
+		"message": "Identifiant"
+	},
+	"logo": {
+		"message": "Aller sur le site de BetaSeries!"
+	},
+	"logout": {
+		"message": "Déconnexion"
+	},
+	"long_login": {
+		"message": "Login trop long (<24 caractères)."
+	},
+	"march": {
+		"message": "Mars"
+	},
+	"mark_as_dl": {
+		"message": "Marquer comme téléchargé"
+	},
+	"mark_as_not_dl": {
+		"message": "Marquer comme non-téléchargé"
+	},
+	"mark_as_seen": {
+		"message": "Marquer comme vu cet épisode!"
+	},
+	"mark_as_seen_pl": {
+		"message": "Marquer comme vu ces épisodes!"
+	},
+	"may": {
+		"message": "Mai"
+	},
+	"members": {
+		"message": "Membres"
+	},
+	"membersEpisodes": {
+		"message": "Episodes non vus"
+	},
+	"membersInfos": {
+		"message": "Compte"
+	},
+	"membersNotifications": {
+		"message": "Notifications"
+	},
+	"mon": {
+		"message": "Lun"
+	},
+	"nbr_badges": {
+		"message": "$nbr$ badges", 
+		"placeholders":{
+			"nbr":{
+				"content":"$1"
+			}
+		}
+	},
+	"nbr_comments": {
+		"message": "$nbr$ commentaires", 
+		"placeholders":{
+			"nbr":{
+				"content":"$1"
+			}
+		}
+	},
+	"nbr_episodes": {
+		"message": "$nbr$ épisodes", 
+		"placeholders":{
+			"nbr":{
+				"content":"$1"
+			}
+		}
+	},
+	"nbr_episodes_per_serie": {
+		"message": "Nombre d'épisodes maximum affichés d'une série : "
+	},
+	"nbr_friends": {
+		"message": "$nbr$ amis", 
+		"placeholders":{
+			"nbr":{
+				"content":"$1"
+			}
+		}
+	},
+	"nbr_seasons": {
+		"message": "$nbr$ saisons", 
+		"placeholders":{
+			"nbr":{
+				"content":"$1"
+			}
+		}
+	},
+	"nbr_shows": {
+		"message": "$nbr$ séries", 
+		"placeholders":{
+			"nbr":{
+				"content":"$1"
+			}
+		}
+	},
+	"next_week": {
+		"message": "La semaine prochaine"
+	},
+	"next_weeks": {
+		"message": "Dans $NBR$ semaines", 
+		"placeholders":{
+			"nbr":{
+				"content":"$1"
+			}
+		}
+	},
+	"new": {
+		"message": "NEW!"
+	},
+	"no_comments": {
+		"message": "Aucun commentaire pour cet épisode !"
+	},
+	"no_episodes_to_see": {
+		"message": "Aucun épisode à voir !"
+	},
+	"no_members_found": {
+		"message": "Aucun membre correspondant."
+	},
+	"no_notifications": {
+		"message": "Aucune notification !"
+	},
+	"no_shows_found": {
+		"message": "Aucune série correspondante."
+	},
+	"november": {
+		"message": "Nov"
+	},
+	"october": {
+		"message": "Oct"
+	},
+	"options": {
+		"message": "Options"
+	},
+	"password": {
+		"message": "Mot de passe"
+	},
+	"password_not_matching": {
+		"message": "Mot de passe invalide."
+	},
+	"planningMember": {
+		"message": "Planning"
+	},
+	"progress": {
+		"message": "avancement"
+	},
+	"read_article": {
+		"message": "Lire l'article"
+	},
+	"refresh": {
+		"message": "Actualiser"
+	},
+	"repassword": {
+		"message": "Répéter mot de passe"
+	},
+	"registration": {
+		"message": "Inscription"
+	},
+	"sat": {
+		"message": "Sam"
+	},
+	"searchForm": {
+		"message": "Faire une recherche"
+	},
+	"september": {
+		"message": "Sept"
+	},
+	"sign_in": {
+		"message": "se connecter"
+	},
+	"sign_up": {
+		"message": "s'inscrire"
+	},
+	"show_add": {
+		"message": "Ajouter à mes séries"
+	},
+	"show_added": {
+		"message": "Série ajoutée!"
+	},
+	"show_episodes": {
+		"message": "Voir"
+	},
+	"show_remove": {
+		"message": "Retirer de mes séries"
+	},
+	"show_removed": {
+		"message": "Série retirée!"
+	},
+	"shows": {
+		"message": "Séries"
+	},
+	"srt_quality": {
+		"message": "Qualité SRT $lang$ : $quality$/5", 
+		"placeholders":{
+			"lang":{
+				"content":"$1"
+			},
+			"quality":{
+				"content":"$2"
+			}
+		}
+	},
+	"subtitles": {
+		"message": "Sous-titres"
+	},
+	"sun": {
+		"message": "Dim"
+	},
+	"timelineFriends": {
+		"message": "Evénements"
+	},
+	"this_week": {
+		"message": "Cette semaine"
+	},
+	"thu": {
+		"message": "Jeu"
+	},
+	"tue": {
+		"message": "Mar"
+	},
+	"unarchive": {
+		"message": "Sortir la série des archives"
+	},
+	"version": {
+		"message": "Commenter/noter cette extension!"
+	},
+	"wed": {
+		"message": "Mer"
+	},
+	"weeks_ago": {
+		"message": "Il y a $nbr$ semaines", 
+		"placeholders":{
+			"nbr":{
+				"content":"$1"
+			}
+		}
+	},
+	"wrong_login_or_password": {
+		"message": "Login et/ou password incorrects!"
+	}
 }
