@@ -10,7 +10,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<style>
-			#save {padding:3px 6px;
+			#save_options {padding:3px 6px;
 				-moz-border-radius:4px;
 				-webkit-border-radius:4px;
 				-o-border-radius:4px;
@@ -83,9 +83,9 @@
 		
 		<div class="menu">
 			<ul>
-				<li id="general" class="first"><a href="" id="general">général</a></li>
-				<li id="facebook" class="facebook"><a href="" id="facebook">facebook</a></li>
-				<li id="about" class="about"><a href="" id="about">à propos</a></li>
+				<li id="general" class="first"><a href="" id="link_general"></a></li>
+				<li id="facebook" class="facebook"><a href="" id="link_facebook"></a></li>
+				<li id="about" class="about"><a href="" id="link_about"></a></li>
 			</ul>
 		</div>
 		
@@ -93,22 +93,22 @@
 		
 			<div id="general" class="part" style="display:none;">
 			
-				<h1>Badge</h1> 
+				<h1 id="title_badge"></h1> 
 				<p>
 				<span id="badge_notification_type"></span>
 				<select name="badge_notification_type">
-					<option value="watched">Episodes non vus</option>
-					<option value="downloaded">Episodes non téléchargés</option>
+					<option value="watched"></option>
+					<option value="downloaded"></option>
 				</select>
 				</p>
 				
-				<h1>Page "Episodes non vus"</h1>
+				<h1 id="title_view_episodes_not_seen"></h1>
 				<p>
 				<span id="dl_srt_language"></span>
 				<select name="dl_srt_language">
-					<option value="VF">VF</option>
-					<option value="VO">VO</option>
-					<option value="ALL">ALL</option>
+					<option value="VF"></option>
+					<option value="VO"></option>
+					<option value="ALL"></option>
 				</select>
 				</p>
 				
@@ -120,12 +120,12 @@
 				<p>
 				<span id="display_global"></span>
 				<select name="display_global">
-					<option value="true">Oui</option>
-					<option value="false">Non</option>
+					<option value="true"></option>
+					<option value="false"></option>
 				</select>
 				</p>
 				
-				<p><span id="save">Sauvegarder</span></p>
+				<p><span id="save_options"></span></p>
 				<div style="clear:both;"></div>
 				
 			</div>
@@ -135,25 +135,25 @@
 			</div>
 			
 			<div id="about" class="part" style="display:none;">
-				<h1>Auteur</h1>
-				<p>Menencia <small>(<a href="https://github.com/Menencia" target="_blank">profil github</a>)</small></p>
+				<h1 id="title_author"></h1>
+				<p>Menencia</p>
 				
-				<h1>Special thanks</h1>
-				<p>tusbar <small>(<a href="https://github.com/tusbar" target="_blank">profil github</a>)</small></p>
+				<h1 id="title_contributors"></h1>
+				<p>tusbar</p>
 				
-				<h1>Page de l'extension</h1>
+				<h1 id="title_ext_page"></h1>
 				<p><a href="https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda" target="_blank">
 					https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda
 				</a></p>
 				
-				<h1>Page Github</h1>
+				<h1 id="title_git_page"></h1>
 				<p><a href="https://github.com/Menencia/chromeseries" target="_blank">
 					https://github.com/Menencia/chromeseries
 				</a></p>
 				
-				<h1>Suggestion</h1>
-				<p><a href="http://chromeseries.uservoice.com" target="_blank">
-					http://chromeseries.uservoice.com
+				<h1 id="title_suggestions"></h1>
+				<p><a href="https://www.betaseries.com/bugs/chromeseries" target="_blank">
+					https://www.betaseries.com/bugs/chromeseries
 				</a></p>
 			</div>
 			

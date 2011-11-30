@@ -1,4 +1,10 @@
 {
+	"about": {
+		"message": "à propos"
+	},
+	"all": {
+		"message": "ALL"
+	},
 	"april": {
 		"message": "Avr"
 	},
@@ -11,8 +17,14 @@
 	"august": {
 		"message": "Août"
 	},
+	"author": {
+		"message": "Auteur"
+	},
 	"avg_note": {
 		"message": "Note moyenne"
+	},
+	"badge": {
+		"message": "Badge"
 	},
 	"badge_notification_type": {
 		"message": "Type de notification : "
@@ -29,6 +41,9 @@
 	"connection": {
 		"message": "Connexion"
 	},
+	"contributors": {
+		"message": "Contributeurs"
+	},
 	"december": {
 		"message": "Déc"
 	},
@@ -40,6 +55,12 @@
 	},
 	"email": {
 		"message": "Email :"
+	},
+	"episodes_not_dl": {
+		"message": "Episodes non téléchargés"
+	},
+	"episodes_not_seen": {
+		"message": "Episodes non vus"
 	},
 	"err3001": {
 		"message": "Une variable est manquante"
@@ -56,11 +77,20 @@
 	"extDesc": {
 		"message": "Extension Chrome pour BetaSeries (www.betaseries.com)"
 	},
+	"extension_page": {
+		"message": "Page de l'extension"
+	},
+	"facebook": {
+		"message": "facebook"
+	},
 	"february": {
 		"message": "Févr"
 	},
 	"fri": {
 		"message": "Ven"
+	},
+	"general": {
+		"message": "général"
 	},
 	"january": {
 		"message": "Janv"
@@ -70,6 +100,9 @@
 	},
 	"june": {
 		"message": "Juin"
+	},
+	"github_page": {
+		"message": "Page Github"
 	},
 	"hide_episodes": {
 		"message": "Cacher"
@@ -177,7 +210,7 @@
 		"message": "La semaine prochaine"
 	},
 	"next_weeks": {
-		"message": "Dans $NBR$ semaines", 
+		"message": "Dans $nbr$ semaines", 
 		"placeholders":{
 			"nbr":{
 				"content":"$1"
@@ -186,6 +219,9 @@
 	},
 	"new": {
 		"message": "NEW!"
+	},
+	"no": {
+		"message": "Non"
 	},
 	"no_comments": {
 		"message": "Aucun commentaire pour cet épisode !"
@@ -238,6 +274,9 @@
 	"sat": {
 		"message": "Sam"
 	},
+	"save": {
+		"message": "Sauvegarder"
+	},
 	"searchForm": {
 		"message": "Faire une recherche"
 	},
@@ -282,6 +321,9 @@
 	"subtitles": {
 		"message": "Sous-titres"
 	},
+	"suggestions_or_bugs": {
+		"message": "Suggestions ou bugs"
+	},
 	"sun": {
 		"message": "Dim"
 	},
@@ -303,6 +345,15 @@
 	"version": {
 		"message": "Commenter/noter cette extension!"
 	},
+	"vf": {
+		"message": "VF"
+	},
+	"vo": {
+		"message": "VO"
+	},
+	"view_episodes_not_seen": {
+		"message": "Vue 'épisodes non vus'"
+	},
 	"wed": {
 		"message": "Mer"
 	},
@@ -316,5 +367,8 @@
 	},
 	"wrong_login_or_password": {
 		"message": "Login et/ou password incorrects!"
+	},
+	"yes": {
+		"message": "Oui"
 	}
 }
