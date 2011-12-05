@@ -147,7 +147,7 @@ var BS = {
 			url: '/shows/display/'+url,
 			root: 'show',
 			content: function(data){
-				output  = '<img src="'+data.banner+'" width="290" alt="banner" /><br />';
+				output  = '<img src="'+data.banner+'" width="290" height="70" alt="banner" /><br />';
 				output += data.title+'<br />';
 				output += data.description+'<br />';
 				output += data.status+'<br />';
