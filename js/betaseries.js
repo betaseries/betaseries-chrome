@@ -333,7 +333,7 @@ var BS = {
 					
 						if (nbrEpisodes>0) output += '</div>';
 						output += '<div class="show" id="'+data[n].url+'">';
-						output += '<div class="showtitle"><a href="" onclick="BS.load(\'showsDisplay\', \''+data[n].url+'\').refresh(); return false;">'+data[n].show+'</a>';
+						output += '<div class="showtitle"><a href="" onclick="BS.load(\'showsDisplay\', \''+data[n].url+'\').refresh(); return false;" class="showtitle">'+data[n].show+'</a>';
 						output += ' <img src="../img/archive.png" class="archive" title="'+__("archive")+'" /></div>';
 						
 						show = data[n].show;

@@ -6,6 +6,8 @@ body {
 /*Links*/
 a, a:visited {text-decoration: none; color: #009; outline: none;}
 a:hover {text-decoration: underline; color: #006;}
+a.showtitle, a.showtitle:visited {text-decoration: none; color: #000; outline: none;}
+a.showtitle:hover {color: #900;}
 
 #scrollbar1 { width: 300px; clear: both; }
 #scrollbar1 .viewport { width: 295px; height: 200px; overflow: hidden; position: relative; }
