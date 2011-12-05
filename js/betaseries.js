@@ -401,11 +401,17 @@ var BS = {
 						else {imgDownloaded = "folder_off"; texte3 = __('mark_as_dl');}
 					}
 					output += '<div class="right">';
-					if (data[n].comments > 0)	
+					var empty = '<img src="../img/empty.png" alt="hidden" />';
+					if (data[n].comments > 0)
 						output += '	<img src="../img/comment.png" class="commentList" title="'+__('nbr_comments', [data[n].comments])+'" /> ';
+					else 
+						output += empty;
 					if (data[n].downloaded != -1)
 						output += '<img src="../img/'+imgDownloaded+'.png" class="downloaded" title="'+texte3+'" /> ';
-					if (nbSubs>0) output += '<img src="../img/srt.png" class="subs" link="'+url+'" quality="'+quality+'" title="'+__('srt_quality', [lang, quality])+'" /> ';
+					else 
+						output += empty;
+					if (nbSubs>0) 
+						output += '<img src="../img/srt.png" class="subs" link="'+url+'" quality="'+quality+'" title="'+__('srt_quality', [lang, quality])+'" /> ';
 					output += '</div>';
 						
 					// Clear
