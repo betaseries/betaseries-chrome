@@ -1,0 +1,374 @@
+{
+	"about": {
+		"message": "about"
+	},
+	"all": {
+		"message": "ALL"
+	},
+	"april": {
+		"message": "Apr"
+	},
+	"archive": {
+		"message": "Archive the TV Show"
+	},
+	"archived_shows": {
+		"message": "Archived TV Shows"
+	},
+	"august": {
+		"message": "Aug"
+	},
+	"author": {
+		"message": "Author"
+	},
+	"avg_note": {
+		"message": "Average rating"
+	},
+	"badge": {
+		"message": "Badge"
+	},
+	"badge_notification_type": {
+		"message": "Notification type : "
+	},
+	"blog": {
+		"message": "Blog"
+	},
+	"close": {
+		"message": "Close"
+	},
+	"commentsEpisode": {
+		"message": "Episode's comments"
+	},
+	"connection": {
+		"message": "Connection"
+	},
+	"contributors": {
+		"message": "Contributors"
+	},
+	"december": {
+		"message": "Dec"
+	},
+	"display_global": {
+		"message": "Show the global number of episodes : "
+	},
+	"dl_srt_language": {
+		"message": "Language of the episode subtitles : "
+	},
+	"email": {
+		"message": "Email :"
+	},
+	"episodes_not_dl": {
+		"message": "Episodes to download"
+	},
+	"episodes_not_seen": {
+		"message": "Episodes to see"
+	},
+	"err3001": {
+		"message": "A variable is missing"
+	},
+	"err3005": {
+		"message": "Character not authorized"
+	},
+	"err3006": {
+		"message": "Invalid Email"
+	},
+	"err4004": {
+		"message": "User already exist"
+	},
+	"extDesc": {
+		"message": "Chrome Extension for BetaSeries (www.betaseries.com)"
+	},
+	"extension_page": {
+		"message": "Extension's webpage"
+	},
+	"facebook": {
+		"message": "facebook"
+	},
+	"february": {
+		"message": "Feb"
+	},
+	"fri": {
+		"message": "Fri"
+	},
+	"general": {
+		"message": "general"
+	},
+	"january": {
+		"message": "Jan"
+	},
+	"july": {
+		"message": "July"
+	},
+	"june": {
+		"message": "June"
+	},
+	"github_page": {
+		"message": "Github page"
+	},
+	"hide_episodes": {
+		"message": "Hide"
+	},
+	"last_week": {
+		"message": "Last week"
+	},
+	"login": {
+		"message": "Login"
+	},
+	"logo": {
+		"message": "Go to the BetaSeries website !"
+	},
+	"logout": {
+		"message": "Logout"
+	},
+	"long_login": {
+		"message": "Login too long (<24 caracters)."
+	},
+	"march": {
+		"message": "March"
+	},
+	"mark_as_dl": {
+		"message": "Mark as downloaded"
+	},
+	"mark_as_not_dl": {
+		"message": "Mark as not downloaded"
+	},
+	"mark_as_seen": {
+		"message": "Mark as seen"
+	},
+	"mark_as_seen_pl": {
+		"message": "Mark these episodes as seen"
+	},
+	"may": {
+		"message": "May"
+	},
+	"members": {
+		"message": "Members"
+	},
+	"membersEpisodes": {
+		"message": "Episodes not seen"
+	},
+	"membersInfos": {
+		"message": "Account"
+	},
+	"membersNotifications": {
+		"message": "Notifications"
+	},
+	"mon": {
+		"message": "Mon"
+	},
+	"nbr_badges": {
+		"message": "$nbr$ badges", 
+		"placeholders":{
+			"nbr":{
+				"content":"$1"
+			}
+		}
+	},
+	"nbr_comments": {
+		"message": "$nbr$ comments", 
+		"placeholders":{
+			"nbr":{
+				"content":"$1"
+			}
+		}
+	},
+	"nbr_episodes": {
+		"message": "$nbr$ episodes", 
+		"placeholders":{
+			"nbr":{
+				"content":"$1"
+			}
+		}
+	},
+	"nbr_episodes_per_serie": {
+		"message": "Maximum number of episodes for a tvshow : "
+	},
+	"nbr_friends": {
+		"message": "$nbr$ friends", 
+		"placeholders":{
+			"nbr":{
+				"content":"$1"
+			}
+		}
+	},
+	"nbr_seasons": {
+		"message": "$nbr$ seasons", 
+		"placeholders":{
+			"nbr":{
+				"content":"$1"
+			}
+		}
+	},
+	"nbr_shows": {
+		"message": "$nbr$ tvshows", 
+		"placeholders":{
+			"nbr":{
+				"content":"$1"
+			}
+		}
+	},
+	"next_week": {
+		"message": "Next week"
+	},
+	"next_weeks": {
+		"message": "In $nbr$ weeks", 
+		"placeholders":{
+			"nbr":{
+				"content":"$1"
+			}
+		}
+	},
+	"new": {
+		"message": "NEW!"
+	},
+	"no": {
+		"message": "No"
+	},
+	"no_comments": {
+		"message": "No comment for this episode !"
+	},
+	"no_episodes_to_see": {
+		"message": "No more episodes !"
+	},
+	"no_members_found": {
+		"message": "No matching member."
+	},
+	"no_notifications": {
+		"message": "No notification !"
+	},
+	"no_shows_found": {
+		"message": "No matching tv shows."
+	},
+	"november": {
+		"message": "Nov"
+	},
+	"october": {
+		"message": "Oct"
+	},
+	"options": {
+		"message": "Options"
+	},
+	"password": {
+		"message": "password"
+	},
+	"password_not_matching": {
+		"message": "Invalid password."
+	},
+	"planningMember": {
+		"message": "Planning"
+	},
+	"progress": {
+		"message": "progress"
+	},
+	"read_article": {
+		"message": "Read article"
+	},
+	"refresh": {
+		"message": "Refresh"
+	},
+	"repassword": {
+		"message": "Repeat password"
+	},
+	"registration": {
+		"message": "Registration"
+	},
+	"sat": {
+		"message": "Sat"
+	},
+	"save": {
+		"message": "Save"
+	},
+	"searchForm": {
+		"message": "Search"
+	},
+	"september": {
+		"message": "Sept"
+	},
+	"sign_in": {
+		"message": "Sign in"
+	},
+	"sign_up": {
+		"message": "Registration"
+	},
+	"show_add": {
+		"message": "Add to my tvshows"
+	},
+	"show_added": {
+		"message": "Tv Show added !"
+	},
+	"show_episodes": {
+		"message": "View"
+	},
+	"show_remove": {
+		"message": "Remove of my TV Shows"
+	},
+	"show_removed": {
+		"message": "TV Show removed !"
+	},
+	"shows": {
+		"message": "TV Shows"
+	},
+	"srt_quality": {
+		"message": "Quality SRT $lang$ : $quality$/5", 
+		"placeholders":{
+			"lang":{
+				"content":"$1"
+			},
+			"quality":{
+				"content":"$2"
+			}
+		}
+	},
+	"subtitles": {
+		"message": "Subtitles"
+	},
+	"suggestions_or_bugs": {
+		"message": "Suggestions or bugs"
+	},
+	"sun": {
+		"message": "Sun"
+	},
+	"timelineFriends": {
+		"message": "Events"
+	},
+	"this_week": {
+		"message": "This week"
+	},
+	"thu": {
+		"message": "Thu"
+	},
+	"tue": {
+		"message": "Tue"
+	},
+	"unarchive": {
+		"message": "Unarchive the TV Show"
+	},
+	"version": {
+		"message": "Comment/rate this extension!"
+	},
+	"vf": {
+		"message": "VF"
+	},
+	"vo": {
+		"message": "VO"
+	},
+	"view_episodes_not_seen": {
+		"message": "View 'episodes not seen'"
+	},
+	"wed": {
+		"message": "Wed"
+	},
+	"weeks_ago": {
+		"message": "$nbr$ weeks ago", 
+		"placeholders":{
+			"nbr":{
+				"content":"$1"
+			}
+		}
+	},
+	"wrong_login_or_password": {
+		"message": "Wrong login and/or password !"
+	},
+	"yes": {
+		"message": "Yes"
+	}
+}
