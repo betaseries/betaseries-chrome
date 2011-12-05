@@ -368,15 +368,17 @@ $(document).ready(function(){
 		var params = "&title=" + terms;
 		ajax.post("/shows/search", params, function (data) {
 			if (data.root.shows != undefined) {
-				var content = '<br /><b>'+__('shows')+'</b><br />';
+				var content = '<div class="showtitle">'+__('shows')+'</div>';
 				for (var n in data.root.shows) {
 					var show = data.root.shows[n];
-					content += '* <a href="#" onclick="BS.load(\'showsDisplay\', \''+show.url+'\').refresh(); return false;">'+show.title+'</a> <br />';
+					content += '<div class="episode"><a href="#" onclick="BS.load(\'showsDisplay\', \''+show.url+'\').refresh(); return false;" title="'+show.title+'">'+Fx._subFirst(show.title,25)+'</a></div>';
 				}
 				$('#shows-results').html(content);
 			}else{
-				$('#shows-results').html('<br />'+__('no_shows_found'));
+				$('#shows-results').html('<div class="episode">'+__('no_shows_found')+'</div>');
 			}
+			$('.viewport').css('height', Math.min($('#page').height()+10, 200));
+			$('#scrollbar1').tinyscrollbar_update('relative');
 		}, function (){
 			//inputs.removeAttr('disabled');
 		});
@@ -384,15 +386,17 @@ $(document).ready(function(){
 		var params = "&login=" + terms;
 		ajax.post("/members/search", params, function (data) {
 			if (data.root.members != undefined) {
-				var content = '<br /><b>'+__('members')+'</b><br />';
+				var content = '<div class="showtitle">'+__('members')+'</div>';
 				for (var n in data.root.members) {
 					var member = data.root.members[n];
-					content += '* <a href="#" onclick="BS.load(\'membersInfos\', \''+member.login+'\').refresh(); return false;">'+member.login+'</a> <br />';
+					content += '<div class="episode"><a href="#" onclick="BS.load(\'membersInfos\', \''+member.login+'\').refresh(); return false;">'+Fx._subFirst(member.login,25)+'</a></div>';
 				}
 				$('#members-results').html(content);
 			}else{
-				$('#members-results').html('<br />'+__('no_members_found'));
+				$('#members-results').html('<div class="episode">'+__('no_members_found')+'</div>');
 			}
+			$('.viewport').css('height', Math.min($('#page').height()+10, 200));
+			$('#scrollbar1').tinyscrollbar_update('relative');
 		}, function (){
 			//inputs.removeAttr('disabled');
 		});

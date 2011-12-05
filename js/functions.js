@@ -34,6 +34,20 @@ var Fx = {
 		return ret;
 	},
 	
+	_subFirst: function(str,nbr){
+		var strLength = str.length;
+		var strSub = str.substring(0, nbr);
+		if (strSub.length < strLength) strSub += '..';
+		return strSub;
+	},
+	
+	_subLast: function(str,nbr){
+		var strLength = str.length;
+		var strSub = str.substring(strLength, Math.max(0, strLength-nbr));
+		if (strSub.length < strLength) strSub = '..'+strSub;
+		return strSub;
+	},
+	
 	_inArray: function(elem, array){
 		for (var n in array) {
 			if (array[n] == elem) {

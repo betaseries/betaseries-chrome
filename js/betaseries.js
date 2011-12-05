@@ -203,11 +203,7 @@ var BS = {
 				output += '<div class="showtitle">'+__('subtitles')+'</div>';
 				for (var n in episode.subs) {
 					var sub = episode.subs[n];
-					var file = sub.file;
-					var fileLength = file.length;
-					var subFile = file.substring(fileLength, Math.max(0, fileLength-20));
-					if (subFile.length < fileLength) subFile = '..'+subFile;
-					output += '['+sub.quality+'] '+sub.language+' <a href="" class="subs" title="'+file+'" link="'+sub.url+'">'+subFile+'</a> ('+sub.source+')<br />';
+					output += '['+sub.quality+'] '+sub.language+' <a href="" class="subs" title="'+sub.file+'" link="'+sub.url+'">'+Fx._subLast(sub.file, 20)+'</a> ('+sub.source+')<br />';
 				}
 				return output;
 			}
@@ -366,8 +362,7 @@ var BS = {
 					else if (posEpisode>1) texte2 = __('mark_as_seen_pl');
 					output += '<div class="left">';
 					output += '<img src="../img/plot_red.gif" class="watched" title="'+texte2+'" /> <span class="num">';
-					output += '['+data[n].number+']</span> <span class="title">'+title.substring(0,22)+'</span>';
-					if (title.length>22) output += "..";
+					output += '['+data[n].number+']</span> <span class="title">'+Fx._subFirst(title,22)+'</span>';
 					if (newShow) output += ' <span class="new">'+__('new')+'</span>';
 					output += '</div>';
 							
