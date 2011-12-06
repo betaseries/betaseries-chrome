@@ -13,45 +13,25 @@ Fonctionnalités
 * Possibilité de télécharger le meilleur sous-titre actuel (VF ou VO)
 * Possibilité de consulter l'extension en mode déconnecté
 * Paramétrer son extension via la page des options
+* ... et bien plus !
 
-Installation
-------------
+Dernière version
+----------------
 
-* Installer `Google Chrome`.
-* Installer l'extension [ChromeSeries](https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda)
-
-Les mises à jour de l'extension se feront ensuite automatiquement s'ils sont disponibles.
-
-Utilisation
------------
-
-L'utilisation est simple et intuitive.
-
-`Note` : Il vous est conseillé de vous déconnecter après utilisation, uniquement dans le cas où vous utiliseriez cette extension sur un ordinateur qui ne vous appartient pas.
-
-Dernières versions
-------------------
-
-### Version 0.5.1 (version actuelle)
-* Ajout de la section "Blog"
-* Possibilité de sortir une série des archives
-* Nouveau design de la section "Compte"
-* Customisation de la barre de défilement
-
-### Version 0.5
-* Réécriture totale du code (pour mieux supporter les prochaines fonctionnalités)
-* Ajout de la vue "profil d'un épisode"
-* Ajout d'un forum de suggestions
-* Ajout de nouveaux effets d'animations
-* Possibilité de marquer un épisode comme vu dans une liste déroulée sans la refermer
-* Seules les pages du menu sont gardés en cache
-* Divers changements de mise en page
-* Correction d'un bug empêchant l'affichage de nouvelles notification
-* Correction d'un bug empêchant la connexion avec un mot de passe comprenant des caractères UTF8
-* Correction de l'encodage des caractères des noms de mois
+### Version 0.6
+* Possibilité de s'inscrire directement à partir de l'extension
+* Possibilité de voir tous les sous-titres d'un épisode (vue d'un épisode)
+* Possibilité de lire les commentaires d'un épisode
+* Possibilité de rechercher une série ou un membre de BetaSeries
+* Possibilité d'ajouter ou de retirer une série (vue d'une série)
+* Ajout de la traduction anglaise
+* Mise à jour du design des vues 'planning' et 'évenements'
+* Correction d'un bug au niveau de la hauteur des popins
 
 Liens
 -----
 
-* [Page Facebook](http://www.facebook.com/pages/ChromeSeries/199020100116357)
+* [Télécharger l'extension ChromeSeries](https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda)
 * [Bugtraker](http://www.betaseries.com/bugs/chromeseries)
+* [Page Facebook](http://www.facebook.com/pages/ChromeSeries/199020100116357)
+* [Site Web de l'auteur](http://www.menencia.com)
