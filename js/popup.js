@@ -14,14 +14,19 @@ $(document).ready(function(){
 		
 		// On cache les div
 		var n = 0;
+		var next = node.next();
 		while(node.hasClass('episode')){
 			node.slideToggle();
 			node.removeClass('episode');
 			node = node.prev();
 			n++;
 		}
-		// On supprime ces div cachés
-		//$('.toDelete').remove();
+		
+		// Si il n'y a plus d'épisodes à voir dans la série, on la cache
+		if (next.length == 0) {
+			$('#'+show).slideToggle();
+		}
+		
 		// On fait apparaitre les suivants
 		$('#'+show+' .episode:hidden:lt('+n+')').slideToggle();
 		
