@@ -77,9 +77,11 @@ var BS = {
 			}
 			
 			// Mise à jour du cache de la page
-			var time = Math.floor(new Date().getTime() / 1000);
-			DB.set('page.'+o.id, JSON.stringify(tab));
-			DB.set('update.'+o.id, time);
+			if (tab !== undefined) {
+				var time = Math.floor(new Date().getTime() / 1000);
+				DB.set('page.'+o.id, JSON.stringify(tab));
+				DB.set('update.'+o.id, time);
+			}
 			
 			// Callback
 			if (callback) {
