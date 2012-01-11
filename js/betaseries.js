@@ -396,9 +396,9 @@ var BS = {
 						else {imgDownloaded = "folder_off"; texte3 = __('mark_as_dl');}
 					}
 					output += '<div class="right">';
-					var empty = '<img src="../img/empty.png" alt="hidden" />';
+					var empty = '<img src="../img/empty.png" alt="hidden" /> ';
 					if (data[n].comments > 0)
-						output += '	<img src="../img/comment.png" class="commentList" title="'+__('nbr_comments', [data[n].comments])+'" /> ';
+						output += '<img src="../img/comment.png" class="commentList" title="'+__('nbr_comments', [data[n].comments])+'" /> ';
 					else 
 						output += empty;
 					if (data[n].downloaded != -1)
