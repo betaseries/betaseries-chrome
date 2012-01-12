@@ -2,6 +2,9 @@
 	"about": {
 		"message": "à propos"
 	},
+	"activate_rating": {
+		"message": "Activer la notation des épisodes : "
+	},
 	"all": {
 		"message": "ALL"
 	},

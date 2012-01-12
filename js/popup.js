@@ -9,45 +9,128 @@ $(document).ready(function(){
 		var node = $(this).parent().parent();
 		var season = node.attr('season');
 		var episode = node.attr('episode');
-		var show = node.parent().attr('id');
+		var nodeShow = node.parent();
+		var show = nodeShow.attr('id');
 		var params = "&season="+season+"&episode="+episode;
+		var activate_rating = DB.get('options.activate_rating');
+		
+		var cleanEpisode = function(){
+			// Si il n'y a plus d'épisodes à voir dans la série, on la cache
+			if ($(nodeShow).find('.episode').length == 0) {
+				nodeShow.slideToggle();
+			}
+			
+			// On fait apparaitre les suivants
+			$('#'+show+' .episode:hidden:lt('+n+')').slideToggle();
+			
+			// Mise à jour du remain
+			var remain = nodeShow.find('.remain');
+			var newremain = parseInt(remain.text()) - n;
+			remain.text(newremain);
+			if (newremain<1) {
+				remain.parent().hide();
+			}
+			
+			setTimeout(function(){
+				$('#scrollbar1').tinyscrollbar_update('relative');
+			}, 1000);
+		};
 		
 		// On cache les div
 		var n = 0;
 		var next = node.next();
 		while(node.hasClass('episode')){
-			node.slideToggle();
-			node.removeClass('episode');
+			// Notation d'un épisode
+			if (activate_rating == 'true') {
+				var nodeRight = $(node).find('.right');
+				var content = "";
+				for (var i=1; i<=5; i++) {
+					content += '<img src="../img/star_off.gif" width="10" id="star'+i+'" class="star" title="'+i+' /5" />';
+				}
+				content += '<img src="../img/archive.png" width="10" class="close_stars" />';
+				nodeRight.html(content);
+				// Star HOVER
+				$('.star')
+					.on({
+						mouseenter: function(){ 
+							$(this).css('cursor','pointer');
+							var nodeStar = $(this);
+							while (nodeStar.hasClass('star')) {
+								nodeStar.attr('src', '../img/star.gif');
+								nodeStar = nodeStar.prev();
+							}
+						}, 
+						mouseleave: function(){ 
+							$(this).css('cursor','auto');
+							var nodeStar = $(this);
+							while (nodeStar.hasClass('star')) {
+								nodeStar.attr('src', '../img/star_off.gif');
+								nodeStar = nodeStar.prev();
+							}
+						},
+						click: function(){
+							var nodeEpisode = $(this).parent().parent();
+							if (nodeEpisode.hasClass('episode')) {
+								nodeEpisode.slideToggle();
+								nodeEpisode.removeClass('episode');
+							
+								var rate = $(this).attr('id').substring(4);
+								params += "&note="+rate;
+								// On marque comme vu EN notant
+								ajax.post("/members/watched/"+show, params, 
+									function () {BS.load('membersEpisodes').update(); bgPage.badge.update();},
+									function () {registerAction("/members/watched/"+show, params)}
+								);
+	
+								cleanEpisode();
+							}
+						}
+					});
+					
+				// Close Stars HOVER
+				$('.close_stars')
+					.on({
+						mouseenter: function(){ 
+							$(this).css('cursor','pointer');
+							$(this).attr('src', '../img/archive_on.png');
+						}, 
+						mouseleave: function(){ 
+							$(this).css('cursor','auto');
+							$(this).attr('src', '../img/archive.png');
+						},
+						click: function(){
+							var nodeEpisode = $(this).parent().parent();
+							if (nodeEpisode.hasClass('episode')) {
+								nodeEpisode.slideToggle();
+								nodeEpisode.removeClass('episode');
+								
+								// On marque comme vu SANS noter
+								ajax.post("/members/watched/"+show, params, 
+									function () {BS.load('membersEpisodes').update(); bgPage.badge.update();},
+									function () {registerAction("/members/watched/"+show, params)}
+								);
+								
+								cleanEpisode();
+							}
+						}
+					});
+			} else if (activate_rating == 'false') {
+				node.slideToggle();
+				node.removeClass('episode');
+			}
 			node = node.prev();
 			n++;
 		}
 		
-		// Si il n'y a plus d'épisodes à voir dans la série, on la cache
-		if (next.length == 0) {
-			$('#'+show).slideToggle();
+		if (activate_rating == 'false') {
+			// On marque comme vu SANS noter
+			ajax.post("/members/watched/"+show, params, 
+				function () {BS.load('membersEpisodes').update(); bgPage.badge.update();},
+				function () {registerAction("/members/watched/"+show, params)}
+			);
+			
+			cleanEpisode();
 		}
-		
-		// On fait apparaitre les suivants
-		$('#'+show+' .episode:hidden:lt('+n+')').slideToggle();
-		
-		// Mise à jour du remain
-		var remain = node.parent().find('.remain');
-		var newremain = parseInt(remain.text()) - n;
-		remain.text(newremain);
-		if (newremain<1) {
-			remain.parent().hide();
-		}
-		
-		// On lance la requête en fond
-		ajax.post("/members/watched/"+show, params, 
-			function () {BS.load('membersEpisodes').update(); bgPage.badge.update();},
-			function () {registerAction("/members/watched/"+show, params)}
-		);
-		
-		setTimeout(function(){
-			$('#scrollbar1').tinyscrollbar_update('relative');
-		}, 1000);
-		return false;
 	});
 	
 	/**

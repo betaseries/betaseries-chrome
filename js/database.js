@@ -11,6 +11,7 @@ var DB = {
 		this.set('options.dl_srt_language', 'VF', true);
 		this.set('options.nbr_episodes_per_serie', 5, true);
 		this.set('options.display_global', 'false', true);
+		this.set('options.activate_rating', 'false', true);
 		
 		// BADGE
 		this.set('badge.value', 0, true);
