@@ -535,6 +535,28 @@ $(document).ready(function(){
 		}
 	});
 	
+	$('#addfriend').live('click', function(){
+		var login = $(this).attr('login');
+		var params = {};
+		ajax.post("/members/add/"+login, params, function (data) {
+			$(this).attr('href', '#removefriend');
+			$(this).attr('id', 'removefriend');
+			$(this).text(__('remove_from_friends', [login]));
+		});
+		return false;
+	});
+	
+	$('#removefriend').live('click', function(){
+		var login = $(this).attr('login');
+		var params = {};
+		ajax.post("/members/delete/"+login, params, function (data) {
+			$(this).attr('href', '#addfriend');
+			$(this).attr('id', 'addfriend');
+			$(this).text(__('add_to_friends', [login]));
+		});
+		return false;
+	});
+	
 	// HEADER links
 	$('#logoLink')
 		.click(function(){Fx._openTab('http://betaseries.com', true);})

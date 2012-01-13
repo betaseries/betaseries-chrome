@@ -2,6 +2,14 @@
 	"about": {
 		"message": "à propos"
 	},
+	"add_to_friends": {
+		"message": "Ajouter $user$ à vos amis", 
+		"placeholders":{
+			"user":{
+				"content":"$1"
+			}
+		}
+	},
 	"enable_ratings": {
 		"message": "Activer la notation des épisodes : "
 	},
@@ -267,6 +275,14 @@
 	},
 	"refresh": {
 		"message": "Actualiser"
+	},
+	"remove_from_friends": {
+		"message": "Enlever $user$ de vos amis", 
+		"placeholders":{
+			"user":{
+				"content":"$1"
+			}
+		}
 	},
 	"repassword": {
 		"message": "Répéter mot de passe"
