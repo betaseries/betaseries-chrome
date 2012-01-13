@@ -20,7 +20,7 @@ $(document).ready(function(){
 	$('#nbr_episodes_per_serie').text(__("nbr_episodes_per_serie"));
 	$('#badge_notification_type').text(__("badge_notification_type"));
 	$('#display_global').text(__("display_global"));
-	$('#activate_rating').text(__("activate_rating"));
+	$('#enable_ratings').text(__("enable_ratings"));
 	$('#title_author').text(__('author'));
 	$('#title_contributors').text(__('contributors'));
 	$('#title_ext_page').text(__('extension_page'));
@@ -32,7 +32,7 @@ $(document).ready(function(){
 	$('select[name=dl_srt_language]').val(DB.get('options.dl_srt_language'));
 	$('input[name=nbr_episodes_per_serie]').attr('value', DB.get('options.nbr_episodes_per_serie'));
 	$('select[name=display_global]').val(DB.get('options.display_global'));
-	$('select[name=activate_rating]').val(DB.get('options.activate_rating'));
+	$('select[name=enable_ratings]').val(DB.get('options.enable_ratings'));
 	$('option[value=watched]').text(__('episodes_not_seen'));
 	$('option[value=downloaded]').text(__('episodes_not_dl'));
 	$('option[value=VO]').text(__('vo'));
@@ -46,7 +46,7 @@ $(document).ready(function(){
 		DB.set('options.dl_srt_language', $('select[name=dl_srt_language] :selected').val());
 		DB.set('options.nbr_episodes_per_serie', $('input[name=nbr_episodes_per_serie]').attr('value'));
 		DB.set('options.display_global', $('select[name=display_global] :selected').val());
-		DB.set('options.activate_rating', $('select[name=activate_rating] :selected').val());
+		DB.set('options.enable_ratings', $('select[name=enable_ratings] :selected').val());
 		bgPage.badge.update();
 		$(this).html('Sauvegardé !');
 		$(this).css('background-color', '#eafedf');

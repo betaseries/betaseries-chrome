@@ -12,7 +12,7 @@ $(document).ready(function(){
 		var nodeShow = node.parent();
 		var show = nodeShow.attr('id');
 		var params = "&season="+season+"&episode="+episode;
-		var activate_rating = DB.get('options.activate_rating');
+		var enable_ratings = DB.get('options.enable_ratings');
 		
 		var cleanEpisode = function(){
 			// Si il n'y a plus d'épisodes à voir dans la série, on la cache
@@ -41,7 +41,7 @@ $(document).ready(function(){
 		var next = node.next();
 		while(node.hasClass('episode')){
 			// Notation d'un épisode
-			if (activate_rating == 'true') {
+			if (enable_ratings == 'true') {
 				var nodeRight = $(node).find('.right');
 				var content = "";
 				for (var i=1; i<=5; i++) {
@@ -114,7 +114,7 @@ $(document).ready(function(){
 							}
 						}
 					});
-			} else if (activate_rating == 'false') {
+			} else if (enable_ratings == 'false') {
 				node.slideToggle();
 				node.removeClass('episode');
 			}
@@ -122,7 +122,7 @@ $(document).ready(function(){
 			n++;
 		}
 		
-		if (activate_rating == 'false') {
+		if (enable_ratings == 'false') {
 			// On marque comme vu SANS noter
 			ajax.post("/members/watched/"+show, params, 
 				function () {BS.load('membersEpisodes').update(); bgPage.badge.update();},
