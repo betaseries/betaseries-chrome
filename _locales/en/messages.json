@@ -3,7 +3,7 @@
 		"message": "about"
 	},
 	"activate_rating": {
-		"message": "***Activate episode rating : "
+		"message": "Enable episodes' ratings : "
 	},
 	"all": {
 		"message": "ALL"

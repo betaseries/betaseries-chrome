@@ -275,6 +275,7 @@ var BS = {
 			url: '/members/infos/'+login,
 			root: 'member',
 			content: function(data){
+				console.log(data);
 				var output = '';
 				output += '<div class="showtitle">'+data.login+'</div>';
 				output += '<img src="'+data.avatar+'" width="50" style="position:absolute; right:0;" />';
