@@ -275,10 +275,16 @@ var BS = {
 			url: '/members/infos/'+login,
 			root: 'member',
 			content: function(data){
-				console.log(data);
+				if (data.avatar != '') {
+					var avatar = new Image();
+					avatar.src = data.avatar;
+					avatar.onload = function(){
+						$('#avatar').attr('src', data.avatar);
+					};
+				}
 				var output = '';
 				output += '<div class="showtitle">'+data.login+'</div>';
-				output += '<img src="'+data.avatar+'" width="50" style="position:absolute; right:0;" />';
+				output += '<img src="../img/avatar.png" width="50" id="avatar" style="position:absolute; right:0;" />';
 				output += '<div class="episode lun"><img src="../img/infos.png" class="icon"> '+__('nbr_friends', [data.stats.friends])+' </div>';
 				output += '<div class="episode lun"><img src="../img/medal.png" class="icon"> '+__('nbr_badges', [data.stats.badges])+' </div>';
 				output += '<div class="episode lun"><img src="../img/episodes.png" class="icon"> '+__('nbr_shows', [data.stats.shows])+' </div>';
