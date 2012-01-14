@@ -276,7 +276,7 @@
 	"refresh": {
 		"message": "Actualiser"
 	},
-	"remove_from_friends": {
+	"remove_to_friends": {
 		"message": "Enlever $user$ de vos amis", 
 		"placeholders":{
 			"user":{

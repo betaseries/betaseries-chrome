@@ -276,8 +276,8 @@
 	"refresh": {
 		"message": "Refresh"
 	},
-	"remove_from_friends": {
-		"message": "Remove $user$ from my friends", 
+	"remove_to_friends": {
+		"message": "Remove $user$ to my friends", 
 		"placeholders":{
 			"user":{
 				"content":"$1"

@@ -535,18 +535,24 @@ $(document).ready(function(){
 		}
 	});
 	
+	/**
+	 * CLICK - Ajouter un ami
+	 */
 	$('#addfriend').live('click', function(){
 		var login = $(this).attr('login');
 		var params = {};
 		ajax.post("/members/add/"+login, params, function (data) {
 			$(this).attr('href', '#removefriend');
 			$(this).attr('id', 'removefriend');
-			$(this).text(__('remove_from_friends', [login]));
+			$(this).text(__('remove_to_friends', [login]));
 			$('#friendshipimg').attr('src', '../img/friend_remove.png');
 		});
 		return false;
 	});
 	
+	/**
+	 * CLICK - Enlever un ami
+	 */
 	$('#removefriend').live('click', function(){
 		var login = $(this).attr('login');
 		var params = {};
