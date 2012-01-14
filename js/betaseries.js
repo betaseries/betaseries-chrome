@@ -308,9 +308,9 @@ var BS = {
 				if (data.is_in_account != undefined) {
 					output += '<div class="showtitle">Actions</div>';
 					if (data.is_in_account == 0) {
-						output += '<div class="episode"><a href="#" id="addfriend" login="'+data.login+'">'+__('add_to_friends', [data.login])+'</a></div>';
+						output += '<div class="episode"><img src="../img/friend_add.png" id="friendshipimg" style="margin-bottom: -4px;" /> <a href="#" id="addfriend" login="'+data.login+'">'+__('add_to_friends', [data.login])+'</a></div>';
 					} else if (data.is_in_account == 1) {
-						output += '<div class="episode"><a href="#" id="removefriend" login="'+data.login+'">'+__('remove_from_friends', [data.login])+'</a></div>';
+						output += '<div class="episode"><img src="../img/friend_remove.png" id="friendshipimg" style="margin-bottom: -4px;"  /> <a href="#" id="removefriend" login="'+data.login+'">'+__('remove_from_friends', [data.login])+'</a></div>';
 					}
 				}
 				

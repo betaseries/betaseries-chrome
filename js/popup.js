@@ -542,6 +542,7 @@ $(document).ready(function(){
 			$(this).attr('href', '#removefriend');
 			$(this).attr('id', 'removefriend');
 			$(this).text(__('remove_from_friends', [login]));
+			$('#friendshipimg').attr('src', '../img/friend_remove.png');
 		});
 		return false;
 	});
@@ -553,6 +554,7 @@ $(document).ready(function(){
 			$(this).attr('href', '#addfriend');
 			$(this).attr('id', 'addfriend');
 			$(this).text(__('add_to_friends', [login]));
+			$('#friendshipimg').attr('src', '../img/friend_add.png');
 		});
 		return false;
 	});
