@@ -16,6 +16,9 @@ var DB = {
 		// BADGE
 		this.set('badge.value', 0, true);
 		this.set('badge.type', 'membersEpisodes', true);
+		
+		// Historique
+		this.set('historic', '[]');
 	},
 	
 	/**

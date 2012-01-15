@@ -103,6 +103,17 @@ var BS = {
 		o = this.loadedPage;
 		this.currentPage = o;
 		
+		// Historique
+		var historic = JSON.parse(DB.get('historic'));
+		var length = historic.length;
+		if (historic[length-1] != 'page.'+o.id) {
+			historic.push('page.'+o.id);
+			if (length == 1) {
+				$('#back').show();
+			}
+		}
+		DB.set('historic', JSON.stringify(historic));
+		
 		// Recherche d'un cache de page existant
 		var cache = DB.get('page.'+o.id, null);
 		if (cache) {
@@ -170,7 +181,7 @@ var BS = {
 	 */
 	showsEpisodes: function(url, season, episode){
 		return {
-			id: 'showsEpisodes.'+url+'.'+'season'+'.'+episode,
+			id: 'showsEpisodes.'+url+'.'+season+'.'+episode,
 			name: 'showsEpisodes',
 			url: '/shows/episodes/'+url,
 			params: '&season='+season+'&episode='+episode,
@@ -322,7 +333,7 @@ var BS = {
 	membersEpisodes: function(lang){
 		if(!lang) lang = 'all';
 		return {	
-			id: 'membersEpisodes',
+			id: 'membersEpisodes.'+lang,
 			name: 'membersEpisodes',
 			url: '/members/episodes/'+lang,
 			root: 'episodes',
@@ -591,7 +602,7 @@ var BS = {
 		};
 	},
 	
-	searchForm: function(terms){
+	searchForm: function(){
 		return {
 			id: 'searchForm',
 			name: 'searchForm',

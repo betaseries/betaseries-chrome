@@ -34,6 +34,9 @@
 	"avg_note": {
 		"message": "Average rating"
 	},
+	"back": {
+		"message": "Back"
+	},
 	"badge": {
 		"message": "Badge"
 	},

@@ -574,6 +574,24 @@ $(document).ready(function(){
 		.attr('title', __("version"));
 	
 	// MENU actions
+	$('#back')
+		.click(function(){
+			var historic = JSON.parse(DB.get('historic'));
+			if ((length = historic.length) >= 2) {
+				historic.pop();
+				var args = historic[length-2].substring(5).split('.');
+				
+				BS.load.apply(BS, args).refresh();
+				
+				//BS.load(args).refresh();
+				DB.set('historic', JSON.stringify(historic));
+				if (length == 2) {
+					$(this).hide();
+				}
+			}
+			return false;
+		})
+		.attr('title', __("back"));
 	$('#status')
 		.click(function(){BS.refresh(); return false;})
 		.attr('title', __("refresh"));
