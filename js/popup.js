@@ -565,6 +565,36 @@ $(document).ready(function(){
 		return false;
 	});
 	
+	/*CLICK montrer/cacher une série*/
+	$('.toggleShow').live({
+		click: function(){
+			var show = $(this).parent().parent();
+			var nbr_episodes_per_serie = JSON.parse(DB.get('options.nbr_episodes_per_serie'));
+			$(show).find('.episode:lt('+nbr_episodes_per_serie+')').slideToggle();
+			$(show).find('.toggleEpisodes').slideToggle();
+			if ($(this).attr('src') == '../img/arrow_down.gif') {
+				$(this).attr('src', '../img/arrow_right.gif');
+			} else {
+				$(this).attr('src', '../img/arrow_down.gif');
+			}
+			
+			var showName = $(show).attr('id');
+			var hidden_shows = JSON.parse(DB.get('hidden_shows'));
+			if ($.inArray(showName, hidden_shows) == -1) {
+				hidden_shows.push(showName);
+			} else {
+				hidden_shows.splice(hidden_shows.indexOf(showName), 1);
+			}
+			DB.set('hidden_shows', JSON.stringify(hidden_shows));
+			
+			setTimeout(function(){
+				$('#scrollbar1').tinyscrollbar_update('relative');
+			}, 1000);
+		},
+		mouseenter: function() { $(this).css('cursor','pointer'); },
+		mouseleave: function() { $(this).css('cursor','auto'); }
+	});
+	
 	// HEADER links
 	$('#logoLink')
 		.click(function(){Fx._openTab('http://betaseries.com', true);})

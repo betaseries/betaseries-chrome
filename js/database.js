@@ -19,6 +19,9 @@ var DB = {
 		
 		// Historique
 		this.set('historic', '[]');
+		
+		// Séries minimisées (vue des épisodes non vus)
+		this.set('hidden_shows', '[]', true);
 	},
 	
 	/**

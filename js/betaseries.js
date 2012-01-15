@@ -343,22 +343,26 @@ var BS = {
 				var nbrEpisodes = 0;
 				var posEpisode = 1;
 				var nbrEpisodesPerSerie = DB.get('options.nbr_episodes_per_serie');
+				var stats = {};
+				var newTitleShow = true;
+				for(var n in data){
+					if (data[n].url in stats) {
+						stats[data[n].url]++;
+					} else {
+						stats[data[n].url] = 1;
+					}
+				}
 				for(var n in data){
 					// Titre de la série
-					if (data[n].show != show) {
-						// Episodes cachés
-						var remain = posEpisode-nbrEpisodesPerSerie-1;
-						if (remain > 0) {
-							output += '<div class="toggleEpisodes">';
-							output += '<span class="labelRemain">' + __('show_episodes') +'</span>';
-							output += ' (<span class="remain">' + remain + '</span>)';
-							output += ' <img src="../img/downarrow.gif" style="margin-bottom:-2px;" />';
-							output += '</div>';
-						}
-					
-						if (nbrEpisodes>0) output += '</div>';
+					if (newTitleShow) {
+						// Série cachée
+						var hidden_shows = JSON.parse(DB.get('hidden_shows'));
+						var hiddenShow = ($.inArray(data[n].url, hidden_shows) >= 0);
+						var visibleIcon = (hiddenShow) ? '../img/arrow_right.gif': '../img/arrow_down.gif';
+						
+						// Ouverture de la série
 						output += '<div class="show" id="'+data[n].url+'">';
-						output += '<div class="showtitle"><a href="" onclick="BS.load(\'showsDisplay\', \''+data[n].url+'\').refresh(); return false;" class="showtitle">'+data[n].show+'</a>';
+						output += '<div class="showtitle"><img src="'+visibleIcon+'" class="toggleShow" /><a href="" onclick="BS.load(\'showsDisplay\', \''+data[n].url+'\').refresh(); return false;" class="showtitle">'+data[n].show+'</a>';
 						output += ' <img src="../img/archive.png" class="archive" title="'+__("archive")+'" /></div>';
 						
 						show = data[n].show;
@@ -377,7 +381,7 @@ var BS = {
 					var classes = "";
 					var hidden = "";
 					if (newShow) classes = " new_show";
-					if (posEpisode > nbrEpisodesPerSerie) {
+					if (posEpisode > nbrEpisodesPerSerie || hiddenShow) {
 						classes += ' hidden';
 						hidden = ' style="display: none;"';
 					}
@@ -442,18 +446,25 @@ var BS = {
 					output += '<div class="clear"></div>';
 						
 					output += '</div>';
+					
+					// Episodes cachés pour la dernière série
+					newTitleShow = (posEpisode == stats[data[n].url])
+					var remain = stats[data[n].url]-nbrEpisodesPerSerie;
+					if (newTitleShow && remain > 0) {
+						var hidden = (hiddenShow) ? ' style="display: none;"': ''; 
+						output += '<div class="toggleEpisodes"'+hidden+'>';
+						output += '<span class="labelRemain">' + __('show_episodes') +'</span>';
+						output += ' (<span class="remain">' + remain + '</span>)';
+						output += ' <img src="../img/downarrow.gif" style="margin-bottom:-2px;" />';
+						output += '</div>';
+					}
+					
+					// Fermeture de la série
+					if (newTitleShow) output += '</div>';
+					
+					
 					nbrEpisodes++;
 					posEpisode++;
-				}
-						
-				// Episodes cachés pour la dernière série
-				var remain = posEpisode-nbrEpisodesPerSerie-1;
-				if (remain > 0) {
-					output += '<div class="toggleEpisodes">';
-					output += '<span class="labelRemain">' + __('show_episodes') +'</span>';
-					output += ' (<span class="remain">' + remain + '</span>)';
-					output += ' <img src="../img/downarrow.gif" style="margin-bottom:-2px;" />';
-					output += '</div>';
 				}
 							
 				bgPage.badge.update();
