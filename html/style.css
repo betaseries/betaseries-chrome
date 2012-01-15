@@ -9,16 +9,9 @@ a:hover {text-decoration: underline; color: #006;}
 a.showtitle, a.showtitle:visited {text-decoration: none; color: #000; outline: none;}
 a.showtitle:hover {color: #900;}
 
-#scrollbar1 { width: 300px; clear: both; }
-#scrollbar1 .viewport { width: 295px; height: 200px; overflow: hidden; position: relative; }
-#scrollbar1 .overview { list-style: none; position: absolute; left: 0; top: 0; }
-#scrollbar1 .thumb { background-color: #bbb; }
-#scrollbar1 .thumb:hover { background-color: #666; }
-#scrollbar1 .scrollbar { position: relative; float: right; width: 5px; }
-#scrollbar1 .track { background-color: #fff; height: 100%; width: 3px; position: relative; padding: 0 1px; }
-#scrollbar1 .thumb { height: 20px; width: 5px; cursor: pointer; overflow: hidden; position: absolute; top: 0; }
-#scrollbar1 .thumb .end { overflow: hidden; height: 5px; width: 5px; }
-#scrollbar1 .disable{ display: none;}
+.nano .content      { padding: 0px; }
+.nano .pane         { background: #fff; }
+.nano .pane .slider { background: #bbb; }
 
 /*Pannel*/
 div#pannel {padding-bottom: 3px; border-bottom: 1px solid #bbb;}

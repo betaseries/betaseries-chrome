@@ -128,16 +128,8 @@ var BS = {
 		$('#page').removeClass().addClass(o.name);
 		
 		// Réglage de la hauteur du popup
-		if ($('#page').height() >= 200) {
-			$('.viewport').css('height', 200);
-			$('.viewport').css('overflow', 'hidden');
-			$('.scrollbar').show();
-			$('#scrollbar1').tinyscrollbar_update();
-		} else {
-			$('.viewport').css('height', $('#page').height()+10);
-			//$('.scrollbar').hide();
-			$('#scrollbar1').tinyscrollbar_update();
-		}
+		$('#about').height(200);
+		$('.nano').nanoScroller({scroll:'top'});
 	},
 	
 	/**

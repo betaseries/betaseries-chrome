@@ -31,9 +31,7 @@ $(document).ready(function(){
 				remain.parent().hide();
 			}
 			
-			setTimeout(function(){
-				$('#scrollbar1').tinyscrollbar_update('relative');
-			}, 1000);
+			setTimeout(function(){ $('.nano').nanoScroller(); }, 1000);
 		};
 		
 		// On cache les div
@@ -297,9 +295,7 @@ $(document).ready(function(){
 			function () {registerAction("/shows/archive/"+show, "")}
 		);
 		
-		setTimeout(function(){
-			$('#scrollbar1').tinyscrollbar_update('relative');
-		}, 1000);
+		setTimeout(function(){ $('.nano').nanoScroller(); }, 1000);
 		return false;
 	});
 	
@@ -321,9 +317,7 @@ $(document).ready(function(){
 			function () {registerAction("/shows/unarchive/"+show, "")}
 		);
 		
-		setTimeout(function(){
-			$('#scrollbar1').tinyscrollbar_update('relative');
-		}, 1000);
+		setTimeout(function(){ $('.nano').nanoScroller(); }, 1000);
 		return false;
 	});
 	
@@ -465,8 +459,7 @@ $(document).ready(function(){
 			}else{
 				$('#shows-results').html('<div class="episode">'+__('no_shows_found')+'</div>');
 			}
-			$('.viewport').css('height', Math.min($('#page').height()+10, 200));
-			$('#scrollbar1').tinyscrollbar_update('relative');
+			setTimeout(function(){ $('.nano').nanoScroller(); }, 1000);
 		}, function (){
 			//inputs.removeAttr('disabled');
 		});
@@ -483,8 +476,7 @@ $(document).ready(function(){
 			}else{
 				$('#members-results').html('<div class="episode">'+__('no_members_found')+'</div>');
 			}
-			$('.viewport').css('height', Math.min($('#page').height()+10, 200));
-			$('#scrollbar1').tinyscrollbar_update('relative');
+			setTimeout(function(){ $('.nano').nanoScroller(); }, 1000);
 		}, function (){
 			//inputs.removeAttr('disabled');
 		});
@@ -515,9 +507,7 @@ $(document).ready(function(){
 			$(this).find('img').attr('src', '../img/uparrow.gif');
 		}
 		
-		setTimeout(function(){
-			$('#scrollbar1').tinyscrollbar_update('relative');
-		}, 1000);
+		setTimeout(function(){ $('.nano').nanoScroller(); }, 1000);
 		return false;
 	});
 	
@@ -587,9 +577,7 @@ $(document).ready(function(){
 			}
 			DB.set('hidden_shows', JSON.stringify(hidden_shows));
 			
-			setTimeout(function(){
-				$('#scrollbar1').tinyscrollbar_update('relative');
-			}, 1000);
+			setTimeout(function(){ $('.nano').nanoScroller(); }, 1000);
 		},
 		mouseenter: function() { $(this).css('cursor','pointer'); },
 		mouseleave: function() { $(this).css('cursor','auto'); }
@@ -680,7 +668,6 @@ $(document).ready(function(){
 	 * INIT
 	 */
 	DB.init();
-	$('#scrollbar1').tinyscrollbar();
 	if (bgPage.connected()) {
 		Fx._cleanCache();
 		var badgeType = DB.get('badge.type', 'membersEpisodes');
