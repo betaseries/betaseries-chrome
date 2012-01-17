@@ -39,7 +39,7 @@ DB =
 	 # init		<boolean>	Ne renseigne le champ seulement s'il n'existe pas (initialisation)
 	 #
 	set: (field, value, init) ->
-		if !init or (init and localStorage[field]?)
+		if !init or (init and !localStorage[field])
 			localStorage[field] = value
 	
 	##

@@ -21,7 +21,7 @@ DB = {
     }
   },
   set: function(field, value, init) {
-    if (!init || (init && (localStorage[field] != null))) {
+    if (!init || (init && !localStorage[field])) {
       return localStorage[field] = value;
     }
   },

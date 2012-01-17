@@ -20,10 +20,11 @@ ajax =
 			data: "key=" + @key + params + token
 			dataType: "json"
 			success: (data) ->
+				#console.log data
 				$('#status').attr 'src', '../img/plot_green.gif'
 				$('#sync').hide()
 				if successCallback?
-					successCallback data
+				successCallback data if successCallback?
 			error: ->
 				$('#sync').hide()
 				$('#status').attr 'src', '../img/plot_red.gif'
