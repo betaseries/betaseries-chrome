@@ -281,7 +281,7 @@ $(document).ready(function(){
 	 * Archiver une série
 	 */
 	$('.archive').live('click', function(){
-		show = $(this).parent().parent().attr('id');
+		show = $(this).parent().parent().parent().attr('id');
 		
 		// On efface la série tout de suite
 		$('#'+show).slideUp();
@@ -491,22 +491,39 @@ $(document).ready(function(){
 		console.log("action: "+category+params);
 	};
 	
-	/**
-	 * Montrer ou cacher les épisodes en trop
-	 */
+	/*CLICK Montrer ou cacher les épisodes en trop*/
 	$('.toggleEpisodes').live('click', function() { 
-		var hiddens = $(this).parent().find('div.episode.hidden');
+		var show = $(this).parent().parent().parent();
+		var hiddens = show.find('div.episode.hidden');
+		
+		// Gestion où la série est minimisée
+		var showName = $(show).attr('id');
+		var hidden_shows = JSON.parse(DB.get('hidden_shows'));
+		var hiddenShow = ($.inArray(showName, hidden_shows) >= 0);
+		if (hiddenShow) {
+			$(show).find('.toggleShow').trigger('click');
+			return false;
+		}
+		
 		hiddens.slideToggle();
 		
-		var labelRemain = $(this).find('.labelRemain');
-		if (labelRemain.text() == __('hide_episodes')) {
-			labelRemain.text(__('show_episodes'));
+		var extra_episodes = JSON.parse(DB.get('extra_episodes'));
+		var extraEpisodes = ($.inArray(showName, extra_episodes) >= 0);
+		if (extraEpisodes) {
+			$(this).find('.labelRemain').text(__('show_episodes'));
 			$(this).find('img').attr('src', '../img/downarrow.gif');
 		} else {
-			labelRemain.text(__('hide_episodes'));
+			$(this).find('.labelRemain').text(__('hide_episodes'));
 			$(this).find('img').attr('src', '../img/uparrow.gif');
 		}
 		
+		if (!extraEpisodes) {
+			extra_episodes.push(showName);
+		} else {
+			extra_episodes.splice(extra_episodes.indexOf(showName), 1);
+		}
+		DB.set('extra_episodes', JSON.stringify(extra_episodes));
+				
 		setTimeout(function(){ $('.nano').nanoScroller(); }, 1000);
 		return false;
 	});
@@ -555,22 +572,68 @@ $(document).ready(function(){
 		return false;
 	});
 	
-	/*CLICK montrer/cacher une série*/
+	/*CLICK maximiser/minimiser une série*/
 	$('.toggleShow').live({
 		click: function(){
-			var show = $(this).parent().parent();
+			var show = $(this).parent().parent().parent();
+			var showName = $(show).attr('id');
 			var nbr_episodes_per_serie = JSON.parse(DB.get('options.nbr_episodes_per_serie'));
-			$(show).find('.episode:lt('+nbr_episodes_per_serie+')').slideToggle();
-			$(show).find('.toggleEpisodes').slideToggle();
-			if ($(this).attr('src') == '../img/arrow_down.gif') {
+			var hidden_shows = JSON.parse(DB.get('hidden_shows'));
+			var hiddenShow = ($.inArray(showName, hidden_shows) >= 0);
+			var extra_episodes = JSON.parse(DB.get('extra_episodes'));
+			var extraEpisodes = ($.inArray(showName, extra_episodes) >= 0);
+			var nb_hiddens = $(show).find('div.episode.hidden').length;
+			var nb_episodes = $(show).find('div.episode').length;
+			
+			var toggleEpisodes = $(show).find('.toggleEpisodes');			
+			var labelRemainText = (hiddenShow) ? __('hide_episodes') : __('show_episodes');
+			var imgSrc = (hiddenShow) ? '../img/uparrow.gif' : '../img/downarrow.gif';
+			toggleEpisodes.find('.labelRemain').text(labelRemainText);
+			toggleEpisodes.find('img').attr('src', imgSrc);
+					
+			if (extraEpisodes) {
+				if (hiddenShow) {
+					toggleEpisodes.find('.remain').text(nb_hiddens);
+				} else {
+					var remain = parseInt(toggleEpisodes.find('.remain').text());
+					remain += parseInt(nbr_episodes_per_serie);
+					toggleEpisodes.find('.remain').text(remain);
+				}
+								
+				$(show).find('.episode').slideToggle();
+			} else {
+				if (hiddenShow) {
+					if (nb_hiddens == 0) {
+						toggleEpisodes.hide();
+					} else {
+						toggleEpisodes.find('.labelRemain').text(__('show_episodes'));
+						toggleEpisodes.find('.remain').text(nb_hiddens);
+						toggleEpisodes.find('img').attr('src', '../img/downarrow.gif');
+					}
+				} else {
+					if (nb_hiddens == 0) {
+						toggleEpisodes.find('.labelRemain').text(__('show_episodes'));
+						toggleEpisodes.find('.remain').text(nb_episodes);
+						toggleEpisodes.find('img').attr('src', '../img/downarrow.gif');
+						toggleEpisodes.find('.remain').text(remain);
+						toggleEpisodes.show();
+					} else {
+						var remain = parseInt(toggleEpisodes.find('.remain').text());
+						remain += parseInt(nbr_episodes_per_serie);
+						toggleEpisodes.find('.remain').text(remain);
+					}
+				}
+				
+				$(show).find('.episode:lt('+nbr_episodes_per_serie+')').slideToggle();
+			}
+			
+			if (!hiddenShow) {
 				$(this).attr('src', '../img/arrow_right.gif');
 			} else {
 				$(this).attr('src', '../img/arrow_down.gif');
 			}
 			
-			var showName = $(show).attr('id');
-			var hidden_shows = JSON.parse(DB.get('hidden_shows'));
-			if ($.inArray(showName, hidden_shows) == -1) {
+			if (!hiddenShow) {
 				hidden_shows.push(showName);
 			} else {
 				hidden_shows.splice(hidden_shows.indexOf(showName), 1);

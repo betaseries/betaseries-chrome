@@ -279,15 +279,35 @@ BS =
 			for n of data
 				# Titre de la série
 				if newTitleShow
-					# Série cachée
+					# Série minimisée
 					hidden_shows = JSON.parse DB.get 'hidden_shows'
 					hiddenShow = data[n].url in hidden_shows
 					visibleIcon = if hiddenShow then '../img/arrow_right.gif' else '../img/arrow_down.gif'
 					
+					# Episodes supplémentaires affichés
+					extra_episodes = JSON.parse DB.get 'extra_episodes'
+					extraEpisodes = data[n].url in extra_episodes
+					extraIcon = if extraEpisodes then '../img/uparrow.gif' else '../img/downarrow.gif'
+					extraText = if extraEpisodes then __('hide_episodes') else __('show_episodes')
+					
 					# Ouverture de la série
 					output += '<div class="show" id="' + data[n].url + '">'
-					output += '<div class="showtitle"><img src="' + visibleIcon + '" class="toggleShow" /><a href="" onclick="BS.load(\'showsDisplay\', \'' + data[n].url + '\').refresh(); return false;" class="showtitle">' + data[n].show + '</a>'
+					output += '<div class="showtitle"><div class="left2"><img src="' + visibleIcon + '" class="toggleShow" /><a href="" onclick="BS.load(\'showsDisplay\', \'' + data[n].url + '\').refresh(); return false;" class="showtitle">' + data[n].show + '</a>'
 					output += ' <img src="../img/archive.png" class="archive" title="' + __("archive") + '" /></div>'
+					
+					output += '<div class="right2">';
+					remain = if hiddenShow then stats[data[n].url] else stats[data[n].url] - nbrEpisodesPerSerie
+					if newTitleShow
+						hidden = if remain <= 0 then ' style="display: none;"' else '' 
+						output += '<span class="toggleEpisodes"' + hidden + '>'
+						output += '<span class="labelRemain">' + extraText + '</span>'
+						output += ' (<span class="remain">' + remain + '</span>)'
+						output += ' <img src="' + extraIcon + '" style="margin-bottom:-2px;" />'
+						output += '</span>'
+					
+					output += '</div>';
+					output += '<div class="clear"></div>';
+					output += '</div>';
 					
 					show = data[n].show
 					posEpisode = 1
@@ -304,8 +324,11 @@ BS =
 				classes = ""
 				hidden = ""
 				classes = if newShow then "new_show" else ""
-				if posEpisode > nbrEpisodesPerSerie or hiddenShow
+				
+				if posEpisode > nbrEpisodesPerSerie
 					classes += ' hidden'
+					hidden = ' style="display: none;"' if !extraEpisodes or hiddenShow
+				else if hiddenShow
 					hidden = ' style="display: none;"'
 				output += '<div class="episode' + classes + '"' + hidden + ' season="' + season + '" episode="' + episode + '">'
 					
@@ -370,16 +393,8 @@ BS =
 					
 				output += '</div>'
 					
-				# Episodes cachés pour la dernière série
+				# Test pour déterminer si c'est le dernier épisode de la série
 				newTitleShow = posEpisode is stats[data[n].url]
-				remain = stats[data[n].url] - nbrEpisodesPerSerie
-				if newTitleShow and remain > 0
-					hidden = if hiddenShow then ' style="display: none;"' else '' 
-					output += '<div class="toggleEpisodes"' + hidden + '>'
-					output += '<span class="labelRemain">' + __('show_episodes') + '</span>'
-					output += ' (<span class="remain">' + remain + '</span>)'
-					output += ' <img src="../img/downarrow.gif" style="margin-bottom:-2px;" />'
-					output += '</div>'
 				
 				# Fermeture de la série
 				output += '</div>' if newTitleShow

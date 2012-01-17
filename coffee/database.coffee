@@ -21,6 +21,9 @@ DB =
 		
 		# Séries minimisées (vue des épisodes non vus)
 		@set 'hidden_shows', '[]', true
+		
+		# Episodes supplémentaires affichés (vue des épisodes non vus)
+		@set 'extra_episodes', '[]', true
 	
 	## Getter - Obtenir la valeur d'un champ de la BD
 	 #

@@ -10,7 +10,8 @@ DB = {
     this.set('badge.value', 0, true);
     this.set('badge.type', 'membersEpisodes', true);
     this.set('historic', '[]', false);
-    return this.set('hidden_shows', '[]', true);
+    this.set('hidden_shows', '[]', true);
+    return this.set('extra_episodes', '[]', true);
   },
   get: function(field, defaultValue) {
     if (defaultValue == null) defaultValue = void 0;

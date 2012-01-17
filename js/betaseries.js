@@ -269,7 +269,7 @@ BS = {
       url: '/members/episodes/' + lang,
       root: 'episodes',
       content: function(data) {
-        var classes, date, date_0, dlSrtLanguage, downloaded, empty, episode, hidden, hiddenShow, hidden_shows, imgDownloaded, jours, n, nbSubs, nbrEpisodes, nbrEpisodesPerSerie, newShow, newTitleShow, output, posEpisode, quality, remain, season, show, stats, sub, subs, texte2, texte3, title, url, visibleIcon, _ref;
+        var classes, date, date_0, dlSrtLanguage, downloaded, empty, episode, extraEpisodes, extraIcon, extraText, extra_episodes, hidden, hiddenShow, hidden_shows, imgDownloaded, jours, n, nbSubs, nbrEpisodes, nbrEpisodesPerSerie, newShow, newTitleShow, output, posEpisode, quality, remain, season, show, stats, sub, subs, texte2, texte3, title, url, visibleIcon, _ref, _ref2;
         output = "";
         show = "";
         nbrEpisodes = 0;
@@ -289,9 +289,26 @@ BS = {
             hidden_shows = JSON.parse(DB.get('hidden_shows'));
             hiddenShow = (_ref = data[n].url, __indexOf.call(hidden_shows, _ref) >= 0);
             visibleIcon = hiddenShow ? '../img/arrow_right.gif' : '../img/arrow_down.gif';
+            extra_episodes = JSON.parse(DB.get('extra_episodes'));
+            extraEpisodes = (_ref2 = data[n].url, __indexOf.call(extra_episodes, _ref2) >= 0);
+            extraIcon = extraEpisodes ? '../img/uparrow.gif' : '../img/downarrow.gif';
+            extraText = extraEpisodes ? __('hide_episodes') : __('show_episodes');
             output += '<div class="show" id="' + data[n].url + '">';
-            output += '<div class="showtitle"><img src="' + visibleIcon + '" class="toggleShow" /><a href="" onclick="BS.load(\'showsDisplay\', \'' + data[n].url + '\').refresh(); return false;" class="showtitle">' + data[n].show + '</a>';
+            output += '<div class="showtitle"><div class="left2"><img src="' + visibleIcon + '" class="toggleShow" /><a href="" onclick="BS.load(\'showsDisplay\', \'' + data[n].url + '\').refresh(); return false;" class="showtitle">' + data[n].show + '</a>';
             output += ' <img src="../img/archive.png" class="archive" title="' + __("archive") + '" /></div>';
+            output += '<div class="right2">';
+            remain = hiddenShow ? stats[data[n].url] : stats[data[n].url] - nbrEpisodesPerSerie;
+            if (newTitleShow) {
+              hidden = remain <= 0 ? ' style="display: none;"' : '';
+              output += '<span class="toggleEpisodes"' + hidden + '>';
+              output += '<span class="labelRemain">' + extraText + '</span>';
+              output += ' (<span class="remain">' + remain + '</span>)';
+              output += ' <img src="' + extraIcon + '" style="margin-bottom:-2px;" />';
+              output += '</span>';
+            }
+            output += '</div>';
+            output += '<div class="clear"></div>';
+            output += '</div>';
             show = data[n].show;
             posEpisode = 1;
           }
@@ -304,8 +321,10 @@ BS = {
           classes = "";
           hidden = "";
           classes = newShow ? "new_show" : "";
-          if (posEpisode > nbrEpisodesPerSerie || hiddenShow) {
+          if (posEpisode > nbrEpisodesPerSerie) {
             classes += ' hidden';
+            if (!extraEpisodes || hiddenShow) hidden = ' style="display: none;"';
+          } else if (hiddenShow) {
             hidden = ' style="display: none;"';
           }
           output += '<div class="episode' + classes + '"' + hidden + ' season="' + season + '" episode="' + episode + '">';
@@ -370,15 +389,6 @@ BS = {
           output += '<div class="clear"></div>';
           output += '</div>';
           newTitleShow = posEpisode === stats[data[n].url];
-          remain = stats[data[n].url] - nbrEpisodesPerSerie;
-          if (newTitleShow && remain > 0) {
-            hidden = hiddenShow ? ' style="display: none;"' : '';
-            output += '<div class="toggleEpisodes"' + hidden + '>';
-            output += '<span class="labelRemain">' + __('show_episodes') + '</span>';
-            output += ' (<span class="remain">' + remain + '</span>)';
-            output += ' <img src="../img/downarrow.gif" style="margin-bottom:-2px;" />';
-            output += '</div>';
-          }
           if (newTitleShow) output += '</div>';
           nbrEpisodes++;
           posEpisode++;
