@@ -23,10 +23,8 @@ ajax =
 				#console.log data
 				$('#status').attr 'src', '../img/plot_green.gif'
 				$('#sync').hide()
-				if successCallback?
 				successCallback data if successCallback?
 			error: ->
 				$('#sync').hide()
 				$('#status').attr 'src', '../img/plot_red.gif'
-				if errorCallback? 
-					errorCallback()
+				errorCallback() if errorCallback?
