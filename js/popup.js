@@ -231,7 +231,7 @@ $(document).ready(function() {
   });
   $('.subs').live({
     click: function() {
-      Fx._openTab($(this).attr('link', false));
+      Fx.openTab($(this).attr('link', false));
       return false;
     },
     mouseenter: function() {
@@ -403,7 +403,7 @@ $(document).ready(function() {
           content = '<div class="showtitle">' + __('shows') + '</div>';
           for (n in data.root.shows) {
             show = data.root.shows[n];
-            content += '<div class="episode"><a href="#" onclick="BS.load(\'showsDisplay\', \'' + show.url + '\').refresh(); return false;" title="' + show.title + '">' + Fx._subFirst(show.title, 25) + '</a></div>';
+            content += '<div class="episode"><a href="#" onclick="BS.load(\'showsDisplay\', \'' + show.url + '\').refresh(); return false;" title="' + show.title + '">' + Fx.subFirst(show.title, 25) + '</a></div>';
           }
           $('#shows-results').html(content);
         } else {
@@ -420,7 +420,7 @@ $(document).ready(function() {
           content = '<div class="showtitle">' + __('members') + '</div>';
           for (n in data.root.members) {
             member = data.root.members[n];
-            content += '<div class="episode"><a href="#" onclick="BS.load(\'membersInfos\', \'' + member.login + '\').refresh(); return false;">' + Fx._subFirst(member.login, 25) + '</a></div>';
+            content += '<div class="episode"><a href="#" onclick="BS.load(\'membersInfos\', \'' + member.login + '\').refresh(); return false;">' + Fx.subFirst(member.login, 25) + '</a></div>';
           }
           $('#members-results').html(content);
         } else {
@@ -576,10 +576,10 @@ $(document).ready(function() {
     }
   });
   $('#logoLink').click(function() {
-    return Fx._openTab('http://betaseries.com', true);
+    return Fx.openTab('http://betaseries.com', true);
   }).attr('title', __("logo"));
   $('#versionLink').click(function() {
-    return Fx._openTab('https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true);
+    return Fx.openTab('https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true);
   }).attr('title', __("version"));
   $('#back').click(function() {
     var args, historic, length;
@@ -598,7 +598,7 @@ $(document).ready(function() {
     return false;
   }).attr('title', __("refresh"));
   $('#options').click(function() {
-    return Fx._openTab(chrome.extension.getURL("../html/options.html", true));
+    return Fx.openTab(chrome.extension.getURL("../html/options.html", true));
   }).attr('title', __("options"));
   $('#logout').live('click', function() {
     ajax.post("/members/destroy", '', function() {
@@ -649,7 +649,7 @@ $(document).ready(function() {
   };
   DB.init();
   if (bgPage.connected()) {
-    Fx._cleanCache();
+    Fx.cleanCache();
     badgeType = DB.get('badge.type', 'membersEpisodes');
     return BS.load(badgeType).refresh();
   } else {

@@ -207,7 +207,7 @@ $(document).ready ->
 	## Télécharger les sous-titres d'un épisode
 	$('.subs').live
 		click: ->
-			Fx._openTab $(this).attr 'link', false
+			Fx.openTab $(this).attr 'link', false
 			return false
 		
 		mouseenter: ->
@@ -372,7 +372,7 @@ $(document).ready ->
 						content = '<div class="showtitle">' + __('shows') + '</div>'
 						for n of data.root.shows
 							show = data.root.shows[n]
-							content += '<div class="episode"><a href="#" onclick="BS.load(\'showsDisplay\', \'' + show.url + '\').refresh(); return false;" title="' + show.title + '">' + Fx._subFirst(show.title, 25) + '</a></div>'
+							content += '<div class="episode"><a href="#" onclick="BS.load(\'showsDisplay\', \'' + show.url + '\').refresh(); return false;" title="' + show.title + '">' + Fx.subFirst(show.title, 25) + '</a></div>'
 						$('#shows-results').html content
 					else
 						$('#shows-results').html '<div class="episode">' + __('no_shows_found') + '</div>'
@@ -388,7 +388,7 @@ $(document).ready ->
 						content = '<div class="showtitle">' + __('members') + '</div>'
 						for n of data.root.members
 							member = data.root.members[n]
-							content += '<div class="episode"><a href="#" onclick="BS.load(\'membersInfos\', \'' + member.login + '\').refresh(); return false;">' + Fx._subFirst(member.login, 25) + '</a></div>'
+							content += '<div class="episode"><a href="#" onclick="BS.load(\'membersInfos\', \'' + member.login + '\').refresh(); return false;">' + Fx.subFirst(member.login, 25) + '</a></div>'
 						$('#members-results').html content
 					else
 						$('#members-results').html '<div class="episode">' + __('no_members_found') + '</div>'
@@ -538,10 +538,10 @@ $(document).ready ->
 	
 	## HEADER links
 	$('#logoLink')
-		.click(-> Fx._openTab 'http://betaseries.com', true)
+		.click(-> Fx.openTab 'http://betaseries.com', true)
 		.attr 'title', __("logo")
 	$('#versionLink')
-		.click(-> Fx._openTab 'https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true)
+		.click(-> Fx.openTab 'https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true)
 		.attr 'title', __("version")
 	
 	## MENU actions
@@ -559,7 +559,7 @@ $(document).ready ->
 		.click(-> (BS.refresh(); return false))
 		.attr 'title', __("refresh")
 	$('#options')
-		.click(-> Fx._openTab chrome.extension.getURL "../html/options.html", true)
+		.click(-> Fx.openTab chrome.extension.getURL "../html/options.html", true)
 		.attr 'title', __("options")
 	$('#logout')
 		.live 'click', -> 
@@ -607,7 +607,7 @@ $(document).ready ->
 	## INIT
 	DB.init()
 	if bgPage.connected()
-		Fx._cleanCache()
+		Fx.cleanCache()
 		badgeType = DB.get 'badge.type', 'membersEpisodes'
 		BS.load(badgeType).refresh()
 	else

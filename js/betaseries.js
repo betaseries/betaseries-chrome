@@ -149,7 +149,7 @@ BS = {
         output += '<div class="showtitle">' + __('subtitles') + '</div>';
         for (n in episode.subs) {
           sub = episode.subs[n];
-          output += '[' + sub.quality + '] ' + sub.language + ' <a href="" class="subs" title="' + sub.file + '" link="' + sub.url + '">' + Fx._subLast(sub.file, 20) + '</a> (' + sub.source + ')<br />';
+          output += '[' + sub.quality + '] ' + sub.language + ' <a href="" class="subs" title="' + sub.file + '" link="' + sub.url + '">' + Fx.subLast(sub.file, 20) + '</a> (' + sub.source + ')<br />';
         }
         return output;
       }
@@ -341,7 +341,7 @@ BS = {
           }
           output += '<div class="left">';
           output += '<img src="../img/plot_red.gif" class="watched" title="' + texte2 + '" /> <span class="num">';
-          output += '[' + data[n].number + ']</span> <span class="title">' + Fx._subFirst(title, 22) + '</span>';
+          output += '[' + data[n].number + ']</span> <span class="title">' + Fx.subFirst(title, 22) + '</span>';
           if (newShow) output += ' <span class="new">' + __('new') + '</span>';
           output += '</div>';
           subs = data[n].subs;
@@ -416,7 +416,7 @@ BS = {
         try {
           temp = DB.get('page.membersNotifications', null);
           tab2 = temp !== null ? JSON.parse(temp) : [];
-          res = Fx._concat(tab1, tab2);
+          res = Fx.concat(tab1, tab2);
         } catch (e) {
           console.log(e);
         }
@@ -584,7 +584,7 @@ BS = {
               output += '</div>';
               desc = item.find('description').text();
               linkOrig = item.find('link').text();
-              link = '<a href="#" onclick="Fx._openTab(\'' + linkOrig + '\');">(' + __('read_article') + ')</a>';
+              link = '<a href="#" onclick="Fx.openTab(\'' + linkOrig + '\');">(' + __('read_article') + ')</a>';
               output += '<div>' + desc.replace(/<a(.*)a>/, link) + '</div>';
               _results.push(output += '<div style="height:11px;"></div>');
             }
