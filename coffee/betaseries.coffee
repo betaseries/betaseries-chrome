@@ -36,7 +36,7 @@ BS =
 	update: (callback) ->
 		o = @loadedPage
 		
-		params = if o.params? then o.params else '' 
+		params = o.params || ''
 		ajax.post o.url, params, 
 			(data) ->
 				r = o.root

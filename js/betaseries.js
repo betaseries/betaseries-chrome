@@ -43,7 +43,7 @@ BS = {
   update: function(callback) {
     var o, params;
     o = this.loadedPage;
-    params = o.params != null ? o.params : '';
+    params = o.params || '';
     return ajax.post(o.url, params, function(data) {
       var r, tab, time;
       r = o.root;

@@ -44,7 +44,7 @@ $(document).ready ->
 		DB.set 'options.display_global', $('select[name=display_global] :selected').val()
 		DB.set 'options.enable_ratings', $('select[name=enable_ratings] :selected').val()
 		bgPage.badge.update()
-		$(this).html 'Sauvegardé !'
+		$(this).html __('saved')
 		$(this).css 'background-color', '#eafedf'
 		$('#save_options').css 'color', '#999'
 		setTimeout init_save, 1000 * 5
