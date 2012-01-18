@@ -287,8 +287,12 @@ BS =
 					# Episodes supplémentaires affichés
 					extra_episodes = JSON.parse DB.get 'extra_episodes'
 					extraEpisodes = data[n].url in extra_episodes
-					extraIcon = if extraEpisodes then '../img/uparrow.gif' else '../img/downarrow.gif'
-					extraText = if extraEpisodes then __('hide_episodes') else __('show_episodes')
+					if hiddenShow
+						extraIcon = '../img/downarrow.gif'
+						extraText = __('show_episodes')
+					else
+						extraIcon = if extraEpisodes then '../img/uparrow.gif' else '../img/downarrow.gif'
+						extraText = if extraEpisodes then __('hide_episodes') else __('show_episodes')
 					
 					# Ouverture de la série
 					output += '<div class="show" id="' + data[n].url + '">'
@@ -330,7 +334,7 @@ BS =
 					hidden = ' style="display: none;"' if !extraEpisodes or hiddenShow
 				else if hiddenShow
 					hidden = ' style="display: none;"'
-				output += '<div class="episode' + classes + '"' + hidden + ' season="' + season + '" episode="' + episode + '">'
+				output += '<div class="episode ' + classes + '"' + hidden + ' season="' + season + '" episode="' + episode + '">'
 					
 				# Titre de l'épisode
 				title = if DB.get 'options.display_global' is 'true' then '#' + data[n].global + ' ' + title else data[n].title

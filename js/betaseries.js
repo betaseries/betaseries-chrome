@@ -291,8 +291,13 @@ BS = {
             visibleIcon = hiddenShow ? '../img/arrow_right.gif' : '../img/arrow_down.gif';
             extra_episodes = JSON.parse(DB.get('extra_episodes'));
             extraEpisodes = (_ref2 = data[n].url, __indexOf.call(extra_episodes, _ref2) >= 0);
-            extraIcon = extraEpisodes ? '../img/uparrow.gif' : '../img/downarrow.gif';
-            extraText = extraEpisodes ? __('hide_episodes') : __('show_episodes');
+            if (hiddenShow) {
+              extraIcon = '../img/downarrow.gif';
+              extraText = __('show_episodes');
+            } else {
+              extraIcon = extraEpisodes ? '../img/uparrow.gif' : '../img/downarrow.gif';
+              extraText = extraEpisodes ? __('hide_episodes') : __('show_episodes');
+            }
             output += '<div class="show" id="' + data[n].url + '">';
             output += '<div class="showtitle"><div class="left2"><img src="' + visibleIcon + '" class="toggleShow" /><a href="" onclick="BS.load(\'showsDisplay\', \'' + data[n].url + '\').refresh(); return false;" class="showtitle">' + data[n].show + '</a>';
             output += ' <img src="../img/archive.png" class="archive" title="' + __("archive") + '" /></div>';
@@ -327,7 +332,7 @@ BS = {
           } else if (hiddenShow) {
             hidden = ' style="display: none;"';
           }
-          output += '<div class="episode' + classes + '"' + hidden + ' season="' + season + '" episode="' + episode + '">';
+          output += '<div class="episode ' + classes + '"' + hidden + ' season="' + season + '" episode="' + episode + '">';
           title = DB.get('options.display_global' === 'true') ? '#' + data[n].global + ' ' + title : data[n].title;
           if (posEpisode === 1) {
             texte2 = __('mark_as_seen');
