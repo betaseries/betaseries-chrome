@@ -132,7 +132,7 @@ BS = {
         output += '<div style="float:left; width:176px; padding-right:5px;">';
         output += "<div class=\"showtitle\">" + episode.show + "</div>";
         output += "<div><span class=\"num\">[" + episode.number + "]</span> " + episode.title + "</div>";
-        output += '<div><span class="date">' + Fx._date('D d F', episode.date) + '</span></div>';
+        output += '<div><span class="date">' + date('D d F', episode.date) + '</span></div>';
         output += '<div style="height:10px;"></div>';
         output += "<div>" + episode.description + "</div>";
         output += '</div>';
@@ -171,8 +171,8 @@ BS = {
         nbrEpisodes = 0;
         for (e in data) {
           today = Math.floor(new Date().getTime() / 1000);
-          todayWeek = parseFloat(Fx._date('W', today));
-          actualWeek = parseFloat(Fx._date('W', data[e].date));
+          todayWeek = parseFloat(date('W', today));
+          actualWeek = parseFloat(date('W', data[e].date));
           diffWeek = actualWeek - todayWeek;
           plot = data[e].date < today ? "red" : "orange";
           if (actualWeek !== week) {
@@ -194,14 +194,14 @@ BS = {
             output += '<div class="week"' + hidden + '>';
             output += '<div class="showtitle">' + w + '</div>';
           }
-          output += '<div class="episode ' + Fx._date('D', data[e].date).toLowerCase() + '">';
+          output += '<div class="episode ' + date('D', data[e].date).toLowerCase() + '">';
           output += '<div url="' + data[e].url + '" season="' + data[e].season + '" episode="' + data[e].episode + '" class="left">';
           output += '<img src="../img/plot_' + plot + '.gif" /> ';
           output += '<span class="show">' + data[e].show + '</span> ';
           output += '<span class="num">[' + data[e].number + ']</span>';
           output += '</div>';
           output += '<div class="right">';
-          output += '<span class="date">' + Fx._date('D d F', data[e].date) + '</span>';
+          output += '<span class="date">' + date('D d F', data[e].date) + '</span>';
           output += '</div>';
           output += '</div>';
           nbrEpisodes++;
@@ -269,7 +269,7 @@ BS = {
       url: '/members/episodes/' + lang,
       root: 'episodes',
       content: function(data) {
-        var classes, date, date_0, dlSrtLanguage, downloaded, empty, episode, extraEpisodes, extraIcon, extraText, extra_episodes, hidden, hiddenShow, hidden_shows, imgDownloaded, jours, n, nbSubs, nbrEpisodes, nbrEpisodesPerSerie, newShow, newTitleShow, output, posEpisode, quality, remain, season, show, stats, sub, subs, texte2, texte3, title, url, visibleIcon, _ref, _ref2;
+        var classes, date_0, dlSrtLanguage, downloaded, empty, episode, extraEpisodes, extraIcon, extraText, extra_episodes, hidden, hiddenShow, hidden_shows, imgDownloaded, jours, n, nbSubs, nbrEpisodes, nbrEpisodesPerSerie, newShow, newTitleShow, output, posEpisode, quality, remain, season, show, stats, sub, subs, texte2, texte3, time, title, url, visibleIcon, _ref, _ref2;
         output = "";
         show = "";
         nbrEpisodes = 0;
@@ -319,8 +319,8 @@ BS = {
           }
           season = data[n].season;
           episode = data[n].episode;
-          date = Math.floor(new Date().getTime() / 1000);
-          jours = Math.floor(date / (24 * 3600));
+          time = Math.floor(new Date().getTime() / 1000);
+          jours = Math.floor(time / (24 * 3600));
           date_0 = (24 * 3600) * jours - 2 * 3600;
           newShow = data[n].date >= date_0;
           classes = "";
@@ -423,17 +423,18 @@ BS = {
         return res;
       },
       content: function(data) {
-        var date, n, nbrNotifications, new_date, output;
+        var n, nbrNotifications, new_date, output, time;
         output = '';
         nbrNotifications = 0;
-        date = '';
+        time = '';
         for (n in data) {
-          new_date = Fx._date('D d F', data[n].date);
-          if (new_date !== date) {
-            date = new_date;
-            output += '<div class="showtitle">' + date + '</div>';
+          console.log(data[n].date);
+          new_date = date('D d F', data[n].date);
+          if (new_date !== time) {
+            time = new_date;
+            output += '<div class="showtitle">' + time + '</div>';
           }
-          output += '<div class="event ' + Fx._date('D', data[n].date).toLowerCase() + '">';
+          output += '<div class="event ' + date('D', data[n].date).toLowerCase() + '">';
           output += data[n].html;
           output += '</div>';
           nbrNotifications++;
@@ -452,18 +453,18 @@ BS = {
       params: '&season=' + season + '&episode=' + episode,
       root: 'comments',
       content: function(data) {
-        var date, i, n, new_date, output;
+        var i, n, new_date, output, time;
         output = '';
         i = 1;
-        date = '';
+        time = '';
         for (n in data) {
-          new_date = Fx._date('D d F', data[n].date);
-          if (new_date !== date) {
-            date = new_date;
-            output += '<div class="showtitle">' + date + '</div>';
+          new_date = date('D d F', data[n].date);
+          if (new_date !== time) {
+            time = new_date;
+            output += '<div class="showtitle">' + time + '</div>';
           }
-          output += '<div class="event ' + Fx._date('D', data[n].date).toLowerCase() + '">';
-          output += '<b>' + Fx._date('H:i', data[n].date) + '</b> ';
+          output += '<div class="event ' + date('D', data[n].date).toLowerCase() + '">';
+          output += '<b>' + date('H:i', data[n].date) + '</b> ';
           output += '<span class="login">' + data[n].login + '</span> ';
           output += '<small>#' + i + '</small><br />';
           output += data[n].text;
@@ -483,17 +484,17 @@ BS = {
       params: '&number=10',
       root: 'timeline',
       content: function(data) {
-        var date, n, new_date, output;
+        var n, new_date, output, time;
         output = '';
-        date = '';
+        time = '';
         for (n in data) {
-          new_date = Fx._date('D d F', data[n].date);
-          if (new_date !== date) {
-            date = new_date;
-            output += '<div class="showtitle">' + date + '</div>';
+          new_date = date('D d F', data[n].date);
+          if (new_date !== time) {
+            time = new_date;
+            output += '<div class="showtitle">' + time + '</div>';
           }
-          output += '<div class="event ' + Fx._date('D', data[n].date).toLowerCase() + '">';
-          output += '<b>' + Fx._date('H:i', data[n].date) + '</b> ';
+          output += '<div class="event ' + date('D', data[n].date).toLowerCase() + '">';
+          output += '<b>' + date('H:i', data[n].date) + '</b> ';
           output += '<span class="login">' + data[n].login + '</span> ' + data[n].html;
           output += '</div>';
         }

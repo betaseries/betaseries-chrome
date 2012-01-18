@@ -132,7 +132,7 @@ BS =
 			output += '<div style="float:left; width:176px; padding-right:5px;">'
 			output += 	"<div class=\"showtitle\">#{episode.show}</div>"
 			output += 	"<div><span class=\"num\">[#{episode.number}]</span> #{episode.title}</div>"
-			output += 	'<div><span class="date">' + Fx._date('D d F', episode.date) + '</span></div>'
+			output += 	'<div><span class="date">' + date('D d F', episode.date) + '</span></div>'
 			output += 	'<div style="height:10px;"></div>'
 			output += 	"<div>#{episode.description}</div>"
 			output += '</div>'
@@ -169,8 +169,8 @@ BS =
 			nbrEpisodes = 0
 			for e of data
 				today = Math.floor new Date().getTime() / 1000
-				todayWeek = parseFloat Fx._date('W', today)
-				actualWeek = parseFloat Fx._date('W', data[e].date)
+				todayWeek = parseFloat date('W', today)
+				actualWeek = parseFloat date('W', data[e].date)
 				diffWeek = actualWeek - todayWeek
 				plot = if data[e].date < today then "red" else "orange"
 				if actualWeek isnt week
@@ -193,7 +193,7 @@ BS =
 					output += '<div class="week"' + hidden + '>'
 					output += '<div class="showtitle">' + w + '</div>'
 			
-				output += '<div class="episode ' + Fx._date('D', data[e].date).toLowerCase() + '">'
+				output += '<div class="episode ' + date('D', data[e].date).toLowerCase() + '">'
 				
 				output += '<div url="' + data[e].url + '" season="' + data[e].season + '" episode="' + data[e].episode + '" class="left">'
 				output += '<img src="../img/plot_' + plot + '.gif" /> '
@@ -202,7 +202,7 @@ BS =
 				output += '</div>'
 				
 				output += '<div class="right">'
-				output += '<span class="date">' + Fx._date('D d F', data[e].date) + '</span>'
+				output += '<span class="date">' + date('D d F', data[e].date) + '</span>'
 				output += '</div>'
 				
 				output += '</div>'
@@ -322,8 +322,8 @@ BS =
 				episode = data[n].episode
 					
 				# Nouvel épisode
-				date = Math.floor new Date().getTime() / 1000
-				jours = Math.floor date / (24 * 3600)
+				time = Math.floor new Date().getTime() / 1000
+				jours = Math.floor time / (24 * 3600)
 				date_0 = (24*3600)* jours - 2*3600
 				newShow = data[n].date >= date_0
 				classes = ""
@@ -431,13 +431,14 @@ BS =
 			output = ''
 			nbrNotifications = 0
 			
-			date = ''
+			time = ''
 			for n of data
-				new_date = Fx._date('D d F', data[n].date)
-				if new_date isnt date
-					date = new_date
-					output += '<div class="showtitle">' + date + '</div>'
-				output += '<div class="event ' + Fx._date('D', data[n].date).toLowerCase() + '">'
+				console.log data[n].date
+				new_date = date('D d F', data[n].date)
+				if new_date isnt time
+					time = new_date
+					output += '<div class="showtitle">' + time + '</div>'
+				output += '<div class="event ' + date('D', data[n].date).toLowerCase() + '">'
 				output += data[n].html
 				output += '</div>'
 				nbrNotifications++	
@@ -456,15 +457,15 @@ BS =
 		content: (data) ->
 			output = ''
 			i = 1
-			date = ''
+			time = ''
 			for n of data
-				new_date = Fx._date('D d F', data[n].date)
-				if new_date isnt date
-					date = new_date
-					output += '<div class="showtitle">' + date + '</div>'
+				new_date = date('D d F', data[n].date)
+				if new_date isnt time
+					time = new_date
+					output += '<div class="showtitle">' + time + '</div>'
 				
-				output += '<div class="event ' + Fx._date('D', data[n].date).toLowerCase() + '">'
-				output += '<b>' + Fx._date('H:i', data[n].date) + '</b> '
+				output += '<div class="event ' + date('D', data[n].date).toLowerCase() + '">'
+				output += '<b>' + date('H:i', data[n].date) + '</b> '
 				output += '<span class="login">' + data[n].login + '</span> '
 				output += '<small>#' + i + '</small><br />'
 				output += data[n].text
@@ -483,15 +484,15 @@ BS =
 		root: 'timeline'
 		content: (data) ->
 			output = ''
-			date = ''
+			time = ''
 			for n of data
-				new_date = Fx._date('D d F', data[n].date)
-				if new_date isnt date
-					date = new_date
-					output += '<div class="showtitle">' + date + '</div>'
+				new_date = date('D d F', data[n].date)
+				if new_date isnt time
+					time = new_date
+					output += '<div class="showtitle">' + time + '</div>'
 				
-				output += '<div class="event ' + Fx._date('D', data[n].date).toLowerCase() + '">'
-				output += '<b>' + Fx._date('H:i', data[n].date) + '</b> '
+				output += '<div class="event ' + date('D', data[n].date).toLowerCase() + '">'
+				output += '<b>' + date('H:i', data[n].date) + '</b> '
 				output += '<span class="login">' + data[n].login + '</span> ' + data[n].html
 				output += '</div>'
 			return output
@@ -563,7 +564,7 @@ BS =
 						title += '..' if titleOrig.length > 40
 						
 						output += '<div class="showtitle">' + title
-						#output += ' <span class="date">'+Fx._date('D d F', data[n].date)+'</span>';
+						#output += ' <span class="date">'+date('D d F', data[n].date)+'</span>';
 						output += '</div>'
 						
 						desc = item.find('description').text()
