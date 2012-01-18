@@ -299,6 +299,9 @@
 	"save": {
 		"message": "Sauvegarder"
 	},
+	"saved": {
+		"message": "Sauvegardé"
+	},
 	"searchForm": {
 		"message": "Faire une recherche"
 	},
