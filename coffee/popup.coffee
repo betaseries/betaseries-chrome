@@ -411,7 +411,7 @@ $(document).ready ->
 			# Gestion où la série est minimisée
 			showName = $(show).attr 'id'
 			hidden_shows = JSON.parse DB.get 'hidden_shows'
-			hiddenShow = $.inArray(showName, hidden_shows) >= 0
+			hiddenShow = showName in hidden_shows
 			if hiddenShow
 				$(show).find('.toggleShow').trigger 'click'
 				return false
@@ -419,7 +419,7 @@ $(document).ready ->
 			hiddens.slideToggle()
 			
 			extra_episodes = JSON.parse DB.get 'extra_episodes'
-			extraEpisodes = $.inArray(showName, extra_episodes) >= 0
+			extraEpisodes = showName in extra_episodes
 			if extraEpisodes
 				$(this).find('.labelRemain').text __('show_episodes')
 				$(this).find('img').attr 'src', '../img/downarrow.gif'

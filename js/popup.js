@@ -443,14 +443,14 @@ $(document).ready(function() {
       hiddens = show.find('div.episode.hidden');
       showName = $(show).attr('id');
       hidden_shows = JSON.parse(DB.get('hidden_shows'));
-      hiddenShow = $.inArray(showName, hidden_shows) >= 0;
+      hiddenShow = __indexOf.call(hidden_shows, showName) >= 0;
       if (hiddenShow) {
         $(show).find('.toggleShow').trigger('click');
         return false;
       }
       hiddens.slideToggle();
       extra_episodes = JSON.parse(DB.get('extra_episodes'));
-      extraEpisodes = $.inArray(showName, extra_episodes) >= 0;
+      extraEpisodes = __indexOf.call(extra_episodes, showName) >= 0;
       if (extraEpisodes) {
         $(this).find('.labelRemain').text(__('show_episodes'));
         $(this).find('img').attr('src', '../img/downarrow.gif');

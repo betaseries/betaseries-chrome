@@ -34,8 +34,6 @@ Fx =
 		strSub = '..' + strSub if strSub.length < strLength
 		return strSub
 	
-	#inArray: function(elem, array){
-	
 	##
 	cleanCache: ->
 		login = DB.get('member.login');
