@@ -41,9 +41,9 @@ BS = {
     }
   },
   update: function(callback) {
-    var o;
+    var o, params;
     o = this.loadedPage;
-    if (typeof params === "undefined" || params === null) params = '';
+    params = o.params != null ? o.params : '';
     return ajax.post(o.url, params, function(data) {
       var r, tab, time;
       r = o.root;

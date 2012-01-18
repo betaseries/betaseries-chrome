@@ -36,25 +36,26 @@ BS =
 	update: (callback) ->
 		o = @loadedPage
 		
-		params ?= ''
-		ajax.post o.url, params, (data) ->
-			r = o.root
-			tab = data.root[r]
-			
-			# Opérations supp. sur les données reçues
-			tab = o.postData tab if o.postData?
-			
-			# Mise à jour du cache de la page
-			if tab?
-				time = Math.floor new Date().getTime() / 1000
-				DB.set 'page.' + o.id, JSON.stringify tab
-				DB.set 'update.' + o.id, time
-			
-			# Callback
-			callback() if callback?
-		, ->
-			# Callback
-			callback() if callback?
+		params = if o.params? then o.params else '' 
+		ajax.post o.url, params, 
+			(data) ->
+				r = o.root
+				tab = data.root[r]
+				
+				# Opérations supp. sur les données reçues
+				tab = o.postData tab if o.postData?
+				
+				# Mise à jour du cache de la page
+				if tab?
+					time = Math.floor new Date().getTime() / 1000
+					DB.set 'page.' + o.id, JSON.stringify tab
+					DB.set 'update.' + o.id, time
+				
+				# Callback
+				callback() if callback?
+			->
+				# Callback
+				callback() if callback?
 		
 	#			
 	display: ->
