@@ -267,7 +267,7 @@ BS = {
       url: '/members/episodes/' + lang,
       root: 'episodes',
       content: function(data) {
-        var classes, date_0, dlSrtLanguage, downloaded, empty, episode, extraEpisodes, extraIcon, extraText, extra_episodes, hidden, hiddenShow, hidden_shows, imgDownloaded, jours, n, nbSubs, nbrEpisodes, nbrEpisodesPerSerie, newShow, newTitleShow, output, posEpisode, quality, remain, season, show, stats, sub, subs, textTitle, texte2, texte3, time, title, url, visibleIcon, _ref, _ref2;
+        var classes, date_0, dlSrtLanguage, downloaded, empty, episode, extraEpisodes, extraIcon, extraText, extra_episodes, hidden, hiddenShow, hidden_shows, imgDownloaded, jours, n, nbSubs, nbrEpisodes, nbrEpisodesPerSerie, newShow, newTitleShow, output, posEpisode, quality, remain, season, show, stats, sub, subs, textTitle, texte2, texte3, time, title, titleIcon, url, visibleIcon, _ref, _ref2;
         output = "";
         show = "";
         nbrEpisodes = 0;
@@ -287,6 +287,7 @@ BS = {
             hidden_shows = JSON.parse(DB.get('hidden_shows'));
             hiddenShow = (_ref = data[n].url, __indexOf.call(hidden_shows, _ref) >= 0);
             visibleIcon = hiddenShow ? '../img/arrow_right.gif' : '../img/arrow_down.gif';
+            titleIcon = hiddenShow ? __('maximise') : __('minimise');
             extra_episodes = JSON.parse(DB.get('extra_episodes'));
             extraEpisodes = (_ref2 = data[n].url, __indexOf.call(extra_episodes, _ref2) >= 0);
             if (hiddenShow) {
@@ -297,7 +298,7 @@ BS = {
               extraText = extraEpisodes ? __('hide_episodes') : __('show_episodes');
             }
             output += '<div class="show" id="' + data[n].url + '">';
-            output += '<div class="showtitle"><div class="left2"><img src="' + visibleIcon + '" class="toggleShow" /><a href="" onclick="BS.load(\'showsDisplay\', \'' + data[n].url + '\').refresh(); return false;" class="showtitle">' + data[n].show + '</a>';
+            output += '<div class="showtitle"><div class="left2"><img src="' + visibleIcon + '" class="toggleShow" title="' + titleIcon + '" /><a href="" onclick="BS.load(\'showsDisplay\', \'' + data[n].url + '\').refresh(); return false;" class="showtitle">' + data[n].show + '</a>';
             output += ' <img src="../img/archive.png" class="archive" title="' + __("archive") + '" /></div>';
             output += '<div class="right2">';
             remain = hiddenShow ? stats[data[n].url] : stats[data[n].url] - nbrEpisodesPerSerie;

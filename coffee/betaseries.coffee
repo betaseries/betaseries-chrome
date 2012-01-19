@@ -283,6 +283,7 @@ BS =
 					hidden_shows = JSON.parse DB.get 'hidden_shows'
 					hiddenShow = data[n].url in hidden_shows
 					visibleIcon = if hiddenShow then '../img/arrow_right.gif' else '../img/arrow_down.gif'
+					titleIcon = if hiddenShow then __('maximise') else __('minimise')
 					
 					# Episodes supplémentaires affichés
 					extra_episodes = JSON.parse DB.get 'extra_episodes'
@@ -296,7 +297,7 @@ BS =
 					
 					# Ouverture de la série
 					output += '<div class="show" id="' + data[n].url + '">'
-					output += '<div class="showtitle"><div class="left2"><img src="' + visibleIcon + '" class="toggleShow" /><a href="" onclick="BS.load(\'showsDisplay\', \'' + data[n].url + '\').refresh(); return false;" class="showtitle">' + data[n].show + '</a>'
+					output += '<div class="showtitle"><div class="left2"><img src="' + visibleIcon + '" class="toggleShow" title="' + titleIcon + '" /><a href="" onclick="BS.load(\'showsDisplay\', \'' + data[n].url + '\').refresh(); return false;" class="showtitle">' + data[n].show + '</a>'
 					output += ' <img src="../img/archive.png" class="archive" title="' + __("archive") + '" /></div>'
 					
 					output += '<div class="right2">';

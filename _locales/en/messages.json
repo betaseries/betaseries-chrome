@@ -151,6 +151,9 @@
 	"mark_as_seen_pl": {
 		"message": "Mark these episodes as seen"
 	},
+	"maximise": {
+		"message": "Maximise"
+	},
 	"may": {
 		"message": "May"
 	},
@@ -165,6 +168,9 @@
 	},
 	"membersNotifications": {
 		"message": "Notifications"
+	},
+	"minimise": {
+		"message": "Minimise"
 	},
 	"mon": {
 		"message": "Mon"
