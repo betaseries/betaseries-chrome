@@ -27,7 +27,7 @@ $(document).ready ->
 				remain.text newremain
 				remain.parent().hide() if newremain < 1
 				
-				setTimeout (-> $('.nano').nanoScroller()), 1000
+				Fx.updateHeight()
 			
 			# On cache les div
 			n = 0
@@ -234,7 +234,7 @@ $(document).ready ->
 					bgPage.badge.update()
 				-> registerAction "/shows/archive/" + show, ""
 			
-			setTimeout (-> $('.nano').nanoScroller()), 1000
+			Fx.updateHeight()
 			return false
 	
 	## Sortir une série des archives
@@ -252,7 +252,7 @@ $(document).ready ->
 					bgPage.badge.update()
 				-> registerAction "/shows/unarchive/" + show, ""
 			
-			setTimeout (-> $('.nano').nanoScroller()), 1000
+			Fx.updateHeight()
 			return false
 	
 	## Ajoute à mes séries
@@ -378,7 +378,7 @@ $(document).ready ->
 					else
 						$('#shows-results').html '<div class="episode">' + __('no_shows_found') + '</div>'
 					
-					setTimeout (-> $('.nano').nanoScroller()), 1000
+					Fx.updateHeight()
 				->
 					#inputs.removeAttr 'disabled'
 			
@@ -393,7 +393,7 @@ $(document).ready ->
 						$('#members-results').html content
 					else
 						$('#members-results').html '<div class="episode">' + __('no_members_found') + '</div>'
-					setTimeout (-> $('.nano').nanoScroller()), 1000
+					Fx.updateHeight()
 				->
 					#inputs.removeAttr 'disabled'
 			
@@ -435,7 +435,7 @@ $(document).ready ->
 			
 			DB.set 'extra_episodes', JSON.stringify extra_episodes
 					
-			setTimeout (-> $('.nano').nanoScroller()), 1000
+			Fx.updateHeight()
 			return false
 	
 		mouseenter: -> 
@@ -531,7 +531,7 @@ $(document).ready ->
 			
 			DB.set 'hidden_shows', JSON.stringify hidden_shows
 			
-			setTimeout (-> $('.nano').nanoScroller()), 1000
+			Fx.updateHeight()
 			
 		mouseenter: -> $(this).css 'cursor', 'pointer'
 		

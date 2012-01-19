@@ -65,5 +65,19 @@ Fx = {
       }
     }
     return _results;
+  },
+  updateHeight: function(top) {
+    if (top == null) top = false;
+    return setTimeout((function() {
+      var h, maxHeight, params;
+      maxHeight = 200;
+      h = $('#page').height() + 14;
+      h = h > maxHeight ? maxHeight : h;
+      $('#about').height(h);
+      params = top ? {
+        scroll: 'top'
+      } : {};
+      return $('.nano').nanoScroller(params);
+    }), 500);
   }
 };

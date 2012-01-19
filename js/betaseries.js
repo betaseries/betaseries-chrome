@@ -80,10 +80,7 @@ BS = {
     }
     $('#title').text(__(o.name));
     $('#page').removeClass().addClass(o.name);
-    $('#about').height(200);
-    return $('.nano').nanoScroller({
-      scroll: 'top'
-    });
+    return Fx.updateHeight(true);
   },
   clean: function(id) {
     DB.remove("page." + id);

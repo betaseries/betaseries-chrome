@@ -84,8 +84,7 @@ BS =
 		$('#page').removeClass().addClass o.name
 		
 		# Réglage de la hauteur du popup
-		$('#about').height 200
-		$('.nano').nanoScroller({scroll:'top'})
+		Fx.updateHeight true
 	
 	#	
 	clean: (id) ->

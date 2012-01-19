@@ -52,3 +52,17 @@ Fx =
 				if !(suffix in persistentViews) and (time - localStorage[i] >= 3600)
 					DB.remove 'update.' + suffix
 					DB.remove 'page.' + suffix
+					
+	##
+	updateHeight: (top) ->
+		top ?= false
+		setTimeout (
+			-> 
+				maxHeight = 200
+				h = $('#page').height() + 14
+				h = if h > maxHeight then maxHeight else h
+				$('#about').height h
+				params = if top then {scroll:'top'} else {}
+				$('.nano').nanoScroller(params)
+		), 500
+		

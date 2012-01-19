@@ -21,9 +21,7 @@ $(document).ready(function() {
         newremain = parseInt(remain.text()) - n;
         remain.text(newremain);
         if (newremain < 1) remain.parent().hide();
-        return setTimeout((function() {
-          return $('.nano').nanoScroller();
-        }), 1000);
+        return Fx.updateHeight();
       };
       n = 0;
       next = node.next();
@@ -257,9 +255,7 @@ $(document).ready(function() {
       }, function() {
         return registerAction("/shows/archive/" + show, "");
       });
-      setTimeout((function() {
-        return $('.nano').nanoScroller();
-      }), 1000);
+      Fx.updateHeight();
       return false;
     }
   });
@@ -275,9 +271,7 @@ $(document).ready(function() {
       }, function() {
         return registerAction("/shows/unarchive/" + show, "");
       });
-      setTimeout((function() {
-        return $('.nano').nanoScroller();
-      }), 1000);
+      Fx.updateHeight();
       return false;
     }
   });
@@ -410,9 +404,7 @@ $(document).ready(function() {
         } else {
           $('#shows-results').html('<div class="episode">' + __('no_shows_found') + '</div>');
         }
-        return setTimeout((function() {
-          return $('.nano').nanoScroller();
-        }), 1000);
+        return Fx.updateHeight();
       }, function() {});
       params = "&login=" + terms;
       ajax.post("/members/search", params, function(data) {
@@ -427,9 +419,7 @@ $(document).ready(function() {
         } else {
           $('#members-results').html('<div class="episode">' + __('no_members_found') + '</div>');
         }
-        return setTimeout((function() {
-          return $('.nano').nanoScroller();
-        }), 1000);
+        return Fx.updateHeight();
       }, function() {});
       return false;
     }
@@ -465,9 +455,7 @@ $(document).ready(function() {
         extra_episodes.splice(extra_episodes.indexOf(showName, 1));
       }
       DB.set('extra_episodes', JSON.stringify(extra_episodes));
-      setTimeout((function() {
-        return $('.nano').nanoScroller();
-      }), 1000);
+      Fx.updateHeight();
       return false;
     },
     mouseenter: function() {
@@ -565,9 +553,7 @@ $(document).ready(function() {
         $(this).attr('src', '../img/arrow_down.gif');
       }
       DB.set('hidden_shows', JSON.stringify(hidden_shows));
-      return setTimeout((function() {
-        return $('.nano').nanoScroller();
-      }), 1000);
+      return Fx.updateHeight();
     },
     mouseenter: function() {
       return $(this).css('cursor', 'pointer');
