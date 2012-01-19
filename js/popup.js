@@ -561,7 +561,7 @@ $(document).ready(function() {
         hidden_shows.push(showName);
         $(this).attr('src', '../img/arrow_right.gif');
       } else {
-        hidden_shows.splice(hidden_shows.indexOf(showName, 1));
+        hidden_shows.splice(hidden_shows.indexOf(showName), 1);
         $(this).attr('src', '../img/arrow_down.gif');
       }
       DB.set('hidden_shows', JSON.stringify(hidden_shows));
