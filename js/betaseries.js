@@ -269,7 +269,7 @@ BS = {
       url: '/members/episodes/' + lang,
       root: 'episodes',
       content: function(data) {
-        var classes, date_0, dlSrtLanguage, downloaded, empty, episode, extraEpisodes, extraIcon, extraText, extra_episodes, hidden, hiddenShow, hidden_shows, imgDownloaded, jours, n, nbSubs, nbrEpisodes, nbrEpisodesPerSerie, newShow, newTitleShow, output, posEpisode, quality, remain, season, show, stats, sub, subs, texte2, texte3, time, title, url, visibleIcon, _ref, _ref2;
+        var classes, date_0, dlSrtLanguage, downloaded, empty, episode, extraEpisodes, extraIcon, extraText, extra_episodes, hidden, hiddenShow, hidden_shows, imgDownloaded, jours, n, nbSubs, nbrEpisodes, nbrEpisodesPerSerie, newShow, newTitleShow, output, posEpisode, quality, remain, season, show, stats, sub, subs, textTitle, texte2, texte3, time, title, url, visibleIcon, _ref, _ref2;
         output = "";
         show = "";
         nbrEpisodes = 0;
@@ -334,6 +334,7 @@ BS = {
           }
           output += '<div class="episode ' + classes + '"' + hidden + ' season="' + season + '" episode="' + episode + '">';
           title = DB.get('options.display_global' === 'true') ? '#' + data[n].global + ' ' + title : data[n].title;
+          textTitle = title.length > 20 ? ' title="' + title + '"' : '';
           if (posEpisode === 1) {
             texte2 = __('mark_as_seen');
           } else if (posEpisode > 1) {
@@ -341,7 +342,7 @@ BS = {
           }
           output += '<div class="left">';
           output += '<img src="../img/plot_red.gif" class="watched" title="' + texte2 + '" /> <span class="num">';
-          output += '[' + data[n].number + ']</span> <span class="title">' + Fx.subFirst(title, 22) + '</span>';
+          output += '[' + data[n].number + ']</span> <span class="title"' + textTitle + '>' + Fx.subFirst(title, 20) + '</span>';
           if (newShow) output += ' <span class="new">' + __('new') + '</span>';
           output += '</div>';
           subs = data[n].subs;

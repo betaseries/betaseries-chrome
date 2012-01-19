@@ -339,13 +339,14 @@ BS =
 					
 				# Titre de l'épisode
 				title = if DB.get 'options.display_global' is 'true' then '#' + data[n].global + ' ' + title else data[n].title
+				textTitle = if (title.length > 20) then ' title="' + title + '"' else ''
 				if posEpisode is 1 
 					texte2 = __('mark_as_seen')
 				else if posEpisode > 1
 					texte2 = __('mark_as_seen_pl')
 				output += '<div class="left">'
 				output += '<img src="../img/plot_red.gif" class="watched" title="' + texte2 + '" /> <span class="num">'
-				output += '[' + data[n].number + ']</span> <span class="title">' + Fx.subFirst(title, 22) + '</span>'
+				output += '[' + data[n].number + ']</span> <span class="title"' + textTitle + '>' + Fx.subFirst(title, 20) + '</span>'
 				if newShow 
 					output += ' <span class="new">' + __('new') + '</span>'
 				output += '</div>'
