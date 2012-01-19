@@ -35,6 +35,8 @@ $(document).ready ->
 			while node.hasClass 'episode'
 				# Notation d'un épisode
 				if enable_ratings is 'true'
+					$(node).find('.watched').attr 'src', '../img/plot_orange.gif'
+					$(node).find('.watched').removeClass 'watched'
 					nodeRight = $(node).find '.right'
 					content = ""
 					for i in [1..5]

@@ -27,6 +27,8 @@ $(document).ready(function() {
       next = node.next();
       while (node.hasClass('episode')) {
         if (enable_ratings === 'true') {
+          $(node).find('.watched').attr('src', '../img/plot_orange.gif');
+          $(node).find('.watched').removeClass('watched');
           nodeRight = $(node).find('.right');
           content = "";
           for (i = 1; i <= 5; i++) {
