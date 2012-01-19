@@ -306,6 +306,7 @@ $(document).ready ->
 						DB.set 'member.login', login
 						DB.set 'member.token', data.root.member.token
 						menu.show()
+						$('#back').hide()
 						BS.load('membersEpisodes').refresh()
 					else
 						$('#password').attr 'value', ''
@@ -552,7 +553,7 @@ $(document).ready ->
 				args = historic[length-2].substring(5).split '.'
 				BS.load.apply(BS, args).refresh()
 				DB.set 'historic', JSON.stringify historic
-				i$(this).hide() if length is 2
+				$(this).hide() if length is 2
 			return false
 		.attr 'title', __("back")
 	$('#status')
@@ -566,10 +567,12 @@ $(document).ready ->
 			ajax.post "/members/destroy", '',
 				->
 					DB.removeAll()
+					DB.init()
 					bgPage.badge.init()
 					BS.load('connection').refresh()
 				->
 					DB.removeAll()
+					DB.init()
 					bgPage.badge.init()
 					BS.load('connection').refresh()
 			return false

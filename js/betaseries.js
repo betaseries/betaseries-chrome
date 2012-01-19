@@ -60,16 +60,17 @@ BS = {
     });
   },
   display: function() {
-    var cache, data, historic, length, o;
+    var blackpages, cache, data, historic, length, o, _ref;
     o = this.loadedPage;
     this.currentPage = o;
     historic = JSON.parse(DB.get('historic'));
     length = historic.length;
-    if (historic[length - 1] !== 'page.' + o.id) {
+    blackpages = ['connection', 'registration'];
+    if (historic[length - 1] !== 'page.' + o.id && !(_ref = o.id, __indexOf.call(blackpages, _ref) >= 0)) {
       historic.push('page.' + o.id);
       if (length === 1) $('#back').show();
+      DB.set('historic', JSON.stringify(historic));
     }
-    DB.set('historic', JSON.stringify(historic));
     cache = DB.get('page.' + o.id, null);
     if (cache != null) {
       data = JSON.parse(cache);

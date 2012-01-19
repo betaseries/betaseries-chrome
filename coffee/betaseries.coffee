@@ -65,11 +65,11 @@ BS =
 		# Historique
 		historic = JSON.parse DB.get 'historic'
 		length = historic.length
-		if historic[length-1] isnt 'page.' + o.id
+		blackpages = ['connection', 'registration']
+		if historic[length-1] isnt 'page.' + o.id and !(o.id in blackpages)
 			historic.push 'page.' + o.id
-			if length is 1
-				$('#back').show()
-		DB.set 'historic', JSON.stringify historic
+			$('#back').show() if length is 1
+			DB.set 'historic', JSON.stringify historic
 		
 		# Recherche d'un cache de page existant
 		cache = DB.get 'page.' + o.id, null

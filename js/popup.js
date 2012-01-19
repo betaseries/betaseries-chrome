@@ -330,6 +330,7 @@ $(document).ready(function() {
           DB.set('member.login', login);
           DB.set('member.token', data.root.member.token);
           menu.show();
+          $('#back').hide();
           return BS.load('membersEpisodes').refresh();
         } else {
           $('#password').attr('value', '');
@@ -589,7 +590,7 @@ $(document).ready(function() {
       args = historic[length - 2].substring(5).split('.');
       BS.load.apply(BS, args).refresh();
       DB.set('historic', JSON.stringify(historic));
-      if (length === 2) i$(this).hide();
+      if (length === 2) $(this).hide();
     }
     return false;
   }).attr('title', __("back"));
@@ -603,10 +604,12 @@ $(document).ready(function() {
   $('#logout').live('click', function() {
     ajax.post("/members/destroy", '', function() {
       DB.removeAll();
+      DB.init();
       bgPage.badge.init();
       return BS.load('connection').refresh();
     }, function() {
       DB.removeAll();
+      DB.init();
       bgPage.badge.init();
       return BS.load('connection').refresh();
     });
