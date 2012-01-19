@@ -67,6 +67,9 @@
 	"dl_srt_language": {
 		"message": "Language of the episode subtitles : "
 	},
+	"do_not_rate": {
+		"message": "Do not rate"
+	},
 	"email": {
 		"message": "Email :"
 	},

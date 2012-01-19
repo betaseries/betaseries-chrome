@@ -42,7 +42,7 @@ $(document).ready ->
 					for i in [1..5]
 						content += '<img src="../img/star_off.gif" width="10" id="star' + i + '" class="star" title="' + i + ' /5" />'
 					
-					content += '<img src="../img/archive.png" width="10" class="close_stars" />'
+					content += '<img src="../img/archive.png" width="10" class="close_stars" title="' + __('do_not_rate') + '" />'
 					nodeRight.html content
 					# Star HOVER
 					$('.star').on
