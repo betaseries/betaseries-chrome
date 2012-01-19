@@ -428,7 +428,6 @@ BS = {
         nbrNotifications = 0;
         time = '';
         for (n in data) {
-          console.log(data[n].date);
           new_date = date('D d F', data[n].date);
           if (new_date !== time) {
             time = new_date;

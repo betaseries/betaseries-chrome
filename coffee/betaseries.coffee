@@ -433,7 +433,6 @@ BS =
 			
 			time = ''
 			for n of data
-				console.log data[n].date
 				new_date = date('D d F', data[n].date)
 				if new_date isnt time
 					time = new_date
