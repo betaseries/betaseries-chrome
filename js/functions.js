@@ -70,8 +70,8 @@ Fx = {
     if (top == null) top = false;
     return setTimeout((function() {
       var h, maxHeight, params;
-      maxHeight = 200;
-      h = $('#page').height() + 14;
+      maxHeight = DB.get('options.max_height');
+      h = $('#page').height() + 4;
       h = h > maxHeight ? maxHeight : h;
       $('#about').height(h);
       params = top ? {

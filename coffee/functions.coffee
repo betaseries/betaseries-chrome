@@ -58,8 +58,8 @@ Fx =
 		top ?= false
 		setTimeout (
 			-> 
-				maxHeight = 200
-				h = $('#page').height() + 14
+				maxHeight = DB.get 'options.max_height'
+				h = $('#page').height() + 4
 				h = if h > maxHeight then maxHeight else h
 				$('#about').height h
 				params = if top then {scroll:'top'} else {}

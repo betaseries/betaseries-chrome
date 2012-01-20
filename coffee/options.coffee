@@ -17,6 +17,7 @@ $(document).ready ->
 	$('#badge_notification_type').text __("badge_notification_type")
 	$('#display_global').text __("display_global")
 	$('#enable_ratings').text __("enable_ratings")
+	$('#max_height').text __("max_height")
 	$('#title_author').text __('author')
 	$('#title_contributors').text __('contributors')
 	$('#title_ext_page').text __('extension_page')
@@ -29,6 +30,7 @@ $(document).ready ->
 	$('input[name=nbr_episodes_per_serie]').attr 'value', DB.get 'options.nbr_episodes_per_serie'
 	$('select[name=display_global]').val DB.get 'options.display_global'
 	$('select[name=enable_ratings]').val DB.get 'options.enable_ratings'
+	$('input[name=max_height]').attr 'value', DB.get 'options.max_height'
 	$('option[value=watched]').text __('episodes_not_seen')
 	$('option[value=downloaded]').text __('episodes_not_dl')
 	$('option[value=VO]').text __('vo')
@@ -43,6 +45,7 @@ $(document).ready ->
 		DB.set 'options.nbr_episodes_per_serie', $('input[name=nbr_episodes_per_serie]').attr 'value'
 		DB.set 'options.display_global', $('select[name=display_global] :selected').val()
 		DB.set 'options.enable_ratings', $('select[name=enable_ratings] :selected').val()
+		DB.set 'options.max_height', $('input[name=max_height]').attr 'value'
 		bgPage.badge.update()
 		$(this).html __('saved')
 		$(this).css 'background-color', '#eafedf'

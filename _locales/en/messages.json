@@ -68,7 +68,7 @@
 		"message": "Language of the episode subtitles : "
 	},
 	"do_not_rate": {
-		"message": "Do not rate"
+		"message": "Don't rate"
 	},
 	"email": {
 		"message": "Email :"
@@ -153,6 +153,9 @@
 	},
 	"mark_as_seen_pl": {
 		"message": "Mark these episodes as seen"
+	},
+	"max_height": {
+		"message": "Maximum height of the popup : "
 	},
 	"maximise": {
 		"message": "Maximise"

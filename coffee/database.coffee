@@ -11,6 +11,7 @@ DB =
 		@set 'options.nbr_episodes_per_serie', 5, true
 		@set 'options.display_global', 'false', true
 		@set 'options.enable_ratings', 'true', true
+		@set 'options.max_height', 200, true
 		
 		# BADGE
 		@set 'badge.value', 0, true

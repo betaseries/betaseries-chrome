@@ -154,6 +154,9 @@
 	"mark_as_seen_pl": {
 		"message": "Marquer comme vu ces épisodes!"
 	},
+	"max_height": {
+		"message": "Hauteur maximale du popup : "
+	},
 	"maximise": {
 		"message": "Maximiser"
 	},

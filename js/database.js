@@ -7,6 +7,7 @@ DB = {
     this.set('options.nbr_episodes_per_serie', 5, true);
     this.set('options.display_global', 'false', true);
     this.set('options.enable_ratings', 'true', true);
+    this.set('options.max_height', 200, true);
     this.set('badge.value', 0, true);
     this.set('badge.type', 'membersEpisodes', true);
     this.set('historic', '[]', false);
