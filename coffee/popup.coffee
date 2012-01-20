@@ -541,7 +541,7 @@ $(document).ready ->
 	
 	## HEADER links
 	$('#logoLink')
-		.click(-> Fx.openTab 'http://betaseries.com', true)
+		.click(-> Fx.openTab 'https://betaseries.com', true)
 		.attr 'title', __("logo")
 	$('#versionLink')
 		.click(-> Fx.openTab 'https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true)

@@ -5,8 +5,8 @@ bgPage = chrome.extension.getBackgroundPage()
 
 ajax =
 	
-	url_api: "http://api.betaseries.com",	# Url API
-	site_url: "http://betaseries.com",		# Url site
+	url_api: "https://api.betaseries.com",	# Url API
+	site_url: "https://betaseries.com",		# Url site
 	key: "6db16a6ffab9",					# Developer key
 	
 	## Envoie des données en POST vers un des WS de BetaSeries

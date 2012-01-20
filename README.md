@@ -32,6 +32,6 @@ Liens
 -----
 
 * [Télécharger l'extension ChromeSeries](https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda)
-* [Bugtraker](http://www.betaseries.com/bugs/chromeseries)
+* [Bugtraker](https://www.betaseries.com/bugs/chromeseries)
 * [Page Facebook](http://www.facebook.com/pages/ChromeSeries/199020100116357)
 * [Site Web de l'auteur](http://www.menencia.com)

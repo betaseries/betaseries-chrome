@@ -14,7 +14,7 @@
 	},
 	"background_page": "html/background.html",
 	"permissions": [
-		"http://api.betaseries.com/*",
+		"https://api.betaseries.com/*",
 		"https://www.betaseries.com/blog/*"
 	]
 }
