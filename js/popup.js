@@ -473,11 +473,11 @@ $(document).ready(function() {
     click: function() {
       var login, params;
       login = $(this).attr('login');
-      params = {};
+      params = '';
       ajax.post("/members/add/" + login, params, function(data) {
-        $(this).attr('href', '#removefriend');
-        $(this).attr('id', 'removefriend');
-        $(this).text(__('remove_to_friends', [login]));
+        $('#addfriend').attr('href', '#removefriend');
+        $('#addfriend').attr('id', 'removefriend');
+        $('#addfriend').text(__('remove_to_friends', [login]));
         return $('#friendshipimg').attr('src', '../img/friend_remove.png');
       });
       return false;
@@ -487,11 +487,11 @@ $(document).ready(function() {
     click: function() {
       var login, params;
       login = $(this).attr('login');
-      params = {};
+      params = '';
       ajax.post("/members/delete/" + login, params, function(data) {
-        $(this).attr('href', '#addfriend');
-        $(this).attr('id', 'addfriend');
-        $(this).text(__('add_to_friends', [login]));
+        $('#removefriend').attr('href', '#addfriend');
+        $('#removefriend').attr('id', 'addfriend');
+        $('#removefriend').text(__('add_to_friends', [login]));
         return $('#friendshipimg').attr('src', '../img/friend_add.png');
       });
       return false;

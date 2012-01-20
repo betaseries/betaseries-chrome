@@ -452,11 +452,11 @@ $(document).ready ->
 	$('#addfriend').live
 		click: ->
 			login = $(this).attr 'login'
-			params = {}
+			params = ''
 			ajax.post "/members/add/" + login, params, (data) ->
-				$(this).attr 'href', '#removefriend'
-				$(this).attr 'id', 'removefriend'
-				$(this).text __('remove_to_friends', [login])
+				$('#addfriend').attr 'href', '#removefriend'
+				$('#addfriend').attr 'id', 'removefriend'
+				$('#addfriend').text __('remove_to_friends', [login])
 				$('#friendshipimg').attr 'src', '../img/friend_remove.png'
 			return false
 	
@@ -464,11 +464,11 @@ $(document).ready ->
 	$('#removefriend').live
 		click: ->
 			login = $(this).attr 'login'
-			params = {}
+			params = ''
 			ajax.post "/members/delete/" + login, params, (data) ->
-				$(this).attr 'href', '#addfriend'
-				$(this).attr 'id', 'addfriend'
-				$(this).text __('add_to_friends', [login])
+				$('#removefriend').attr 'href', '#addfriend'
+				$('#removefriend').attr 'id', 'addfriend'
+				$('#removefriend').text __('add_to_friends', [login])
 				$('#friendshipimg').attr 'src', '../img/friend_add.png'
 			return false
 	
