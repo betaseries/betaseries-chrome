@@ -2,6 +2,9 @@
 	"about": {
 		"message": "à propos"
 	},
+	"add_a_show": {
+		"message": "Ajouter une série"
+	},
 	"add_to_friends": {
 		"message": "Ajouter $user$ à vos amis", 
 		"placeholders":{

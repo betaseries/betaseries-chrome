@@ -409,7 +409,10 @@ BS =
 				posEpisode++
 						
 			bgPage.badge.update()
-			output += __('no_episodes_to_see') if nbrEpisodes is 0
+			if nbrEpisodes is 0
+				output += __('no_episodes_to_see') 
+				output += '<br /><br /><a href="#" onclick="BS.load(\'searchForm\').display(); return false;">'
+				output += '<img src="../img/film_add.png" style="margin: 0 4px -4px 0;" />' + __('add_a_show') + '</a>'
 			
 			return output
 	
