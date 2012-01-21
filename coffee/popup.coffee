@@ -371,15 +371,15 @@ $(document).ready ->
 			params = "&title=" + terms
 			ajax.post "/shows/search", params, 
 				(data) ->
-					if data.root.shows?
-						content = '<div class="showtitle">' + __('shows') + '</div>'
-						for n of data.root.shows
-							show = data.root.shows[n]
+					content = '<div class="showtitle">' + __('shows') + '</div>'
+					shows = data.root.shows
+					if Object.keys(shows).length > 0
+						for n of shows
+							show = shows[n]
 							content += '<div class="episode"><a href="#" onclick="BS.load(\'showsDisplay\', \'' + show.url + '\').refresh(); return false;" title="' + show.title + '">' + Fx.subFirst(show.title, 25) + '</a></div>'
-						$('#shows-results').html content
 					else
-						$('#shows-results').html '<div class="episode">' + __('no_shows_found') + '</div>'
-					
+						content += '<div class="episode">' + __('no_shows_found') + '</div>'
+					$('#shows-results').html content
 					Fx.updateHeight()
 				->
 					#inputs.removeAttr 'disabled'
@@ -387,14 +387,15 @@ $(document).ready ->
 			params = "&login=" + terms
 			ajax.post "/members/search", params, 
 				(data) ->
-					if data.root.members?
-						content = '<div class="showtitle">' + __('members') + '</div>'
-						for n of data.root.members
-							member = data.root.members[n]
+					content = '<div class="showtitle">' + __('members') + '</div>'
+					members = data.root.members
+					if Object.keys(members).length > 0
+						for n of members
+							member = members[n]
 							content += '<div class="episode"><a href="#" onclick="BS.load(\'membersInfos\', \'' + member.login + '\').refresh(); return false;">' + Fx.subFirst(member.login, 25) + '</a></div>'
-						$('#members-results').html content
 					else
-						$('#members-results').html '<div class="episode">' + __('no_members_found') + '</div>'
+						content += '<div class="episode">' + __('no_members_found') + '</div>'
+					$('#members-results').html content
 					Fx.updateHeight()
 				->
 					#inputs.removeAttr 'disabled'
