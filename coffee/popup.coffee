@@ -452,24 +452,28 @@ $(document).ready ->
 	$('#addfriend').live
 		click: ->
 			login = $(this).attr 'login'
-			params = ''
-			ajax.post "/members/add/" + login, params, (data) ->
+			ajax.post "/members/add/" + login, '', (data) ->
+				$('#addfriend').text __('remove_to_friends', [login])
 				$('#addfriend').attr 'href', '#removefriend'
 				$('#addfriend').attr 'id', 'removefriend'
-				$('#addfriend').text __('remove_to_friends', [login])
 				$('#friendshipimg').attr 'src', '../img/friend_remove.png'
+				BS.load('membersInfos').update()
+				BS.load('membersInfos', login).update()
+				BS.load('timelineFriends').update()
 			return false
 	
 	## Enlever un ami
 	$('#removefriend').live
 		click: ->
 			login = $(this).attr 'login'
-			params = ''
-			ajax.post "/members/delete/" + login, params, (data) ->
+			ajax.post "/members/delete/" + login, '', (data) ->
+				$('#removefriend').text __('add_to_friends', [login])
 				$('#removefriend').attr 'href', '#addfriend'
 				$('#removefriend').attr 'id', 'addfriend'
-				$('#removefriend').text __('add_to_friends', [login])
 				$('#friendshipimg').attr 'src', '../img/friend_add.png'
+				BS.load('membersInfos').update()
+				BS.load('membersInfos', login).update()
+				BS.load('timelineFriends').update()
 			return false
 	
 	## Maximiser/minimiser une série*/
