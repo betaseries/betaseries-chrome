@@ -80,6 +80,7 @@ div.clear{clear: both;}
 .dim {background:#feeeff;}
 
 .icon{float:left;margin-right:4px;}
+.icon2{margin: 0 4px -4px 0;}
 
 /*view timeline, notifications, commentsEpisode*/
 .timelineFriends .left, .membersNotifications .left

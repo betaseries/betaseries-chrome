@@ -27,7 +27,6 @@ badge =
 						(data) ->
 							episodes = data.root.episodes
 							j = 0;
-							console.log data
 							for own i of episodes
 								badgeNotificationType = DB.get('options.badge_notification_type');
 								j++ if badgeNotificationType is 'watched'

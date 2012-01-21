@@ -100,9 +100,11 @@ BS = {
         output += data.status + '<br />';
         output += data.note.mean + '/5 (' + data.note.members + ')<br />';
         if (data.is_in_account === '1') {
-          output += '<a href="#' + data.url + '" id="showsRemove">' + __('show_remove') + '</a><br />';
+          output += '<a href="#' + data.url + '" id="showsRemove">';
+          output += '<img src="../img/film_delete.png" class="icon2" />' + __('show_remove') + '</a><br />';
         } else {
-          output += '<a href="#' + data.url + '" id="showsAdd">' + __('show_add') + '</a><br />';
+          output += '<a href="#' + data.url + '" id="showsAdd">';
+          output += '<img src="../img/film_add.png" class="icon2" />' + __('show_add') + '</a><br />';
         }
         return output;
       }
@@ -402,7 +404,7 @@ BS = {
         if (nbrEpisodes === 0) {
           output += __('no_episodes_to_see');
           output += '<br /><br /><a href="#" onclick="BS.load(\'searchForm\').display(); return false;">';
-          output += '<img src="../img/film_add.png" style="margin: 0 4px -4px 0;" />' + __('add_a_show') + '</a>';
+          output += '<img src="../img/film_add.png" class="icon2" />' + __('add_a_show') + '</a>';
         }
         return output;
       }
