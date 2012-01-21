@@ -172,7 +172,7 @@ BS = {
           todayWeek = parseFloat(date('W', today));
           actualWeek = parseFloat(date('W', data[e].date));
           diffWeek = actualWeek - todayWeek;
-          plot = data[e].date < today ? "red" : "orange";
+          plot = data[e].date < today ? "orange" : "red";
           if (actualWeek !== week) {
             week = actualWeek;
             hidden = "";

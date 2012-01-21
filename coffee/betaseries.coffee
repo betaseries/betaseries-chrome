@@ -171,7 +171,7 @@ BS =
 				todayWeek = parseFloat date('W', today)
 				actualWeek = parseFloat date('W', data[e].date)
 				diffWeek = actualWeek - todayWeek
-				plot = if data[e].date < today then "red" else "orange"
+				plot = if data[e].date < today then "orange" else "red"
 				if actualWeek isnt week
 					week = actualWeek
 					hidden = ""
