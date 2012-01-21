@@ -27,10 +27,11 @@ badge =
 						(data) ->
 							episodes = data.root.episodes
 							j = 0;
+							console.log data
 							for own i of episodes
 								badgeNotificationType = DB.get('options.badge_notification_type');
 								j++ if badgeNotificationType is 'watched'
-								j++ if badgeNotificationType is 'downloaded' and episodes[i].downloaded isnt 1
+								j++ if badgeNotificationType is 'downloaded' and episodes[i].downloaded isnt "1"
 							DB.set 'badge.value', j
 							DB.set 'badge.type', 'membersEpisodes'
 							badge.display j, 'membersEpisodes'

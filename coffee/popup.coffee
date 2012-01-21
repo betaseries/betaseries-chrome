@@ -341,7 +341,7 @@ $(document).ready ->
 					(data) ->
 						if data.root.errors.error
 							err = data.root.errors.error
-							console.log "error code : " + err.code
+							#console.log "error code : " + err.code
 							message '<img src="../img/inaccurate.png" /> ' + __('err' + err.code)
 							$('#password').attr 'value', ''
 							$('#repassword').attr 'value', ''

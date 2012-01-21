@@ -99,7 +99,7 @@ BS = {
         output += data.description + '<br />';
         output += data.status + '<br />';
         output += data.note.mean + '/5 (' + data.note.members + ')<br />';
-        if (data.is_in_account === 1) {
+        if (data.is_in_account === '1') {
           output += '<a href="#' + data.url + '" id="showsRemove">' + __('show_remove') + '</a><br />';
         } else {
           output += '<a href="#' + data.url + '" id="showsAdd">' + __('show_add') + '</a><br />';
@@ -119,7 +119,7 @@ BS = {
         var imgDownloaded, n, output, sub, texte3, title;
         episode = data['0']['episodes']['0'];
         title = DB.get('options.display_global') ? "#" + episode.global + " " + title : episode.title;
-        if (episode.downloaded === 1) {
+        if (episode.downloaded === "1") {
           imgDownloaded = "folder";
           texte3 = __('mark_as_not_dl');
         } else if (episode.downloaded === 0) {

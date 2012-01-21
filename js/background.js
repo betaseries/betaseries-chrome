@@ -24,11 +24,12 @@ badge = {
           var badgeNotificationType, episodes, i;
           episodes = data.root.episodes;
           j = 0;
+          console.log(data);
           for (i in episodes) {
             if (!__hasProp.call(episodes, i)) continue;
             badgeNotificationType = DB.get('options.badge_notification_type');
             if (badgeNotificationType === 'watched') j++;
-            if (badgeNotificationType === 'downloaded' && episodes[i].downloaded !== 1) {
+            if (badgeNotificationType === 'downloaded' && episodes[i].downloaded !== "1") {
               j++;
             }
           }
