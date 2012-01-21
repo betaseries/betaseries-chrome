@@ -552,7 +552,7 @@ BS = {
         output += '<div id="shows-results"></div>';
         output += '<div id="members-results"></div>';
         setTimeout((function() {
-          return $('#terms').focus;
+          return $('#terms').focus();
         }), 100);
         return output;
       }

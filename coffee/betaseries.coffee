@@ -540,7 +540,7 @@ BS =
 			output += '</form>'
 			output += '<div id="shows-results"></div>'
 			output += '<div id="members-results"></div>'
-			setTimeout (() -> $('#terms').focus), 100
+			setTimeout (() -> $('#terms').focus()), 100
 			return output
 	
 	#
