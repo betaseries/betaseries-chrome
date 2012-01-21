@@ -15,11 +15,10 @@ Fx = {
     return false;
   },
   concat: function() {
-    var i, n, p, ret, _i, _len, _ref;
+    var i, n, p, ret, _ref;
     ret = {};
     n = 0;
-    for (_i = 0, _len = arguments.length; _i < _len; _i++) {
-      i = arguments[_i];
+    for (i in arguments) {
       _ref = arguments[i];
       for (p in _ref) {
         if (!__hasProp.call(_ref, p)) continue;

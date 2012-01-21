@@ -13,7 +13,7 @@ Fx =
 	concat: ->
 		ret = {}
 		n = 0
-		for i in arguments
+		for i of arguments
 			for own p of arguments[i]
 				if n < 10
 					ret[n] = arguments[i][p]
