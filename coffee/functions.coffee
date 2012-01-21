@@ -6,6 +6,7 @@ Fx =
 	
 	##
 	openTab: (url, selected) ->
+		selected ?= false
 		chrome.tabs.create {"url": url, "selected": selected}
 		return false
 	

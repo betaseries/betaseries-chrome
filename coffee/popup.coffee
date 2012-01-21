@@ -141,8 +141,8 @@ $(document).ready ->
 			node = $(this).parent().parent()
 			season = node.attr 'season'
 			episode = node.attr 'episode'
-			show = node.parent().attr 'id' if view is 'membersEpisodes'
-			show = node.attr 'id' if view is 'showsEpisodes'
+			show = node.parent().attr('id') if view is 'membersEpisodes'
+			show = node.attr('id') if view is 'showsEpisodes'
 			params = "&season=" + season + "&episode=" + episode
 			
 			# On rend tout de suite visible le changement
@@ -170,8 +170,8 @@ $(document).ready ->
 			node = $(this).parent().parent()
 			season = node.attr 'season'
 			episode = node.attr 'episode'
-			show = node.parent().attr 'id' if view is 'membersEpisodes'
-			show = node.attr 'id' if view is 'showsEpisodes'
+			show = node.parent().attr('id') if view is 'membersEpisodes'
+			show = node.attr('id') if view is 'showsEpisodes'
 			
 			BS.load('commentsEpisode', show, season, episode).refresh()
 	
@@ -209,7 +209,7 @@ $(document).ready ->
 	## Télécharger les sous-titres d'un épisode
 	$('.subs').live
 		click: ->
-			Fx.openTab $(this).attr 'link', false
+			Fx.openTab $(this).attr 'link'
 			return false
 		
 		mouseenter: ->

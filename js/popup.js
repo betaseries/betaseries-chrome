@@ -231,7 +231,7 @@ $(document).ready(function() {
   });
   $('.subs').live({
     click: function() {
-      Fx.openTab($(this).attr('link', false));
+      Fx.openTab($(this).attr('link'));
       return false;
     },
     mouseenter: function() {

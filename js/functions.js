@@ -8,6 +8,7 @@ __ = function(msgname, placeholders) {
 
 Fx = {
   openTab: function(url, selected) {
+    if (selected == null) selected = false;
     chrome.tabs.create({
       "url": url,
       "selected": selected
