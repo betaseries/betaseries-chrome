@@ -329,6 +329,14 @@
 	"saved": {
 		"message": "Saved"
 	},
+	"see_comments": {
+		"message": "Show comments ($nbr$)", 
+		"placeholders":{
+			"nbr":{
+				"content":"$1"
+			}
+		}
+	},
 	"searchForm": {
 		"message": "Search"
 	},

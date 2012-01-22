@@ -138,40 +138,78 @@ $(document).ready ->
 	$('.downloaded').live
 		click: ->
 			view = BS.currentPage.name
-			node = $(this).parent().parent()
-			season = node.attr 'season'
-			episode = node.attr 'episode'
-			show = node.parent().attr('id') if view is 'membersEpisodes'
-			show = node.attr('id') if view is 'showsEpisodes'
+			
+			if view is 'showsEpisodes'
+				img = $('.downloaded img')
+				node = $(this).parent()
+				season = node.attr 'season'
+				episode = node.attr 'episode'
+				show = node.attr 'id'
+			else if view is 'membersEpisodes'
+				img = $(this)
+				node = $(this).parent().parent()
+				season = node.attr 'season'
+				episode = node.attr 'episode'
+				show = node.parent().attr 'id'
+			
 			params = "&season=" + season + "&episode=" + episode
 			
 			# On rend tout de suite visible le changement
-			if $(this).attr('src') is '../img/folder_delete.png' then $(this).attr 'src', '../img/folder_add.png'
-			else if $(this).attr('src') is '../img/folder_add.png' then $(this).attr 'src', '../img/folder_delete.png'
+			if img.attr('src') is '../img/folder_delete.png' then img.attr 'src', '../img/folder_add.png'
+			else if img.attr('src') is '../img/folder_add.png' then img.attr 'src', '../img/folder_delete.png'
 			
+			if view is 'showsEpisodes'
+				dlText = $(this).find('.dlText').text()
+				newDlText = if dlText is __('mark_as_dl') then __('mark_as_not_dl') else __('mark_as_dl')
+				$(this).find('.dlText').text newDlText
+				
 			ajax.post "/members/downloaded/" + show, params, 
-				-> BS.load('membersEpisodes').update()
-				-> registerAction "/members/downloaded/" + show, params
+				-> 
+					BS.load('membersEpisodes').update()
+					page = DB.get 'page.showsEpisodes.' + show + '.' + season + '.' + episode, null
+					BS.load('showsEpisodes', show, season, episode).update() if page isnt null
+				-> 
+					registerAction "/members/downloaded/" + show, params
 			
 		mouseenter: -> 
 			$(this).css 'cursor', 'pointer'
-			if $(this).attr('src') is '../img/folder_off.png' then $(this).attr 'src', '../img/folder_add.png'
-			if $(this).attr('src') is '../img/folder.png' then $(this).attr 'src', '../img/folder_delete.png'
+			
+			view = BS.currentPage.name
+			if view is 'showsEpisodes'
+				img = $('.downloaded img')
+			else if view is 'membersEpisodes'
+				img = $(this)
+			
+			if img.attr('src') is '../img/folder_off.png' then img.attr 'src', '../img/folder_add.png'
+			if img.attr('src') is '../img/folder.png' then img.attr 'src', '../img/folder_delete.png'
 		
 		mouseleave: ->
 			$(this).css 'cursor', 'auto'
-			if $(this).attr('src') is '../img/folder_add.png' then $(this).attr 'src', '../img/folder_off.png'
-			if $(this).attr('src') is '../img/folder_delete.png' then $(this).attr 'src', '../img/folder.png'
+			
+			view = BS.currentPage.name
+			if view is 'showsEpisodes'
+				img = $('.downloaded img')
+			else if view is 'membersEpisodes'
+				img = $(this)
+			
+			if img.attr('src') is '../img/folder_add.png' then img.attr 'src', '../img/folder_off.png'
+			if img.attr('src') is '../img/folder_delete.png' then img.attr 'src', '../img/folder.png'
 	
 	## Accéder à la liste des commentaires d'un épisode
 	$('.commentList').live
 		click: ->
 			view = BS.currentPage.name
-			node = $(this).parent().parent()
-			season = node.attr 'season'
-			episode = node.attr 'episode'
-			show = node.parent().attr('id') if view is 'membersEpisodes'
-			show = node.attr('id') if view is 'showsEpisodes'
+			
+			if view is 'showsEpisodes'
+				node = $(this).parent()
+				season = node.attr 'season'
+				episode = node.attr 'episode'
+				show = node.attr 'id'
+			else if view is 'membersEpisodes'
+				node = $(this).parent().parent()
+				season = node.attr 'season'
+				episode = node.attr 'episode'
+				show = node.parent().attr 'id'
 			
 			BS.load('commentsEpisode', show, season, episode).refresh()
 	

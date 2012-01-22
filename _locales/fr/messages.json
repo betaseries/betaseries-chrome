@@ -155,10 +155,10 @@
 		"message": "Mars"
 	},
 	"mark_as_dl": {
-		"message": "Marquer comme téléchargé"
+		"message": "Marquer comme récupéré"
 	},
 	"mark_as_not_dl": {
-		"message": "Marquer comme non-téléchargé"
+		"message": "Marquer comme non-récupéré"
 	},
 	"mark_as_seen": {
 		"message": "Marquer comme vu cet épisode!"
@@ -337,6 +337,14 @@
 	},
 	"season": {
 		"message": "Saison"
+	},
+	"see_comments": {
+		"message": "Voir les commentaires ($nbr$)", 
+		"placeholders":{
+			"nbr":{
+				"content":"$1"
+			}
+		}
 	},
 	"september": {
 		"message": "Sept"

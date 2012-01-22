@@ -32,7 +32,7 @@ DB =
 	 # defaultValue		<object>	Valeur par défaut si champ non trouvé (optionnel)
 	 # parse			<boolean>	Indique si utiliser JSON.parse() ou pas
 	 #
-	get: (field, defaultValue = undefined) ->
+	get: (field, defaultValue) ->
 		if localStorage[field]? then localStorage[field] else defaultValue
 	
 	##

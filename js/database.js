@@ -15,7 +15,6 @@ DB = {
     return this.set('extra_episodes', '[]', true);
   },
   get: function(field, defaultValue) {
-    if (defaultValue == null) defaultValue = void 0;
     if (localStorage[field] != null) {
       return localStorage[field];
     } else {

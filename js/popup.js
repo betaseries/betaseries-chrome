@@ -146,41 +146,73 @@ $(document).ready(function() {
   });
   $('.downloaded').live({
     click: function() {
-      var episode, node, params, season, show, view;
+      var dlText, episode, img, newDlText, node, params, season, show, view;
       view = BS.currentPage.name;
-      node = $(this).parent().parent();
-      season = node.attr('season');
-      episode = node.attr('episode');
-      if (view === 'membersEpisodes') show = node.parent().attr('id');
-      if (view === 'showsEpisodes') show = node.attr('id');
+      if (view === 'showsEpisodes') {
+        img = $('.downloaded img');
+        node = $(this).parent();
+        season = node.attr('season');
+        episode = node.attr('episode');
+        show = node.attr('id');
+      } else if (view === 'membersEpisodes') {
+        img = $(this);
+        node = $(this).parent().parent();
+        season = node.attr('season');
+        episode = node.attr('episode');
+        show = node.parent().attr('id');
+      }
       params = "&season=" + season + "&episode=" + episode;
-      if ($(this).attr('src') === '../img/folder_delete.png') {
-        $(this).attr('src', '../img/folder_add.png');
-      } else if ($(this).attr('src') === '../img/folder_add.png') {
-        $(this).attr('src', '../img/folder_delete.png');
+      if (img.attr('src') === '../img/folder_delete.png') {
+        img.attr('src', '../img/folder_add.png');
+      } else if (img.attr('src') === '../img/folder_add.png') {
+        img.attr('src', '../img/folder_delete.png');
+      }
+      if (view === 'showsEpisodes') {
+        dlText = $(this).find('.dlText').text();
+        newDlText = dlText === __('mark_as_dl') ? __('mark_as_not_dl') : __('mark_as_dl');
+        $(this).find('.dlText').text(newDlText);
       }
       return ajax.post("/members/downloaded/" + show, params, function() {
-        return BS.load('membersEpisodes').update();
+        var page;
+        BS.load('membersEpisodes').update();
+        page = DB.get('page.showsEpisodes.' + show + '.' + season + '.' + episode, null);
+        if (page !== null) {
+          return BS.load('showsEpisodes', show, season, episode).update();
+        }
       }, function() {
         return registerAction("/members/downloaded/" + show, params);
       });
     },
     mouseenter: function() {
+      var img, view;
       $(this).css('cursor', 'pointer');
-      if ($(this).attr('src') === '../img/folder_off.png') {
-        $(this).attr('src', '../img/folder_add.png');
+      view = BS.currentPage.name;
+      if (view === 'showsEpisodes') {
+        img = $('.downloaded img');
+      } else if (view === 'membersEpisodes') {
+        img = $(this);
       }
-      if ($(this).attr('src') === '../img/folder.png') {
-        return $(this).attr('src', '../img/folder_delete.png');
+      if (img.attr('src') === '../img/folder_off.png') {
+        img.attr('src', '../img/folder_add.png');
+      }
+      if (img.attr('src') === '../img/folder.png') {
+        return img.attr('src', '../img/folder_delete.png');
       }
     },
     mouseleave: function() {
+      var img, view;
       $(this).css('cursor', 'auto');
-      if ($(this).attr('src') === '../img/folder_add.png') {
-        $(this).attr('src', '../img/folder_off.png');
+      view = BS.currentPage.name;
+      if (view === 'showsEpisodes') {
+        img = $('.downloaded img');
+      } else if (view === 'membersEpisodes') {
+        img = $(this);
       }
-      if ($(this).attr('src') === '../img/folder_delete.png') {
-        return $(this).attr('src', '../img/folder.png');
+      if (img.attr('src') === '../img/folder_add.png') {
+        img.attr('src', '../img/folder_off.png');
+      }
+      if (img.attr('src') === '../img/folder_delete.png') {
+        return img.attr('src', '../img/folder.png');
       }
     }
   });
@@ -188,11 +220,17 @@ $(document).ready(function() {
     click: function() {
       var episode, node, season, show, view;
       view = BS.currentPage.name;
-      node = $(this).parent().parent();
-      season = node.attr('season');
-      episode = node.attr('episode');
-      if (view === 'membersEpisodes') show = node.parent().attr('id');
-      if (view === 'showsEpisodes') show = node.attr('id');
+      if (view === 'showsEpisodes') {
+        node = $(this).parent();
+        season = node.attr('season');
+        episode = node.attr('episode');
+        show = node.attr('id');
+      } else if (view === 'membersEpisodes') {
+        node = $(this).parent().parent();
+        season = node.attr('season');
+        episode = node.attr('episode');
+        show = node.parent().attr('id');
+      }
       return BS.load('commentsEpisode', show, season, episode).refresh();
     },
     mouseenter: function() {

@@ -94,7 +94,6 @@ BS = {
       root: 'show',
       content: function(data) {
         var genres, i, k, output, season, v, _ref;
-        console.log(data);
         if (data.banner != null) {
           output = '<img src="' + data.banner + '" width="290" height="70" alt="banner" /><br />';
         }
@@ -139,36 +138,17 @@ BS = {
         var imgDownloaded, n, nbr_subs, output, sub, texte3, title;
         episode = data['0']['episodes']['0'];
         title = DB.get('options.display_global') ? "#" + episode.global + " " + title : episode.title;
-        if (episode.downloaded === '1') {
-          imgDownloaded = "folder";
-          texte3 = __('mark_as_not_dl');
-        } else if (episode.downloaded === '0') {
-          imgDownloaded = "folder_off";
-          texte3 = __('mark_as_dl');
+        if (episode.screen != null) {
+          output = '<img src="' + episode.screen + '" width="290" /><br />';
         }
-        output = "<div id=\"" + url + "\" season=\"" + data['0']['number'] + "\" episode=\"" + episode.episode + "\">";
-        output += '<div style="float:left; width:176px; padding-right:5px;">';
-        output += "<div class=\"showtitle\">" + episode.show + "</div>";
+        output += "<div id=\"" + url + "\" season=\"" + data['0']['number'] + "\" episode=\"" + episode.episode + "\">";
+        output += '<div class="showtitle">' + episode.show + '</div>';
         output += "<div><span class=\"num\">[" + episode.number + "]</span> " + episode.title + "</div>";
         output += '<div><span class="date">' + date('D d F', episode.date) + '</span></div>';
-        output += '<div style="height:10px;"></div>';
-        output += "<div>" + episode.description + "</div>";
-        output += '</div>';
-        output += '<div style="float:left; width:100px; text-align:center;">';
-        if (episode.screen != null) {
-          output += '<img src="' + episode.screen + '" width="100" style="border:1px solid #999999; padding:1px; margin-top:18px;" /><br />';
-        } else {
-          output += '<img src="../img/motif.png" width="100" height="100" style="border:1px solid #999999; padding:1px; margin-top:18px;" /><br />';
-        }
-        output += __('avg_note') + ("<br />" + episode.note.mean + " (" + episode.note.members + ")<br />");
-        output += '<img src="../img/' + imgDownloaded + '.png" class="downloaded" title="' + texte3 + '" /> ';
-        if (episode.comments !== '0') {
-          output += '<img src="../img/comment.png" class="commentList" title="' + __('nbr_comments', [episode.comments]) + '" />';
-        }
-        output += '</div>';
-        output += '</div>';
-        output += '<div style="clear:both;"></div>';
-        output += '<br /><div class="showtitle">' + __('subtitles') + '</div>';
+        output += '<div style="height:4px;"></div>';
+        output += __('avg_note') + ("" + episode.note.mean + " (" + episode.note.members + ")<br />");
+        output += '<div style="height:54px; overflow:hidden">' + __('synopsis') + episode.description + '</div>';
+        output += '<div class="showtitle">' + __('subtitles') + '</div>';
         nbr_subs = 0;
         for (n in episode.subs) {
           sub = episode.subs[n];
@@ -176,6 +156,19 @@ BS = {
           nbr_subs++;
         }
         if (nbr_subs === 0) output += __('no_subs');
+        if (episode.downloaded === '1') {
+          imgDownloaded = "folder";
+          texte3 = __('mark_as_not_dl');
+        } else if (episode.downloaded === '0') {
+          imgDownloaded = "folder_off";
+          texte3 = __('mark_as_dl');
+        }
+        output += '<div class="showtitle">' + __('actions') + '</div>';
+        output += '<a href="" class="downloaded" onclick="return false;">';
+        output += '<img src="../img/' + imgDownloaded + '.png" class="icon2" /><span class="dlText">' + texte3 + '</span></a><br />';
+        output += '<a href="" class="commentList" onclick="return false;">';
+        output += '<img src="../img/comment.png" class="icon2">' + __('see_comments', [episode.comments]) + '</a>';
+        output += '</div>';
         return output;
       }
     };
