@@ -3,7 +3,7 @@
 		"message": "about"
 	},
 	"add_a_show": {
-		"message": "Add a show"
+		"message": "Add a TV show"
 	},
 	"add_to_friends": {
 		"message": "Add $user$ to my friends", 
@@ -146,10 +146,10 @@
 		"message": "March"
 	},
 	"mark_as_dl": {
-		"message": "Mark as downloaded"
+		"message": "Mark as recover"
 	},
 	"mark_as_not_dl": {
-		"message": "Mark as not downloaded"
+		"message": "Mark as not recover"
 	},
 	"mark_as_seen": {
 		"message": "Mark as seen"
@@ -266,6 +266,9 @@
 	},
 	"no_shows_found": {
 		"message": "No matching tv shows."
+	},
+	"no_subs": {
+		"message": "No subtitle for this episode."
 	},
 	"november": {
 		"message": "Nov"

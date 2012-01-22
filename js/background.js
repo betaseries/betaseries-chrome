@@ -51,7 +51,7 @@ badge = {
   },
   display: function(value, type) {
     var colors;
-    if (value === 0) {
+    if (value === '0') {
       return chrome.browserAction.setBadgeText({
         text: ""
       });

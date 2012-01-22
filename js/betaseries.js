@@ -118,13 +118,20 @@ BS = {
       params: "&season=" + season + "&episode=" + episode,
       root: 'seasons',
       content: function(data) {
-        var imgDownloaded, n, output, sub, texte3, title;
+        var avatar, imgDownloaded, n, nbr_subs, output, sub, texte3, title;
         episode = data['0']['episodes']['0'];
+        if (data.avatar !== '') {
+          avatar = new Image;
+          avatar.src = data.avatar;
+          avatar.onload = function() {
+            return $('#avatar').attr('src', data.avatar);
+          };
+        }
         title = DB.get('options.display_global') ? "#" + episode.global + " " + title : episode.title;
-        if (episode.downloaded === "1") {
+        if (episode.downloaded === '1') {
           imgDownloaded = "folder";
           texte3 = __('mark_as_not_dl');
-        } else if (episode.downloaded === 0) {
+        } else if (episode.downloaded === '0') {
           imgDownloaded = "folder_off";
           texte3 = __('mark_as_dl');
         }
@@ -137,20 +144,27 @@ BS = {
         output += "<div>" + episode.description + "</div>";
         output += '</div>';
         output += '<div style="float:left; width:100px; text-align:center;">';
-        output += '<img src="' + episode.screen + '" width="100" style="border:1px solid #999999; padding:1px; margin-top:18px;" /><br />';
+        if (episode.screen != null) {
+          output += '<img src="' + episode.screen + '" width="100" style="border:1px solid #999999; padding:1px; margin-top:18px;" /><br />';
+        } else {
+          output += '<img src="../img/motif.png" width="100" height="100" style="border:1px solid #999999; padding:1px; margin-top:18px;" /><br />';
+        }
         output += __('avg_note') + ("<br />" + episode.note.mean + " (" + episode.note.members + ")<br />");
         output += '<img src="../img/' + imgDownloaded + '.png" class="downloaded" title="' + texte3 + '" /> ';
-        if (episode.comments) {
+        if (episode.comments !== '0') {
           output += '<img src="../img/comment.png" class="commentList" title="' + __('nbr_comments', [episode.comments]) + '" />';
         }
         output += '</div>';
         output += '</div>';
         output += '<div style="clear:both;"></div>';
-        output += '<div class="showtitle">' + __('subtitles') + '</div>';
+        output += '<br /><div class="showtitle">' + __('subtitles') + '</div>';
+        nbr_subs = 0;
         for (n in episode.subs) {
           sub = episode.subs[n];
           output += '[' + sub.quality + '] ' + sub.language + ' <a href="" class="subs" title="' + sub.file + '" link="' + sub.url + '">' + Fx.subLast(sub.file, 20) + '</a> (' + sub.source + ')<br />';
+          nbr_subs++;
         }
+        if (nbr_subs === 0) output += __('no_subs');
         return output;
       }
     };

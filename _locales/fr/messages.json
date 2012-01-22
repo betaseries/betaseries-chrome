@@ -267,6 +267,9 @@
 	"no_shows_found": {
 		"message": "Aucune série correspondante."
 	},
+	"no_subs": {
+		"message": "Aucun sous-titre pour cet épisode."
+	},
 	"november": {
 		"message": "Nov"
 	},

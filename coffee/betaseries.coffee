@@ -120,12 +120,18 @@ BS =
 		root: 'seasons'
 		content: (data) ->
 			episode = data['0']['episodes']['0']
-				
+			
+			if data.avatar isnt ''
+				avatar = new Image
+				avatar.src = data.avatar
+				avatar.onload = ->
+					$('#avatar').attr 'src', data.avatar
+			
 			title = if DB.get 'options.display_global' then "##{episode.global} #{title}" else episode.title
-			if episode.downloaded is "1"
+			if episode.downloaded is '1'
 				imgDownloaded = "folder"
 				texte3 = __('mark_as_not_dl')
-			else if episode.downloaded is 0
+			else if episode.downloaded is '0'
 				imgDownloaded = "folder_off"
 				texte3 = __('mark_as_dl')
 				
@@ -139,19 +145,25 @@ BS =
 			output += '</div>'
 			
 			output += '<div style="float:left; width:100px; text-align:center;">'
-			output += 	'<img src="' + episode.screen + '" width="100" style="border:1px solid #999999; padding:1px; margin-top:18px;" /><br />'
+			if episode.screen?
+				output += 	'<img src="' + episode.screen + '" width="100" style="border:1px solid #999999; padding:1px; margin-top:18px;" /><br />'
+			else
+				output += 	'<img src="../img/motif.png" width="100" height="100" style="border:1px solid #999999; padding:1px; margin-top:18px;" /><br />'
 			output += 	__('avg_note') + "<br />#{episode.note.mean} (#{episode.note.members})<br />"
 			output += 	'<img src="../img/' + imgDownloaded + '.png" class="downloaded" title="' + texte3 + '" /> '
-			if episode.comments
+			if episode.comments isnt '0'
 				output += 	'<img src="../img/comment.png" class="commentList" title="' + __('nbr_comments', [episode.comments]) + '" />'
 			output += '</div>'
 			output += '</div>'
 			
 			output += '<div style="clear:both;"></div>'
-			output += '<div class="showtitle">' + __('subtitles') + '</div>'
+			output += '<br /><div class="showtitle">' + __('subtitles') + '</div>'
+			nbr_subs = 0
 			for n of episode.subs
 				sub = episode.subs[n]
 				output += '[' + sub.quality + '] ' + sub.language + ' <a href="" class="subs" title="' + sub.file + '" link="' + sub.url + '">' + Fx.subLast(sub.file, 20) + '</a> (' + sub.source + ')<br />'
+				nbr_subs++
+			output += __('no_subs') if nbr_subs is 0
 			return output
 	
 	#

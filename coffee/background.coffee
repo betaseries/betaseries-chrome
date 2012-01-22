@@ -45,7 +45,7 @@ badge =
 
 	##
 	display: (value, type) ->
-		if value is 0
+		if value is '0'
 			chrome.browserAction.setBadgeText {text: ""}
 		else
 			colors =
