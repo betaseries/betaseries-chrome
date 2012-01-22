@@ -4,7 +4,7 @@ bgPage = chrome.extension.getBackgroundPage();
 
 ajax = {
   url_api: "https://api.betaseries.com",
-  site_url: "https://betaseries.com",
+  site_url: "https://www.betaseries.com",
   key: "6db16a6ffab9",
   post: function(category, params, successCallback, errorCallback) {
     var token;

@@ -608,7 +608,7 @@ $(document).ready(function() {
     }
   });
   $('#logoLink').click(function() {
-    return Fx.openTab('https://betaseries.com', true);
+    return Fx.openTab(ajax.site_url, true);
   }).attr('title', __("logo"));
   $('#versionLink').click(function() {
     return Fx.openTab('https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true);
