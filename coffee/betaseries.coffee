@@ -98,11 +98,26 @@ BS =
 		url: "/shows/display/#{url}"
 		root: 'show'
 		content: (data) ->
-			output = '<img src="' + data.banner + '" width="290" height="70" alt="banner" /><br />'
-			output += data.title + '<br />'
-			output += data.description + '<br />'
-			output += data.status + '<br />'
-			output += data.note.mean + '/5 (' + data.note.members + ')<br />'
+			console.log data
+			if data.banner?
+				output = '<img src="' + data.banner + '" width="290" height="70" alt="banner" /><br />'
+			output += '<div class="showtitle">' + data.title + '</div>'
+			output += __('type')
+			genres = []
+			for k,v of data.genres
+				genres.push v
+			output += genres.join(', ') + '<br />'
+			output += __('status') + __((data.status).toLowerCase()) + '<br />'
+			output += __('avg_note') + data.note.mean + '/5 (' + data.note.members + ')'
+			output += '<div style="height:54px; overflow:hidden">' + __('synopsis') + data.description + '</div>'
+			
+			output += '<div class="showtitle">' + __('seasons') + '</div>'
+			for i of data.seasons
+				season = data.seasons[i]
+				output += __('season') + ' ' + season.number + ' '
+				output += '<small>(' + season.episodes + ' ' + __('episodes') + ')</small><br />'
+			
+			output += '<div class="showtitle">' + __('actions') + '</div>'
 			if data.is_in_account is '1'
 				output += '<a href="#' + data.url + '" id="showsRemove">'
 				output += '<img src="../img/film_delete.png" class="icon2" />' + __('show_remove') + '</a><br />'
@@ -120,12 +135,6 @@ BS =
 		root: 'seasons'
 		content: (data) ->
 			episode = data['0']['episodes']['0']
-			
-			if data.avatar isnt ''
-				avatar = new Image
-				avatar.src = data.avatar
-				avatar.onload = ->
-					$('#avatar').attr 'src', data.avatar
 			
 			title = if DB.get 'options.display_global' then "##{episode.global} #{title}" else episode.title
 			if episode.downloaded is '1'
@@ -260,7 +269,7 @@ BS =
 						output += '</div>'
 			
 			if data.is_in_account?
-				output += '<div class="showtitle">Actions</div>'
+				output += '<div class="showtitle">' + __('actions') + '</div>'
 				if data.is_in_account is 0
 					output += '<div class="episode"><img src="../img/friend_add.png" id="friendshipimg" style="margin-bottom: -4px;" /> <a href="#" id="addfriend" login="' + data.login + '">' + __('add_to_friends', [data.login]) + '</a></div>'
 				else if data.is_in_account is 1

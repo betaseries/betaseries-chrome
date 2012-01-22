@@ -93,12 +93,30 @@ BS = {
       url: "/shows/display/" + url,
       root: 'show',
       content: function(data) {
-        var output;
-        output = '<img src="' + data.banner + '" width="290" height="70" alt="banner" /><br />';
-        output += data.title + '<br />';
-        output += data.description + '<br />';
-        output += data.status + '<br />';
-        output += data.note.mean + '/5 (' + data.note.members + ')<br />';
+        var genres, i, k, output, season, v, _ref;
+        console.log(data);
+        if (data.banner != null) {
+          output = '<img src="' + data.banner + '" width="290" height="70" alt="banner" /><br />';
+        }
+        output += '<div class="showtitle">' + data.title + '</div>';
+        output += __('type');
+        genres = [];
+        _ref = data.genres;
+        for (k in _ref) {
+          v = _ref[k];
+          genres.push(v);
+        }
+        output += genres.join(', ') + '<br />';
+        output += __('status') + __(data.status.toLowerCase()) + '<br />';
+        output += __('avg_note') + data.note.mean + '/5 (' + data.note.members + ')';
+        output += '<div style="height:54px; overflow:hidden">' + __('synopsis') + data.description + '</div>';
+        output += '<div class="showtitle">' + __('seasons') + '</div>';
+        for (i in data.seasons) {
+          season = data.seasons[i];
+          output += __('season') + ' ' + season.number + ' ';
+          output += '<small>(' + season.episodes + ' ' + __('episodes') + ')</small><br />';
+        }
+        output += '<div class="showtitle">' + __('actions') + '</div>';
         if (data.is_in_account === '1') {
           output += '<a href="#' + data.url + '" id="showsRemove">';
           output += '<img src="../img/film_delete.png" class="icon2" />' + __('show_remove') + '</a><br />';
@@ -118,15 +136,8 @@ BS = {
       params: "&season=" + season + "&episode=" + episode,
       root: 'seasons',
       content: function(data) {
-        var avatar, imgDownloaded, n, nbr_subs, output, sub, texte3, title;
+        var imgDownloaded, n, nbr_subs, output, sub, texte3, title;
         episode = data['0']['episodes']['0'];
-        if (data.avatar !== '') {
-          avatar = new Image;
-          avatar.src = data.avatar;
-          avatar.onload = function() {
-            return $('#avatar').attr('src', data.avatar);
-          };
-        }
         title = DB.get('options.display_global') ? "#" + episode.global + " " + title : episode.title;
         if (episode.downloaded === '1') {
           imgDownloaded = "folder";
@@ -264,7 +275,7 @@ BS = {
           }
         }
         if (data.is_in_account != null) {
-          output += '<div class="showtitle">Actions</div>';
+          output += '<div class="showtitle">' + __('actions') + '</div>';
           if (data.is_in_account === 0) {
             output += '<div class="episode"><img src="../img/friend_add.png" id="friendshipimg" style="margin-bottom: -4px;" /> <a href="#" id="addfriend" login="' + data.login + '">' + __('add_to_friends', [data.login]) + '</a></div>';
           } else if (data.is_in_account === 1) {

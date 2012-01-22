@@ -2,6 +2,9 @@
 	"about": {
 		"message": "à propos"
 	},
+	"actions": {
+		"message": "Actions"
+	},
 	"add_a_show": {
 		"message": "Ajouter une série"
 	},
@@ -35,7 +38,7 @@
 		"message": "Auteur"
 	},
 	"avg_note": {
-		"message": "Note moyenne"
+		"message": "Note moyenne : "
 	},
 	"back": {
 		"message": "Retour"
@@ -58,6 +61,9 @@
 	"connection": {
 		"message": "Connexion"
 	},
+	"continuing": {
+		"message": "En cours"
+	},
 	"contributors": {
 		"message": "Contributeurs"
 	},
@@ -75,6 +81,9 @@
 	},
 	"email": {
 		"message": "Email :"
+	},
+	"episodes": {
+		"message": "épisodes"
 	},
 	"episodes_not_dl": {
 		"message": "Episodes non téléchargés"
@@ -323,6 +332,12 @@
 	"searchForm": {
 		"message": "Faire une recherche"
 	},
+	"seasons": {
+		"message": "Saisons"
+	},
+	"season": {
+		"message": "Saison"
+	},
 	"september": {
 		"message": "Sept"
 	},
@@ -361,6 +376,9 @@
 			}
 		}
 	},
+	"status": {
+		"message": "Statut : "
+	},
 	"subtitles": {
 		"message": "Sous-titres"
 	},
@@ -369,6 +387,9 @@
 	},
 	"sun": {
 		"message": "Dim"
+	},
+	"synopsis": {
+		"message": "Synopsis : "
 	},
 	"timelineFriends": {
 		"message": "Evénements"
@@ -381,6 +402,9 @@
 	},
 	"tue": {
 		"message": "Mar"
+	},
+	"type": {
+		"message": "Genre : "
 	},
 	"unarchive": {
 		"message": "Sortir la série des archives"

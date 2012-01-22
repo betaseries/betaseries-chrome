@@ -2,6 +2,9 @@
 	"about": {
 		"message": "about"
 	},
+	"actions": {
+		"message": "Actions"
+	},
 	"add_a_show": {
 		"message": "Add a TV show"
 	},
@@ -35,7 +38,7 @@
 		"message": "Author"
 	},
 	"avg_note": {
-		"message": "Average rating"
+		"message": "Average rating : "
 	},
 	"back": {
 		"message": "Back"
@@ -58,6 +61,9 @@
 	"connection": {
 		"message": "Connection"
 	},
+	"continuing": {
+		"message": "Continuing"
+	},
 	"contributors": {
 		"message": "Contributors"
 	},
@@ -75,6 +81,9 @@
 	},
 	"email": {
 		"message": "Email :"
+	},
+	"episodes": {
+		"message": "episodes"
 	},
 	"episodes_not_dl": {
 		"message": "Episodes to download"
@@ -323,6 +332,12 @@
 	"searchForm": {
 		"message": "Search"
 	},
+	"seasons": {
+		"message": "Seasons"
+	},
+	"season": {
+		"message": "Season"
+	},
 	"september": {
 		"message": "Sept"
 	},
@@ -361,6 +376,9 @@
 			}
 		}
 	},
+	"status": {
+		"message": "Status : "
+	},
 	"subtitles": {
 		"message": "Subtitles"
 	},
@@ -369,6 +387,9 @@
 	},
 	"sun": {
 		"message": "Sun"
+	},
+	"synopsis": {
+		"message": "Synopsis : "
 	},
 	"timelineFriends": {
 		"message": "Events"
@@ -381,6 +402,9 @@
 	},
 	"tue": {
 		"message": "Tue"
+	},
+	"type": {
+		"message": "Type : "
 	},
 	"unarchive": {
 		"message": "Unarchive the TV Show"
