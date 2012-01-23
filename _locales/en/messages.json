@@ -50,7 +50,7 @@
 		"message": "Notification type : "
 	},
 	"be_connected": {
-		"message": "You have to be logged to show this view."
+		"message": "You have to be logged to show the data from this page."
 	},
 	"blog": {
 		"message": "Blog"
@@ -313,7 +313,7 @@
 		"message": "Refresh"
 	},
 	"refresh_view": {
-		"message": "Refresh view"
+		"message": "Refresh page"
 	},
 	"remove_to_friends": {
 		"message": "Remove $user$ to my friends", 
