@@ -72,20 +72,26 @@ BS =
 			DB.set 'historic', JSON.stringify historic
 		
 		# Recherche d'un cache de page existant
+		display = true
 		cache = DB.get 'page.' + o.id, null
-		if cache?
-			data = JSON.parse cache
-			$('#page').html o.content data
+		if o.root?
+			if cache?
+				data = JSON.parse cache
+				$('#page').html o.content data
+			else
+				display = false
+				BS.load('noConnection').display()
 		else
 			$('#page').html o.content()
 		
-		# Titre et classe
-		$('#title').text __(o.name)
-		$('#page').removeClass().addClass o.name
-		
-		# Réglage de la hauteur du popup
-		Fx.updateHeight true
-	
+		if display
+			# Titre et classe
+			$('#title').text __(o.name)
+			$('#page').removeClass().addClass o.name
+			
+			# Réglage de la hauteur du popup
+			Fx.updateHeight true
+			
 	#	
 	clean: (id) ->
 		DB.remove "page.#{id}"
@@ -601,5 +607,14 @@ BS =
 						
 						output += '<div style="height:11px;"></div>'
 			
+			return output
+			
+	#
+	noConnection: ->
+		id: 'noConnection'
+		name: 'noConnection'
+		content: ->
+			output = __('be_connected') + '<br /><br /><a href="" onclick="BS.refresh(); return false;">'
+			output += '<img src="../img/refresh.png" class="icon2" />' + __('refresh_view') + '</a>'
 			return output
 	

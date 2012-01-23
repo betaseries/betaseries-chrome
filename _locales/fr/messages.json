@@ -49,6 +49,9 @@
 	"badge_notification_type": {
 		"message": "Type de notification : "
 	},
+	"be_connected": {
+		"message": "Vous devez être connecté afin de pouvoir afficher les données de cette vue."
+	},
 	"blog": {
 		"message": "Blog"
 	},
@@ -279,6 +282,9 @@
 	"no_subs": {
 		"message": "Aucun sous-titre pour cet épisode."
 	},
+	"noConnection": {
+		"message": "Pas de connexion"
+	},
 	"november": {
 		"message": "Nov"
 	},
@@ -305,6 +311,9 @@
 	},
 	"refresh": {
 		"message": "Actualiser"
+	},
+	"refresh_view": {
+		"message": "Recharger la vue"
 	},
 	"remove_to_friends": {
 		"message": "Enlever $user$ de vos amis", 

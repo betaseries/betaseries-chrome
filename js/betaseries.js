@@ -60,7 +60,7 @@ BS = {
     });
   },
   display: function() {
-    var blackpages, cache, data, historic, length, o, _ref;
+    var blackpages, cache, data, display, historic, length, o, _ref;
     o = this.loadedPage;
     this.currentPage = o;
     historic = JSON.parse(DB.get('historic'));
@@ -71,16 +71,24 @@ BS = {
       if (length === 1) $('#back').show();
       DB.set('historic', JSON.stringify(historic));
     }
+    display = true;
     cache = DB.get('page.' + o.id, null);
-    if (cache != null) {
-      data = JSON.parse(cache);
-      $('#page').html(o.content(data));
+    if (o.root != null) {
+      if (cache != null) {
+        data = JSON.parse(cache);
+        $('#page').html(o.content(data));
+      } else {
+        display = false;
+        BS.load('noConnection').display();
+      }
     } else {
       $('#page').html(o.content());
     }
-    $('#title').text(__(o.name));
-    $('#page').removeClass().addClass(o.name);
-    return Fx.updateHeight(true);
+    if (display) {
+      $('#title').text(__(o.name));
+      $('#page').removeClass().addClass(o.name);
+      return Fx.updateHeight(true);
+    }
   },
   clean: function(id) {
     DB.remove("page." + id);
@@ -614,6 +622,18 @@ BS = {
             return _results;
           }
         });
+        return output;
+      }
+    };
+  },
+  noConnection: function() {
+    return {
+      id: 'noConnection',
+      name: 'noConnection',
+      content: function() {
+        var output;
+        output = __('be_connected') + '<br /><br /><a href="" onclick="BS.refresh(); return false;">';
+        output += '<img src="../img/refresh.png" class="icon2" />' + __('refresh_view') + '</a>';
         return output;
       }
     };

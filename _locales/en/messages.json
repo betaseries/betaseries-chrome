@@ -49,6 +49,9 @@
 	"badge_notification_type": {
 		"message": "Notification type : "
 	},
+	"be_connected": {
+		"message": "You have to be logged to show this view."
+	},
 	"blog": {
 		"message": "Blog"
 	},
@@ -279,6 +282,9 @@
 	"no_subs": {
 		"message": "No subtitle for this episode."
 	},
+	"noConnection": {
+		"message": "No connection"
+	},
 	"november": {
 		"message": "Nov"
 	},
@@ -305,6 +311,9 @@
 	},
 	"refresh": {
 		"message": "Refresh"
+	},
+	"refresh_view": {
+		"message": "Refresh view"
 	},
 	"remove_to_friends": {
 		"message": "Remove $user$ to my friends", 
