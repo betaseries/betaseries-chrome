@@ -16,7 +16,7 @@ $(document).ready(function() {
       cleanEpisode = function(n) {
         var newremain, remain;
         if ($(nodeShow).find('.episode').length === 0) nodeShow.slideToggle();
-        $('#' + show + ' .episode:hidden:lt(' + n + ')').slideToggle();
+        $('#' + show + ' .episode:hidden:lt(' + n + ')').removeClass('hidden').slideToggle();
         remain = nodeShow.find('.remain');
         newremain = parseInt(remain.text()) - n;
         remain.text(newremain);

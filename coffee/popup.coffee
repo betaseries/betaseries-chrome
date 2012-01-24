@@ -19,7 +19,7 @@ $(document).ready ->
 					nodeShow.slideToggle()
 				
 				# On fait apparaitre les suivants
-				$('#' + show + ' .episode:hidden:lt(' + n + ')').slideToggle()
+				$('#' + show + ' .episode:hidden:lt(' + n + ')').removeClass('hidden').slideToggle()
 				
 				# Mise à jour du remain
 				remain = nodeShow.find '.remain'
