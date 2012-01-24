@@ -482,7 +482,7 @@ BS = {
       }
     };
   },
-  commentsEpisode: function(url, season, episode) {
+  commentsEpisode: function(url, season, episode, show) {
     return {
       id: 'commentsEpisode.' + url + '.' + season + '.' + episode,
       name: 'commentsEpisode',
@@ -491,9 +491,9 @@ BS = {
       root: 'comments',
       content: function(data) {
         var i, n, new_date, output, time;
-        output = '';
         i = 1;
         time = '';
+        output = '<div class="showtitle">' + show + '</div>';
         for (n in data) {
           new_date = date('D d F', data[n].date);
           if (new_date !== time) {

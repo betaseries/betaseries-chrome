@@ -214,20 +214,22 @@ $(document).ready(function() {
   });
   $('.commentList').live({
     click: function() {
-      var episode, node, season, show, view;
+      var episode, node, season, show, showName, view;
       view = BS.currentPage.name;
       if (view === 'showsEpisodes') {
         node = $(this).parent();
         season = node.attr('season');
         episode = node.attr('episode');
         show = node.attr('id');
+        showName = node.find('.showtitle').eq(0).text();
       } else if (view === 'membersEpisodes') {
         node = $(this).parent().parent();
         season = node.attr('season');
         episode = node.attr('episode');
         show = node.parent().attr('id');
+        showName = node.parent().find('.showtitle .left2 .showtitle').text();
       }
-      return BS.load('commentsEpisode', show, season, episode).refresh();
+      return BS.load('commentsEpisode', show, season, episode, showName).refresh();
     },
     mouseenter: function() {
       return $(this).css('cursor', 'pointer');

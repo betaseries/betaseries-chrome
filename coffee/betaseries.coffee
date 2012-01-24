@@ -488,16 +488,16 @@ BS =
 			return output
 	
 	#
-	commentsEpisode: (url, season, episode) ->
+	commentsEpisode: (url, season, episode, show) ->
 		id: 'commentsEpisode.' + url + '.' + season + '.' + episode
 		name: 'commentsEpisode'
 		url: '/comments/episode/' + url
 		params: '&season=' + season + '&episode=' + episode
 		root: 'comments'
 		content: (data) ->
-			output = ''
 			i = 1
 			time = ''
+			output = '<div class="showtitle">' + show + '</div>';
 			for n of data
 				new_date = date('D d F', data[n].date)
 				if new_date isnt time

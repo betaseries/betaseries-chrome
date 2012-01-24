@@ -204,13 +204,15 @@ $(document).ready ->
 				season = node.attr 'season'
 				episode = node.attr 'episode'
 				show = node.attr 'id'
+				showName = node.find('.showtitle').eq(0).text()
 			else if view is 'membersEpisodes'
 				node = $(this).parent().parent()
 				season = node.attr 'season'
 				episode = node.attr 'episode'
 				show = node.parent().attr 'id'
+				showName = node.parent().find('.showtitle .left2 .showtitle').text()
 			
-			BS.load('commentsEpisode', show, season, episode).refresh()
+			BS.load('commentsEpisode', show, season, episode, showName).refresh()
 	
 		mouseenter: -> $(this).css 'cursor', 'pointer'
 		
