@@ -76,7 +76,7 @@ Fx = {
     return setTimeout((function() {
       var h, maxHeight, params;
       maxHeight = DB.get('options.max_height');
-      h = $('#page').height() + 4;
+      h = $('#page').height() + 14;
       h = h > maxHeight ? maxHeight : h;
       $('#about').height(h);
       params = top ? {

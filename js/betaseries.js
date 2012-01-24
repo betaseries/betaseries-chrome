@@ -546,7 +546,8 @@ BS = {
       content: function() {
         var output;
         menu.hide();
-        output = '<form id="connect">';
+        output = '<div style="height:10px;"></div>';
+        output += '<form id="connect">';
         output += '<table><tr><td>' + __('login') + '</td><td><input type="text" name="login" id="login" /></td></tr>';
         output += '<tr><td>' + __('password') + '</td><td><input type="password" name="password" id="password" /></td></tr>';
         output += '</table>';
@@ -564,7 +565,8 @@ BS = {
       content: function() {
         var output;
         menu.hide();
-        output = '<form id="register">';
+        output = '<div style="height:10px;"></div>';
+        output += '<form id="register">';
         output += '<table><tr><td>' + __('login') + '</td><td><input type="text" name="login" id="login" /></td></tr>';
         output += '<tr><td>' + __('password') + '</td><td><input type="password" name="password" id="password" /></td></tr>';
         output += '<tr><td>' + __('repassword') + '</td><td><input type="password" name="repassword" id="repassword" /></td></tr>';
@@ -583,7 +585,8 @@ BS = {
       name: 'searchForm',
       content: function() {
         var output;
-        output = '<form id="search0">';
+        output = '<div style="height:10px;"></div>';
+        output += '<form id="search0">';
         output += '<input type="text" name="terms" id="terms" /> ';
         output += '<input type="submit" value="chercher" />';
         output += '</form>';
