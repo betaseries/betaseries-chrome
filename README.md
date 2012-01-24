@@ -24,11 +24,11 @@ Dernière version
 * Noter un épisode
 * Bouton de retour
 * Ajouter/retirer un ami
-* Programmation avec CoffeeScript
 * Utilisation de l'API en HTTPS
 * Nouveau design pour les vues d'une série et d'un épisode
 * Nouvelle gestion de la hauteur du popup (configurable dans les options)
 * Diminution de 50% au moins des requêtes envoyées à l'API
+* Programmation avec CoffeeScript :)
 
 Liens
 -----
