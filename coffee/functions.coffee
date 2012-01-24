@@ -40,9 +40,8 @@ Fx =
 		login = DB.get('member.login');
 		time = Math.floor new Date().getTime() / 1000
 		persistentViews = [
-			'blog'
 			'planningMember.' + login
-			'membersEpisodes'
+			'membersEpisodes.all'
 			'timelineFriends'
 			'membersNotifications'
 			'membersInfos.' + login

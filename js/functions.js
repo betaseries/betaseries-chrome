@@ -49,7 +49,7 @@ Fx = {
     var i, login, persistentViews, suffix, time, _results;
     login = DB.get('member.login');
     time = Math.floor(new Date().getTime() / 1000);
-    persistentViews = ['blog', 'planningMember.' + login, 'membersEpisodes', 'timelineFriends', 'membersNotifications', 'membersInfos.' + login];
+    persistentViews = ['planningMember.' + login, 'membersEpisodes.all', 'timelineFriends', 'membersNotifications', 'membersInfos.' + login];
     _results = [];
     for (i in localStorage) {
       if (i.indexOf('update.' === 0)) {
