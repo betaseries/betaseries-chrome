@@ -24,7 +24,8 @@ BS =
 		
 		time = Math.floor(new Date().getTime() / 1000)
 		updatePage = DB.get('update.' + o.id, 0)
-		update = time - updatePage > 3600 or (@currentPage and @currentPage.id is o.id)
+		views_to_refresh = JSON.parse DB.get 'views_to_refresh'
+		update = o.id in views_to_refresh or time - updatePage > 3600 or (@currentPage and o.id is @currentPage.id)
 		
 		if update
 			BS.update -> BS.display()
@@ -50,6 +51,12 @@ BS =
 					time = Math.floor new Date().getTime() / 1000
 					DB.set 'page.' + o.id, JSON.stringify tab
 					DB.set 'update.' + o.id, time
+					
+				# Mise à jour du tableau des vues à recharger
+				views_to_refresh = JSON.parse DB.get 'views_to_refresh'
+				if o.id in views_to_refresh
+					views_to_refresh.splice (views_to_refresh.indexOf o.id), 1
+					DB.set 'views_to_refresh', JSON.stringify views_to_refresh
 				
 				# Callback
 				callback() if callback?

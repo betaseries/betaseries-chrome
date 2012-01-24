@@ -12,7 +12,8 @@ DB = {
     this.set('badge.type', 'membersEpisodes', true);
     this.set('historic', '[]', false);
     this.set('hidden_shows', '[]', true);
-    return this.set('extra_episodes', '[]', true);
+    this.set('extra_episodes', '[]', true);
+    return this.set('views_to_refresh', '[]', true);
   },
   get: function(field, defaultValue) {
     if (localStorage[field] != null) {

@@ -26,11 +26,12 @@ BS = {
     return this;
   },
   refresh: function() {
-    var o, time, update, updatePage;
+    var o, time, update, updatePage, views_to_refresh, _ref;
     o = this.loadedPage;
     time = Math.floor(new Date().getTime() / 1000);
     updatePage = DB.get('update.' + o.id, 0);
-    update = time - updatePage > 3600 || (this.currentPage && this.currentPage.id === o.id);
+    views_to_refresh = JSON.parse(DB.get('views_to_refresh'));
+    update = (_ref = o.id, __indexOf.call(views_to_refresh, _ref) >= 0) || time - updatePage > 3600 || (this.currentPage && o.id === this.currentPage.id);
     if (update) {
       return BS.update(function() {
         return BS.display();
@@ -45,7 +46,7 @@ BS = {
     o = this.loadedPage;
     params = o.params || '';
     return ajax.post(o.url, params, function(data) {
-      var r, tab, time;
+      var r, tab, time, views_to_refresh, _ref;
       r = o.root;
       tab = data.root[r];
       if (o.postData != null) tab = o.postData(tab);
@@ -53,6 +54,11 @@ BS = {
         time = Math.floor(new Date().getTime() / 1000);
         DB.set('page.' + o.id, JSON.stringify(tab));
         DB.set('update.' + o.id, time);
+      }
+      views_to_refresh = JSON.parse(DB.get('views_to_refresh'));
+      if (_ref = o.id, __indexOf.call(views_to_refresh, _ref) >= 0) {
+        views_to_refresh.splice(views_to_refresh.indexOf(o.id), 1);
+        DB.set('views_to_refresh', JSON.stringify(views_to_refresh));
       }
       if (callback != null) return callback();
     }, function() {

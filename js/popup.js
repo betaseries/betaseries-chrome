@@ -68,7 +68,7 @@ $(document).ready(function() {
                 rate = $(this).attr('id').substring(4);
                 params += "&note=" + rate;
                 ajax.post("/members/watched/" + show, params, function() {
-                  BS.load('membersEpisodes').update();
+                  Fx.toRefresh('membersEpisodes.all');
                   return bgPage.badge.update();
                 }, function() {
                   return registerAction("/members/watched/" + show, params);
@@ -93,7 +93,7 @@ $(document).ready(function() {
                 nodeEpisode.slideToggle();
                 nodeEpisode.removeClass('episode');
                 ajax.post("/members/watched/" + show, params, function() {
-                  BS.load('membersEpisodes').update();
+                  Fx.toRefresh('membersEpisodes.all');
                   return bgPage.badge.update();
                 }, function() {
                   return registerAction("/members/watched/" + show, params);
@@ -111,7 +111,7 @@ $(document).ready(function() {
       }
       if (enable_ratings === 'false') {
         ajax.post("/members/watched/" + show, params, function() {
-          BS.load('membersEpisodes').update();
+          Fx.toRefresh('membersEpisodes.all');
           return bgPage.badge.update();
         }, function() {
           return registerAction("/members/watched/" + show, params);
@@ -173,12 +173,8 @@ $(document).ready(function() {
         $(this).find('.dlText').text(newDlText);
       }
       return ajax.post("/members/downloaded/" + show, params, function() {
-        var page;
-        BS.load('membersEpisodes').update();
-        page = DB.get('page.showsEpisodes.' + show + '.' + season + '.' + episode, null);
-        if (page !== null) {
-          return BS.load('showsEpisodes', show, season, episode).update();
-        }
+        Fx.toRefresh('membersEpisodes.all');
+        return Fx.toRefresh('showsEpisodes.' + show + '.' + season + '.' + episode);
       }, function() {
         return registerAction("/members/downloaded/" + show, params);
       });
@@ -289,8 +285,8 @@ $(document).ready(function() {
       show = $(this).parent().parent().parent().attr('id');
       $('#' + show).slideUp();
       ajax.post("/shows/archive/" + show, "", function() {
-        BS.load('membersEpisodes').update();
-        BS.load('membersInfos').update();
+        Fx.toRefresh('membersEpisodes.all');
+        Fx.toRefresh('membersInfos.' + DB.get('member.login'));
         return bgPage.badge.update();
       }, function() {
         return registerAction("/shows/archive/" + show, "");
@@ -305,8 +301,8 @@ $(document).ready(function() {
       show = $(this).parent().attr('id');
       $('#' + show).hide();
       ajax.post("/shows/unarchive/" + show, "", function() {
-        BS.load('membersEpisodes').update();
-        BS.load('membersInfos').update();
+        Fx.toRefresh('membersEpisodes.all');
+        Fx.toRefresh('membersInfos.' + DB.get('member.login'));
         return bgPage.badge.update();
       }, function() {
         return registerAction("/shows/unarchive/" + show, "");
@@ -321,8 +317,8 @@ $(document).ready(function() {
       show = $(this).attr('href').substring(1);
       $('#showsAdd').html(__('show_added'));
       ajax.post("/shows/add/" + show, "", function() {
-        BS.load('membersEpisodes').update();
-        BS.load('membersInfos').update();
+        Fx.toRefresh('membersEpisodes.all');
+        Fx.toRefresh('membersInfos.' + DB.get('member.login'));
         return bgPage.badge.update();
       }, function() {
         return registerAction("/shows/add/" + show, "");
@@ -336,8 +332,8 @@ $(document).ready(function() {
       show = $(this).attr('href').substring(1);
       $('#showsRemove').html(__('show_removed'));
       ajax.post("/shows/remove/" + show, "", function() {
-        BS.load('membersEpisodes').update();
-        BS.load('membersInfos').update();
+        Fx.toRefresh('membersEpisodes.all');
+        Fx.toRefresh('membersInfos.' + DB.get('member.login'));
         return bgPage.badge.update();
       }, function() {
         return registerAction("/shows/remove/" + show, "");
@@ -517,9 +513,9 @@ $(document).ready(function() {
         $('#addfriend').attr('href', '#removefriend');
         $('#addfriend').attr('id', 'removefriend');
         $('#friendshipimg').attr('src', '../img/friend_remove.png');
-        BS.load('membersInfos').update();
-        BS.load('membersInfos', login).update();
-        return BS.load('timelineFriends').update();
+        Fx.toRefresh('membersInfos.' + DB.get('member.login'));
+        Fx.toRefresh('membersInfos.' + login);
+        return Fx.toRefresh('timelineFriends');
       });
       return false;
     }
@@ -533,9 +529,9 @@ $(document).ready(function() {
         $('#removefriend').attr('href', '#addfriend');
         $('#removefriend').attr('id', 'addfriend');
         $('#friendshipimg').attr('src', '../img/friend_add.png');
-        BS.load('membersInfos').update();
-        BS.load('membersInfos', login).update();
-        return BS.load('timelineFriends').update();
+        Fx.toRefresh('membersInfos.' + DB.get('member.login'));
+        Fx.toRefresh('membersInfos.' + login);
+        return Fx.toRefresh('timelineFriends');
       });
       return false;
     }

@@ -49,9 +49,15 @@ Fx =
 		for i of localStorage
 			if i.indexOf 'update.' is 0
 				suffix = i.substring 7
-				if !(suffix in persistentViews) and (time - localStorage[i] >= 3600)
+				if not (suffix in persistentViews) and time - localStorage[i] >= 3600
 					DB.remove 'update.' + suffix
 					DB.remove 'page.' + suffix
+		
+		views_to_refresh = JSON.parse DB.get 'views_to_refresh'
+		for view, j in views_to_refresh
+			if view in localStorage
+				views_to_refresh.splice j, 1
+		
 					
 	##
 	updateHeight: (top) ->
@@ -65,4 +71,11 @@ Fx =
 				params = if top then {scroll:'top'} else {}
 				$('.nano').nanoScroller(params)
 		), 500
+		
+	##
+	toRefresh: (view) ->
+		views_to_refresh = JSON.parse DB.get 'views_to_refresh'
+		if not (view in views_to_refresh)
+			views_to_refresh.push view
+		DB.set 'views_to_refresh', JSON.stringify views_to_refresh
 		

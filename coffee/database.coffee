@@ -25,7 +25,10 @@ DB =
 		
 		# Episodes supplémentaires affichés (vue des épisodes non vus)
 		@set 'extra_episodes', '[]', true
-	
+		
+		# Vues à recharger
+		@set 'views_to_refresh', '[]', true
+		
 	## Getter - Obtenir la valeur d'un champ de la BD
 	 #
 	 # field			<string>	Chemin + nom du champ

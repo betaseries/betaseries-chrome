@@ -46,20 +46,25 @@ Fx = {
     return strSub;
   },
   cleanCache: function() {
-    var i, login, persistentViews, suffix, time, _results;
+    var i, j, login, persistentViews, suffix, time, view, views_to_refresh, _len, _results;
     login = DB.get('member.login');
     time = Math.floor(new Date().getTime() / 1000);
     persistentViews = ['planningMember.' + login, 'membersEpisodes.all', 'timelineFriends', 'membersNotifications', 'membersInfos.' + login];
-    _results = [];
     for (i in localStorage) {
       if (i.indexOf('update.' === 0)) {
         suffix = i.substring(7);
-        if (!(__indexOf.call(persistentViews, suffix) >= 0) && (time - localStorage[i] >= 3600)) {
+        if (!(__indexOf.call(persistentViews, suffix) >= 0) && time - localStorage[i] >= 3600) {
           DB.remove('update.' + suffix);
-          _results.push(DB.remove('page.' + suffix));
-        } else {
-          _results.push(void 0);
+          DB.remove('page.' + suffix);
         }
+      }
+    }
+    views_to_refresh = JSON.parse(DB.get('views_to_refresh'));
+    _results = [];
+    for (j = 0, _len = views_to_refresh.length; j < _len; j++) {
+      view = views_to_refresh[j];
+      if (__indexOf.call(localStorage, view) >= 0) {
+        _results.push(views_to_refresh.splice(j, 1));
       } else {
         _results.push(void 0);
       }
@@ -79,5 +84,13 @@ Fx = {
       } : {};
       return $('.nano').nanoScroller(params);
     }), 500);
+  },
+  toRefresh: function(view) {
+    var views_to_refresh;
+    views_to_refresh = JSON.parse(DB.get('views_to_refresh'));
+    if (!(__indexOf.call(views_to_refresh, view) >= 0)) {
+      views_to_refresh.push(view);
+    }
+    return DB.set('views_to_refresh', JSON.stringify(views_to_refresh));
   }
 };

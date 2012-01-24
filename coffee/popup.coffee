@@ -69,7 +69,7 @@ $(document).ready ->
 								# On marque comme vu EN notant
 								ajax.post "/members/watched/" + show, params, 
 									-> 
-										BS.load('membersEpisodes').update()
+										Fx.toRefresh 'membersEpisodes.all'
 										bgPage.badge.update()
 									->
 										registerAction "/members/watched/" + show, params
@@ -93,7 +93,7 @@ $(document).ready ->
 								# On marque comme vu SANS noter
 								ajax.post "/members/watched/" + show, params, 
 									->
-										BS.load('membersEpisodes').update()
+										Fx.toRefresh 'membersEpisodes.all'
 										bgPage.badge.update()
 									->
 										registerAction "/members/watched/" + show, params
@@ -111,7 +111,7 @@ $(document).ready ->
 				# On marque comme vu SANS noter
 				ajax.post "/members/watched/" + show, params, 
 					->
-						BS.load('membersEpisodes').update()
+						Fx.toRefresh 'membersEpisodes.all'
 						bgPage.badge.update()
 					->
 						registerAction "/members/watched/" + show, params
@@ -165,9 +165,8 @@ $(document).ready ->
 				
 			ajax.post "/members/downloaded/" + show, params, 
 				-> 
-					BS.load('membersEpisodes').update()
-					page = DB.get 'page.showsEpisodes.' + show + '.' + season + '.' + episode, null
-					BS.load('showsEpisodes', show, season, episode).update() if page isnt null
+					Fx.toRefresh 'membersEpisodes.all'
+					Fx.toRefresh 'showsEpisodes.' + show + '.' + season + '.' + episode
 				-> 
 					registerAction "/members/downloaded/" + show, params
 			
@@ -269,8 +268,8 @@ $(document).ready ->
 			
 			ajax.post "/shows/archive/" + show, "", 
 				->
-					BS.load('membersEpisodes').update()
-					BS.load('membersInfos').update()
+					Fx.toRefresh 'membersEpisodes.all'
+					Fx.toRefresh 'membersInfos.' + DB.get 'member.login'
 					bgPage.badge.update()
 				-> registerAction "/shows/archive/" + show, ""
 			
@@ -287,8 +286,8 @@ $(document).ready ->
 			
 			ajax.post "/shows/unarchive/" + show, "", 
 				->
-					BS.load('membersEpisodes').update() 
-					BS.load('membersInfos').update()
+					Fx.toRefresh 'membersEpisodes.all'
+					Fx.toRefresh 'membersInfos.' + DB.get 'member.login'
 					bgPage.badge.update()
 				-> registerAction "/shows/unarchive/" + show, ""
 			
@@ -305,8 +304,8 @@ $(document).ready ->
 			
 			ajax.post "/shows/add/" + show, "", 
 				->
-					BS.load('membersEpisodes').update()
-					BS.load('membersInfos').update()
+					Fx.toRefresh 'membersEpisodes.all'
+					Fx.toRefresh 'membersInfos.' + DB.get 'member.login'
 					bgPage.badge.update()
 				-> registerAction "/shows/add/" + show, ""
 			
@@ -322,8 +321,8 @@ $(document).ready ->
 			
 			ajax.post "/shows/remove/" + show, "", 
 				->
-					BS.load('membersEpisodes').update()
-					BS.load('membersInfos').update()
+					Fx.toRefresh 'membersEpisodes.all'
+					Fx.toRefresh 'membersInfos.' + DB.get 'member.login'
 					bgPage.badge.update()
 				-> registerAction "/shows/remove/" + show, ""
 			
@@ -496,9 +495,9 @@ $(document).ready ->
 				$('#addfriend').attr 'href', '#removefriend'
 				$('#addfriend').attr 'id', 'removefriend'
 				$('#friendshipimg').attr 'src', '../img/friend_remove.png'
-				BS.load('membersInfos').update()
-				BS.load('membersInfos', login).update()
-				BS.load('timelineFriends').update()
+				Fx.toRefresh 'membersInfos.' + DB.get 'member.login'
+				Fx.toRefresh 'membersInfos.' + login
+				Fx.toRefresh 'timelineFriends'
 			return false
 	
 	## Enlever un ami
@@ -510,9 +509,9 @@ $(document).ready ->
 				$('#removefriend').attr 'href', '#addfriend'
 				$('#removefriend').attr 'id', 'addfriend'
 				$('#friendshipimg').attr 'src', '../img/friend_add.png'
-				BS.load('membersInfos').update()
-				BS.load('membersInfos', login).update()
-				BS.load('timelineFriends').update()
+				Fx.toRefresh 'membersInfos.' + DB.get 'member.login'
+				Fx.toRefresh 'membersInfos.' + login
+				Fx.toRefresh 'timelineFriends'
 			return false
 	
 	## Maximiser/minimiser une série*/
