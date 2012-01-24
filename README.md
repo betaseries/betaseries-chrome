@@ -6,27 +6,29 @@ ChromeSeries
 Fonctionnalités
 ---------------
 
-* Connexion/Déconnexion à un compte BetaSeries
-* Plusieurs vues disponibles : planning, épisodes non vus, événements, notifications, compte, profil d'un épisode
-* Possibilité de marquer comme vu un ou plusieurs épisodes
-* Possibilité de marquer comme téléchargé ou pas un épisode
-* Possibilité de télécharger le meilleur sous-titre actuel (VF ou VO)
-* Possibilité de consulter l'extension en mode déconnecté
-* Paramétrer son extension via la page des options
-* ... et bien plus !
+* Connexion, inscription, déconnexion à un compte BetaSeries
+* Vues : planning, épisodes non-vus, événements des amis, notifications, compte, recherche de séries ou de membres, fiche d'épisode, fiche de série, commentaires d'un épisode, options
+* Marquer comme vu un ou plusieurs épisodes
+* Marquer comme récupéré ou pas un épisode
+* Télécharger le meilleur sous-titre actuel (VF et/ou VO)
+* Noter un épisode
+* Ajouter/retirer un ami
+* Mode déconnecté
+* Langages : français, anglais
 
 Dernière version
 ----------------
 
-### Version 0.6
-* Possibilité de s'inscrire directement à partir de l'extension
-* Possibilité de voir tous les sous-titres d'un épisode (vue d'un épisode)
-* Possibilité de lire les commentaires d'un épisode
-* Possibilité de rechercher une série ou un membre de BetaSeries
-* Possibilité d'ajouter ou de retirer une série (vue d'une série)
-* Ajout de la traduction anglaise
-* Mise à jour du design des vues 'planning' et 'évenements'
-* Correction d'un bug au niveau de la hauteur des popins
+### Version 0.7
+* Minimiser une série
+* Noter un épisode
+* Bouton de retour
+* Ajouter/retirer un ami
+* Programmation avec CoffeeScript
+* Utilisation de l'API en HTTPS
+* Nouveau design pour les vues d'une série et d'un épisode
+* Nouvelle gestion de la hauteur du popup (configurable dans les options)
+* Diminution de 50% au moins des requêtes envoyées à l'API
 
 Liens
 -----
