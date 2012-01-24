@@ -13,7 +13,7 @@ $(document).ready ->
 			params = "&season=" + season + "&episode=" + episode
 			enable_ratings = DB.get 'options.enable_ratings'
 			
-			cleanEpisode = ->
+			cleanEpisode = (n) ->
 				# Si il n'y a plus d'épisodes à voir dans la série, on la cache
 				if $(nodeShow).find('.episode').length is 0
 					nodeShow.slideToggle()
@@ -74,7 +74,7 @@ $(document).ready ->
 									->
 										registerAction "/members/watched/" + show, params
 								
-								cleanEpisode()
+								cleanEpisode 1
 						
 					# Close Stars HOVER
 					$('.close_stars').on
@@ -98,7 +98,7 @@ $(document).ready ->
 									->
 										registerAction "/members/watched/" + show, params
 								
-								cleanEpisode()
+								cleanEpisode 1
 							
 				else if enable_ratings is 'false'
 					node.slideToggle()
@@ -116,7 +116,7 @@ $(document).ready ->
 					->
 						registerAction "/members/watched/" + show, params
 				
-				cleanEpisode()
+				cleanEpisode n
 		
 		mouseenter: ->
 			$(this).css 'cursor', 'pointer'

@@ -13,7 +13,7 @@ $(document).ready(function() {
       show = nodeShow.attr('id');
       params = "&season=" + season + "&episode=" + episode;
       enable_ratings = DB.get('options.enable_ratings');
-      cleanEpisode = function() {
+      cleanEpisode = function(n) {
         var newremain, remain;
         if ($(nodeShow).find('.episode').length === 0) nodeShow.slideToggle();
         $('#' + show + ' .episode:hidden:lt(' + n + ')').slideToggle();
@@ -73,7 +73,7 @@ $(document).ready(function() {
                 }, function() {
                   return registerAction("/members/watched/" + show, params);
                 });
-                return cleanEpisode();
+                return cleanEpisode(1);
               }
             }
           });
@@ -98,7 +98,7 @@ $(document).ready(function() {
                 }, function() {
                   return registerAction("/members/watched/" + show, params);
                 });
-                return cleanEpisode();
+                return cleanEpisode(1);
               }
             }
           });
@@ -116,7 +116,7 @@ $(document).ready(function() {
         }, function() {
           return registerAction("/members/watched/" + show, params);
         });
-        return cleanEpisode();
+        return cleanEpisode(n);
       }
     },
     mouseenter: function() {
