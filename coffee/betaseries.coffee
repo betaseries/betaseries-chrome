@@ -87,6 +87,9 @@ BS =
 	refresh: ->
 		args = @currentView.id.split '.'
 		BS.load.apply(BS, args)
+		
+	size: ->
+		return (JSON.stringify(localStorage).length /1000) + 'k'
 	
 	#
 	showsDisplay: (url) ->
@@ -294,7 +297,6 @@ BS =
 			for d, e of data
 				# cache des infos de la *série*
 				shows = DB.get 'shows', {}
-				console.log e.url, e.url of shows
 				if e.url of shows
 					shows[e.url].archive = false
 					show = null
@@ -340,7 +342,7 @@ BS =
 				else if episode?
 					$('#' + e.url).append episode
 				
-				# sinon on mets à jour le bloc *episode*
+				# TODO sinon on mets à jour le bloc *episode*
 				#else
 					
 					

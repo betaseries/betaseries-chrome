@@ -68,6 +68,9 @@ BS = {
     args = this.currentView.id.split('.');
     return BS.load.apply(BS, args);
   },
+  size: function() {
+    return (JSON.stringify(localStorage).length / 1000) + 'k';
+  },
   showsDisplay: function(url) {
     return {
       id: "showsDisplay." + url,
@@ -283,7 +286,6 @@ BS = {
         for (d in data) {
           e = data[d];
           shows = DB.get('shows', {});
-          console.log(e.url, e.url in shows);
           if (e.url in shows) {
             shows[e.url].archive = false;
             show = null;
