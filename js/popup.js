@@ -683,7 +683,7 @@ $(document).ready(function() {
   };
   DB.init();
   if (bgPage.connected()) {
-    badgeType = DB.get('badge.type', 'membersEpisodes');
+    badgeType = DB.get('badge').type;
     return BS.load('membersEpisodes');
   } else {
     return BS.load('connection');

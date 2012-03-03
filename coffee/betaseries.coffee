@@ -6,11 +6,10 @@ menu =
 
 BS = 
 	
-	#
+	## Vue courante
 	currentView: null
 	
-	# Lancer l'affichage d'une vue
-	# BS.load 'membersEpisodes', 3, 'all'
+	## Lancer l'affichage d'une vue
 	load: ->
 		# réception des arguments
 		args = Array.prototype.slice.call arguments
@@ -20,6 +19,8 @@ BS =
 		
 		# mémorisation des infos
 		sameView = @currentView? and o.id is @currentView.id
+		
+		# mémorisation de la vue courante
 		@currentView = o;
 		
 		# affichage de la vue (cache)
@@ -42,8 +43,9 @@ BS =
 			# on lance la requête de mise à jour ssi ça doit l'être
 			BS.update() if update
 		
-	# Mettre à jour les données de la vue courante	
+	## Mettre à jour les données de la vue courante	
 	update: ->
+		# réception des infos de la vue courante
 		o = @currentView
 		
 		# préparation des paramètres de la requête
@@ -51,11 +53,8 @@ BS =
 		
 		ajax.post o.url, params, 
 			(data) ->
-				r = o.root
-				tab = data.root[r]
-				
-				# Opérations supp. sur les données reçues
-				o.update(tab)
+				# réception des données
+				cache = data.root[o.root]
 				
 				# on met à jour la date de cette mise à jour
 				views_updated = DB.get 'views_updated'
@@ -68,9 +67,16 @@ BS =
 				if o.id in views_to_refresh
 					views_to_refresh.splice (views_to_refresh.indexOf o.id), 1
 					DB.set 'views_to_refresh', views_to_refresh
+					
+				# mise à jour du cache
+				o.update(tab)
+				
+				# affichage de la vue courante (cache)
+				BS.display()
 		
-	# Afficher la vue courante avec les données en cache		
+	## Afficher la vue courante avec les données en cache		
 	display: ->
+		# récecption des infos de la vue courante
 		o = @currentView
 		
 		# on affiche la vue avec les données en cache
@@ -83,11 +89,12 @@ BS =
 		# Réglage de la hauteur du popup
 		Fx.updateHeight true
 		
-	# Réactualise la vue courante
+	## Réactualise la vue courante
 	refresh: ->
 		args = @currentView.id.split '.'
 		BS.load.apply(BS, args)
-		
+	
+	#	
 	size: ->
 		return (JSON.stringify(localStorage).length /1000) + 'k'
 	
@@ -287,20 +294,12 @@ BS =
 		url: '/members/episodes/' + lang
 		root: 'episodes'
 		update: (data) ->
-			stats = {}
-			for d, e of data
-				if e.url of stats
-					stats[e.url]++
-				else
-					stats[e.url] = 1
-				
 			for d, e of data
 				# cache des infos de la *série*
 				shows = DB.get 'shows', {}
 				if e.url of shows
 					# cas où on enlève une série des archives depuis le site
 					shows[e.url].archive = false
-					show = null
 				else
 					shows[e.url] =
 						url: e.url
@@ -308,17 +307,14 @@ BS =
 						archive: false
 						hidden: false
 						expanded: false
-					# construction du bloc *série*
-					show = Content.show shows[e.url], stats[e.url]
 				DB.set 'shows', shows
 				
-				#cache des infos de *épisode*
+				# cache des infos de *épisode*
 				episodes = DB.get 'episodes.' + e.url, {}
 				if e.global of episodes
 					episodes[e.global].comments = e.comments
 					# cas où on marque comme récupéré ou pas depuis le site
 					episodes[e.global].downloaded = e.downloaded
-					episode = null
 				else
 					episodes[e.global] =
 						comments: e.comments
@@ -331,23 +327,7 @@ BS =
 						title: e.title
 						show: e.show
 						seen: false
-					#construction du bloc *épisode*
-					episode = Content.episode episodes[e.global], shows[e.url], stats[e.url]++
 				DB.set 'episodes.' + e.url, episodes
-				
-				# s'il y a un bloc *série* et un bloc *episode*
-				if show? and episode?
-					$('#shows').prepend '<div id="' + e.url + '" class="show"></div>'
-					$('#' + e.url).append show + episode;
-					
-				# s'il y a un bloc *épisode* seulement
-				else if episode?
-					$('#' + e.url).append episode
-				
-				# TODO sinon on mets à jour le bloc *episode*
-				#else
-					#__('nbr_comments', [e.comments]) HERE
-					
 					
 		content: ->
 			# récupération des épisodes non vus (cache)

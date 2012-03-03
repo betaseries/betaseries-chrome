@@ -40,10 +40,8 @@ BS = {
     o = this.currentView;
     params = o.params || '';
     return ajax.post(o.url, params, function(data) {
-      var r, tab, time, views_to_refresh, views_updated, _ref;
-      r = o.root;
-      tab = data.root[r];
-      o.update(tab);
+      var cache, time, views_to_refresh, views_updated, _ref;
+      cache = data.root[o.root];
       views_updated = DB.get('views_updated');
       time = Math.floor(new Date().getTime() / 1000);
       views_updated[o.id] = time;
@@ -51,8 +49,10 @@ BS = {
       views_to_refresh = DB.get('views_to_refresh');
       if (_ref = o.id, __indexOf.call(views_to_refresh, _ref) >= 0) {
         views_to_refresh.splice(views_to_refresh.indexOf(o.id), 1);
-        return DB.set('views_to_refresh', views_to_refresh);
+        DB.set('views_to_refresh', views_to_refresh);
       }
+      o.update(tab);
+      return BS.display();
     });
   },
   display: function() {
@@ -272,23 +272,13 @@ BS = {
       url: '/members/episodes/' + lang,
       root: 'episodes',
       update: function(data) {
-        var d, e, episode, episodes, show, shows, stats, _results;
-        stats = {};
-        for (d in data) {
-          e = data[d];
-          if (e.url in stats) {
-            stats[e.url]++;
-          } else {
-            stats[e.url] = 1;
-          }
-        }
+        var d, e, episodes, shows, _results;
         _results = [];
         for (d in data) {
           e = data[d];
           shows = DB.get('shows', {});
           if (e.url in shows) {
             shows[e.url].archive = false;
-            show = null;
           } else {
             shows[e.url] = {
               url: e.url,
@@ -297,14 +287,12 @@ BS = {
               hidden: false,
               expanded: false
             };
-            show = Content.show(shows[e.url], stats[e.url]);
           }
           DB.set('shows', shows);
           episodes = DB.get('episodes.' + e.url, {});
           if (e.global in episodes) {
             episodes[e.global].comments = e.comments;
             episodes[e.global].downloaded = e.downloaded;
-            episode = null;
           } else {
             episodes[e.global] = {
               comments: e.comments,
@@ -318,17 +306,8 @@ BS = {
               show: e.show,
               seen: false
             };
-            episode = Content.episode(episodes[e.global], shows[e.url], stats[e.url]++);
           }
-          DB.set('episodes.' + e.url, episodes);
-          if ((show != null) && (episode != null)) {
-            $('#shows').prepend('<div id="' + e.url + '" class="show"></div>');
-            _results.push($('#' + e.url).append(show + episode));
-          } else if (episode != null) {
-            _results.push($('#' + e.url).append(episode));
-          } else {
-            _results.push(void 0);
-          }
+          _results.push(DB.set('episodes.' + e.url, episodes));
         }
         return _results;
       },
