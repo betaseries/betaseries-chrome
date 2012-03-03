@@ -64,6 +64,7 @@ BS = {
     $('#page').removeClass().addClass(o.name);
     return Fx.updateHeight(true);
   },
+  refresh: function() {},
   showsDisplay: function(url) {
     return {
       id: "showsDisplay." + url,
@@ -265,7 +266,7 @@ BS = {
       url: '/members/episodes/' + lang,
       root: 'episodes',
       update: function(data) {
-        var d, e, episode, episodes, show, shows, stats, _ref, _ref2, _results;
+        var d, e, episode, episodes, show, shows, stats, _results;
         stats = {};
         for (d in data) {
           e = data[d];
@@ -279,8 +280,10 @@ BS = {
         for (d in data) {
           e = data[d];
           shows = DB.get('shows', {});
-          if (_ref = e.url, __indexOf.call(shows, _ref) >= 0) {
+          console.log(e.url, e.url in shows);
+          if (e.url in shows) {
             shows[e.url].archive = false;
+            show = null;
           } else {
             shows[e.url] = {
               url: e.url,
@@ -293,9 +296,10 @@ BS = {
           }
           DB.set('shows', shows);
           episodes = DB.get('episodes.' + e.url, {});
-          if (_ref2 = e.global, __indexOf.call(episodes, _ref2) >= 0) {
+          if (e.global in episodes) {
             episodes[e.global].comments = e.comments;
             episodes[e.global].downloaded = e.downloaded;
+            episode = null;
           } else {
             episodes[e.global] = {
               comments: e.comments,

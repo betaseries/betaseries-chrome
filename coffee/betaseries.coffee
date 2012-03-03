@@ -86,6 +86,10 @@ BS =
 			
 		# Réglage de la hauteur du popup
 		Fx.updateHeight true
+		
+	# Réactualise la vue courante
+	refresh: ->
+		#BS.load @currentView.id
 	
 	#
 	showsDisplay: (url) ->
@@ -293,8 +297,10 @@ BS =
 			for d, e of data
 				# cache des infos de la *série*
 				shows = DB.get 'shows', {}
-				if e.url in shows
+				console.log e.url, e.url of shows
+				if e.url of shows
 					shows[e.url].archive = false
+					show = null
 				else
 					shows[e.url] =
 						url: e.url
@@ -308,9 +314,10 @@ BS =
 				
 				#cache des infos de *épisode*
 				episodes = DB.get 'episodes.' + e.url, {}
-				if e.global in episodes
+				if e.global of episodes
 					episodes[e.global].comments = e.comments
 					episodes[e.global].downloaded = e.downloaded
+					episode = null
 				else
 					episodes[e.global] =
 						comments: e.comments
