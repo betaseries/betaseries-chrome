@@ -84,10 +84,13 @@ Fx = {
   },
   toRefresh: function(view) {
     var views_to_refresh;
-    views_to_refresh = JSON.parse(DB.get('views_to_refresh'));
+    views_to_refresh = DB.get('views_to_refresh');
     if (!(__indexOf.call(views_to_refresh, view) >= 0)) {
       views_to_refresh.push(view);
     }
-    return DB.set('views_to_refresh', JSON.stringify(views_to_refresh));
+    return DB.set('views_to_refresh', views_to_refresh);
+  },
+  getVersion: function() {
+    return chrome.app.getDetails().version;
   }
 };

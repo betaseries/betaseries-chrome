@@ -74,8 +74,12 @@ Fx =
 		
 	##
 	toRefresh: (view) ->
-		views_to_refresh = JSON.parse DB.get 'views_to_refresh'
+		views_to_refresh = DB.get 'views_to_refresh'
 		if not (view in views_to_refresh)
 			views_to_refresh.push view
-		DB.set 'views_to_refresh', JSON.stringify views_to_refresh
+		DB.set 'views_to_refresh', views_to_refresh
+		
+	##
+	getVersion: ->
+		return chrome.app.getDetails().version
 		
