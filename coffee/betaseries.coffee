@@ -46,6 +46,8 @@ BS =
 			# on lance la requête de mise à jour ssi ça doit l'être
 			BS.update() if update
 		
+		@lastView = o
+		
 	# Mettre à jour les données de la vue courante	
 	update: ->
 		o = @currentView
@@ -89,7 +91,13 @@ BS =
 		
 	# Réactualise la vue courante
 	refresh: ->
-		#BS.load @currentView.id
+		args = @currentView.id.split '.'
+		BS.load.apply(BS, args)
+				
+	# Revient une vue en arrière
+	back: ->
+		args = @lastView.id.split '.'
+		BS.load.apply(BS, args)
 	
 	#
 	showsDisplay: (url) ->

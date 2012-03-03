@@ -26,7 +26,7 @@ Content =
 		
 		output += '<div class="showtitle">'
 		
-		output += '<div class="left2"><img src="' + visibleIcon + '" class="toggleShow" title="' + titleIcon + '" /><a href="" onclick="BS.load(\'showsDisplay\', \'' + s.url + '\').refresh(); return false;" class="showtitle">' + s.title + '</a>'
+		output += '<div class="left2"><img src="' + visibleIcon + '" class="toggleShow" title="' + titleIcon + '" /><a href="" onclick="BS.load(\'showsDisplay\', \'' + s.url + '\'); return false;" class="showtitle">' + s.title + '</a>'
 		output += ' <img src="../img/archive.png" class="archive" title="' + __("archive") + '" /></div>'
 		
 		output += '<div class="right2">';

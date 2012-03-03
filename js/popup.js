@@ -229,7 +229,7 @@ $(document).ready(function() {
         show = node.parent().attr('id');
         showName = node.parent().find('.showtitle .left2 .showtitle').text();
       }
-      return BS.load('commentsEpisode', show, season, episode, showName).refresh();
+      return BS.load('commentsEpisode', show, season, episode, showName);
     },
     mouseenter: function() {
       return $(this).css('cursor', 'pointer');
@@ -254,7 +254,7 @@ $(document).ready(function() {
         season = node.attr('season');
         episode = node.attr('episode');
       }
-      return BS.load('showsEpisodes', url, season, episode).refresh();
+      return BS.load('showsEpisodes', url, season, episode);
     },
     mouseenter: function() {
       $(this).css('cursor', 'pointer');
@@ -439,7 +439,7 @@ $(document).ready(function() {
         if (Object.keys(shows).length > 0) {
           for (n in shows) {
             show = shows[n];
-            content += '<div class="episode"><a href="#" onclick="BS.load(\'showsDisplay\', \'' + show.url + '\').refresh(); return false;" title="' + show.title + '">' + Fx.subFirst(show.title, 25) + '</a></div>';
+            content += '<div class="episode"><a href="#" onclick="BS.load(\'showsDisplay\', \'' + show.url + '\'); return false;" title="' + show.title + '">' + Fx.subFirst(show.title, 25) + '</a></div>';
           }
         } else {
           content += '<div class="episode">' + __('no_shows_found') + '</div>';
@@ -455,7 +455,7 @@ $(document).ready(function() {
         if (Object.keys(members).length > 0) {
           for (n in members) {
             member = members[n];
-            content += '<div class="episode"><a href="#" onclick="BS.load(\'membersInfos\', \'' + member.login + '\').refresh(); return false;">' + Fx.subFirst(member.login, 25) + '</a></div>';
+            content += '<div class="episode"><a href="#" onclick="BS.load(\'membersInfos\', \'' + member.login + '\'); return false;">' + Fx.subFirst(member.login, 25) + '</a></div>';
           }
         } else {
           content += '<div class="episode">' + __('no_members_found') + '</div>';
@@ -615,12 +615,11 @@ $(document).ready(function() {
     return Fx.openTab('https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true);
   }).attr('title', __("version"));
   $('#back').click(function() {
-    var args, historic, length;
+    var historic, length;
     historic = JSON.parse(DB.get('historic'));
     if ((length = historic.length) >= 2) {
       historic.pop();
-      args = historic[length - 2].substring(5).split('.');
-      BS.load.apply(BS, args).refresh();
+      BS.back();
       DB.set('historic', JSON.stringify(historic));
       if (length === 2) $(this).hide();
     }
@@ -635,7 +634,7 @@ $(document).ready(function() {
   }).attr('title', __("options"));
   $('#logout').live('click', function() {
     ajax.post("/members/destroy", '', function() {
-      DB.removeAll();
+      DB.removeAll;
       DB.init();
       bgPage.badge.init();
       return BS.load('connection');
@@ -652,31 +651,31 @@ $(document).ready(function() {
     return false;
   }).attr('title', __('close'));
   $('#blog').live('click', function() {
-    BS.load('blog').refresh();
+    BS.load('blog');
     return false;
   }).attr('title', __("blog"));
   $('#planning').live('click', function() {
-    BS.load('planningMember').refresh();
+    BS.load('planningMember');
     return false;
   }).attr('title', __("planningMember"));
   $('#episodes').live('click', function() {
-    BS.load('membersEpisodes').refresh();
+    BS.load('membersEpisodes');
     return false;
   }).attr('title', __("membersEpisodes"));
   $('#timeline').live('click', function() {
-    BS.load('timelineFriends').refresh();
+    BS.load('timelineFriends');
     return false;
   }).attr('title', __("timelineFriends"));
   $('#notifications').live('click', function() {
-    BS.load('membersNotifications').refresh();
+    BS.load('membersNotifications');
     return false;
   }).attr('title', __("membersNotifications"));
   $('#infos').live('click', function() {
-    BS.load('membersInfos').refresh();
+    BS.load('membersInfos');
     return false;
   }).attr('title', __("membersInfos"));
   $('#search').live('click', function() {
-    BS.load('searchForm').display();
+    BS.load('searchForm');
     return false;
   }).attr('title', __("searchForm"));
   message = function(content) {

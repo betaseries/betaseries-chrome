@@ -212,7 +212,7 @@ $(document).ready ->
 				show = node.parent().attr 'id'
 				showName = node.parent().find('.showtitle .left2 .showtitle').text()
 			
-			BS.load('commentsEpisode', show, season, episode, showName).refresh()
+			BS.load('commentsEpisode', show, season, episode, showName)
 	
 		mouseenter: -> $(this).css 'cursor', 'pointer'
 		
@@ -235,7 +235,7 @@ $(document).ready ->
 				season = node.attr 'season'
 				episode = node.attr 'episode'
 			
-			BS.load('showsEpisodes', url, season, episode).refresh()
+			BS.load('showsEpisodes', url, season, episode)
 
 		mouseenter: -> 
 			$(this).css 'cursor', 'pointer'
@@ -417,7 +417,7 @@ $(document).ready ->
 					if Object.keys(shows).length > 0
 						for n of shows
 							show = shows[n]
-							content += '<div class="episode"><a href="#" onclick="BS.load(\'showsDisplay\', \'' + show.url + '\').refresh(); return false;" title="' + show.title + '">' + Fx.subFirst(show.title, 25) + '</a></div>'
+							content += '<div class="episode"><a href="#" onclick="BS.load(\'showsDisplay\', \'' + show.url + '\'); return false;" title="' + show.title + '">' + Fx.subFirst(show.title, 25) + '</a></div>'
 					else
 						content += '<div class="episode">' + __('no_shows_found') + '</div>'
 					$('#shows-results').html content
@@ -433,7 +433,7 @@ $(document).ready ->
 					if Object.keys(members).length > 0
 						for n of members
 							member = members[n]
-							content += '<div class="episode"><a href="#" onclick="BS.load(\'membersInfos\', \'' + member.login + '\').refresh(); return false;">' + Fx.subFirst(member.login, 25) + '</a></div>'
+							content += '<div class="episode"><a href="#" onclick="BS.load(\'membersInfos\', \'' + member.login + '\'); return false;">' + Fx.subFirst(member.login, 25) + '</a></div>'
 					else
 						content += '<div class="episode">' + __('no_members_found') + '</div>'
 					$('#members-results').html content
@@ -598,8 +598,7 @@ $(document).ready ->
 			historic = JSON.parse DB.get 'historic'
 			if (length = historic.length) >= 2
 				historic.pop()
-				args = historic[length-2].substring(5).split '.'
-				BS.load.apply(BS, args).refresh()
+				BS.back()
 				DB.set 'historic', JSON.stringify historic
 				$(this).hide() if length is 2
 			return false
@@ -614,7 +613,7 @@ $(document).ready ->
 		.live 'click', -> 
 			ajax.post "/members/destroy", '',
 				->
-					DB.removeAll()
+					DB.removeAll
 					DB.init()
 					bgPage.badge.init()
 					BS.load('connection')
@@ -631,25 +630,25 @@ $(document).ready ->
 	
 	## MENU sections
 	$('#blog')
-		.live('click', -> (BS.load('blog').refresh(); return false))
+		.live('click', -> (BS.load('blog'); return false))
 		.attr 'title', __("blog")
 	$('#planning')
-		.live('click', -> (BS.load('planningMember').refresh(); return false))
+		.live('click', -> (BS.load('planningMember'); return false))
 		.attr 'title', __("planningMember")
 	$('#episodes')
-		.live('click', -> (BS.load('membersEpisodes').refresh(); return false))
+		.live('click', -> (BS.load('membersEpisodes'); return false))
 		.attr 'title', __("membersEpisodes")
 	$('#timeline')
-		.live('click', -> (BS.load('timelineFriends').refresh(); return false))
+		.live('click', -> (BS.load('timelineFriends'); return false))
 		.attr 'title', __("timelineFriends")
 	$('#notifications')
-		.live('click', -> (BS.load('membersNotifications').refresh(); return false))
+		.live('click', -> (BS.load('membersNotifications'); return false))
 		.attr 'title', __("membersNotifications")
 	$('#infos')
-		.live('click', -> (BS.load('membersInfos').refresh(); return false))
+		.live('click', -> (BS.load('membersInfos'); return false))
 		.attr 'title', __("membersInfos")
 	$('#search')
-		.live('click', -> (BS.load('searchForm').display(); return false))
+		.live('click', -> (BS.load('searchForm'); return false))
 		.attr 'title', __("searchForm")
 	
 	## Afficher le message de confirmation

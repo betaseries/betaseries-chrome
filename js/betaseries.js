@@ -33,8 +33,9 @@ BS = {
       outdated = views_updated[o.id] != null ? time - views_updated[o.id] > 3600 : true;
       sameView = this.lastView !== null && this.lastView.id === this.currentView.id;
       update = forceRefresh || outdated || sameView;
-      if (update) return BS.update();
+      if (update) BS.update();
     }
+    return this.lastView = o;
   },
   update: function() {
     var o, params;
@@ -64,7 +65,16 @@ BS = {
     $('#page').removeClass().addClass(o.name);
     return Fx.updateHeight(true);
   },
-  refresh: function() {},
+  refresh: function() {
+    var args;
+    args = this.currentView.id.split('.');
+    return BS.load.apply(BS, args);
+  },
+  back: function() {
+    var args;
+    args = this.lastView.id.split('.');
+    return BS.load.apply(BS, args);
+  },
   showsDisplay: function(url) {
     return {
       id: "showsDisplay." + url,
