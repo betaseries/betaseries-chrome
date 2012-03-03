@@ -37,7 +37,7 @@ Fx =
 	
 	##
 	cleanCache: ->
-		login = DB.get('member.login');
+		login = DB.get('member').login;
 		time = Math.floor new Date().getTime() / 1000
 		persistentViews = [
 			'planningMember.' + login
@@ -46,15 +46,15 @@ Fx =
 			'membersNotifications'
 			'membersInfos.' + login
 		]
-		for i of localStorage
-			if i.indexOf 'update.' is 0
-				suffix = i.substring 7
-				if not (suffix in persistentViews) and time - localStorage[i] >= 3600
-					DB.remove 'update.' + suffix
-					DB.remove 'page.' + suffix
 		
+		views_updated = BD.get 'views_updated'
+		for name, date of views_updated
+			if not (name in persistentViews) and time - date >= 3600
+				DB.remove 'update.' + suffix
+				views_updated.splice date, 1
+				
 		views_to_refresh = JSON.parse DB.get 'views_to_refresh'
-		for view, j in views_to_refresh
+		for view, j of views_to_refresh
 			if view in localStorage
 				views_to_refresh.splice j, 1
 		
@@ -64,10 +64,10 @@ Fx =
 		top ?= false
 		setTimeout (
 			-> 
-				maxHeight = DB.get 'options.max_height'
-				h = $('#page').height() + 14
-				h = if h > maxHeight then maxHeight else h
-				$('#about').height h
+				maxHeight = DB.get('options').max_height
+				#h = $('#page').height() + 14
+				#h = if h > maxHeight then maxHeight else h
+				$('#about').height maxHeight
 				params = if top then {scroll:'top'} else {}
 				$('.nano').nanoScroller(params)
 		), 500

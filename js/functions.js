@@ -46,23 +46,22 @@ Fx = {
     return strSub;
   },
   cleanCache: function() {
-    var i, j, login, persistentViews, suffix, time, view, views_to_refresh, _len, _results;
-    login = DB.get('member.login');
+    var date, j, login, name, persistentViews, time, view, views_to_refresh, views_updated, _results;
+    login = DB.get('member').login;
     time = Math.floor(new Date().getTime() / 1000);
     persistentViews = ['planningMember.' + login, 'membersEpisodes.all', 'timelineFriends', 'membersNotifications', 'membersInfos.' + login];
-    for (i in localStorage) {
-      if (i.indexOf('update.' === 0)) {
-        suffix = i.substring(7);
-        if (!(__indexOf.call(persistentViews, suffix) >= 0) && time - localStorage[i] >= 3600) {
-          DB.remove('update.' + suffix);
-          DB.remove('page.' + suffix);
-        }
+    views_updated = BD.get('views_updated');
+    for (name in views_updated) {
+      date = views_updated[name];
+      if (!(__indexOf.call(persistentViews, name) >= 0) && time - date >= 3600) {
+        DB.remove('update.' + suffix);
+        views_updated.splice(date, 1);
       }
     }
     views_to_refresh = JSON.parse(DB.get('views_to_refresh'));
     _results = [];
-    for (j = 0, _len = views_to_refresh.length; j < _len; j++) {
-      view = views_to_refresh[j];
+    for (view in views_to_refresh) {
+      j = views_to_refresh[view];
       if (__indexOf.call(localStorage, view) >= 0) {
         _results.push(views_to_refresh.splice(j, 1));
       } else {
@@ -74,11 +73,9 @@ Fx = {
   updateHeight: function(top) {
     if (top == null) top = false;
     return setTimeout((function() {
-      var h, maxHeight, params;
-      maxHeight = DB.get('options.max_height');
-      h = $('#page').height() + 14;
-      h = h > maxHeight ? maxHeight : h;
-      $('#about').height(h);
+      var maxHeight, params;
+      maxHeight = DB.get('options').max_height;
+      $('#about').height(maxHeight);
       params = top ? {
         scroll: 'top'
       } : {};

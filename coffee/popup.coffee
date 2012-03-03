@@ -344,11 +344,13 @@ $(document).ready ->
 						$('#connect').remove()
 						token = data.root.member.token
 						DB.init()
-						DB.set 'member.login', login
-						DB.set 'member.token', data.root.member.token
+						member = 
+							login: login
+							token: data.root.member.token
+						DB.set 'member', member
 						menu.show()
 						$('#back').hide()
-						BS.load('membersEpisodes').refresh()
+						BS.load('membersEpisodes')
 					else
 						$('#password').attr 'value', ''
 						message '<img src="../img/inaccurate.png" /> ' + __('wrong_login_or_password')
@@ -615,12 +617,12 @@ $(document).ready ->
 					DB.removeAll()
 					DB.init()
 					bgPage.badge.init()
-					BS.load('connection').refresh()
+					BS.load('connection')
 				->
 					DB.removeAll()
 					DB.init()
 					bgPage.badge.init()
-					BS.load('connection').refresh()
+					BS.load('connection')
 			return false
 		.attr 'title', __("logout")
 	$('#close')
@@ -656,8 +658,9 @@ $(document).ready ->
 	## INIT
 	DB.init()
 	if bgPage.connected()
-		Fx.cleanCache()
+		#Fx.cleanCache()
 		badgeType = DB.get 'badge.type', 'membersEpisodes'
-		BS.load(badgeType).refresh()
+		#BS.load(badgeType)
+		BS.load 'membersEpisodes'
 	else
-		BS.load('connection').display()
+		BS.load('connection')

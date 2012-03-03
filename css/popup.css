@@ -52,10 +52,10 @@ img.archive:hover,img.unarchive:hover{cursor: pointer;}
 #menu img.action:hover {opacity: 1.0; cursor: pointer;}
 
 /*membersEpisodes*/
-div#page {width: 294px;}
-div.episode {height: 18px; border-bottom: 1px solid #dcdcdc; padding: 3px 0 0 0;}
-div.episode:hover {background-color: #eee;}
-div.new_show {background-color: #fff3ee;}
+#page {width: 294px;}
+.episode {height: 18px; border-bottom: 1px solid #dcdcdc; padding: 3px 0 0 0;}
+.episode:hover {background-color: #eee;}
+.episode.new {background-color: #fff3ee;}
 img.subs{cursor: pointer;}
 span.num {color: #1a4377;}
 span.new {color: #900; font-size: 9px; font-variant: small-caps;}

@@ -12,7 +12,8 @@ ajax =
 	## Envoie des données en POST vers un des WS de BetaSeries
 	post: (category, params, successCallback, errorCallback) ->
 		params ?= ''
-		token = if (DB.get 'member.token') is null then '' else "&token=" + DB.get 'member.token'
+		member = DB.get 'member', {}
+		token = if member.token is null then '' else "&token=" + member.token
 		$('#sync').show()
 		$.ajax
 			type: "POST"

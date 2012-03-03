@@ -7,102 +7,85 @@ menu =
 BS = 
 	
 	#
-	currentPage: null
+	currentView: null
 	
 	#
-	loadedPage: null
+	lastView: null
 	
-	#
+	# Lancer l'affichage d'une vue
+	# BS.load 'membersEpisodes', 3, 'all'
 	load: ->
+		# réception des arguments
 		args = Array.prototype.slice.call arguments
-		@loadedPage = BS[arguments[0]].apply args.shift(), args
-		return this
-	
-	#	
-	refresh: ->
-		o = @loadedPage
 		
-		time = Math.floor(new Date().getTime() / 1000)
-		updatePage = DB.get('update.' + o.id, 0)
-		views_to_refresh = JSON.parse DB.get 'views_to_refresh'
-		update = o.id in views_to_refresh or time - updatePage > 3600 or (@currentPage and o.id is @currentPage.id)
+		# récupération des infos
+		o = BS[arguments[0]].apply(args.shift(), args)
 		
-		if update
-			BS.update -> BS.display()
-		else
-			BS.display()
-			$('#status').attr 'src', '../img/plot_orange.gif'
-	
-	#		
-	update: (callback) ->
-		o = @loadedPage
+		# mémorisation des infos
+		@currentView = o;
 		
+		# affichage de la vue (cache)
+		BS.display()
+		
+		if o.update
+			# heure actuelle à la seconde près
+			time = Math.floor(new Date().getTime() / 1000)
+			
+			# conditions pour être mis à jour
+			views_to_refresh = DB.get 'views_to_refresh'
+			forceRefresh = o.id in views_to_refresh
+			
+			views_updated = DB.get 'views_updated'
+			outdated = if views_updated[o.id]? then time - views_updated[o.id] > 3600 else true
+			
+			sameView = @lastView isnt null and @lastView.id is @currentView.id
+			
+			# on détermine si la vue va être mise à jour ou pas
+			update = forceRefresh or outdated or sameView
+			
+			# on lance la requête de mise à jour ssi ça doit l'être
+			BS.update() if update
+		
+	# Mettre à jour les données de la vue courante	
+	update: ->
+		o = @currentView
+		
+		# préparation des paramètres de la requête
 		params = o.params || ''
+		
 		ajax.post o.url, params, 
 			(data) ->
 				r = o.root
 				tab = data.root[r]
 				
 				# Opérations supp. sur les données reçues
-				tab = o.postData tab if o.postData?
+				o.update(tab)
 				
-				# Mise à jour du cache de la page
-				if tab?
-					time = Math.floor new Date().getTime() / 1000
-					DB.set 'page.' + o.id, JSON.stringify tab
-					DB.set 'update.' + o.id, time
+				# on met à jour la date de cette mise à jour
+				views_updated = DB.get 'views_updated'
+				time = Math.floor(new Date().getTime() / 1000)
+				views_updated[o.id] = time
+				DB.set 'views_updated', views_updated
 					
 				# Mise à jour du tableau des vues à recharger
-				views_to_refresh = JSON.parse DB.get 'views_to_refresh'
+				views_to_refresh = DB.get 'views_to_refresh'
 				if o.id in views_to_refresh
 					views_to_refresh.splice (views_to_refresh.indexOf o.id), 1
-					DB.set 'views_to_refresh', JSON.stringify views_to_refresh
-				
-				# Callback
-				callback() if callback?
-			->
-				# Callback
-				callback() if callback?
+					DB.set 'views_to_refresh', views_to_refresh
 		
-	#			
+	# Afficher la vue courante avec les données en cache		
 	display: ->
-		o = @loadedPage
-		@currentPage = o
+		o = @currentView
 		
-		# Historique
-		historic = JSON.parse DB.get 'historic'
-		length = historic.length
-		blackpages = ['connection', 'registration']
-		if historic[length-1] isnt 'page.' + o.id and !(o.id in blackpages)
-			historic.push 'page.' + o.id
-			$('#back').show() if length is 1
-			DB.set 'historic', JSON.stringify historic
+		# on affiche la vue avec les données en cache
+		$('#page').html o.content()
 		
-		# Recherche d'un cache de page existant
-		display = true
-		cache = DB.get 'page.' + o.id, null
-		if o.root?
-			if cache?
-				data = JSON.parse cache
-				$('#page').html o.content data
-			else
-				display = false
-				BS.load('noConnection').display()
-		else
-			$('#page').html o.content()
-		
-		if display
-			# Titre et classe
-			$('#title').text __(o.name)
-			$('#page').removeClass().addClass o.name
+		# Titre et classe
+		$('#title').text __(o.name)
+		$('#page').removeClass().addClass o.name
 			
-			# Réglage de la hauteur du popup
-			Fx.updateHeight true
-			
-	#	
-	clean: (id) ->
-		DB.remove "page.#{id}"
-		DB.remove "update.#{id}"
+		# Réglage de la hauteur du popup
+		Fx.updateHeight true
 	
 	#
 	showsDisplay: (url) ->
@@ -299,157 +282,104 @@ BS =
 		name: 'membersEpisodes',
 		url: '/members/episodes/' + lang
 		root: 'episodes'
-		content: (data) ->
-			output = ""
-			show = ""
-			nbrEpisodes = 0
-			posEpisode = 1
-			nbrEpisodesPerSerie = DB.get 'options.nbr_episodes_per_serie'
+		update: (data) ->
 			stats = {}
-			newTitleShow = true
-			for n of data
-				if data[n].url of stats
-					stats[data[n].url]++
+			for d, e of data
+				if e.url of stats
+					stats[e.url]++
 				else
-					stats[data[n].url] = 1
+					stats[e.url] = 1
+				
+			for d, e of data
+				# cache des infos de la *série*
+				shows = DB.get 'shows', {}
+				if e.url in shows
+					shows[e.url].archive = false
+				else
+					shows[e.url] =
+						url: e.url
+						title: e.show
+						archive: false
+						hidden: false
+						expanded: false
+					# construction du bloc *série*
+					show = Content.show shows[e.url], stats[e.url]
+				DB.set 'shows', shows
+				
+				#cache des infos de *épisode*
+				episodes = DB.get 'episodes.' + e.url, {}
+				if e.global in episodes
+					episodes[e.global].comments = e.comments
+					episodes[e.global].downloaded = e.downloaded
+				else
+					episodes[e.global] =
+						comments: e.comments
+						date: e.date
+						downloaded: e.downloaded
+						episode: e.episode
+						global: e.global
+						number: e.number
+						season: e.season
+						title: e.title
+						show: e.show
+						seen: false
+					#construction du bloc *épisode*
+					episode = Content.episode episodes[e.global], shows[e.url], stats[e.url]++
+				DB.set 'episodes.' + e.url, episodes
+				
+				# s'il y a un bloc *série* et un bloc *episode*
+				if show? and episode?
+					$('#shows').prepend '<div id="' + e.url + '" class="show"></div>'
+					$('#' + e.url).append show + episode;
+					
+				# s'il y a un bloc *épisode* seulement
+				else if episode?
+					$('#' + e.url).append episode
+				
+				# sinon on mets à jour le bloc *episode*
+				#else
+					
+					
+		content: ->
+			# récupération des épisodes non vus (cache)
+			data = {}
+			for i, episodes of localStorage
+				if i.indexOf('episodes.') is 0
+					for j, episode of JSON.parse episodes
+						continue if episode.seen
+						es = if data[i.substring(9)]? then data[i.substring(9)] else []
+						es.push(episode)
+						data[i.substring(9)] = es
 			
-			for n of data
-				# Titre de la série
-				if newTitleShow
-					# Série minimisée
-					hidden_shows = JSON.parse DB.get 'hidden_shows'
-					hiddenShow = data[n].url in hidden_shows
-					visibleIcon = if hiddenShow then '../img/arrow_right.gif' else '../img/arrow_down.gif'
-					titleIcon = if hiddenShow then __('maximise') else __('minimise')
-					
-					# Episodes supplémentaires affichés
-					extra_episodes = JSON.parse DB.get 'extra_episodes'
-					extraEpisodes = data[n].url in extra_episodes
-					if hiddenShow
-						extraIcon = '../img/downarrow.gif'
-						extraText = __('show_episodes')
-					else
-						extraIcon = if extraEpisodes then '../img/uparrow.gif' else '../img/downarrow.gif'
-						extraText = if extraEpisodes then __('hide_episodes') else __('show_episodes')
-					
-					# Ouverture de la série
-					output += '<div class="show" id="' + data[n].url + '">'
-					output += '<div class="showtitle"><div class="left2"><img src="' + visibleIcon + '" class="toggleShow" title="' + titleIcon + '" /><a href="" onclick="BS.load(\'showsDisplay\', \'' + data[n].url + '\').refresh(); return false;" class="showtitle">' + data[n].show + '</a>'
-					output += ' <img src="../img/archive.png" class="archive" title="' + __("archive") + '" /></div>'
-					
-					output += '<div class="right2">';
-					remain = if hiddenShow then stats[data[n].url] else stats[data[n].url] - nbrEpisodesPerSerie
-					if newTitleShow
-						hidden = if remain <= 0 then ' style="display: none;"' else '' 
-						output += '<span class="toggleEpisodes"' + hidden + '>'
-						output += '<span class="labelRemain">' + extraText + '</span>'
-						output += ' (<span class="remain">' + remain + '</span>)'
-						output += ' <img src="' + extraIcon + '" style="margin-bottom:-2px;" />'
-						output += '</span>'
-					
-					output += '</div>';
-					output += '<div class="clear"></div>';
-					output += '</div>';
-					
-					show = data[n].show
-					posEpisode = 1
+			# SHOWS
+			output = '<div id="shows">'
+			
+			for i, es of data
+				# récupération des infos sur la *série*
+				s = DB.get('shows')[i]
 				
-				# Ajout d'une ligne épisode
-				season = data[n].season
-				episode = data[n].episode
-					
-				# Nouvel épisode
-				time = Math.floor new Date().getTime() / 1000
-				jours = Math.floor time / (24 * 3600)
-				date_0 = (24*3600)* jours - 2*3600
-				newShow = data[n].date >= date_0
-				classes = ""
-				hidden = ""
-				classes = if newShow then "new_show" else ""
+				# SHOW
+				output += '<div id="' + s.url + '" class="show">'
 				
-				if posEpisode > nbrEpisodesPerSerie
-					classes += ' hidden'
-					hidden = ' style="display: none;"' if !extraEpisodes or hiddenShow
-				else if hiddenShow
-					hidden = ' style="display: none;"'
-				output += '<div class="episode ' + classes + '"' + hidden + ' season="' + season + '" episode="' + episode + '">'
-					
-				# Titre de l'épisode
-				title = if DB.get 'options.display_global' is 'true' then '#' + data[n].global + ' ' + title else data[n].title
-				textTitle = if (title.length > 20) then ' title="' + title + '"' else ''
-				if posEpisode is 1 
-					texte2 = __('mark_as_seen')
-				else if posEpisode > 1
-					texte2 = __('mark_as_seen_pl')
-				output += '<div class="left">'
-				output += '<img src="../img/plot_red.gif" class="watched" title="' + texte2 + '" /> <span class="num">'
-				output += '[' + data[n].number + ']</span> <span class="title"' + textTitle + '>' + Fx.subFirst(title, 20) + '</span>'
-				if newShow 
-					output += ' <span class="new">' + __('new') + '</span>'
+				# construction du bloc *série*
+				output += Content.show s, es.length
+				
+				# construction des blocs *episode*
+				for e, j in es
+					output += Content.episode e, s, j
+				
 				output += '</div>'
-						
-				# Actions
-				subs = data[n].subs
-				nbSubs = 0
-				url = ""
-				quality = -1
-				lang = ""
-				for sub of subs
-					dlSrtLanguage = DB.get 'options.dl_srt_language'
-					if (dlSrtLanguage is "VF" or dlSrtLanguage is 'ALL') and subs[sub]['language'] is "VF" and subs[sub]['quality'] > quality
-						quality = subs[sub]['quality']
-						url = subs[sub]['url']
-						lang = subs[sub]['language']
-						nbSubs++
-					if (dlSrtLanguage is "VO" or dlSrtLanguage is 'ALL') and subs[sub]['language'] is "VO" and subs[sub]['quality'] > quality
-						quality = subs[sub]['quality']
-						url = subs[sub]['url']
-						lang = subs[sub]['language']
-						nbSubs++
-				
-				quality = Math.floor (quality + 1) / 2
-				if data[n].downloaded isnt -1
-					downloaded = data[n].downloaded is '1'
-					if downloaded
-						imgDownloaded = "folder"
-						texte3 = __('mark_as_not_dl')
-					else
-						imgDownloaded = "folder_off"
-						texte3 = __('mark_as_dl')
-				
-				output += '<div class="right">'
-				empty = '<img src="../img/empty.png" alt="hidden" /> '
-				if data[n].comments > 0
-					output += '<img src="../img/comment.png" class="commentList" title="' + __('nbr_comments', [data[n].comments]) + '" /> '
-				else 
-					output += empty
-				if data[n].downloaded isnt -1
-					output += '<img src="../img/' + imgDownloaded + '.png" class="downloaded" title="' + texte3 + '" /> '
-				else 
-					output += empty
-				if nbSubs > 0
-					output += '<img src="../img/srt.png" class="subs" link="' + url + '" quality="' + quality + '" title="' + __('srt_quality', [lang, quality]) + '" /> '
-				output += '</div>'
-					
-				# Clear
-				output += '<div class="clear"></div>'
-					
-				output += '</div>'
-					
-				# Test pour déterminer si c'est le dernier épisode de la série
-				newTitleShow = posEpisode is stats[data[n].url]
-				
-				# Fermeture de la série
-				output += '</div>' if newTitleShow
-				
-				nbrEpisodes++
-				posEpisode++
-						
+			
+			###	
 			bgPage.badge.update()
-			if nbrEpisodes is 0
-				output += __('no_episodes_to_see') 
-				output += '<br /><br /><a href="#" onclick="BS.load(\'searchForm\').display(); return false;">'
-				output += '<img src="../img/film_add.png" class="icon2" />' + __('add_a_show') + '</a>'
+			output += '<div id="noEpisodes">'
+			output += __('no_episodes_to_see') 
+			output += '<br /><br /><a href="#" onclick="BS.load(\'searchForm\').display(); return false;">'
+			output += '<img src="../img/film_add.png" class="icon2" />' + __('add_a_show') + '</a>'
+			output += '</div>'
+			###
+			
+			output += '</div>'
 			
 			return output
 	
@@ -549,7 +479,7 @@ BS =
 			output += '<tr><td>' + __('password') + '</td><td><input type="password" name="password" id="password" /></td></tr>'
 			output += '</table>'
 			output += '<div class="valid"><input type="submit" value="' + __('sign_in') + '"> ou '
-			output += '	<a href="#" onclick="BS.load(\'registration\').display(); return false;">' + __('sign_up') + '</a></div>'
+			output += '	<a href="#" onclick="BS.load(\'registration\'); return false;">' + __('sign_up') + '</a></div>'
 			output += '</form>'
 			return output
 	
@@ -567,7 +497,7 @@ BS =
 			output += '<tr><td>' + __('email') + '</td><td><input type="text" name="mail" id="mail" /></td></tr>'
 			output += '</table>'
 			output += '<div class="valid"><input type="submit" value="' + __('sign_up') + '"> ou '
-			output += '	<a href="#" onclick="BS.load(\'connection\').display(); return false;">' + __('sign_in') + '</a></div>'
+			output += '	<a href="#" onclick="BS.load(\'connection\'); return false;">' + __('sign_in') + '</a></div>'
 			output += '</form>'
 			return output
 	

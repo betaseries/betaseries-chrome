@@ -2,29 +2,35 @@ var DB;
 
 DB = {
   init: function() {
-    this.set('options.badge_notification_type', 'watched', true);
-    this.set('options.dl_srt_language', 'VF', true);
-    this.set('options.nbr_episodes_per_serie', 5, true);
-    this.set('options.display_global', 'false', true);
-    this.set('options.enable_ratings', 'true', true);
-    this.set('options.max_height', 200, true);
-    this.set('badge.value', 0, true);
-    this.set('badge.type', 'membersEpisodes', true);
-    this.set('historic', '[]', false);
-    this.set('hidden_shows', '[]', true);
-    this.set('extra_episodes', '[]', true);
-    return this.set('views_to_refresh', '[]', true);
+    var badge, options;
+    options = {
+      badge_notification_type: 'watched',
+      dl_srt_language: 'VF',
+      nbr_episodes_per_serie: 5,
+      display_global: false,
+      enable_ratings: true,
+      max_height: 200
+    };
+    this.set('options', options, true);
+    badge = {
+      value: 0,
+      type: 'membersEpisodes'
+    };
+    this.set('badge', badge, true);
+    this.set('historic', [], false);
+    this.set('views_updated', {}, true);
+    return this.set('views_to_refresh', [], true);
   },
   get: function(field, defaultValue) {
     if (localStorage[field] != null) {
-      return localStorage[field];
+      return JSON.parse(localStorage[field]);
     } else {
       return defaultValue;
     }
   },
   set: function(field, value, init) {
     if (!init || (init && !localStorage[field])) {
-      return localStorage[field] = value;
+      return localStorage[field] = JSON.stringify(value);
     }
   },
   remove: function(field) {

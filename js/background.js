@@ -15,8 +15,10 @@ badge = {
       var j, notifs;
       notifs = data.root.notifications;
       j = notifs.total;
-      DB.set('badge.value', j);
-      DB.set('badge.type', 'membersNotifications');
+      DB.set('badge.value', {
+        value: j,
+        type: 'membersNotifications'
+      });
       if (j > 0) {
         return badge.display(j, 'membersNotifications');
       } else {
@@ -26,26 +28,28 @@ badge = {
           j = 0;
           for (i in episodes) {
             if (!__hasProp.call(episodes, i)) continue;
-            badgeNotificationType = DB.get('options.badge_notification_type');
+            badgeNotificationType = DB.get('options').badge_notification_type;
             if (badgeNotificationType === 'watched') j++;
             if (badgeNotificationType === 'downloaded' && episodes[i].downloaded !== "1") {
               j++;
             }
           }
-          DB.set('badge.value', j);
-          DB.set('badge.type', 'membersEpisodes');
+          DB.set('badge.value', {
+            value: j,
+            type: 'membersEpisodes'
+          });
           return badge.display(j, 'membersEpisodes');
         }, function() {
           var type, value;
-          value = DB.get('badge.value');
-          type = DB.get('badge.type');
+          value = DB.get('badge').value;
+          type = DB.get('badge').type;
           return badge.display(value, type);
         });
       }
     }, function() {
       var type, value;
-      value = DB.get('badge.value');
-      type = DB.get('badge.type');
+      value = DB.get('badge').value;
+      type = DB.get('badge').type;
       return badge.display(value, type);
     });
   },
@@ -77,7 +81,7 @@ badge = {
 };
 
 connected = function() {
-  return DB.get('member.token', null) != null;
+  return DB.get('member', null) != null;
 };
 
 DB.init();

@@ -353,17 +353,20 @@ $(document).ready(function() {
       });
       params = "&login=" + login + "&password=" + password;
       ajax.post("/members/auth", params, function(data) {
-        var token;
+        var member, token;
         if (data.root.member != null) {
           message('');
           $('#connect').remove();
           token = data.root.member.token;
           DB.init();
-          DB.set('member.login', login);
-          DB.set('member.token', data.root.member.token);
+          member = {
+            login: login,
+            token: data.root.member.token
+          };
+          DB.set('member', member);
           menu.show();
           $('#back').hide();
-          return BS.load('membersEpisodes').refresh();
+          return BS.load('membersEpisodes');
         } else {
           $('#password').attr('value', '');
           message('<img src="../img/inaccurate.png" /> ' + __('wrong_login_or_password'));
@@ -635,12 +638,12 @@ $(document).ready(function() {
       DB.removeAll();
       DB.init();
       bgPage.badge.init();
-      return BS.load('connection').refresh();
+      return BS.load('connection');
     }, function() {
       DB.removeAll();
       DB.init();
       bgPage.badge.init();
-      return BS.load('connection').refresh();
+      return BS.load('connection');
     });
     return false;
   }).attr('title', __("logout"));
@@ -681,10 +684,9 @@ $(document).ready(function() {
   };
   DB.init();
   if (bgPage.connected()) {
-    Fx.cleanCache();
     badgeType = DB.get('badge.type', 'membersEpisodes');
-    return BS.load(badgeType).refresh();
+    return BS.load('membersEpisodes');
   } else {
-    return BS.load('connection').display();
+    return BS.load('connection');
   }
 });

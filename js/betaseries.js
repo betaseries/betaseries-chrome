@@ -17,88 +17,52 @@ menu = {
 };
 
 BS = {
-  currentPage: null,
-  loadedPage: null,
+  currentView: null,
+  lastView: null,
   load: function() {
-    var args;
+    var args, forceRefresh, o, outdated, sameView, time, update, views_to_refresh, views_updated, _ref;
     args = Array.prototype.slice.call(arguments);
-    this.loadedPage = BS[arguments[0]].apply(args.shift(), args);
-    return this;
-  },
-  refresh: function() {
-    var o, time, update, updatePage, views_to_refresh, _ref;
-    o = this.loadedPage;
-    time = Math.floor(new Date().getTime() / 1000);
-    updatePage = DB.get('update.' + o.id, 0);
-    views_to_refresh = JSON.parse(DB.get('views_to_refresh'));
-    update = (_ref = o.id, __indexOf.call(views_to_refresh, _ref) >= 0) || time - updatePage > 3600 || (this.currentPage && o.id === this.currentPage.id);
-    if (update) {
-      return BS.update(function() {
-        return BS.display();
-      });
-    } else {
-      BS.display();
-      return $('#status').attr('src', '../img/plot_orange.gif');
+    o = BS[arguments[0]].apply(args.shift(), args);
+    this.currentView = o;
+    BS.display();
+    if (o.update) {
+      time = Math.floor(new Date().getTime() / 1000);
+      views_to_refresh = DB.get('views_to_refresh');
+      forceRefresh = (_ref = o.id, __indexOf.call(views_to_refresh, _ref) >= 0);
+      views_updated = DB.get('views_updated');
+      outdated = views_updated[o.id] != null ? time - views_updated[o.id] > 3600 : true;
+      sameView = this.lastView !== null && this.lastView.id === this.currentView.id;
+      update = forceRefresh || outdated || sameView;
+      if (update) return BS.update();
     }
   },
-  update: function(callback) {
+  update: function() {
     var o, params;
-    o = this.loadedPage;
+    o = this.currentView;
     params = o.params || '';
     return ajax.post(o.url, params, function(data) {
-      var r, tab, time, views_to_refresh, _ref;
+      var r, tab, time, views_to_refresh, views_updated, _ref;
       r = o.root;
       tab = data.root[r];
-      if (o.postData != null) tab = o.postData(tab);
-      if (tab != null) {
-        time = Math.floor(new Date().getTime() / 1000);
-        DB.set('page.' + o.id, JSON.stringify(tab));
-        DB.set('update.' + o.id, time);
-      }
-      views_to_refresh = JSON.parse(DB.get('views_to_refresh'));
+      o.update(tab);
+      views_updated = DB.get('views_updated');
+      time = Math.floor(new Date().getTime() / 1000);
+      views_updated[o.id] = time;
+      DB.set('views_updated', views_updated);
+      views_to_refresh = DB.get('views_to_refresh');
       if (_ref = o.id, __indexOf.call(views_to_refresh, _ref) >= 0) {
         views_to_refresh.splice(views_to_refresh.indexOf(o.id), 1);
-        DB.set('views_to_refresh', JSON.stringify(views_to_refresh));
+        return DB.set('views_to_refresh', views_to_refresh);
       }
-      if (callback != null) return callback();
-    }, function() {
-      if (callback != null) return callback();
     });
   },
   display: function() {
-    var blackpages, cache, data, display, historic, length, o, _ref;
-    o = this.loadedPage;
-    this.currentPage = o;
-    historic = JSON.parse(DB.get('historic'));
-    length = historic.length;
-    blackpages = ['connection', 'registration'];
-    if (historic[length - 1] !== 'page.' + o.id && !(_ref = o.id, __indexOf.call(blackpages, _ref) >= 0)) {
-      historic.push('page.' + o.id);
-      if (length === 1) $('#back').show();
-      DB.set('historic', JSON.stringify(historic));
-    }
-    display = true;
-    cache = DB.get('page.' + o.id, null);
-    if (o.root != null) {
-      if (cache != null) {
-        data = JSON.parse(cache);
-        $('#page').html(o.content(data));
-      } else {
-        display = false;
-        BS.load('noConnection').display();
-      }
-    } else {
-      $('#page').html(o.content());
-    }
-    if (display) {
-      $('#title').text(__(o.name));
-      $('#page').removeClass().addClass(o.name);
-      return Fx.updateHeight(true);
-    }
-  },
-  clean: function(id) {
-    DB.remove("page." + id);
-    return DB.remove("update." + id);
+    var o;
+    o = this.currentView;
+    $('#page').html(o.content());
+    $('#title').text(__(o.name));
+    $('#page').removeClass().addClass(o.name);
+    return Fx.updateHeight(true);
   },
   showsDisplay: function(url) {
     return {
@@ -300,144 +264,102 @@ BS = {
       name: 'membersEpisodes',
       url: '/members/episodes/' + lang,
       root: 'episodes',
-      content: function(data) {
-        var classes, date_0, dlSrtLanguage, downloaded, empty, episode, extraEpisodes, extraIcon, extraText, extra_episodes, hidden, hiddenShow, hidden_shows, imgDownloaded, jours, n, nbSubs, nbrEpisodes, nbrEpisodesPerSerie, newShow, newTitleShow, output, posEpisode, quality, remain, season, show, stats, sub, subs, textTitle, texte2, texte3, time, title, titleIcon, url, visibleIcon, _ref, _ref2;
-        output = "";
-        show = "";
-        nbrEpisodes = 0;
-        posEpisode = 1;
-        nbrEpisodesPerSerie = DB.get('options.nbr_episodes_per_serie');
+      update: function(data) {
+        var d, e, episode, episodes, show, shows, stats, _ref, _ref2, _results;
         stats = {};
-        newTitleShow = true;
-        for (n in data) {
-          if (data[n].url in stats) {
-            stats[data[n].url]++;
+        for (d in data) {
+          e = data[d];
+          if (e.url in stats) {
+            stats[e.url]++;
           } else {
-            stats[data[n].url] = 1;
+            stats[e.url] = 1;
           }
         }
-        for (n in data) {
-          if (newTitleShow) {
-            hidden_shows = JSON.parse(DB.get('hidden_shows'));
-            hiddenShow = (_ref = data[n].url, __indexOf.call(hidden_shows, _ref) >= 0);
-            visibleIcon = hiddenShow ? '../img/arrow_right.gif' : '../img/arrow_down.gif';
-            titleIcon = hiddenShow ? __('maximise') : __('minimise');
-            extra_episodes = JSON.parse(DB.get('extra_episodes'));
-            extraEpisodes = (_ref2 = data[n].url, __indexOf.call(extra_episodes, _ref2) >= 0);
-            if (hiddenShow) {
-              extraIcon = '../img/downarrow.gif';
-              extraText = __('show_episodes');
-            } else {
-              extraIcon = extraEpisodes ? '../img/uparrow.gif' : '../img/downarrow.gif';
-              extraText = extraEpisodes ? __('hide_episodes') : __('show_episodes');
-            }
-            output += '<div class="show" id="' + data[n].url + '">';
-            output += '<div class="showtitle"><div class="left2"><img src="' + visibleIcon + '" class="toggleShow" title="' + titleIcon + '" /><a href="" onclick="BS.load(\'showsDisplay\', \'' + data[n].url + '\').refresh(); return false;" class="showtitle">' + data[n].show + '</a>';
-            output += ' <img src="../img/archive.png" class="archive" title="' + __("archive") + '" /></div>';
-            output += '<div class="right2">';
-            remain = hiddenShow ? stats[data[n].url] : stats[data[n].url] - nbrEpisodesPerSerie;
-            if (newTitleShow) {
-              hidden = remain <= 0 ? ' style="display: none;"' : '';
-              output += '<span class="toggleEpisodes"' + hidden + '>';
-              output += '<span class="labelRemain">' + extraText + '</span>';
-              output += ' (<span class="remain">' + remain + '</span>)';
-              output += ' <img src="' + extraIcon + '" style="margin-bottom:-2px;" />';
-              output += '</span>';
-            }
-            output += '</div>';
-            output += '<div class="clear"></div>';
-            output += '</div>';
-            show = data[n].show;
-            posEpisode = 1;
-          }
-          season = data[n].season;
-          episode = data[n].episode;
-          time = Math.floor(new Date().getTime() / 1000);
-          jours = Math.floor(time / (24 * 3600));
-          date_0 = (24 * 3600) * jours - 2 * 3600;
-          newShow = data[n].date >= date_0;
-          classes = "";
-          hidden = "";
-          classes = newShow ? "new_show" : "";
-          if (posEpisode > nbrEpisodesPerSerie) {
-            classes += ' hidden';
-            if (!extraEpisodes || hiddenShow) hidden = ' style="display: none;"';
-          } else if (hiddenShow) {
-            hidden = ' style="display: none;"';
-          }
-          output += '<div class="episode ' + classes + '"' + hidden + ' season="' + season + '" episode="' + episode + '">';
-          title = DB.get('options.display_global' === 'true') ? '#' + data[n].global + ' ' + title : data[n].title;
-          textTitle = title.length > 20 ? ' title="' + title + '"' : '';
-          if (posEpisode === 1) {
-            texte2 = __('mark_as_seen');
-          } else if (posEpisode > 1) {
-            texte2 = __('mark_as_seen_pl');
-          }
-          output += '<div class="left">';
-          output += '<img src="../img/plot_red.gif" class="watched" title="' + texte2 + '" /> <span class="num">';
-          output += '[' + data[n].number + ']</span> <span class="title"' + textTitle + '>' + Fx.subFirst(title, 20) + '</span>';
-          if (newShow) output += ' <span class="new">' + __('new') + '</span>';
-          output += '</div>';
-          subs = data[n].subs;
-          nbSubs = 0;
-          url = "";
-          quality = -1;
-          lang = "";
-          for (sub in subs) {
-            dlSrtLanguage = DB.get('options.dl_srt_language');
-            if ((dlSrtLanguage === "VF" || dlSrtLanguage === 'ALL') && subs[sub]['language'] === "VF" && subs[sub]['quality'] > quality) {
-              quality = subs[sub]['quality'];
-              url = subs[sub]['url'];
-              lang = subs[sub]['language'];
-              nbSubs++;
-            }
-            if ((dlSrtLanguage === "VO" || dlSrtLanguage === 'ALL') && subs[sub]['language'] === "VO" && subs[sub]['quality'] > quality) {
-              quality = subs[sub]['quality'];
-              url = subs[sub]['url'];
-              lang = subs[sub]['language'];
-              nbSubs++;
-            }
-          }
-          quality = Math.floor((quality + 1) / 2);
-          if (data[n].downloaded !== -1) {
-            downloaded = data[n].downloaded === '1';
-            if (downloaded) {
-              imgDownloaded = "folder";
-              texte3 = __('mark_as_not_dl');
-            } else {
-              imgDownloaded = "folder_off";
-              texte3 = __('mark_as_dl');
-            }
-          }
-          output += '<div class="right">';
-          empty = '<img src="../img/empty.png" alt="hidden" /> ';
-          if (data[n].comments > 0) {
-            output += '<img src="../img/comment.png" class="commentList" title="' + __('nbr_comments', [data[n].comments]) + '" /> ';
+        _results = [];
+        for (d in data) {
+          e = data[d];
+          shows = DB.get('shows', {});
+          if (_ref = e.url, __indexOf.call(shows, _ref) >= 0) {
+            shows[e.url].archive = false;
           } else {
-            output += empty;
+            shows[e.url] = {
+              url: e.url,
+              title: e.show,
+              archive: false,
+              hidden: false,
+              expanded: false
+            };
+            show = Content.show(shows[e.url], stats[e.url]);
           }
-          if (data[n].downloaded !== -1) {
-            output += '<img src="../img/' + imgDownloaded + '.png" class="downloaded" title="' + texte3 + '" /> ';
+          DB.set('shows', shows);
+          episodes = DB.get('episodes.' + e.url, {});
+          if (_ref2 = e.global, __indexOf.call(episodes, _ref2) >= 0) {
+            episodes[e.global].comments = e.comments;
+            episodes[e.global].downloaded = e.downloaded;
           } else {
-            output += empty;
+            episodes[e.global] = {
+              comments: e.comments,
+              date: e.date,
+              downloaded: e.downloaded,
+              episode: e.episode,
+              global: e.global,
+              number: e.number,
+              season: e.season,
+              title: e.title,
+              show: e.show,
+              seen: false
+            };
+            episode = Content.episode(episodes[e.global], shows[e.url], stats[e.url]++);
           }
-          if (nbSubs > 0) {
-            output += '<img src="../img/srt.png" class="subs" link="' + url + '" quality="' + quality + '" title="' + __('srt_quality', [lang, quality]) + '" /> ';
+          DB.set('episodes.' + e.url, episodes);
+          if ((show != null) && (episode != null)) {
+            $('#shows').prepend('<div id="' + e.url + '" class="show"></div>');
+            _results.push($('#' + e.url).append(show + episode));
+          } else if (episode != null) {
+            _results.push($('#' + e.url).append(episode));
+          } else {
+            _results.push(void 0);
+          }
+        }
+        return _results;
+      },
+      content: function() {
+        var data, e, episode, episodes, es, i, j, output, s, _len, _ref;
+        data = {};
+        for (i in localStorage) {
+          episodes = localStorage[i];
+          if (i.indexOf('episodes.') === 0) {
+            _ref = JSON.parse(episodes);
+            for (j in _ref) {
+              episode = _ref[j];
+              if (episode.seen) continue;
+              es = data[i.substring(9)] != null ? data[i.substring(9)] : [];
+              es.push(episode);
+              data[i.substring(9)] = es;
+            }
+          }
+        }
+        output = '<div id="shows">';
+        for (i in data) {
+          es = data[i];
+          s = DB.get('shows')[i];
+          output += '<div id="' + s.url + '" class="show">';
+          output += Content.show(s, es.length);
+          for (j = 0, _len = es.length; j < _len; j++) {
+            e = es[j];
+            output += Content.episode(e, s, j);
           }
           output += '</div>';
-          output += '<div class="clear"></div>';
-          output += '</div>';
-          newTitleShow = posEpisode === stats[data[n].url];
-          if (newTitleShow) output += '</div>';
-          nbrEpisodes++;
-          posEpisode++;
         }
-        bgPage.badge.update();
-        if (nbrEpisodes === 0) {
-          output += __('no_episodes_to_see');
-          output += '<br /><br /><a href="#" onclick="BS.load(\'searchForm\').display(); return false;">';
-          output += '<img src="../img/film_add.png" class="icon2" />' + __('add_a_show') + '</a>';
-        }
+        /*	
+        			bgPage.badge.update()
+        			output += '<div id="noEpisodes">'
+        			output += __('no_episodes_to_see') 
+        			output += '<br /><br /><a href="#" onclick="BS.load(\'searchForm\').display(); return false;">'
+        			output += '<img src="../img/film_add.png" class="icon2" />' + __('add_a_show') + '</a>'
+        			output += '</div>'
+        */
+        output += '</div>';
         return output;
       }
     };
@@ -552,7 +474,7 @@ BS = {
         output += '<tr><td>' + __('password') + '</td><td><input type="password" name="password" id="password" /></td></tr>';
         output += '</table>';
         output += '<div class="valid"><input type="submit" value="' + __('sign_in') + '"> ou ';
-        output += '	<a href="#" onclick="BS.load(\'registration\').display(); return false;">' + __('sign_up') + '</a></div>';
+        output += '	<a href="#" onclick="BS.load(\'registration\'); return false;">' + __('sign_up') + '</a></div>';
         output += '</form>';
         return output;
       }
@@ -573,7 +495,7 @@ BS = {
         output += '<tr><td>' + __('email') + '</td><td><input type="text" name="mail" id="mail" /></td></tr>';
         output += '</table>';
         output += '<div class="valid"><input type="submit" value="' + __('sign_up') + '"> ou ';
-        output += '	<a href="#" onclick="BS.load(\'connection\').display(); return false;">' + __('sign_in') + '</a></div>';
+        output += '	<a href="#" onclick="BS.load(\'connection\'); return false;">' + __('sign_in') + '</a></div>';
         output += '</form>';
         return output;
       }

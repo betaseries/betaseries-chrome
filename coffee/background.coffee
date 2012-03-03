@@ -17,8 +17,9 @@ badge =
 			(data) ->
 				notifs = data.root.notifications
 				j = notifs.total
-				DB.set 'badge.value', j
-				DB.set 'badge.type', 'membersNotifications'
+				DB.set 'badge.value',
+					value: j
+					type: 'membersNotifications'
 				if j > 0
 					badge.display j, 'membersNotifications'
 				else
@@ -28,19 +29,20 @@ badge =
 							episodes = data.root.episodes
 							j = 0;
 							for own i of episodes
-								badgeNotificationType = DB.get('options.badge_notification_type');
+								badgeNotificationType = DB.get('options').badge_notification_type;
 								j++ if badgeNotificationType is 'watched'
 								j++ if badgeNotificationType is 'downloaded' and episodes[i].downloaded isnt "1"
-							DB.set 'badge.value', j
-							DB.set 'badge.type', 'membersEpisodes'
+							DB.set 'badge.value',
+								value: j
+								type: 'membersEpisodes'
 							badge.display j, 'membersEpisodes'
 						->
-							value = DB.get 'badge.value'
-							type = DB.get 'badge.type'
+							value = DB.get('badge').value
+							type = DB.get('badge').type
 							badge.display value, type
 			->
-				value = DB.get 'badge.value'
-				type = DB.get 'badge.type'
+				value = DB.get('badge').value
+				type = DB.get('badge').type
 				badge.display value, type
 
 	##
@@ -62,7 +64,7 @@ badge =
 			setTimeout @update, 1000 * 3600
 
 ## Retourne vrai si l'utilisateur est connecté, faux sinon
-connected = -> DB.get('member.token', null)?
+connected = -> DB.get('member', null)?
 
 ## INIT
 DB.init()

@@ -7,9 +7,10 @@ ajax = {
   site_url: "https://www.betaseries.com",
   key: "6db16a6ffab9",
   post: function(category, params, successCallback, errorCallback) {
-    var token;
+    var member, token;
     if (params == null) params = '';
-    token = (DB.get('member.token')) === null ? '' : "&token=" + DB.get('member.token');
+    member = DB.get('member', {});
+    token = member.token === null ? '' : "&token=" + member.token;
     $('#sync').show();
     return $.ajax({
       type: "POST",
