@@ -195,7 +195,7 @@ $(document).ready ->
 			if img.attr('src') is '../img/folder_delete.png' then img.attr 'src', '../img/folder.png'
 	
 	## Accéder à la liste des commentaires d'un épisode
-	$('.commentList').live
+	$('.comments').live
 		click: ->
 			view = BS.currentPage.name
 			

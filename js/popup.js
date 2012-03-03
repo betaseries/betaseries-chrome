@@ -212,7 +212,7 @@ $(document).ready(function() {
       }
     }
   });
-  $('.commentList').live({
+  $('.comments').live({
     click: function() {
       var episode, node, season, show, showName, view;
       view = BS.currentPage.name;

@@ -22,7 +22,7 @@ BS = {
     var args, forceRefresh, o, outdated, sameView, time, update, views_to_refresh, views_updated, _ref;
     args = Array.prototype.slice.call(arguments);
     o = BS[arguments[0]].apply(args.shift(), args);
-    sameView = o.id === this.currentView.id;
+    sameView = (this.currentView != null) && o.id === this.currentView.id;
     this.currentView = o;
     BS.display();
     if (o.update) {
@@ -151,7 +151,7 @@ BS = {
         output += '<div class="showtitle">' + __('actions') + '</div>';
         output += '<a href="" class="downloaded" onclick="return false;">';
         output += '<img src="../img/' + imgDownloaded + '.png" class="icon2" /><span class="dlText">' + texte3 + '</span></a><br />';
-        output += '<a href="" class="commentList" onclick="return false;">';
+        output += '<a href="" class="comments" onclick="return false;">';
         output += '<img src="../img/comment.png" class="icon2">' + __('see_comments', [episode.comments]) + '</a>';
         output += '</div>';
         return output;

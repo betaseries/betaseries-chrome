@@ -19,7 +19,7 @@ BS =
 		o = BS[arguments[0]].apply(args.shift(), args)
 		
 		# mémorisation des infos
-		sameView = o.id is @currentView.id
+		sameView = @currentView? and o.id is @currentView.id
 		@currentView = o;
 		
 		# affichage de la vue (cache)
@@ -168,7 +168,7 @@ BS =
 			output += '<div class="showtitle">' + __('actions') + '</div>'
 			output += '<a href="" class="downloaded" onclick="return false;">'
 			output += '<img src="../img/' + imgDownloaded + '.png" class="icon2" /><span class="dlText">' + texte3 + '</span></a><br />'
-			output += '<a href="" class="commentList" onclick="return false;">'
+			output += '<a href="" class="comments" onclick="return false;">'
 			output += '<img src="../img/comment.png" class="icon2">' + __('see_comments', [episode.comments]) + '</a>'
 			
 			# wrapper end
@@ -298,6 +298,7 @@ BS =
 				# cache des infos de la *série*
 				shows = DB.get 'shows', {}
 				if e.url of shows
+					# cas où on enlève une série des archives depuis le site
 					shows[e.url].archive = false
 					show = null
 				else
@@ -315,6 +316,7 @@ BS =
 				episodes = DB.get 'episodes.' + e.url, {}
 				if e.global of episodes
 					episodes[e.global].comments = e.comments
+					# cas où on marque comme récupéré ou pas depuis le site
 					episodes[e.global].downloaded = e.downloaded
 					episode = null
 				else
@@ -344,6 +346,7 @@ BS =
 				
 				# TODO sinon on mets à jour le bloc *episode*
 				#else
+					#__('nbr_comments', [e.comments]) HERE
 					
 					
 		content: ->
