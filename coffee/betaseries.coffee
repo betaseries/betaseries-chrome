@@ -9,9 +9,6 @@ BS =
 	#
 	currentView: null
 	
-	#
-	lastView: null
-	
 	# Lancer l'affichage d'une vue
 	# BS.load 'membersEpisodes', 3, 'all'
 	load: ->
@@ -22,6 +19,7 @@ BS =
 		o = BS[arguments[0]].apply(args.shift(), args)
 		
 		# mémorisation des infos
+		sameView = o.id is @currentView.id
 		@currentView = o;
 		
 		# affichage de la vue (cache)
@@ -38,15 +36,11 @@ BS =
 			views_updated = DB.get 'views_updated'
 			outdated = if views_updated[o.id]? then time - views_updated[o.id] > 3600 else true
 			
-			sameView = @lastView isnt null and @lastView.id is @currentView.id
-			
 			# on détermine si la vue va être mise à jour ou pas
 			update = forceRefresh or outdated or sameView
 			
 			# on lance la requête de mise à jour ssi ça doit l'être
 			BS.update() if update
-		
-		@lastView = o
 		
 	# Mettre à jour les données de la vue courante	
 	update: ->
@@ -92,11 +86,6 @@ BS =
 	# Réactualise la vue courante
 	refresh: ->
 		args = @currentView.id.split '.'
-		BS.load.apply(BS, args)
-				
-	# Revient une vue en arrière
-	back: ->
-		args = @lastView.id.split '.'
 		BS.load.apply(BS, args)
 	
 	#

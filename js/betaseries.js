@@ -18,11 +18,11 @@ menu = {
 
 BS = {
   currentView: null,
-  lastView: null,
   load: function() {
     var args, forceRefresh, o, outdated, sameView, time, update, views_to_refresh, views_updated, _ref;
     args = Array.prototype.slice.call(arguments);
     o = BS[arguments[0]].apply(args.shift(), args);
+    sameView = o.id === this.currentView.id;
     this.currentView = o;
     BS.display();
     if (o.update) {
@@ -31,11 +31,9 @@ BS = {
       forceRefresh = (_ref = o.id, __indexOf.call(views_to_refresh, _ref) >= 0);
       views_updated = DB.get('views_updated');
       outdated = views_updated[o.id] != null ? time - views_updated[o.id] > 3600 : true;
-      sameView = this.lastView !== null && this.lastView.id === this.currentView.id;
       update = forceRefresh || outdated || sameView;
-      if (update) BS.update();
+      if (update) return BS.update();
     }
-    return this.lastView = o;
   },
   update: function() {
     var o, params;
@@ -68,11 +66,6 @@ BS = {
   refresh: function() {
     var args;
     args = this.currentView.id.split('.');
-    return BS.load.apply(BS, args);
-  },
-  back: function() {
-    var args;
-    args = this.lastView.id.split('.');
     return BS.load.apply(BS, args);
   },
   showsDisplay: function(url) {
