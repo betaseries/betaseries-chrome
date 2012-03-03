@@ -137,7 +137,7 @@ $(document).ready ->
 	## Marquer un épisode comme téléchargé ou pas
 	$('.downloaded').live
 		click: ->
-			view = BS.currentPage.name
+			view = BS.currentView.name
 			
 			if view is 'showsEpisodes'
 				img = $('.downloaded img')
@@ -173,7 +173,7 @@ $(document).ready ->
 		mouseenter: -> 
 			$(this).css 'cursor', 'pointer'
 			
-			view = BS.currentPage.name
+			view = BS.currentView.name
 			if view is 'showsEpisodes'
 				img = $('.downloaded img')
 			else if view is 'membersEpisodes'
@@ -185,7 +185,7 @@ $(document).ready ->
 		mouseleave: ->
 			$(this).css 'cursor', 'auto'
 			
-			view = BS.currentPage.name
+			view = BS.currentView.name
 			if view is 'showsEpisodes'
 				img = $('.downloaded img')
 			else if view is 'membersEpisodes'
@@ -197,7 +197,7 @@ $(document).ready ->
 	## Accéder à la liste des commentaires d'un épisode
 	$('.comments').live
 		click: ->
-			view = BS.currentPage.name
+			view = BS.currentView.name
 			
 			if view is 'showsEpisodes'
 				node = $(this).parent()
@@ -221,7 +221,7 @@ $(document).ready ->
 	## Accéder à la fiche d'un épisode
 	$('.num').live
 		click: ->
-			view = BS.currentPage.name
+			view = BS.currentView.name
 			
 			if view is 'membersEpisodes'
 				node = $(this).parent().parent()

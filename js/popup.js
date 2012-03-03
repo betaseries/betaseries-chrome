@@ -147,7 +147,7 @@ $(document).ready(function() {
   $('.downloaded').live({
     click: function() {
       var dlText, episode, img, newDlText, node, params, season, show, view;
-      view = BS.currentPage.name;
+      view = BS.currentView.name;
       if (view === 'showsEpisodes') {
         img = $('.downloaded img');
         node = $(this).parent();
@@ -182,7 +182,7 @@ $(document).ready(function() {
     mouseenter: function() {
       var img, view;
       $(this).css('cursor', 'pointer');
-      view = BS.currentPage.name;
+      view = BS.currentView.name;
       if (view === 'showsEpisodes') {
         img = $('.downloaded img');
       } else if (view === 'membersEpisodes') {
@@ -198,7 +198,7 @@ $(document).ready(function() {
     mouseleave: function() {
       var img, view;
       $(this).css('cursor', 'auto');
-      view = BS.currentPage.name;
+      view = BS.currentView.name;
       if (view === 'showsEpisodes') {
         img = $('.downloaded img');
       } else if (view === 'membersEpisodes') {
@@ -215,7 +215,7 @@ $(document).ready(function() {
   $('.comments').live({
     click: function() {
       var episode, node, season, show, showName, view;
-      view = BS.currentPage.name;
+      view = BS.currentView.name;
       if (view === 'showsEpisodes') {
         node = $(this).parent();
         season = node.attr('season');
@@ -241,7 +241,7 @@ $(document).ready(function() {
   $('.num').live({
     click: function() {
       var episode, node, season, url, view;
-      view = BS.currentPage.name;
+      view = BS.currentView.name;
       if (view === 'membersEpisodes') {
         node = $(this).parent().parent();
         url = node.parent().attr('id');
