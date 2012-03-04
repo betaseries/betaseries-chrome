@@ -139,10 +139,13 @@ BS =
 		url: "/shows/episodes/#{url}"
 		params: "&season=#{season}&episode=#{episode}"
 		root: 'seasons'
-		content: (data) ->
-			episode = data['0']['episodes']['0']
+		update: (data) ->
+			console.log data
+		content: ->
+			es = DB.get 'episodes.' + show
+			e = es[Fx.getNumber season, number]
 			
-			title = if DB.get 'options.display_global' then "##{episode.global} #{title}" else episode.title
+			title = if DB.get('options').display_global then "##{episode.global} #{title}" else episode.title
 			
 			if episode.screen?
 				output = '<img src="' + episode.screen + '" width="290" /><br />'
@@ -314,9 +317,9 @@ BS =
 				if e.global of episodes
 					episodes[e.global].comments = e.comments
 					# cas où on marque comme récupéré ou pas depuis le site
-					episodes[e.global].downloaded = e.downloaded
+					episodes[e.number].downloaded = e.downloaded
 				else
-					episodes[e.global] =
+					episodes[e.number] =
 						comments: e.comments
 						date: e.date
 						downloaded: e.downloaded is '1'

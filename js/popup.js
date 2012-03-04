@@ -146,13 +146,13 @@ $(document).ready(function() {
   });
   $('.downloaded').live({
     click: function() {
-      var downloaded, es, global, img, params, show;
+      var downloaded, es, img, number, params, show;
       img = $(this);
       show = img.attr('show');
-      global = img.attr('global');
+      number = img.attr('number');
       es = DB.get('episodes.' + show);
-      downloaded = es[global].downloaded;
-      es[global].downloaded = !downloaded;
+      downloaded = es[number].downloaded;
+      es[number].downloaded = !downloaded;
       DB.set('episodes.' + show, es);
       if (downloaded) {
         img.attr('src', '../img/folder_add.png');
@@ -609,7 +609,7 @@ $(document).ready(function() {
   }).attr('title', __("options"));
   $('#logout').live('click', function() {
     ajax.post("/members/destroy", '', function() {
-      DB.removeAll;
+      DB.removeAll();
       DB.init();
       bgPage.badge.init();
       return BS.load('connection');

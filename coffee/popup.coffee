@@ -140,12 +140,12 @@ $(document).ready ->
 			# récupération des infos de l'épisode
 			img = $(this)
 			show = img.attr 'show'
-			global = img.attr 'global'
+			number = img.attr 'number'
 			
 			# mise à jour du cache
 			es = DB.get 'episodes.' + show
-			downloaded = es[global].downloaded
-			es[global].downloaded = !downloaded
+			downloaded = es[number].downloaded
+			es[number].downloaded = !downloaded
 			DB.set 'episodes.' + show, es
 			
 			# modification de l'icône
@@ -590,7 +590,7 @@ $(document).ready ->
 		.live 'click', -> 
 			ajax.post "/members/destroy", '',
 				->
-					DB.removeAll
+					DB.removeAll()
 					DB.init()
 					bgPage.badge.init()
 					BS.load('connection')

@@ -119,10 +119,14 @@ BS = {
       url: "/shows/episodes/" + url,
       params: "&season=" + season + "&episode=" + episode,
       root: 'seasons',
-      content: function(data) {
-        var imgDownloaded, n, nbr_subs, output, sub, texte3, title;
-        episode = data['0']['episodes']['0'];
-        title = DB.get('options.display_global') ? "#" + episode.global + " " + title : episode.title;
+      update: function(data) {
+        return console.log(data);
+      },
+      content: function() {
+        var e, es, imgDownloaded, n, nbr_subs, output, sub, texte3, title;
+        es = DB.get('episodes.' + show);
+        e = es[Fx.getNumber(season, number)];
+        title = DB.get('options').display_global ? "#" + episode.global + " " + title : episode.title;
         if (episode.screen != null) {
           output = '<img src="' + episode.screen + '" width="290" /><br />';
         }
@@ -292,9 +296,9 @@ BS = {
           episodes = DB.get('episodes.' + e.url, {});
           if (e.global in episodes) {
             episodes[e.global].comments = e.comments;
-            episodes[e.global].downloaded = e.downloaded;
+            episodes[e.number].downloaded = e.downloaded;
           } else {
-            episodes[e.global] = {
+            episodes[e.number] = {
               comments: e.comments,
               date: e.date,
               downloaded: e.downloaded === '1',

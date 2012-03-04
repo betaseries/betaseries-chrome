@@ -95,7 +95,7 @@ Content = {
     } else {
       output += empty;
     }
-    output += '	<img src="../img/' + imgDownloaded + '.png" class="downloaded" title="' + texte3 + '" show="' + e.url + '" global="' + e.global + '" /> ';
+    output += '	<img src="../img/' + imgDownloaded + '.png" class="downloaded" title="' + texte3 + '" show="' + e.url + '" number="' + e.number + '" /> ';
     if (nbSubs > 0) {
       output += '<img src="../img/srt.png" class="subs" link="' + url + '" quality="' + quality + '" title="' + __('srt_quality', [lang, quality]) + '" /> ';
     }
