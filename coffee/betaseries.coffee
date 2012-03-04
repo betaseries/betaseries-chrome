@@ -140,46 +140,60 @@ BS =
 		params: "&season=#{season}&episode=#{episode}"
 		root: 'seasons'
 		update: (data) ->
-			console.log data
+			e = data['0']['episodes']['0']
+			args = BS.currentView.id.split '.'
+			url = args[1]
+			season = args[2]
+			episode = args[3]
+			number = Fx.getNumber season, episode
+			es = DB.get 'episodes.' + url
+			es[number].comments = e.comments if e.comments?
+			es[number].description = e.description if e.description?
+			es[number].note = e.note if e.note?
+			es[number].screen = e.screen if e.screen?
+			es[number].subs = e.subs if e.subs?
+			DB.set 'episodes.' + url, es
 		content: ->
-			es = DB.get 'episodes.' + show
-			e = es[Fx.getNumber season, number]
+			args = BS.currentView.id.split '.'
+			url = args[1]
+			season = args[2]
+			episode = args[3]
+			es = DB.get 'episodes.' + url
+			e = es[Fx.getNumber season, episode]
 			
-			title = if DB.get('options').display_global then "##{episode.global} #{title}" else episode.title
+			title = if DB.get('options').display_global then "##{e.global} #{title}" else e.title
 			
-			if episode.screen?
-				output = '<img src="' + episode.screen + '" width="290" /><br />'
+			if e.screen?
+				output = '<img src="' + e.screen + '" width="290" /><br />'
 				
 			# wrapper start
-			output += "<div id=\"#{url}\" season=\"#{data['0']['number']}\" episode=\"#{episode.episode}\">"
+			output += "<div>"
 			
-			output += '<div class="showtitle">' + episode.show + '</div>'
-			output += "<div><span class=\"num\">[#{episode.number}]</span> #{episode.title}</div>"
-			output += '<div><span class="date">' + date('D d F', episode.date) + '</span></div>'
+			output += '<div class="showtitle">' + e.show + '</div>'
+			output += "<div><span class=\"num\">[#{e.number}]</span> #{e.title}</div>"
+			output += '<div><span class="date">' + date('D d F', e.date) + '</span></div>'
 			output += '<div style="height:4px;"></div>'
-			output += __('avg_note') + "#{episode.note.mean} (#{episode.note.members})<br />"
-			output += '<div style="height:54px; overflow:hidden">' + __('synopsis') + episode.description + '</div>'
+			output += __('avg_note') + "#{e.note.mean} (#{e.note.members})<br />" if e.note?
+			output += '<div style="height:54px; overflow:hidden">' + __('synopsis') + e.description + '</div>'
 			
 			output += '<div class="showtitle">' + __('subtitles') + '</div>'
 			nbr_subs = 0
-			for n of episode.subs
-				sub = episode.subs[n]
+			for n of e.subs
+				sub = e.subs[n]
 				output += '[' + sub.quality + '] ' + sub.language + ' <a href="" class="subs" title="' + sub.file + '" link="' + sub.url + '">' + Fx.subLast(sub.file, 20) + '</a> (' + sub.source + ')<br />'
 				nbr_subs++
 			output += __('no_subs') if nbr_subs is 0
 			
-			if episode.downloaded is '1'
+			if e.downloaded
 				imgDownloaded = "folder"
 				texte3 = __('mark_as_not_dl')
-			else if episode.downloaded is '0'
+			else
 				imgDownloaded = "folder_off"
 				texte3 = __('mark_as_dl')
 			
 			output += '<div class="showtitle">' + __('actions') + '</div>'
-			output += '<a href="" class="downloaded" onclick="return false;">'
-			output += '<img src="../img/' + imgDownloaded + '.png" class="icon2" /><span class="dlText">' + texte3 + '</span></a><br />'
-			output += '<a href="" class="comments" onclick="return false;">'
-			output += '<img src="../img/comment.png" class="icon2">' + __('see_comments', [episode.comments]) + '</a>'
+			output += '<img src="../img/' + imgDownloaded + '.png" class="downloaded" show="' + e.url + '" number="' + e.number + '" />'
+			output += '<img src="../img/comment.png" class="comments">';
 			
 			# wrapper end
 			output += '</div>'
@@ -332,7 +346,6 @@ BS =
 						url: e.url
 						seen: false
 				DB.set 'episodes.' + e.url, episodes
-					
 		content: ->
 			# récupération des épisodes non vus (cache)
 			data = {}

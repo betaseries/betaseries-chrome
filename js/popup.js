@@ -215,20 +215,12 @@ $(document).ready(function() {
   });
   $('.num').live({
     click: function() {
-      var episode, node, season, url, view;
-      view = BS.currentView.name;
-      if (view === 'membersEpisodes') {
-        node = $(this).parent().parent();
-        url = node.parent().attr('id');
-        season = node.attr('season');
-        episode = node.attr('episode');
-      }
-      if (view === 'planningMember') {
-        node = $(this).parent();
-        url = node.attr('url');
-        season = node.attr('season');
-        episode = node.attr('episode');
-      }
+      var episode, number, season, url;
+      url = $(this).attr('show');
+      number = $(this).attr('number');
+      number = Fx.splitNumber(number);
+      season = number.season;
+      episode = number.episode;
       return BS.load('showsEpisodes', url, season, episode);
     },
     mouseenter: function() {

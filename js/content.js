@@ -56,7 +56,7 @@ Content = {
       texte2 = __('mark_as_seen_pl');
     }
     output += '<div class="left">';
-    output += '<img src="../img/plot_red.gif" class="watched" title="' + texte2 + '" /> <span class="num">';
+    output += '<img src="../img/plot_red.gif" class="watched" title="' + texte2 + '" /> <span class="num" show="' + e.url + '" number="' + e.number + '">';
     output += '[' + e.number + ']</span> <span class="title"' + textTitle + '>' + Fx.subFirst(title, 20) + '</span>';
     if (newShow) output += ' <span class="new">' + __('new') + '</span>';
     output += '</div>';

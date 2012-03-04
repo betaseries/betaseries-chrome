@@ -92,5 +92,28 @@ Fx = {
   },
   getVersion: function() {
     return chrome.app.getDetails().version;
+  },
+  getNumber: function(season, episode) {
+    var number;
+    number = 'S';
+    if (season.length === 1) number += '0';
+    number += season;
+    number += 'E';
+    if (episode.length === 1) number += '0';
+    number += episode;
+    return number;
+  },
+  splitNumber: function(number) {
+    var episode, season;
+    season = '';
+    if (number[1] !== 0) season += number[1];
+    season += number[2];
+    episode = '';
+    if (number[4] !== 0) episode += number[4];
+    episode += number[5];
+    return {
+      season: parseInt(season),
+      episode: parseInt(episode)
+    };
   }
 };

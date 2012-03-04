@@ -83,3 +83,24 @@ Fx =
 	getVersion: ->
 		return chrome.app.getDetails().version
 		
+	##
+	getNumber: (season, episode) ->
+		number = 'S'
+		number += '0' if season.length == 1
+		number += season
+		number += 'E'
+		number += '0' if episode.length == 1
+		number += episode
+		return number
+	
+	##
+	splitNumber: (number) ->
+		season = ''
+		season += number[1] if number[1] isnt 0
+		season += number[2]
+		episode = ''
+		episode += number[4] if number[4] isnt 0
+		episode += number[5]
+		season: parseInt season
+		episode: parseInt episode
+		

@@ -198,19 +198,17 @@ $(document).ready ->
 	## Accéder à la fiche d'un épisode
 	$('.num').live
 		click: ->
-			view = BS.currentView.name
+			url = $(this).attr 'show'
+			number = $(this).attr 'number'
+			number = Fx.splitNumber number
+			season = number.season
+			episode = number.episode
 			
-			if view is 'membersEpisodes'
-				node = $(this).parent().parent()
-				url = node.parent().attr 'id'
-				season = node.attr 'season'
-				episode = node.attr 'episode'
-			
-			if view is 'planningMember'
-				node = $(this).parent()
-				url = node.attr 'url'
-				season = node.attr 'season'
-				episode = node.attr 'episode'
+			#if view is 'planningMember'
+			#	node = $(this).parent()
+			#	url = node.attr 'url'
+			#	season = node.attr 'season'
+			#	episode = node.attr 'episode'
 			
 			BS.load('showsEpisodes', url, season, episode)
 
