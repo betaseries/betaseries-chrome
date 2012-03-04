@@ -159,7 +159,7 @@ $(document).ready(function() {
       } else {
         img.attr('src', '../img/folder_delete.png');
       }
-      params = "&season=" + es[global].season + "&episode=" + es[global].episode;
+      params = "&season=" + es[number].season + "&episode=" + es[number].episode;
       return ajax.post("/members/downloaded/" + show, params, null, function() {
         return registerAction("/members/downloaded/" + show, params);
       });

@@ -155,7 +155,7 @@ $(document).ready ->
 				img.attr 'src', '../img/folder_delete.png'
 			
 			# envoi de la requête
-			params = "&season=" + es[global].season + "&episode=" + es[global].episode
+			params = "&season=" + es[number].season + "&episode=" + es[number].episode
 			ajax.post "/members/downloaded/" + show, params, null,
 				-> registerAction "/members/downloaded/" + show, params
 			
