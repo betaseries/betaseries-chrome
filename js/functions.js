@@ -58,7 +58,7 @@ Fx = {
         views_updated.splice(date, 1);
       }
     }
-    views_to_refresh = JSON.parse(DB.get('views_to_refresh'));
+    views_to_refresh = DB.get('views_to_refresh');
     _results = [];
     for (view in views_to_refresh) {
       j = views_to_refresh[view];

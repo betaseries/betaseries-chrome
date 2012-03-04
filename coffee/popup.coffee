@@ -455,7 +455,7 @@ $(document).ready ->
 			
 			# Gestion où la série est minimisée
 			showName = $(show).attr 'id'
-			hidden_shows = JSON.parse DB.get 'hidden_shows'
+			hidden_shows = DB.get 'hidden_shows'
 			hiddenShow = showName in hidden_shows
 			if hiddenShow
 				$(show).find('.toggleShow').trigger 'click'
@@ -463,7 +463,7 @@ $(document).ready ->
 			
 			hiddens.slideToggle()
 			
-			extra_episodes = JSON.parse DB.get 'extra_episodes'
+			extra_episodes = DB.get 'extra_episodes'
 			extraEpisodes = showName in extra_episodes
 			if extraEpisodes
 				$(this).find('.labelRemain').text __('show_episodes')
@@ -477,7 +477,7 @@ $(document).ready ->
 			else
 				extra_episodes.splice extra_episodes.indexOf showName, 1
 			
-			DB.set 'extra_episodes', JSON.stringify extra_episodes
+			DB.set 'extra_episodes', extra_episodes
 					
 			Fx.updateHeight()
 			return false
@@ -523,10 +523,10 @@ $(document).ready ->
 		click: ->
 			show = $(this).parent().parent().parent()
 			showName = $(show).attr 'id'
-			nbr_episodes_per_serie = JSON.parse DB.get 'options.nbr_episodes_per_serie'
-			hidden_shows = JSON.parse DB.get 'hidden_shows'
+			nbr_episodes_per_serie = DB.get 'options.nbr_episodes_per_serie'
+			hidden_shows = DB.get 'hidden_shows'
 			hiddenShow = showName in hidden_shows
-			extra_episodes = JSON.parse DB.get 'extra_episodes'
+			extra_episodes = DB.get 'extra_episodes'
 			extraEpisodes = showName in extra_episodes
 			nb_hiddens = $(show).find('div.episode.hidden').length
 			nb_episodes = $(show).find('div.episode').length
@@ -577,7 +577,7 @@ $(document).ready ->
 				hidden_shows.splice (hidden_shows.indexOf showName), 1
 				$(this).attr 'src', '../img/arrow_down.gif'
 			
-			DB.set 'hidden_shows', JSON.stringify hidden_shows
+			DB.set 'hidden_shows', hidden_shows
 			
 			Fx.updateHeight()
 			
@@ -595,11 +595,11 @@ $(document).ready ->
 	
 	## MENU actions
 	$('#back').click ->
-			historic = JSON.parse DB.get 'historic'
+			historic = DB.get 'historic'
 			if (length = historic.length) >= 2
 				historic.pop()
 				BS.back()
-				DB.set 'historic', JSON.stringify historic
+				DB.set 'historic', historic
 				$(this).hide() if length is 2
 			return false
 		.attr 'title', __("back")

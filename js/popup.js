@@ -475,14 +475,14 @@ $(document).ready(function() {
       show = $(this).parent().parent().parent();
       hiddens = show.find('div.episode.hidden');
       showName = $(show).attr('id');
-      hidden_shows = JSON.parse(DB.get('hidden_shows'));
+      hidden_shows = DB.get('hidden_shows');
       hiddenShow = __indexOf.call(hidden_shows, showName) >= 0;
       if (hiddenShow) {
         $(show).find('.toggleShow').trigger('click');
         return false;
       }
       hiddens.slideToggle();
-      extra_episodes = JSON.parse(DB.get('extra_episodes'));
+      extra_episodes = DB.get('extra_episodes');
       extraEpisodes = __indexOf.call(extra_episodes, showName) >= 0;
       if (extraEpisodes) {
         $(this).find('.labelRemain').text(__('show_episodes'));
@@ -496,7 +496,7 @@ $(document).ready(function() {
       } else {
         extra_episodes.splice(extra_episodes.indexOf(showName, 1));
       }
-      DB.set('extra_episodes', JSON.stringify(extra_episodes));
+      DB.set('extra_episodes', extra_episodes);
       Fx.updateHeight();
       return false;
     },
@@ -546,10 +546,10 @@ $(document).ready(function() {
       var extraEpisodes, extra_episodes, hiddenShow, hidden_shows, imgSrc, labelRemainText, nb_episodes, nb_hiddens, nbr_episodes_per_serie, remain, show, showName, toggleEpisodes;
       show = $(this).parent().parent().parent();
       showName = $(show).attr('id');
-      nbr_episodes_per_serie = JSON.parse(DB.get('options.nbr_episodes_per_serie'));
-      hidden_shows = JSON.parse(DB.get('hidden_shows'));
+      nbr_episodes_per_serie = DB.get('options.nbr_episodes_per_serie');
+      hidden_shows = DB.get('hidden_shows');
       hiddenShow = __indexOf.call(hidden_shows, showName) >= 0;
-      extra_episodes = JSON.parse(DB.get('extra_episodes'));
+      extra_episodes = DB.get('extra_episodes');
       extraEpisodes = __indexOf.call(extra_episodes, showName) >= 0;
       nb_hiddens = $(show).find('div.episode.hidden').length;
       nb_episodes = $(show).find('div.episode').length;
@@ -598,7 +598,7 @@ $(document).ready(function() {
         hidden_shows.splice(hidden_shows.indexOf(showName), 1);
         $(this).attr('src', '../img/arrow_down.gif');
       }
-      DB.set('hidden_shows', JSON.stringify(hidden_shows));
+      DB.set('hidden_shows', hidden_shows);
       return Fx.updateHeight();
     },
     mouseenter: function() {
@@ -616,11 +616,11 @@ $(document).ready(function() {
   }).attr('title', __("version"));
   $('#back').click(function() {
     var historic, length;
-    historic = JSON.parse(DB.get('historic'));
+    historic = DB.get('historic');
     if ((length = historic.length) >= 2) {
       historic.pop();
       BS.back();
-      DB.set('historic', JSON.stringify(historic));
+      DB.set('historic', historic);
       if (length === 2) $(this).hide();
     }
     return false;

@@ -53,7 +53,7 @@ Fx =
 				DB.remove 'update.' + suffix
 				views_updated.splice date, 1
 				
-		views_to_refresh = JSON.parse DB.get 'views_to_refresh'
+		views_to_refresh = DB.get 'views_to_refresh'
 		for view, j of views_to_refresh
 			if view in localStorage
 				views_to_refresh.splice j, 1
