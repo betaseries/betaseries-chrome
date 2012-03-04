@@ -51,7 +51,7 @@ BS = {
         views_to_refresh.splice(views_to_refresh.indexOf(o.id), 1);
         DB.set('views_to_refresh', views_to_refresh);
       }
-      o.update(tab);
+      o.update(cache);
       return BS.display();
     });
   },
@@ -297,13 +297,14 @@ BS = {
             episodes[e.global] = {
               comments: e.comments,
               date: e.date,
-              downloaded: e.downloaded,
+              downloaded: e.downloaded === '1',
               episode: e.episode,
               global: e.global,
               number: e.number,
               season: e.season,
               title: e.title,
               show: e.show,
+              url: e.url,
               seen: false
             };
           }

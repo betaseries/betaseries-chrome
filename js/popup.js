@@ -146,48 +146,28 @@ $(document).ready(function() {
   });
   $('.downloaded').live({
     click: function() {
-      var dlText, episode, img, newDlText, node, params, season, show, view;
-      view = BS.currentView.name;
-      if (view === 'showsEpisodes') {
-        img = $('.downloaded img');
-        node = $(this).parent();
-        season = node.attr('season');
-        episode = node.attr('episode');
-        show = node.attr('id');
-      } else if (view === 'membersEpisodes') {
-        img = $(this);
-        node = $(this).parent().parent();
-        season = node.attr('season');
-        episode = node.attr('episode');
-        show = node.parent().attr('id');
-      }
-      params = "&season=" + season + "&episode=" + episode;
-      if (img.attr('src') === '../img/folder_delete.png') {
+      var downloaded, es, global, img, params, show;
+      img = $(this);
+      show = img.attr('show');
+      global = img.attr('global');
+      es = DB.get('episodes.' + show);
+      downloaded = es[global].downloaded;
+      es[global].downloaded = !downloaded;
+      DB.set('episodes.' + show, es);
+      if (downloaded) {
         img.attr('src', '../img/folder_add.png');
-      } else if (img.attr('src') === '../img/folder_add.png') {
+      } else {
         img.attr('src', '../img/folder_delete.png');
       }
-      if (view === 'showsEpisodes') {
-        dlText = $(this).find('.dlText').text();
-        newDlText = dlText === __('mark_as_dl') ? __('mark_as_not_dl') : __('mark_as_dl');
-        $(this).find('.dlText').text(newDlText);
-      }
-      return ajax.post("/members/downloaded/" + show, params, function() {
-        Fx.toRefresh('membersEpisodes.all');
-        return Fx.toRefresh('showsEpisodes.' + show + '.' + season + '.' + episode);
-      }, function() {
+      params = "&season=" + es[global].season + "&episode=" + es[global].episode;
+      return ajax.post("/members/downloaded/" + show, params, null, function() {
         return registerAction("/members/downloaded/" + show, params);
       });
     },
     mouseenter: function() {
-      var img, view;
-      $(this).css('cursor', 'pointer');
-      view = BS.currentView.name;
-      if (view === 'showsEpisodes') {
-        img = $('.downloaded img');
-      } else if (view === 'membersEpisodes') {
-        img = $(this);
-      }
+      var img;
+      img = $(this);
+      img.css('cursor', 'pointer');
       if (img.attr('src') === '../img/folder_off.png') {
         img.attr('src', '../img/folder_add.png');
       }
@@ -196,14 +176,9 @@ $(document).ready(function() {
       }
     },
     mouseleave: function() {
-      var img, view;
-      $(this).css('cursor', 'auto');
-      view = BS.currentView.name;
-      if (view === 'showsEpisodes') {
-        img = $('.downloaded img');
-      } else if (view === 'membersEpisodes') {
-        img = $(this);
-      }
+      var img;
+      img = $(this);
+      img.css('cursor', 'auto');
       if (img.attr('src') === '../img/folder_add.png') {
         img.attr('src', '../img/folder_off.png');
       }

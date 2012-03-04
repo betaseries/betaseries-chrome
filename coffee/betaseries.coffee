@@ -69,7 +69,7 @@ BS =
 					DB.set 'views_to_refresh', views_to_refresh
 					
 				# mise à jour du cache
-				o.update(tab)
+				o.update(cache)
 				
 				# affichage de la vue courante (cache)
 				BS.display()
@@ -319,13 +319,14 @@ BS =
 					episodes[e.global] =
 						comments: e.comments
 						date: e.date
-						downloaded: e.downloaded
+						downloaded: e.downloaded is '1'
 						episode: e.episode
 						global: e.global
 						number: e.number
 						season: e.season
 						title: e.title
 						show: e.show
+						url: e.url
 						seen: false
 				DB.set 'episodes.' + e.url, episodes
 					

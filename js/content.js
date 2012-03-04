@@ -31,7 +31,7 @@ Content = {
     return output;
   },
   episode: function(e, s, j) {
-    var classes, date_0, dlSrtLanguage, downloaded, empty, hidden, imgDownloaded, jours, lang, nbSubs, nbrEpisodesPerSerie, newShow, output, quality, sub, subs, textTitle, texte2, texte3, time, title, url;
+    var classes, date_0, dlSrtLanguage, empty, hidden, imgDownloaded, jours, lang, nbSubs, nbrEpisodesPerSerie, newShow, output, quality, sub, subs, textTitle, texte2, texte3, time, title, url;
     output = '';
     nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie;
     time = Math.floor(new Date().getTime() / 1000);
@@ -81,15 +81,12 @@ Content = {
       }
     }
     quality = Math.floor((quality + 1) / 2);
-    if (e.downloaded !== -1) {
-      downloaded = e.downloaded === '1';
-      if (downloaded) {
-        imgDownloaded = "folder";
-        texte3 = __('mark_as_not_dl');
-      } else {
-        imgDownloaded = "folder_off";
-        texte3 = __('mark_as_dl');
-      }
+    if (e.downloaded) {
+      imgDownloaded = "folder";
+      texte3 = __('mark_as_not_dl');
+    } else {
+      imgDownloaded = "folder_off";
+      texte3 = __('mark_as_dl');
     }
     output += '<div class="right">';
     empty = '<img src="../img/empty.png" alt="hidden" /> ';
@@ -98,11 +95,7 @@ Content = {
     } else {
       output += empty;
     }
-    if (e.downloaded !== -1) {
-      output += '<img src="../img/' + imgDownloaded + '.png" class="downloaded" title="' + texte3 + '" /> ';
-    } else {
-      output += empty;
-    }
+    output += '	<img src="../img/' + imgDownloaded + '.png" class="downloaded" title="' + texte3 + '" show="' + e.url + '" global="' + e.global + '" /> ';
     if (nbSubs > 0) {
       output += '<img src="../img/srt.png" class="subs" link="' + url + '" quality="' + quality + '" title="' + __('srt_quality', [lang, quality]) + '" /> ';
     }

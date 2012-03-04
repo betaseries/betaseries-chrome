@@ -108,14 +108,12 @@ Content =
 				nbSubs++
 		
 		quality = Math.floor (quality + 1) / 2
-		if e.downloaded isnt -1
-			downloaded = e.downloaded is '1'
-			if downloaded
-				imgDownloaded = "folder"
-				texte3 = __('mark_as_not_dl')
-			else
-				imgDownloaded = "folder_off"
-				texte3 = __('mark_as_dl')
+		if e.downloaded
+			imgDownloaded = "folder"
+			texte3 = __('mark_as_not_dl')
+		else
+			imgDownloaded = "folder_off"
+			texte3 = __('mark_as_dl')
 		
 		output += '<div class="right">'
 		empty = '<img src="../img/empty.png" alt="hidden" /> '
@@ -123,10 +121,9 @@ Content =
 			output += '<img src="../img/comment.png" class="comments" title="' + __('nbr_comments', [e.comments]) + '" /> '
 		else 
 			output += empty
-		if e.downloaded isnt -1
-			output += '<img src="../img/' + imgDownloaded + '.png" class="downloaded" title="' + texte3 + '" /> '
-		else 
-			output += empty
+		
+		output += '	<img src="../img/' + imgDownloaded + '.png" class="downloaded" title="' + texte3 + '" show="' + e.url + '" global="' + e.global + '" /> '
+		
 		if nbSubs > 0
 			output += '<img src="../img/srt.png" class="subs" link="' + url + '" quality="' + quality + '" title="' + __('srt_quality', [lang, quality]) + '" /> '
 		output += '</div>'

@@ -137,60 +137,37 @@ $(document).ready ->
 	## Marquer un épisode comme téléchargé ou pas
 	$('.downloaded').live
 		click: ->
-			view = BS.currentView.name
+			# récupération des infos de l'épisode
+			img = $(this)
+			show = img.attr 'show'
+			global = img.attr 'global'
 			
-			if view is 'showsEpisodes'
-				img = $('.downloaded img')
-				node = $(this).parent()
-				season = node.attr 'season'
-				episode = node.attr 'episode'
-				show = node.attr 'id'
-			else if view is 'membersEpisodes'
-				img = $(this)
-				node = $(this).parent().parent()
-				season = node.attr 'season'
-				episode = node.attr 'episode'
-				show = node.parent().attr 'id'
+			# mise à jour du cache
+			es = DB.get 'episodes.' + show
+			downloaded = es[global].downloaded
+			es[global].downloaded = !downloaded
+			DB.set 'episodes.' + show, es
 			
-			params = "&season=" + season + "&episode=" + episode
+			# modification de l'icône
+			if downloaded
+				img.attr 'src', '../img/folder_add.png'
+			else 
+				img.attr 'src', '../img/folder_delete.png'
 			
-			# On rend tout de suite visible le changement
-			if img.attr('src') is '../img/folder_delete.png' then img.attr 'src', '../img/folder_add.png'
-			else if img.attr('src') is '../img/folder_add.png' then img.attr 'src', '../img/folder_delete.png'
-			
-			if view is 'showsEpisodes'
-				dlText = $(this).find('.dlText').text()
-				newDlText = if dlText is __('mark_as_dl') then __('mark_as_not_dl') else __('mark_as_dl')
-				$(this).find('.dlText').text newDlText
-				
-			ajax.post "/members/downloaded/" + show, params, 
-				-> 
-					Fx.toRefresh 'membersEpisodes.all'
-					Fx.toRefresh 'showsEpisodes.' + show + '.' + season + '.' + episode
-				-> 
-					registerAction "/members/downloaded/" + show, params
+			# envoi de la requête
+			params = "&season=" + es[global].season + "&episode=" + es[global].episode
+			ajax.post "/members/downloaded/" + show, params, null,
+				-> registerAction "/members/downloaded/" + show, params
 			
 		mouseenter: -> 
-			$(this).css 'cursor', 'pointer'
-			
-			view = BS.currentView.name
-			if view is 'showsEpisodes'
-				img = $('.downloaded img')
-			else if view is 'membersEpisodes'
-				img = $(this)
-			
+			img = $(this)
+			img.css 'cursor', 'pointer'
 			if img.attr('src') is '../img/folder_off.png' then img.attr 'src', '../img/folder_add.png'
 			if img.attr('src') is '../img/folder.png' then img.attr 'src', '../img/folder_delete.png'
 		
 		mouseleave: ->
-			$(this).css 'cursor', 'auto'
-			
-			view = BS.currentView.name
-			if view is 'showsEpisodes'
-				img = $('.downloaded img')
-			else if view is 'membersEpisodes'
-				img = $(this)
-			
+			img = $(this)
+			img.css 'cursor', 'auto'
 			if img.attr('src') is '../img/folder_add.png' then img.attr 'src', '../img/folder_off.png'
 			if img.attr('src') is '../img/folder_delete.png' then img.attr 'src', '../img/folder.png'
 	
