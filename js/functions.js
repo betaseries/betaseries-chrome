@@ -95,11 +95,12 @@ Fx = {
   },
   getNumber: function(season, episode) {
     var number;
+    console.log(season);
     number = 'S';
-    if (season.length === 1) number += '0';
+    if (season <= 9) number += '0';
     number += season;
     number += 'E';
-    if (episode.length === 1) number += '0';
+    if (episode <= 9) number += '0';
     number += episode;
     return number;
   },

@@ -119,30 +119,23 @@ BS = {
       url: "/shows/episodes/" + url,
       params: "&season=" + season + "&episode=" + episode,
       root: 'seasons',
+      episodes: DB.get('episodes.' + url),
+      number: Fx.getNumber(season, episode),
       update: function(data) {
-        var args, e, es, number;
+        var e;
         e = data['0']['episodes']['0'];
-        args = BS.currentView.id.split('.');
-        url = args[1];
-        season = args[2];
-        episode = args[3];
-        number = Fx.getNumber(season, episode);
-        es = DB.get('episodes.' + url);
-        if (e.comments != null) es[number].comments = e.comments;
-        if (e.description != null) es[number].description = e.description;
-        if (e.note != null) es[number].note = e.note;
-        if (e.screen != null) es[number].screen = e.screen;
-        if (e.subs != null) es[number].subs = e.subs;
-        return DB.set('episodes.' + url, es);
+        if (e.comments != null) this.episodes[this.number].comments = e.comments;
+        if (e.description != null) {
+          this.episodes[this.number].description = e.description;
+        }
+        if (e.note != null) this.episodes[this.number].note = e.note;
+        if (e.screen != null) this.episodes[this.number].screen = e.screen;
+        if (e.subs != null) this.episodes[this.number].subs = e.subs;
+        return DB.set('episodes.' + url, this.episodes);
       },
       content: function() {
-        var args, e, es, imgDownloaded, n, nbr_subs, output, sub, texte3, title;
-        args = BS.currentView.id.split('.');
-        url = args[1];
-        season = args[2];
-        episode = args[3];
-        es = DB.get('episodes.' + url);
-        e = es[Fx.getNumber(season, episode)];
+        var e, imgDownloaded, n, nbr_subs, output, sub, texte3, title;
+        e = this.episodes[this.number];
         title = DB.get('options').display_global ? "#" + e.global + " " + title : e.title;
         if (e.screen != null) {
           output = '<img src="' + e.screen + '" width="290" /><br />';

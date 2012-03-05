@@ -139,33 +139,24 @@ BS =
 		url: "/shows/episodes/#{url}"
 		params: "&season=#{season}&episode=#{episode}"
 		root: 'seasons'
+		episodes: DB.get 'episodes.' + url
+		number: Fx.getNumber season, episode
 		update: (data) ->
 			e = data['0']['episodes']['0']
-			args = BS.currentView.id.split '.'
-			url = args[1]
-			season = args[2]
-			episode = args[3]
-			number = Fx.getNumber season, episode
-			es = DB.get 'episodes.' + url
-			es[number].comments = e.comments if e.comments?
-			es[number].description = e.description if e.description?
-			es[number].note = e.note if e.note?
-			es[number].screen = e.screen if e.screen?
-			es[number].subs = e.subs if e.subs?
-			DB.set 'episodes.' + url, es
+			@episodes[@number].comments = e.comments if e.comments?
+			@episodes[@number].description = e.description if e.description?
+			@episodes[@number].note = e.note if e.note?
+			@episodes[@number].screen = e.screen if e.screen?
+			@episodes[@number].subs = e.subs if e.subs?
+			DB.set 'episodes.' + url, @episodes
 		content: ->
-			args = BS.currentView.id.split '.'
-			url = args[1]
-			season = args[2]
-			episode = args[3]
-			es = DB.get 'episodes.' + url
-			e = es[Fx.getNumber season, episode]
+			e = @episodes[@number]
 			
 			title = if DB.get('options').display_global then "##{e.global} #{title}" else e.title
 			
 			if e.screen?
 				output = '<img src="' + e.screen + '" width="290" /><br />'
-				
+			
 			# wrapper start
 			output += "<div>"
 			
