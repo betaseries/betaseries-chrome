@@ -24,7 +24,7 @@ BS = {
     o = BS[arguments[0]].apply(args.shift(), args);
     sameView = (this.currentView != null) && o.id === this.currentView.id;
     this.currentView = o;
-    BS.display();
+    if (!sameView) BS.display();
     if (o.update) {
       time = Math.floor(new Date().getTime() / 1000);
       views_to_refresh = DB.get('views_to_refresh');

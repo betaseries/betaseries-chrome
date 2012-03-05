@@ -24,7 +24,7 @@ BS =
 		@currentView = o;
 		
 		# affichage de la vue (cache)
-		BS.display()
+		BS.display() if !sameView
 		
 		if o.update
 			# heure actuelle à la seconde près
