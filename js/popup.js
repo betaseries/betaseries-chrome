@@ -3,6 +3,18 @@ var __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = 
 $(document).ready(function() {
   var badgeType, bgPage, message, registerAction;
   bgPage = chrome.extension.getBackgroundPage();
+  $('*[title]').live({
+    mouseenter: function() {
+      var title;
+      title = $(this).attr('title');
+      $('#help').show();
+      return $('#help-text').html(title);
+    },
+    mouseleave: function() {
+      $('#help').hide();
+      return $('#help-text').html('');
+    }
+  });
   $('.watched').live({
     click: function() {
       var cleanEpisode, content, enable_ratings, episode, i, n, next, node, nodeRight, nodeShow, params, season, show;
@@ -27,7 +39,7 @@ $(document).ready(function() {
       next = node.next();
       while (node.hasClass('episode')) {
         if (enable_ratings === 'true') {
-          $(node).find('.watched').attr('src', '../img/plot_orange.gif');
+          $(node).find('.watched').attr('src', '../img/plot_off.png');
           $(node).find('.watched').removeClass('watched');
           nodeRight = $(node).find('.right');
           content = "";
@@ -122,11 +134,10 @@ $(document).ready(function() {
     mouseenter: function() {
       var node, _results;
       $(this).css('cursor', 'pointer');
-      $(this).attr('src', '../img/plot_green.gif');
       node = $(this).parent().parent().prev();
       _results = [];
       while (node.hasClass('episode')) {
-        node.find('.watched').attr('src', '../img/plot_green.gif');
+        node.find('.watched').css('opacity', 1);
         _results.push(node = node.prev());
       }
       return _results;
@@ -134,11 +145,10 @@ $(document).ready(function() {
     mouseleave: function() {
       var node, _results;
       $(this).css('cursor', 'auto');
-      $(this).attr('src', '../img/plot_red.gif');
       node = $(this).parent().parent().prev();
       _results = [];
       while (node.hasClass('episode')) {
-        node.find('.watched').attr('src', '../img/plot_red.gif');
+        node.find('.watched').css('opacity', 0.5);
         _results.push(node = node.prev());
       }
       return _results;
@@ -155,9 +165,9 @@ $(document).ready(function() {
       es[number].downloaded = !downloaded;
       DB.set('episodes.' + show, es);
       if (downloaded) {
-        img.attr('src', '../img/folder_add.png');
+        img.attr('src', '../img/folder_off.png');
       } else {
-        img.attr('src', '../img/folder_delete.png');
+        img.attr('src', '../img/folder.png');
       }
       params = "&season=" + es[number].season + "&episode=" + es[number].episode;
       return ajax.post("/members/downloaded/" + show, params, null, function() {
@@ -165,26 +175,10 @@ $(document).ready(function() {
       });
     },
     mouseenter: function() {
-      var img;
-      img = $(this);
-      img.css('cursor', 'pointer');
-      if (img.attr('src') === '../img/folder_off.png') {
-        img.attr('src', '../img/folder_add.png');
-      }
-      if (img.attr('src') === '../img/folder.png') {
-        return img.attr('src', '../img/folder_delete.png');
-      }
+      return $(this).css('cursor', 'pointer');
     },
     mouseleave: function() {
-      var img;
-      img = $(this);
-      img.css('cursor', 'auto');
-      if (img.attr('src') === '../img/folder_add.png') {
-        img.attr('src', '../img/folder_off.png');
-      }
-      if (img.attr('src') === '../img/folder_delete.png') {
-        return img.attr('src', '../img/folder.png');
-      }
+      return $(this).css('cursor', 'auto');
     }
   });
   $('.comments').live({
@@ -238,10 +232,8 @@ $(document).ready(function() {
       return false;
     },
     mouseenter: function() {
-      var quality;
       $(this).css('cursor', 'pointer');
-      quality = $(this).attr('quality');
-      return $(this).attr('src', '../img/dl_' + quality + '.png');
+      return $(this).attr('src', '../img/dl.png');
     },
     mouseleave: function() {
       $(this).attr('src', '../img/srt.png');

@@ -2,6 +2,15 @@ $(document).ready ->
 
 	bgPage = chrome.extension.getBackgroundPage()
 	
+	$('*[title]').live
+		mouseenter: ->
+			title = $(this).attr 'title'
+			$('#help').show()
+			$('#help-text').html title
+		mouseleave: ->
+			$('#help').hide()
+			$('#help-text').html ''
+	
 	## Marquer un ou des épisodes comme vu(s)
 	$('.watched').live
 		click: -> 
@@ -35,7 +44,7 @@ $(document).ready ->
 			while node.hasClass 'episode'
 				# Notation d'un épisode
 				if enable_ratings is 'true'
-					$(node).find('.watched').attr 'src', '../img/plot_orange.gif'
+					$(node).find('.watched').attr 'src', '../img/plot_off.png'
 					$(node).find('.watched').removeClass 'watched'
 					nodeRight = $(node).find '.right'
 					content = ""
@@ -120,18 +129,16 @@ $(document).ready ->
 		
 		mouseenter: ->
 			$(this).css 'cursor', 'pointer'
-			$(this).attr 'src', '../img/plot_green.gif'
 			node = $(this).parent().parent().prev()
 			while node.hasClass 'episode'
-				node.find('.watched').attr 'src', '../img/plot_green.gif'
+				node.find('.watched').css 'opacity', 1
 				node = node.prev()
 			
 		mouseleave: ->
 			$(this).css 'cursor', 'auto'
-			$(this).attr 'src', '../img/plot_red.gif'
 			node = $(this).parent().parent().prev()
 			while node.hasClass 'episode'
-				node.find('.watched').attr 'src', '../img/plot_red.gif'
+				node.find('.watched').css 'opacity', 0.5
 				node = node.prev()
 	
 	## Marquer un épisode comme téléchargé ou pas
@@ -150,9 +157,9 @@ $(document).ready ->
 			
 			# modification de l'icône
 			if downloaded
-				img.attr 'src', '../img/folder_add.png'
+				img.attr 'src', '../img/folder_off.png'
 			else 
-				img.attr 'src', '../img/folder_delete.png'
+				img.attr 'src', '../img/folder.png'
 			
 			# envoi de la requête
 			params = "&season=" + es[number].season + "&episode=" + es[number].episode
@@ -160,17 +167,11 @@ $(document).ready ->
 				-> registerAction "/members/downloaded/" + show, params
 			
 		mouseenter: -> 
-			img = $(this)
-			img.css 'cursor', 'pointer'
-			if img.attr('src') is '../img/folder_off.png' then img.attr 'src', '../img/folder_add.png'
-			if img.attr('src') is '../img/folder.png' then img.attr 'src', '../img/folder_delete.png'
+			$(this).css 'cursor', 'pointer'
 		
 		mouseleave: ->
-			img = $(this)
-			img.css 'cursor', 'auto'
-			if img.attr('src') is '../img/folder_add.png' then img.attr 'src', '../img/folder_off.png'
-			if img.attr('src') is '../img/folder_delete.png' then img.attr 'src', '../img/folder.png'
-	
+			$(this).css 'cursor', 'auto'
+			
 	## Accéder à la liste des commentaires d'un épisode
 	$('.comments').live
 		click: ->
@@ -228,8 +229,7 @@ $(document).ready ->
 		
 		mouseenter: ->
 			$(this).css 'cursor', 'pointer'
-			quality = $(this).attr 'quality'
-			$(this).attr 'src', '../img/dl_' + quality + '.png'
+			$(this).attr 'src', '../img/dl.png'
 		
 		mouseleave: ->
 			$(this).attr 'src', '../img/srt.png'

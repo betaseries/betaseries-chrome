@@ -95,7 +95,6 @@ Fx = {
   },
   getNumber: function(season, episode) {
     var number;
-    console.log(season);
     number = 'S';
     if (season <= 9) number += '0';
     number += season;

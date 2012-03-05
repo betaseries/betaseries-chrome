@@ -82,7 +82,7 @@ Content =
 		else if j + 1 > 1
 			texte2 = __('mark_as_seen_pl')
 		output += '<div class="left">'
-		output += '<img src="../img/plot_red.gif" class="watched" title="' + texte2 + '" /> <span class="num" show="' + e.url + '" number="' + e.number + '">'
+		output += '<img src="../img/plot_off.png" class="watched action" title="' + texte2 + '" /> <span class="num" show="' + e.url + '" number="' + e.number + '">'
 		output += '[' + e.number + ']</span> <span class="title"' + textTitle + '>' + Fx.subFirst(title, 20) + '</span>'
 		if newShow 
 			output += ' <span class="new">' + __('new') + '</span>'
@@ -118,14 +118,14 @@ Content =
 		output += '<div class="right">'
 		empty = '<img src="../img/empty.png" alt="hidden" /> '
 		if e.comments > 0
-			output += '<img src="../img/comment.png" class="comments" title="' + __('nbr_comments', [e.comments]) + '" /> '
+			output += '<img src="../img/comment.png" class="comments action" title="' + __('nbr_comments', [e.comments]) + '" /> '
 		else 
 			output += empty
 		
-		output += '	<img src="../img/' + imgDownloaded + '.png" class="downloaded" title="' + texte3 + '" show="' + e.url + '" number="' + e.number + '" /> '
+		output += '	<img src="../img/' + imgDownloaded + '.png" class="downloaded action" title="' + texte3 + '" show="' + e.url + '" number="' + e.number + '" /> '
 		
 		if nbSubs > 0
-			output += '<img src="../img/srt.png" class="subs" link="' + url + '" quality="' + quality + '" title="' + __('srt_quality', [lang, quality]) + '" /> '
+			output += '<img src="../img/srt.png" class="subs action" link="' + url + '" quality="' + quality + '" title="' + __('srt_quality', [lang, quality]) + '" /> '
 		output += '</div>'
 			
 		# Clear

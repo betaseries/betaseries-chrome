@@ -1,6 +1,6 @@
 body {
-	font-size: 11px; width: 301px; margin: 0; color: #333;
-	font-family: "Lucida Grande", "Trebuchet MS", sans-serif;
+	font-size: 12px; width: 301px; margin: 0; color: #444;
+	font-family: Helvetica, Arial, "Trebuchet MS", sans-serif;
 }
 
 /*Links*/
@@ -14,13 +14,29 @@ a.showtitle:hover {color: #900;}
 .nano .pane .slider { background: #bbb; }
 
 /*Pannel*/
-div#pannel {padding-bottom: 3px; border-bottom: 1px solid #bbb;}
+#pannel {padding-bottom: 3px; border-bottom: 1px solid #bbb;}
+
+#about {
+	margin: 3px 0 3px 0;
+}
+
+/*Help*/
+#help-wrapper {
+	height: 14px;
+	padding-top: 3px;
+	border-top: 1px solid #BBB;
+	padding-left: 10px;
+}
+
+#help-text {
+	font-style: italic;
+	color: #999;
+	font-size: 10px;	
+}
 
 /*Logo*/
 div.showtitle {
 	border-bottom: 1px solid #dcdcdc;
-	font-weight: bold;
-	font-family: Helvetica, Arial, sans-serif;
 	text-transform: uppercase;
 	margin-top: 6px;
 	height: 12px;
@@ -43,8 +59,8 @@ img.archive:hover,img.unarchive:hover{cursor: pointer;}
 /*Actions*/
 #logo {float: left; width: 200px;}
 #actions {text-align: right; padding: 2px 3px 0 0;}
-#actions img.action {opacity: 0.5; cursor: pointer;}
-#actions img.action:hover {opacity: 1.0; cursor: pointer;}
+img.action {opacity: 0.5; cursor: pointer;}
+img.action:hover {opacity: 1.0; cursor: pointer;}
 
 #title {float: left; width: 160px; color: #aaa; font-variant: small-caps;}
 #menu {text-align:right;}
@@ -53,8 +69,8 @@ img.archive:hover,img.unarchive:hover{cursor: pointer;}
 
 /*membersEpisodes*/
 #page {width: 294px;}
-.episode {height: 18px; border-bottom: 1px solid #dcdcdc; padding: 3px 0 0 0;}
-.episode:hover {background-color: #eee;}
+.episode {height: 18px; border-bottom: 1px solid #eee; padding: 3px 0 0 0;}
+.episode:hover {background-color: #f5f5f5;}
 .episode.new {background-color: #fff3ee;}
 img.subs{cursor: pointer;}
 span.num {color: #1a4377;}
@@ -66,6 +82,7 @@ div#message {color: #900; margin: 3px 0 3px 0; text-align: center; background-co
 .membersEpisodes .right2{margin-left: 190px; width:100px; text-align:right;}
 span.toggleEpisodes {text-align: right; font-size: 9px; color: #666; margin-right: 5px; font-weight: normal;}
 div.clear{clear: both;}
+.watched {margin-bottom: -4px;}
 
 /*planningMember*/
 .planningMember .left{float:left; width:205px;}

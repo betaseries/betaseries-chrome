@@ -18,13 +18,11 @@ ajax = {
       data: "key=" + this.key + params + token,
       dataType: "json",
       success: function(data) {
-        $('#status').attr('src', '../img/plot_green.gif');
         $('#sync').hide();
         if (successCallback != null) return successCallback(data);
       },
       error: function() {
         $('#sync').hide();
-        $('#status').attr('src', '../img/plot_red.gif');
         if (errorCallback != null) return errorCallback();
       }
     });

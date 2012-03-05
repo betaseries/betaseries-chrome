@@ -22,10 +22,10 @@ ajax =
 			dataType: "json"
 			success: (data) ->
 				#console.log data
-				$('#status').attr 'src', '../img/plot_green.gif'
+				#$('#status').attr 'src', '../img/plot_green.gif'
 				$('#sync').hide()
 				successCallback data if successCallback?
 			error: ->
 				$('#sync').hide()
-				$('#status').attr 'src', '../img/plot_red.gif'
+				#$('#status').attr 'src', '../img/plot_red.gif'
 				errorCallback() if errorCallback?

@@ -152,15 +152,13 @@ BS =
 		content: ->
 			e = @episodes[@number]
 			
-			title = if DB.get('options').display_global then "##{e.global} #{title}" else e.title
-			
-			if e.screen?
-				output = '<img src="' + e.screen + '" width="290" /><br />'
+			title = if DB.get('options').display_global then '#' + e.global + ' ' + title else e.title
 			
 			# wrapper start
-			output += "<div>"
+			output = "<div>"
 			
 			output += '<div class="showtitle">' + e.show + '</div>'
+			output += '<img src="' + e.screen + '" style="width:100px; float:right; margin:3px;" />' if e.screen?
 			output += "<div><span class=\"num\">[#{e.number}]</span> #{e.title}</div>"
 			output += '<div><span class="date">' + date('D d F', e.date) + '</span></div>'
 			output += '<div style="height:4px;"></div>'
@@ -183,8 +181,8 @@ BS =
 				texte3 = __('mark_as_dl')
 			
 			output += '<div class="showtitle">' + __('actions') + '</div>'
+			output += '<img src="../img/comment.png" class="comments"> ';
 			output += '<img src="../img/' + imgDownloaded + '.png" class="downloaded" show="' + e.url + '" number="' + e.number + '" />'
-			output += '<img src="../img/comment.png" class="comments">';
 			
 			# wrapper end
 			output += '</div>'

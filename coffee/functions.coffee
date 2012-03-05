@@ -85,7 +85,6 @@ Fx =
 		
 	##
 	getNumber: (season, episode) ->
-		console.log season
 		number = 'S'
 		number += '0' if season <= 9
 		number += season

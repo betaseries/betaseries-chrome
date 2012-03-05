@@ -136,12 +136,12 @@ BS = {
       content: function() {
         var e, imgDownloaded, n, nbr_subs, output, sub, texte3, title;
         e = this.episodes[this.number];
-        title = DB.get('options').display_global ? "#" + e.global + " " + title : e.title;
-        if (e.screen != null) {
-          output = '<img src="' + e.screen + '" width="290" /><br />';
-        }
-        output += "<div>";
+        title = DB.get('options').display_global ? '#' + e.global + ' ' + title : e.title;
+        output = "<div>";
         output += '<div class="showtitle">' + e.show + '</div>';
+        if (e.screen != null) {
+          output += '<img src="' + e.screen + '" style="width:100px; float:right; margin:3px;" />';
+        }
         output += "<div><span class=\"num\">[" + e.number + "]</span> " + e.title + "</div>";
         output += '<div><span class="date">' + date('D d F', e.date) + '</span></div>';
         output += '<div style="height:4px;"></div>';
@@ -165,8 +165,8 @@ BS = {
           texte3 = __('mark_as_dl');
         }
         output += '<div class="showtitle">' + __('actions') + '</div>';
+        output += '<img src="../img/comment.png" class="comments"> ';
         output += '<img src="../img/' + imgDownloaded + '.png" class="downloaded" show="' + e.url + '" number="' + e.number + '" />';
-        output += '<img src="../img/comment.png" class="comments">';
         output += '</div>';
         return output;
       }
