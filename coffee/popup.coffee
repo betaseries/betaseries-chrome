@@ -607,6 +607,7 @@ $(document).ready ->
 	
 	## INIT
 	DB.init()
+	$('#versionLink').text Fx.getVersion()
 	if bgPage.connected()
 		#Fx.cleanCache()
 		badgeType = DB.get('badge').type
