@@ -63,9 +63,9 @@ img.action {opacity: 0.5; cursor: pointer;}
 img.action:hover {opacity: 1.0; cursor: pointer;}
 
 #title {float: left; width: 160px; color: #aaa; font-variant: small-caps;}
-#menu {text-align:right;}
-#menu img.action {opacity: 0.5; cursor: pointer;}
-#menu img.action:hover {opacity: 1.0; cursor: pointer;}
+#menu-wrapper {text-align:right; margin-right: 3px;}
+#menu-wrapper img.action {opacity: 0.5; cursor: pointer;}
+#menu-wrapper img.action:hover {opacity: 1.0; cursor: pointer;}
 
 /*membersEpisodes*/
 #page {width: 294px;}
