@@ -17,7 +17,7 @@ badge =
 			(data) ->
 				notifs = data.root.notifications
 				j = notifs.total
-				DB.set 'badge.value',
+				DB.set 'badge',
 					value: j
 					type: 'membersNotifications'
 				if j > 0
@@ -32,7 +32,7 @@ badge =
 								badgeNotificationType = DB.get('options').badge_notification_type;
 								j++ if badgeNotificationType is 'watched'
 								j++ if badgeNotificationType is 'downloaded' and episodes[i].downloaded isnt "1"
-							DB.set 'badge.value',
+							DB.set 'badge',
 								value: j
 								type: 'membersEpisodes'
 							badge.display j, 'membersEpisodes'
@@ -44,7 +44,7 @@ badge =
 				value = DB.get('badge').value
 				type = DB.get('badge').type
 				badge.display value, type
-
+	
 	##
 	display: (value, type) ->
 		if value is '0'
@@ -54,7 +54,7 @@ badge =
 				membersNotifications: [200, 50, 50, 255]
 				membersEpisodes: [50, 50, 200, 255]
 			chrome.browserAction.setBadgeBackgroundColor {color: colors[type]}	
-			chrome.browserAction.setBadgeText {text: ""+value}
+			chrome.browserAction.setBadgeText {text: '' + value}
 
 	## Lance la mise à jour automatique du badge
 	 # Mise à jour toutes les heures

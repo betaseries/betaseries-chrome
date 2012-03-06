@@ -15,7 +15,7 @@ badge = {
       var j, notifs;
       notifs = data.root.notifications;
       j = notifs.total;
-      DB.set('badge.value', {
+      DB.set('badge', {
         value: j,
         type: 'membersNotifications'
       });
@@ -34,7 +34,7 @@ badge = {
               j++;
             }
           }
-          DB.set('badge.value', {
+          DB.set('badge', {
             value: j,
             type: 'membersEpisodes'
           });
@@ -68,7 +68,7 @@ badge = {
         color: colors[type]
       });
       return chrome.browserAction.setBadgeText({
-        text: "" + value
+        text: '' + value
       });
     }
   },
