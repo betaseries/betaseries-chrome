@@ -82,7 +82,7 @@ Content =
 		else if j + 1 > 1
 			texte2 = __('mark_as_seen_pl')
 		output += '<div class="left">'
-		output += '<img src="../img/plot_off.png" class="watched action" title="' + texte2 + '" show="' + e.url + '" number="' + e.number + '" /> <span class="num" show="' + e.url + '" number="' + e.number + '">'
+		output += '<img src="../img/plot_off.png" class="watched action icon-4" title="' + texte2 + '" show="' + e.url + '" number="' + e.number + '" /> <span class="num" show="' + e.url + '" number="' + e.number + '">'
 		output += '[' + e.number + ']</span> <span class="title"' + textTitle + '>' + Fx.subFirst(title, 20) + '</span>'
 		if newShow 
 			output += ' <span class="new">' + __('new') + '</span>'

@@ -14,24 +14,25 @@ $(document).ready ->
 	## Marquer un ou des épisodes comme vu(s)
 	$('.watched').live
 		click: -> 
-			node = $(this).parent().parent()
-			season = node.attr 'season'
-			episode = node.attr 'episode'
-			nodeShow = node.parent()
-			show = nodeShow.attr 'id'
+			show = $(this).attr 'show'
+			number = $(this).attr 'number'
+			number0 = Fx.splitNumber number
+			season = number0.season
+			episode = number0.episode
+			
 			params = "&season=" + season + "&episode=" + episode
-			enable_ratings = DB.get 'options.enable_ratings'
+			enable_ratings = DB.get('options').enable_ratings
 			
 			cleanEpisode = (n) ->
-				# Si il n'y a plus d'épisodes à voir dans la série, on la cache
-				if $(nodeShow).find('.episode').length is 0
-					nodeShow.slideToggle()
+				# s'il n'y a plus d'épisodes à voir dans la série, on la cache
+				if $('#' + show).find('.episode').length is 0
+					$('#' + show).slideToggle()
 				
-				# On fait apparaitre les suivants
+				# on fait apparaitre les suivants
 				$('#' + show + ' .episode:hidden:lt(' + n + ')').removeClass('hidden').slideToggle()
 				
 				# Mise à jour du remain
-				remain = nodeShow.find '.remain'
+				remain = $('#' + show).find '.remain'
 				newremain = parseInt(remain.text()) - n
 				remain.text newremain
 				remain.parent().hide() if newremain < 1
@@ -40,12 +41,16 @@ $(document).ready ->
 			
 			# On cache les div
 			n = 0
-			next = node.next()
+			node = $('#' + show + ' #' + number)
 			while node.hasClass 'episode'
 				# Notation d'un épisode
-				if enable_ratings is 'true'
-					$(node).find('.watched').attr 'src', '../img/plot_off.png'
+				if enable_ratings
+					# on enlève la possibilité de re-marquer comme vu (alors que c'est en cours)
+					$(node).css 'background-color', '#f5f5f5'
 					$(node).find('.watched').removeClass 'watched'
+					
+					
+					# affichage des étoiles
 					nodeRight = $(node).find '.right'
 					content = ""
 					for i in [1..5]
@@ -53,6 +58,7 @@ $(document).ready ->
 					
 					content += '<img src="../img/archive.png" width="10" class="close_stars" title="' + __('do_not_rate') + '" />'
 					nodeRight.html content
+					
 					# Star HOVER
 					$('.star').on
 						mouseenter: ->
@@ -116,14 +122,10 @@ $(document).ready ->
 				node = node.prev()
 				n++
 			
-			if enable_ratings is 'false'
-				# On marque comme vu SANS noter
-				ajax.post "/members/watched/" + show, params, 
-					->
-						Fx.toRefresh 'membersEpisodes.all'
-						bgPage.badge.update()
-					->
-						registerAction "/members/watched/" + show, params
+			if enable_ratings
+				# on marque comme vu SANS noter
+				ajax.post "/members/watched/" + show, params, null, 
+					-> registerAction "/members/watched/" + show, params
 				
 				cleanEpisode n
 		

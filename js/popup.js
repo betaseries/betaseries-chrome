@@ -17,29 +17,31 @@ $(document).ready(function() {
   });
   $('.watched').live({
     click: function() {
-      var cleanEpisode, content, enable_ratings, episode, i, n, next, node, nodeRight, nodeShow, params, season, show;
-      node = $(this).parent().parent();
-      season = node.attr('season');
-      episode = node.attr('episode');
-      nodeShow = node.parent();
-      show = nodeShow.attr('id');
+      var cleanEpisode, content, enable_ratings, episode, i, n, node, nodeRight, number, number0, params, season, show;
+      show = $(this).attr('show');
+      number = $(this).attr('number');
+      number0 = Fx.splitNumber(number);
+      season = number0.season;
+      episode = number0.episode;
       params = "&season=" + season + "&episode=" + episode;
-      enable_ratings = DB.get('options.enable_ratings');
+      enable_ratings = DB.get('options').enable_ratings;
       cleanEpisode = function(n) {
         var newremain, remain;
-        if ($(nodeShow).find('.episode').length === 0) nodeShow.slideToggle();
+        if ($('#' + show).find('.episode').length === 0) {
+          $('#' + show).slideToggle();
+        }
         $('#' + show + ' .episode:hidden:lt(' + n + ')').removeClass('hidden').slideToggle();
-        remain = nodeShow.find('.remain');
+        remain = $('#' + show).find('.remain');
         newremain = parseInt(remain.text()) - n;
         remain.text(newremain);
         if (newremain < 1) remain.parent().hide();
         return Fx.updateHeight();
       };
       n = 0;
-      next = node.next();
+      node = $('#' + show + ' #' + number);
       while (node.hasClass('episode')) {
-        if (enable_ratings === 'true') {
-          $(node).find('.watched').attr('src', '../img/plot_off.png');
+        if (enable_ratings) {
+          $(node).css('background-color', '#f5f5f5');
           $(node).find('.watched').removeClass('watched');
           nodeRight = $(node).find('.right');
           content = "";
@@ -121,11 +123,8 @@ $(document).ready(function() {
         node = node.prev();
         n++;
       }
-      if (enable_ratings === 'false') {
-        ajax.post("/members/watched/" + show, params, function() {
-          Fx.toRefresh('membersEpisodes.all');
-          return bgPage.badge.update();
-        }, function() {
+      if (enable_ratings) {
+        ajax.post("/members/watched/" + show, params, null, function() {
           return registerAction("/members/watched/" + show, params);
         });
         return cleanEpisode(n);

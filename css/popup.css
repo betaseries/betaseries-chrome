@@ -82,7 +82,6 @@ div#message {color: #900; margin: 3px 0 3px 0; text-align: center; background-co
 .membersEpisodes .right2{margin-left: 190px; width:100px; text-align:right;}
 span.toggleEpisodes {text-align: right; font-size: 9px; color: #666; margin-right: 5px; font-weight: normal;}
 div.clear{clear: both;}
-.watched {margin-bottom: -4px;}
 
 /*planningMember*/
 .planningMember .left{float:left; width:205px;}
@@ -98,6 +97,7 @@ div.clear{clear: both;}
 
 .icon{float:left;margin-right:4px;}
 .icon2{margin: 0 4px -4px 0;}
+.icon-4 {margin-bottom: -4px;}
 
 /*view timeline, notifications, commentsEpisode*/
 .timelineFriends .left, .membersNotifications .left
