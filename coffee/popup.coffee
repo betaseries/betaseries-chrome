@@ -573,12 +573,6 @@ $(document).ready ->
 				$(this).hide() if length is 2
 			return false
 		.attr 'title', __("back")
-	$('#status')
-		.click(-> (BS.refresh(); return false))
-		.attr 'title', __("refresh")
-	$('#options')
-		.click(-> Fx.openTab chrome.extension.getURL "../html/options.html", true)
-		.attr 'title', __("options")
 	$('#logout')
 		.live 'click', -> 
 			ajax.post "/members/destroy", '',
@@ -598,14 +592,18 @@ $(document).ready ->
 		.click(-> (window.close(); return false))
 		.attr 'title', __('close')
 	
-	$('#sync').click -> BS.refresh()
+	$('#sync')
+		.click -> BS.refresh()
+		.attr 'title', __('sync')
 	
-	$('#menu').click ->
-		if BS.currentView.id is 'menu'
-			Historic.refresh()
-		else
-			BS.load('menu');
-			
+	$('#menu')
+		.click ->
+			if BS.currentView.id is 'menu'
+				Historic.refresh()
+			else
+				BS.load('menu');
+		.attr 'title', __('menu')
+		
 	## Afficher le message de confirmation
 	message = (content) -> $('#message').html content
 	
@@ -616,6 +614,5 @@ $(document).ready ->
 		#Fx.cleanCache()
 		badgeType = DB.get('badge').type
 		BS.load(badgeType)
-		#BS.load 'membersEpisodes'
 	else
 		BS.load('connection')

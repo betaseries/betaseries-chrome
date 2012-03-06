@@ -576,13 +576,6 @@ $(document).ready(function() {
     }
     return false;
   }).attr('title', __("back"));
-  $('#status').click(function() {
-    BS.refresh();
-    return false;
-  }).attr('title', __("refresh"));
-  $('#options').click(function() {
-    return Fx.openTab(chrome.extension.getURL("../html/options.html", true));
-  }).attr('title', __("options"));
   $('#logout').live('click', function() {
     ajax.post("/members/destroy", '', function() {
       DB.removeAll();
@@ -602,7 +595,7 @@ $(document).ready(function() {
     return false;
   }).attr('title', __('close'));
   $('#sync').click(function() {
-    return BS.refresh();
+    return BS.refresh().attr('title', __('sync'));
   });
   $('#menu').click(function() {
     if (BS.currentView.id === 'menu') {
@@ -610,7 +603,7 @@ $(document).ready(function() {
     } else {
       return BS.load('menu');
     }
-  });
+  }).attr('title', __('menu'));
   message = function(content) {
     return $('#message').html(content);
   };
