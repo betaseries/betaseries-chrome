@@ -184,28 +184,13 @@ $(document).ready(function() {
   });
   $('.comments').live({
     click: function() {
-      var episode, node, season, show, showName, view;
-      view = BS.currentView.name;
-      if (view === 'showsEpisodes') {
-        node = $(this).parent();
-        season = node.attr('season');
-        episode = node.attr('episode');
-        show = node.attr('id');
-        showName = node.find('.showtitle').eq(0).text();
-      } else if (view === 'membersEpisodes') {
-        node = $(this).parent().parent();
-        season = node.attr('season');
-        episode = node.attr('episode');
-        show = node.parent().attr('id');
-        showName = node.parent().find('.showtitle .left2 .showtitle').text();
-      }
-      return BS.load('commentsEpisode', show, season, episode, showName);
-    },
-    mouseenter: function() {
-      return $(this).css('cursor', 'pointer');
-    },
-    mouseleave: function() {
-      return $(this).css('cursor', 'auto');
+      var episode, number, number0, season, show;
+      show = $(this).attr('show');
+      number = $(this).attr('number');
+      number0 = Fx.splitNumber(number);
+      season = number0.season;
+      episode = number0.episode;
+      return BS.load('commentsEpisode', show, season, episode);
     }
   });
   $('.num').live({
@@ -591,12 +576,11 @@ $(document).ready(function() {
     return false;
   }).attr('title', __("logout"));
   $('#close').click(function() {
-    window.close();
-    return false;
+    return window.close();
   }).attr('title', __('close'));
   $('#sync').click(function() {
-    return BS.refresh().attr('title', __('sync'));
-  });
+    return BS.refresh();
+  }).attr('title', __('sync'));
   $('#menu').click(function() {
     if (BS.currentView.id === 'menu') {
       return Historic.refresh();

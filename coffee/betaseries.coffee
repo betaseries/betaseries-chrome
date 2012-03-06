@@ -421,16 +421,34 @@ BS =
 			return output
 	
 	#
-	commentsEpisode: (url, season, episode, show) ->
+	commentsEpisode: (url, season, episode) ->
 		id: 'commentsEpisode.' + url + '.' + season + '.' + episode
 		name: 'commentsEpisode'
 		url: '/comments/episode/' + url
 		params: '&season=' + season + '&episode=' + episode
 		root: 'comments'
-		content: (data) ->
+		show: url
+		number: Fx.getNumber season, episode
+		update: (data) ->
+			comments = DB.get 'comments.' + @show + '.' + @number, {}
+			
+			# récupération de commentaires en cache
+			nbrComments = comments.length
+			
+			# mise à jour du cache
+			for i, comment of data
+				if i < nbrComments
+					continue;
+				else
+					comments[i] = comment
+					
+			DB.set 'comments.' + @show + '.' + @number, comments
+		content: ->
 			i = 1
 			time = ''
+			show = ''
 			output = '<div class="showtitle">' + show + '</div>';
+			data = DB.get 'comments.' + @show + '.' + @number, {}
 			for n of data
 				new_date = date('D d F', data[n].date)
 				if new_date isnt time

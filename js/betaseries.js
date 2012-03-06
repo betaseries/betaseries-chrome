@@ -408,18 +408,36 @@ BS = {
       }
     };
   },
-  commentsEpisode: function(url, season, episode, show) {
+  commentsEpisode: function(url, season, episode) {
     return {
       id: 'commentsEpisode.' + url + '.' + season + '.' + episode,
       name: 'commentsEpisode',
       url: '/comments/episode/' + url,
       params: '&season=' + season + '&episode=' + episode,
       root: 'comments',
-      content: function(data) {
-        var i, n, new_date, output, time;
+      show: url,
+      number: Fx.getNumber(season, episode),
+      update: function(data) {
+        var comment, comments, i, nbrComments;
+        comments = DB.get('comments.' + this.show + '.' + this.number, {});
+        nbrComments = comments.length;
+        for (i in data) {
+          comment = data[i];
+          if (i < nbrComments) {
+            continue;
+          } else {
+            comments[i] = comment;
+          }
+        }
+        return DB.set('comments.' + this.show + '.' + this.number, comments);
+      },
+      content: function() {
+        var data, i, n, new_date, output, show, time;
         i = 1;
         time = '';
+        show = '';
         output = '<div class="showtitle">' + show + '</div>';
+        data = DB.get('comments.' + this.show + '.' + this.number, {});
         for (n in data) {
           new_date = date('D d F', data[n].date);
           if (new_date !== time) {

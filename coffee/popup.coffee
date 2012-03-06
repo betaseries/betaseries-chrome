@@ -179,26 +179,12 @@ $(document).ready ->
 	## Accéder à la liste des commentaires d'un épisode
 	$('.comments').live
 		click: ->
-			view = BS.currentView.name
-			
-			if view is 'showsEpisodes'
-				node = $(this).parent()
-				season = node.attr 'season'
-				episode = node.attr 'episode'
-				show = node.attr 'id'
-				showName = node.find('.showtitle').eq(0).text()
-			else if view is 'membersEpisodes'
-				node = $(this).parent().parent()
-				season = node.attr 'season'
-				episode = node.attr 'episode'
-				show = node.parent().attr 'id'
-				showName = node.parent().find('.showtitle .left2 .showtitle').text()
-			
-			BS.load('commentsEpisode', show, season, episode, showName)
-	
-		mouseenter: -> $(this).css 'cursor', 'pointer'
-		
-		mouseleave: -> $(this).css 'cursor', 'auto'
+			show = $(this).attr 'show'
+			number = $(this).attr 'number'
+			number0 = Fx.splitNumber number
+			season = number0.season
+			episode = number0.episode
+			BS.load('commentsEpisode', show, season, episode)
 	
 	## Accéder à la fiche d'un épisode
 	$('.num').live
@@ -559,6 +545,7 @@ $(document).ready ->
 	$('#logoLink')
 		.click(-> Fx.openTab ajax.site_url, true)
 		.attr 'title', __("logo")
+	
 	$('#versionLink')
 		.click(-> Fx.openTab 'https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true)
 		.attr 'title', __("version")
@@ -573,6 +560,7 @@ $(document).ready ->
 				$(this).hide() if length is 2
 			return false
 		.attr 'title', __("back")
+	
 	$('#logout')
 		.live 'click', -> 
 			ajax.post "/members/destroy", '',
@@ -588,12 +576,13 @@ $(document).ready ->
 					BS.load('connection')
 			return false
 		.attr 'title', __("logout")
+	
 	$('#close')
-		.click(-> (window.close(); return false))
+		.click(-> window.close())
 		.attr 'title', __('close')
 	
 	$('#sync')
-		.click -> BS.refresh()
+		.click(-> BS.refresh())
 		.attr 'title', __('sync')
 	
 	$('#menu')
