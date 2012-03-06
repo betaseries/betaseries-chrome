@@ -614,7 +614,7 @@ $(document).ready(function() {
   });
   $('#menu').click(function() {
     if (BS.currentView.id === 'menu') {
-      return BS.refresh();
+      return Historic.refresh();
     } else {
       return BS.load('menu');
     }

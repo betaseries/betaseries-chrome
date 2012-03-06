@@ -607,7 +607,7 @@ $(document).ready ->
 	
 	$('#menu').click ->
 		if BS.currentView.id is 'menu'
-			BS.refresh()
+			Historic.refresh()
 		else
 			BS.load('menu');
 			

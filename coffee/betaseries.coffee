@@ -27,6 +27,9 @@ BS =
 		BS.display() if !sameView
 		
 		if o.update
+			# on montre le bouton #sync
+			$('#sync').show()	
+		
 			# heure actuelle à la seconde près
 			time = Math.floor(new Date().getTime() / 1000)
 			
@@ -42,6 +45,10 @@ BS =
 			
 			# on lance la requête de mise à jour ssi ça doit l'être
 			BS.update() if update
+		else
+			# on cache le bouton #sync
+			$('#sync').hide()	
+		
 		
 	## Mettre à jour les données de la vue courante	
 	update: ->

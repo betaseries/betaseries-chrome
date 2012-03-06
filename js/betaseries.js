@@ -26,6 +26,7 @@ BS = {
     this.currentView = o;
     if (!sameView) BS.display();
     if (o.update) {
+      $('#sync').show();
       time = Math.floor(new Date().getTime() / 1000);
       views_to_refresh = DB.get('views_to_refresh');
       forceRefresh = (_ref = o.id, __indexOf.call(views_to_refresh, _ref) >= 0);
@@ -33,6 +34,8 @@ BS = {
       outdated = views_updated[o.id] != null ? time - views_updated[o.id] > 3600 : true;
       update = forceRefresh || outdated;
       if (update) return BS.update();
+    } else {
+      return $('#sync').hide();
     }
   },
   update: function() {
