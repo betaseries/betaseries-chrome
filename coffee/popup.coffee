@@ -128,15 +128,17 @@ $(document).ready ->
 				cleanEpisode n
 		
 		mouseenter: ->
-			$(this).css 'cursor', 'pointer'
-			node = $(this).parent().parent().prev()
+			show = $(this).attr 'show'
+			number = $(this).attr 'number'
+			node = $('#' + show + ' #' + number)
 			while node.hasClass 'episode'
 				node.find('.watched').css 'opacity', 1
 				node = node.prev()
 			
 		mouseleave: ->
-			$(this).css 'cursor', 'auto'
-			node = $(this).parent().parent().prev()
+			show = $(this).attr 'show'
+			number = $(this).attr 'number'
+			node = $('#' + show + ' #' + number)
 			while node.hasClass 'episode'
 				node.find('.watched').css 'opacity', 0.5
 				node = node.prev()

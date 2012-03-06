@@ -132,9 +132,10 @@ $(document).ready(function() {
       }
     },
     mouseenter: function() {
-      var node, _results;
-      $(this).css('cursor', 'pointer');
-      node = $(this).parent().parent().prev();
+      var node, number, show, _results;
+      show = $(this).attr('show');
+      number = $(this).attr('number');
+      node = $('#' + show + ' #' + number);
       _results = [];
       while (node.hasClass('episode')) {
         node.find('.watched').css('opacity', 1);
@@ -143,9 +144,10 @@ $(document).ready(function() {
       return _results;
     },
     mouseleave: function() {
-      var node, _results;
-      $(this).css('cursor', 'auto');
-      node = $(this).parent().parent().prev();
+      var node, number, show, _results;
+      show = $(this).attr('show');
+      number = $(this).attr('number');
+      node = $('#' + show + ' #' + number);
       _results = [];
       while (node.hasClass('episode')) {
         node.find('.watched').css('opacity', 0.5);

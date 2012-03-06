@@ -47,7 +47,7 @@ Content = {
     } else if (s.hidden) {
       hidden = ' style="display: none;"';
     }
-    output += '<div id="e' + e.global + '" class="episode ' + classes + '"' + hidden + '>';
+    output += '<div id="' + e.number + '" class="episode ' + classes + '"' + hidden + '>';
     title = DB.get('options').display_global ? '#' + e.global + ' ' + title : e.title;
     textTitle = title.length > 20 ? ' title="' + title + '"' : '';
     if (j + 1 === 1) {
@@ -56,7 +56,7 @@ Content = {
       texte2 = __('mark_as_seen_pl');
     }
     output += '<div class="left">';
-    output += '<img src="../img/plot_off.png" class="watched action" title="' + texte2 + '" /> <span class="num" show="' + e.url + '" number="' + e.number + '">';
+    output += '<img src="../img/plot_off.png" class="watched action" title="' + texte2 + '" show="' + e.url + '" number="' + e.number + '" /> <span class="num" show="' + e.url + '" number="' + e.number + '">';
     output += '[' + e.number + ']</span> <span class="title"' + textTitle + '>' + Fx.subFirst(title, 20) + '</span>';
     if (newShow) output += ' <span class="new">' + __('new') + '</span>';
     output += '</div>';
