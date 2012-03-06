@@ -46,6 +46,18 @@ badge =
 				badge.display value, type
 	
 	##
+	updateCache: ->
+		# affichage des épisodes non vus
+		n = 0
+		for i, episodes of localStorage
+			if i.indexOf('episodes.') is 0
+				for j, episode of JSON.parse episodes
+					n++ if episode.seen
+		badge.display n, 'membersEpisodes'
+		
+		# TODO affichage des notifications	
+	
+	##
 	display: (value, type) ->
 		if value is '0'
 			chrome.browserAction.setBadgeText {text: ""}

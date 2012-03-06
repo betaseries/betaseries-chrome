@@ -53,6 +53,21 @@ badge = {
       return badge.display(value, type);
     });
   },
+  updateCache: function() {
+    var episode, episodes, i, j, n, _ref;
+    n = 0;
+    for (i in localStorage) {
+      episodes = localStorage[i];
+      if (i.indexOf('episodes.') === 0) {
+        _ref = JSON.parse(episodes);
+        for (j in _ref) {
+          episode = _ref[j];
+          if (episode.seen) n++;
+        }
+      }
+    }
+    return badge.display(n, 'membersEpisodes');
+  },
   display: function(value, type) {
     var colors;
     if (value === '0') {
