@@ -603,29 +603,14 @@ $(document).ready ->
 		.click(-> (window.close(); return false))
 		.attr 'title', __('close')
 	
-	## MENU sections
-	$('#blog')
-		.live('click', -> (BS.load('blog'); return false))
-		.attr 'title', __("blog")
-	$('#planning')
-		.live('click', -> (BS.load('planningMember'); return false))
-		.attr 'title', __("planningMember")
-	$('#episodes')
-		.live('click', -> (BS.load('membersEpisodes'); return false))
-		.attr 'title', __("membersEpisodes")
-	$('#timeline')
-		.live('click', -> (BS.load('timelineFriends'); return false))
-		.attr 'title', __("timelineFriends")
-	$('#notifications')
-		.live('click', -> (BS.load('membersNotifications'); return false))
-		.attr 'title', __("membersNotifications")
-	$('#infos')
-		.live('click', -> (BS.load('membersInfos'); return false))
-		.attr 'title', __("membersInfos")
-	$('#search')
-		.live('click', -> (BS.load('searchForm'); return false))
-		.attr 'title', __("searchForm")
+	$('#sync').click -> BS.refresh()
 	
+	$('#menu').click ->
+		if BS.currentView.id is 'menu'
+			BS.refresh()
+		else
+			BS.load('menu');
+			
 	## Afficher le message de confirmation
 	message = (content) -> $('#message').html content
 	

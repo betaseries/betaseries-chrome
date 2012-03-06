@@ -553,3 +553,19 @@ BS =
 			output += '<img src="../img/refresh.png" class="icon2" />' + __('refresh_view') + '</a>'
 			return output
 	
+	##	
+	menu: ->
+		id: 'menu'
+		name: 'menu'
+		content: ->
+			output = ''
+			output += '<img src="../img/blog.png" id="blog" class="action" style="margin-bottom:-3px;" />'
+			output += '<img src="../img/planning.png" id="planning" class="action" style="margin-bottom:-3px;" />'
+			output += '<img src="../img/episodes.png" id="episodes" class="action" style="margin-bottom:-3px;" />'
+			output += '<img src="../img/timeline.png" id="timeline" class="action" style="margin-bottom:-3px;" />'
+			output += '<img src="../img/notifications.png" id="notifications" class="action" style="margin-bottom:-3px;" />'
+			output += '<img src="../img/infos.png" id="infos" class="action" style="margin-bottom:-3px;" />'
+			output += '<img src="../img/search.png" id="search" class="action" style="margin-bottom:-3px;" />'
+			return output
+		
+	

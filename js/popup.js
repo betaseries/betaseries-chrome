@@ -609,34 +609,16 @@ $(document).ready(function() {
     window.close();
     return false;
   }).attr('title', __('close'));
-  $('#blog').live('click', function() {
-    BS.load('blog');
-    return false;
-  }).attr('title', __("blog"));
-  $('#planning').live('click', function() {
-    BS.load('planningMember');
-    return false;
-  }).attr('title', __("planningMember"));
-  $('#episodes').live('click', function() {
-    BS.load('membersEpisodes');
-    return false;
-  }).attr('title', __("membersEpisodes"));
-  $('#timeline').live('click', function() {
-    BS.load('timelineFriends');
-    return false;
-  }).attr('title', __("timelineFriends"));
-  $('#notifications').live('click', function() {
-    BS.load('membersNotifications');
-    return false;
-  }).attr('title', __("membersNotifications"));
-  $('#infos').live('click', function() {
-    BS.load('membersInfos');
-    return false;
-  }).attr('title', __("membersInfos"));
-  $('#search').live('click', function() {
-    BS.load('searchForm');
-    return false;
-  }).attr('title', __("searchForm"));
+  $('#sync').click(function() {
+    return BS.refresh();
+  });
+  $('#menu').click(function() {
+    if (BS.currentView.id === 'menu') {
+      return BS.refresh();
+    } else {
+      return BS.load('menu');
+    }
+  });
   message = function(content) {
     return $('#message').html(content);
   };
