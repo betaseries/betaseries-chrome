@@ -11,18 +11,18 @@ ajax = {
     if (params == null) params = '';
     member = DB.get('member', {});
     token = member.token === null ? '' : "&token=" + member.token;
-    $('#sync').show();
+    $('#sync').attr('src', '../img/sync.gif');
     return $.ajax({
       type: "POST",
       url: this.url_api + category + ".json",
       data: "key=" + this.key + params + token,
       dataType: "json",
       success: function(data) {
-        $('#sync').hide();
+        $('#sync').attr('src', '../img/sync.png');
         if (successCallback != null) return successCallback(data);
       },
       error: function() {
-        $('#sync').hide();
+        $('#sync').attr('src', '../img/sync.png');
         if (errorCallback != null) return errorCallback();
       }
     });

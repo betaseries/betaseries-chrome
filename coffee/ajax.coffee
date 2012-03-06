@@ -14,7 +14,7 @@ ajax =
 		params ?= ''
 		member = DB.get 'member', {}
 		token = if member.token is null then '' else "&token=" + member.token
-		$('#sync').show()
+		$('#sync').attr 'src', '../img/sync.gif'
 		$.ajax
 			type: "POST"
 			url: @url_api + category + ".json"
@@ -22,10 +22,8 @@ ajax =
 			dataType: "json"
 			success: (data) ->
 				#console.log data
-				#$('#status').attr 'src', '../img/plot_green.gif'
-				$('#sync').hide()
+				$('#sync').attr 'src', '../img/sync.png'
 				successCallback data if successCallback?
 			error: ->
-				$('#sync').hide()
-				#$('#status').attr 'src', '../img/plot_red.gif'
+				$('#sync').attr 'src', '../img/sync.png'
 				errorCallback() if errorCallback?
