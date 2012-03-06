@@ -228,16 +228,7 @@ $(document).ready(function() {
   });
   $('.subs').live({
     click: function() {
-      Fx.openTab($(this).attr('link'));
-      return false;
-    },
-    mouseenter: function() {
-      $(this).css('cursor', 'pointer');
-      return $(this).attr('src', '../img/dl.png');
-    },
-    mouseleave: function() {
-      $(this).attr('src', '../img/srt.png');
-      return $(this).css('cursor', 'auto');
+      return Fx.openTab($(this).attr('link'));
     }
   });
   $('.archive').live({

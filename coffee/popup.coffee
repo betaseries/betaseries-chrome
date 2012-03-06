@@ -225,15 +225,6 @@ $(document).ready ->
 	$('.subs').live
 		click: ->
 			Fx.openTab $(this).attr 'link'
-			return false
-		
-		mouseenter: ->
-			$(this).css 'cursor', 'pointer'
-			$(this).attr 'src', '../img/dl.png'
-		
-		mouseleave: ->
-			$(this).attr 'src', '../img/srt.png'
-			$(this).css 'cursor', 'auto'
 	
 	## Archiver une série
 	$('.archive').live
