@@ -1,5 +1,4 @@
 var Fx, __,
-  __hasProp = Object.prototype.hasOwnProperty,
   __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 __ = function(msgname, placeholders) {
@@ -16,15 +15,15 @@ Fx = {
     return false;
   },
   concat: function() {
-    var i, n, p, ret, _ref;
-    ret = {};
+    var i, j, k, l, n, ret;
+    ret = [];
     n = 0;
     for (i in arguments) {
-      _ref = arguments[i];
-      for (p in _ref) {
-        if (!__hasProp.call(_ref, p)) continue;
-        if (n < 10) {
-          ret[n] = arguments[i][p];
+      j = arguments[i];
+      for (k in j) {
+        l = j[k];
+        if (n < 20) {
+          ret.push = l;
           n++;
         }
       }

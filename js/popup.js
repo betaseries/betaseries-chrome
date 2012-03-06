@@ -618,7 +618,7 @@ $(document).ready(function() {
   $('#versionLink').text(Fx.getVersion());
   if (bgPage.connected()) {
     badgeType = DB.get('badge').type;
-    return BS.load('membersEpisodes');
+    return BS.load(badgeType);
   } else {
     return BS.load('connection');
   }

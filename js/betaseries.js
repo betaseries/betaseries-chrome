@@ -379,23 +379,18 @@ BS = {
       name: 'membersNotifications',
       url: '/members/notifications',
       root: 'notifications',
-      postData: function(tab1) {
-        var res, tab2, temp;
-        res = tab1;
-        try {
-          temp = DB.get('page.membersNotifications', null);
-          tab2 = temp !== null ? JSON.parse(temp) : [];
-          res = Fx.concat(tab1, tab2);
-        } catch (e) {
-          console.log(e);
-        }
-        return res;
+      update: function(tab1) {
+        var notifications, tab2;
+        tab2 = DB.get('notifications');
+        notifications = Fx.concat(tab1, tab2);
+        return DB.set('notifications', notifications);
       },
-      content: function(data) {
-        var n, nbrNotifications, new_date, output, time;
+      content: function() {
+        var data, n, nbrNotifications, new_date, output, time;
         output = '';
         nbrNotifications = 0;
         time = '';
+        data = DB.get('notifications');
         for (n in data) {
           new_date = date('D d F', data[n].date);
           if (new_date !== time) {

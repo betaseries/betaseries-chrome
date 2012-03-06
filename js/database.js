@@ -19,7 +19,8 @@ DB = {
     this.set('badge', badge, true);
     this.set('historic', [], false);
     this.set('views_updated', {}, true);
-    return this.set('views_to_refresh', [], true);
+    this.set('views_to_refresh', [], true);
+    return this.set('notifications', [], true);
   },
   get: function(field, defaultValue) {
     if (localStorage[field] != null) {

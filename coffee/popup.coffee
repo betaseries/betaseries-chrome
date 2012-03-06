@@ -615,7 +615,7 @@ $(document).ready ->
 	if bgPage.connected()
 		#Fx.cleanCache()
 		badgeType = DB.get('badge').type
-		#BS.load(badgeType)
-		BS.load 'membersEpisodes'
+		BS.load(badgeType)
+		#BS.load 'membersEpisodes'
 	else
 		BS.load('connection')

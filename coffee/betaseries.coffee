@@ -355,7 +355,7 @@ BS =
 					for j, episode of JSON.parse episodes
 						continue if episode.seen
 						es = if data[i.substring(9)]? then data[i.substring(9)] else []
-						es.push(episode)
+						es.push episode
 						data[i.substring(9)] = es
 			
 			# SHOWS
@@ -396,20 +396,16 @@ BS =
 		name: 'membersNotifications'
 		url: '/members/notifications'
 		root: 'notifications'
-		postData: (tab1) ->
-			res = tab1
-			try
-				temp = DB.get 'page.membersNotifications', null
-				tab2 = if temp isnt null then JSON.parse temp else []
-				res = Fx.concat tab1, tab2
-			catch e
-		    	console.log e
-		    return res
-		content: (data) ->
+		update: (tab1) ->
+			tab2 = DB.get 'notifications'
+			notifications = Fx.concat tab1, tab2
+			DB.set 'notifications', notifications
+		content: ->
 			output = ''
 			nbrNotifications = 0
 			
 			time = ''
+			data = DB.get 'notifications'
 			for n of data
 				new_date = date('D d F', data[n].date)
 				if new_date isnt time

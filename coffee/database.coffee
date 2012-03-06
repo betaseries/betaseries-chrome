@@ -30,6 +30,9 @@ DB =
 		@set 'views_updated', {}, true
 		@set 'views_to_refresh', [], true
 		
+		# Notifications
+		@set 'notifications', [], true
+		
 	## Getter - Obtenir la valeur d'un champ de la BD
 	 #
 	 # field			<string>	Chemin + nom du champ
