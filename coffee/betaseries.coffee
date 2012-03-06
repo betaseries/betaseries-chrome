@@ -585,13 +585,35 @@ BS =
 		name: 'menu'
 		content: ->
 			output = ''
-			output += '<img src="../img/blog.png" id="blog" class="action" style="margin-bottom:-3px;" />'
+			
+			output += '<a href="" onclick="#{BS.load(\'blog\');">'
+			output += '<img src="../img/blog.png" id="blog" class="action" style="margin-bottom:-3px;" /> '
+			output += __('blog') + '</a>'
+			
+			output += '<a href="" onclick="BS.load(\'planningMember\');">'
 			output += '<img src="../img/planning.png" id="planning" class="action" style="margin-bottom:-3px;" />'
-			output += '<img src="../img/episodes.png" id="episodes" class="action" style="margin-bottom:-3px;" />'
+			output += __('planningMember') + '</a>'
+			
+			output += '<a href="" onclick="BS.load(\'membersEpisodes\');">'
+			output += '<img src="../img/episodes.png" id="episodes" class="action" style="margin-bottom:-3px;" /> '
+			output += __('membersEpisodes') + '</a>'
+			
+			output += '<a href="" onclick="BS.load(\'timelineFriends\');">'
 			output += '<img src="../img/timeline.png" id="timeline" class="action" style="margin-bottom:-3px;" />'
+			output += __('timelineFriends') + '</a>'
+			
+			output += '<a href="" onclick="BS.load(\'membersNotifications\');">'
 			output += '<img src="../img/notifications.png" id="notifications" class="action" style="margin-bottom:-3px;" />'
+			output += __('membersNotifications') + '</a>'
+			
+			output += '<a href="" onclick="BS.load(\'membersInfos\');">'
 			output += '<img src="../img/infos.png" id="infos" class="action" style="margin-bottom:-3px;" />'
+			output += __('membersInfos') + '</a>'
+			
+			output += '<a href="" onclick="BS.load(\'searchForm\');">'
 			output += '<img src="../img/search.png" id="search" class="action" style="margin-bottom:-3px;" />'
+			output += __('searchForm') + '</a>'
+			
 			return output
 		
 	
