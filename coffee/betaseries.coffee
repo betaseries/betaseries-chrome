@@ -344,6 +344,7 @@ BS =
 						title: e.title
 						show: e.show
 						url: e.url
+						subs: e.subs
 						seen: false
 				DB.set 'episodes.' + e.url, episodes
 		content: ->
