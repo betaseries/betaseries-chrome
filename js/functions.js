@@ -16,14 +16,14 @@ Fx = {
   },
   concat: function() {
     var i, j, k, l, n, ret;
-    ret = [];
+    ret = {};
     n = 0;
     for (i in arguments) {
       j = arguments[i];
       for (k in j) {
         l = j[k];
         if (n < 20) {
-          ret.push = l;
+          ret[n] = l;
           n++;
         }
       }

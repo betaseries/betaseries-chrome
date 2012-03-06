@@ -20,7 +20,7 @@ DB = {
     this.set('historic', [], false);
     this.set('views_updated', {}, true);
     this.set('views_to_refresh', [], true);
-    return this.set('notifications', [], true);
+    return this.set('notifications', {}, true);
   },
   get: function(field, defaultValue) {
     if (localStorage[field] != null) {

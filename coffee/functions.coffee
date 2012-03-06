@@ -12,12 +12,12 @@ Fx =
 	
 	## Concaténer plusieurs objets (notifications page)
 	concat: ->
-		ret = []
+		ret = {}
 		n = 0
 		for i, j of arguments
 			for k, l of j
 				if n < 20
-					ret.push = l
+					ret[n] = l
 					n++
 		return ret;
 	
