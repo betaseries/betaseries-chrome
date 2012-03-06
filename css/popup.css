@@ -35,11 +35,14 @@ a.showtitle:hover {color: #900;}
 }
 
 /*Logo*/
-div.showtitle {
+.showtitle {
 	border-bottom: 1px solid #dcdcdc;
 	text-transform: uppercase;
 	margin-top: 6px;
-	height: 12px;
+	font-family: Verdana
+}
+.title {
+	color: #666;
 }
 img.archive,img.unarchive{
 	margin-bottom:-1px; 
