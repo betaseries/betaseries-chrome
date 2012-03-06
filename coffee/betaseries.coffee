@@ -38,7 +38,7 @@ BS =
 			outdated = if views_updated[o.id]? then time - views_updated[o.id] > 3600 else true
 			
 			# on détermine si la vue va être mise à jour ou pas
-			update = forceRefresh or outdated or sameView
+			update = forceRefresh or outdated
 			
 			# on lance la requête de mise à jour ssi ça doit l'être
 			BS.update() if update

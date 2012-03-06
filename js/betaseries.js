@@ -31,7 +31,7 @@ BS = {
       forceRefresh = (_ref = o.id, __indexOf.call(views_to_refresh, _ref) >= 0);
       views_updated = DB.get('views_updated');
       outdated = views_updated[o.id] != null ? time - views_updated[o.id] > 3600 : true;
-      update = forceRefresh || outdated || sameView;
+      update = forceRefresh || outdated;
       if (update) return BS.update();
     }
   },
