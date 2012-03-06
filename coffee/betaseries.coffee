@@ -79,6 +79,9 @@ BS =
 		# récecption des infos de la vue courante
 		o = @currentView
 		
+		# mise à jour de l'historique
+		Historic.save()
+		
 		# on affiche la vue avec les données en cache
 		$('#page').html o.content()
 		
@@ -91,6 +94,7 @@ BS =
 		
 	## Réactualise la vue courante
 	refresh: ->
+		Fx.toRefresh @currentView.id
 		args = @currentView.id.split '.'
 		BS.load.apply(BS, args)
 	

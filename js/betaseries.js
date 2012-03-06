@@ -58,6 +58,7 @@ BS = {
   display: function() {
     var o;
     o = this.currentView;
+    Historic.save();
     $('#page').html(o.content());
     $('#title').text(__(o.name));
     $('#page').removeClass().addClass(o.name);
@@ -65,6 +66,7 @@ BS = {
   },
   refresh: function() {
     var args;
+    Fx.toRefresh(this.currentView.id);
     args = this.currentView.id.split('.');
     return BS.load.apply(BS, args);
   },
