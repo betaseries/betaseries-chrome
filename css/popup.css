@@ -39,10 +39,10 @@ a.showtitle:hover {color: #900;}
 }
 
 /*Logo*/
+.show {margin-top: 10px;}
 .showtitle {
 	border-bottom: 1px solid #dcdcdc;
 	text-transform: uppercase;
-	margin-top: 6px;
 	font-family: "Lucida Grande"
 }
 .remain {color: #777;}
