@@ -63,13 +63,11 @@ $(document).ready ->
 					# Star HOVER
 					$('.star').on
 						mouseenter: ->
-							$(this).css 'cursor', 'pointer'
 							nodeStar = $(this)
 							while nodeStar.hasClass 'star'
 								nodeStar.attr 'src', '../img/star.gif'
 								nodeStar = nodeStar.prev()
 						mouseleave: ->
-							$(this).css 'cursor', 'auto'
 							nodeStar = $(this)
 							while nodeStar.hasClass 'star'
 								nodeStar.attr 'src', '../img/star_off.gif'
@@ -94,12 +92,6 @@ $(document).ready ->
 						
 					# Close Stars HOVER
 					$('.close_stars').on
-						mouseenter: ->
-							$(this).css 'cursor', 'pointer'
-							$(this).attr 'src', '../img/archive_on.png'
-						mouseleave: ->
-							$(this).css 'cursor', 'auto'
-							$(this).attr 'src', '../img/archive.png'
 						click: ->
 							nodeEpisode = $(this).parent().parent()
 							if nodeEpisode.hasClass 'episode'
@@ -177,12 +169,6 @@ $(document).ready ->
 			params = "&season=" + season + "&episode=" + episode
 			ajax.post "/members/downloaded/" + show, params, null,
 				-> registerAction "/members/downloaded/" + show, params
-			
-		mouseenter: -> 
-			$(this).css 'cursor', 'pointer'
-		
-		mouseleave: ->
-			$(this).css 'cursor', 'auto'
 			
 	## Accéder à la liste des commentaires d'un épisode
 	$('.comments').live
@@ -412,49 +398,6 @@ $(document).ready ->
 	registerAction = (category, params) ->
 		console.log "action: " + category + params
 	
-	## Montrer ou cacher les épisodes en trop
-	$('.toggleEpisodes').live
-		click: ->
-			show = $(this).parent().parent().parent()
-			hiddens = show.find 'div.episode.hidden'
-			
-			# Gestion où la série est minimisée
-			showName = $(show).attr 'id'
-			hidden_shows = DB.get 'hidden_shows'
-			hiddenShow = showName in hidden_shows
-			if hiddenShow
-				$(show).find('.toggleShow').trigger 'click'
-				return false
-			
-			hiddens.slideToggle()
-			
-			extra_episodes = DB.get 'extra_episodes'
-			extraEpisodes = showName in extra_episodes
-			if extraEpisodes
-				$(this).find('.labelRemain').text __('show_episodes')
-				$(this).find('img').attr 'src', '../img/downarrow.gif'
-			else
-				$(this).find('.labelRemain').text __('hide_episodes')
-				$(this).find('img').attr 'src', '../img/uparrow.gif'
-			
-			if !extraEpisodes
-				extra_episodes.push showName
-			else
-				extra_episodes.splice extra_episodes.indexOf showName, 1
-			
-			DB.set 'extra_episodes', extra_episodes
-					
-			Fx.updateHeight()
-			return false
-	
-		mouseenter: -> 
-			$(this).css 'cursor', 'pointer'
-			$(this).css 'color', '#900'
-		
-		mouseleave: ->
-			$(this).css 'cursor', 'auto'
-			$(this).css 'color', '#000'
-	
 	## Ajouter un ami
 	$('#addfriend').live
 		click: ->
@@ -546,10 +489,6 @@ $(document).ready ->
 			
 			Fx.updateHeight()
 			
-		mouseenter: -> $(this).css 'cursor', 'pointer'
-		
-		mouseleave: -> $(this).css 'cursor', 'auto'
-	
 	## HEADER links
 	$('#logoLink')
 		.click(-> Fx.openTab ajax.site_url, true)

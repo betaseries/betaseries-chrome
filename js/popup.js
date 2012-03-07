@@ -52,7 +52,6 @@ $(document).ready(function() {
           $('.star').on({
             mouseenter: function() {
               var nodeStar, _results;
-              $(this).css('cursor', 'pointer');
               nodeStar = $(this);
               _results = [];
               while (nodeStar.hasClass('star')) {
@@ -63,7 +62,6 @@ $(document).ready(function() {
             },
             mouseleave: function() {
               var nodeStar, _results;
-              $(this).css('cursor', 'auto');
               nodeStar = $(this);
               _results = [];
               while (nodeStar.hasClass('star')) {
@@ -86,14 +84,6 @@ $(document).ready(function() {
             }
           });
           $('.close_stars').on({
-            mouseenter: function() {
-              $(this).css('cursor', 'pointer');
-              return $(this).attr('src', '../img/archive_on.png');
-            },
-            mouseleave: function() {
-              $(this).css('cursor', 'auto');
-              return $(this).attr('src', '../img/archive.png');
-            },
             click: function() {
               var nodeEpisode;
               nodeEpisode = $(this).parent().parent();
@@ -163,12 +153,6 @@ $(document).ready(function() {
       return ajax.post("/members/downloaded/" + show, params, null, function() {
         return registerAction("/members/downloaded/" + show, params);
       });
-    },
-    mouseenter: function() {
-      return $(this).css('cursor', 'pointer');
-    },
-    mouseleave: function() {
-      return $(this).css('cursor', 'auto');
     }
   });
   $('.comments').live({
@@ -395,46 +379,6 @@ $(document).ready(function() {
   registerAction = function(category, params) {
     return console.log("action: " + category + params);
   };
-  $('.toggleEpisodes').live({
-    click: function() {
-      var extraEpisodes, extra_episodes, hiddenShow, hidden_shows, hiddens, show, showName;
-      show = $(this).parent().parent().parent();
-      hiddens = show.find('div.episode.hidden');
-      showName = $(show).attr('id');
-      hidden_shows = DB.get('hidden_shows');
-      hiddenShow = __indexOf.call(hidden_shows, showName) >= 0;
-      if (hiddenShow) {
-        $(show).find('.toggleShow').trigger('click');
-        return false;
-      }
-      hiddens.slideToggle();
-      extra_episodes = DB.get('extra_episodes');
-      extraEpisodes = __indexOf.call(extra_episodes, showName) >= 0;
-      if (extraEpisodes) {
-        $(this).find('.labelRemain').text(__('show_episodes'));
-        $(this).find('img').attr('src', '../img/downarrow.gif');
-      } else {
-        $(this).find('.labelRemain').text(__('hide_episodes'));
-        $(this).find('img').attr('src', '../img/uparrow.gif');
-      }
-      if (!extraEpisodes) {
-        extra_episodes.push(showName);
-      } else {
-        extra_episodes.splice(extra_episodes.indexOf(showName, 1));
-      }
-      DB.set('extra_episodes', extra_episodes);
-      Fx.updateHeight();
-      return false;
-    },
-    mouseenter: function() {
-      $(this).css('cursor', 'pointer');
-      return $(this).css('color', '#900');
-    },
-    mouseleave: function() {
-      $(this).css('cursor', 'auto');
-      return $(this).css('color', '#000');
-    }
-  });
   $('#addfriend').live({
     click: function() {
       var login;
@@ -526,12 +470,6 @@ $(document).ready(function() {
       }
       DB.set('hidden_shows', hidden_shows);
       return Fx.updateHeight();
-    },
-    mouseenter: function() {
-      return $(this).css('cursor', 'pointer');
-    },
-    mouseleave: function() {
-      return $(this).css('cursor', 'auto');
     }
   });
   $('#logoLink').click(function() {
