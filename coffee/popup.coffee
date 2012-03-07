@@ -19,119 +19,43 @@ $(document).ready ->
 			e = $(this).closest('.episode')
 			season = e.attr 'season'
 			episode = e.attr 'episode'
-			global = e.attr 'global'
-			nbrEpisodes = $('#' + show).find('.episode').length
 			
-			showCache = DB.get('shows')[show]
-			episodesCache = DB.get 'episodes.' + show
-			
-			params = "&season=" + season + "&episode=" + episode
 			enable_ratings = DB.get('options').enable_ratings
 			
-			cleanEpisode = (n) ->
-				# on fait apparaitre les suivants
-				$('#' + show + ' .episode:hidden:lt(' + n + ')').removeClass('hidden').slideToggle()
-				episode = Content.episode e, s
-				$('#' + show).append episode
-				
-				# TODO Mise à jour du remain
-				
-				# s'il n'y a plus d'épisodes à voir dans la série, on la cache
-				if nbrEpisodes is 0
-					$('#' + show).slideToggle()
-				
-				Fx.updateHeight()
-			
 			# On cache les div
-			nextGlobal = $('#' + show).find('.episode').last().attr 'global'
-			nextGlobal = parseInt(nextGlobal) + 1
-			node = e
-			while node.hasClass 'episode'
+			nodes = []
+			while e.hasClass 'episode'
 				# Notation d'un épisode
-				if !enable_ratings
+				if enable_ratings
 					# on enlève la possibilité de re-marquer comme vu (alors que c'est en cours)
-					$(node).css 'background-color', '#f5f5f5'
-					$(node).find('.watched').removeClass 'watched'
+					$(e).css 'background-color', '#f5f5f5'
+					$(e).find('.watched').removeClass 'watched'
 					
 					# affichage des étoiles
-					nodeRight = $(node).find '.right'
+					nodeRight = $(e).find '.right'
 					content = ""
 					for i in [1..5]
 						content += '<img src="../img/star_off.gif" width="10" id="star' + i + '" class="star" title="' + i + ' /5" />'
 					
 					content += '<img src="../img/archive.png" width="10" class="close_stars" title="' + __('do_not_rate') + '" />'
 					nodeRight.html content
-					
-					# Star HOVER
-					$('.star').on
-						mouseenter: ->
-							nodeStar = $(this)
-							while nodeStar.hasClass 'star'
-								nodeStar.attr 'src', '../img/star.gif'
-								nodeStar = nodeStar.prev()
-						mouseleave: ->
-							nodeStar = $(this)
-							while nodeStar.hasClass 'star'
-								nodeStar.attr 'src', '../img/star_off.gif'
-								nodeStar = nodeStar.prev()
-						click: ->
-							nodeEpisode = $(this).parent().parent()
-							if nodeEpisode.hasClass 'episode'
-								nodeEpisode.slideToggle()
-								nodeEpisode.removeClass 'episode'
-							
-								rate = $(this).attr('id').substring 4
-								params += "&note=" + rate
-								# On marque comme vu EN notant
-								'''ajax.post "/members/watched/" + show, params, 
-									-> 
-										Fx.toRefresh 'membersEpisodes.all'
-										bgPage.badge.update()
-									->
-										registerAction "/members/watched/" + show, params'''
-								
-								cleanEpisode 1
-						
-					# Close Stars HOVER
-					$('.close_stars').on
-						click: ->
-							nodeEpisode = $(this).parent().parent()
-							if nodeEpisode.hasClass 'episode'
-								nodeEpisode.slideToggle()
-								nodeEpisode.removeClass 'episode'
-								
-								# On marque comme vu SANS noter
-								'''ajax.post "/members/watched/" + show, params, 
-									->
-										Fx.toRefresh 'membersEpisodes.all'
-										bgPage.badge.update()
-									->
-										registerAction "/members/watched/" + show, params'''
-								
-								cleanEpisode 1
 							
 				else
-					episodesCache[node.attr 'global'].seen = true
-					node.slideToggle 'slow', -> $(this).remove()
-					if episodesCache[nextGlobal]?
-						episode = Content.episode episodesCache[nextGlobal], showCache
-						$('#' + show).append episode
-					else
-						nbrEpisodes--
-						
-					# s'il n'y a plus d'épisodes à voir dans la série, on la cache
-					$('#' + show).slideToggle() if nbrEpisodes is 0
+					nodes.push e
 					
-				node = node.prev()
-				nextGlobal++
+				e = e.prev()
+			
 			
 			Fx.updateHeight()
 					
-			if enable_ratings
+			if !enable_ratings
+				es = clean nodes
+			
 				# on marque comme vu SANS noter
+				params = "&season=" + season + "&episode=" + episode
 				ajax.post "/members/watched/" + show, params, 
 					->
-						DB.set 'episodes.' + show, episodesCache
+						DB.set 'episodes.' + show, es
 					-> 
 						registerAction "/members/watched/" + show, params
 		
@@ -146,6 +70,95 @@ $(document).ready ->
 			while node.hasClass 'episode'
 				node.find('.watched').css 'opacity', 0.5
 				node = node.prev()
+	
+	clean = (nodes) ->
+		show = nodes[0].closest('.show').attr 'id'
+		
+		# on compte le nombre d'épisodes actuellement affichés
+		nbrEpisodes = $('#' + show).find('.episode').length
+			
+		# on sélectionne le dernier épisode et on calcule le nextGlobal
+		nextGlobal = $('#' + show).find('.episode').last().attr 'global'
+		nextGlobal = parseInt(nextGlobal) + 1
+		
+		nbr = 0
+		for node, i in nodes				
+			# on met à jour le cache
+			show = node.closest('.show').attr 'id'
+			showCache = DB.get('shows')[show]
+			episodesCache = DB.get 'episodes.' + show
+			episodesCache[node.attr 'global'].seen = true
+			
+			# on fait apparaitre les suivants
+			node.slideToggle 'slow', -> $(@).remove()
+			if episodesCache[nextGlobal]?
+				episode = Content.episode episodesCache[nextGlobal], showCache
+				$('#' + show).append episode
+			else
+				nbrEpisodes--
+			
+			nextGlobal++
+			nbr++
+		
+		# s'il n'y a plus d'épisodes à voir dans la série, on la cache
+		if nbrEpisodes is 0
+			$('#' + show).slideToggle() 
+		else
+			nbr = parseInt($('#' + show + ' .remain').text()) - nbr
+			$('#' + show + ' .remain').text '+' + nbr
+			
+		Fx.updateHeight()
+		
+		return episodesCache
+	
+	# Star HOVER
+	$('.star').live
+		mouseenter: ->
+			nodeStar = $(this)
+			while nodeStar.hasClass 'star'
+				nodeStar.attr 'src', '../img/star.gif'
+				nodeStar = nodeStar.prev()
+		mouseleave: ->
+			nodeStar = $(this)
+			while nodeStar.hasClass 'star'
+				nodeStar.attr 'src', '../img/star_off.gif'
+				nodeStar = nodeStar.prev()
+		click: ->
+			s = $(this).closest('.show')
+			show = s.attr 'id'
+			e = $(this).closest '.episode'
+			es = clean [e]
+			season = e.attr 'season'
+			episode = e.attr 'episode'
+			
+			# On marque comme vu EN notant
+			rate = $(this).attr('id').substring 4
+			params = "&season=" + season + "&episode=" + episode + "&note=" + rate
+			ajax.post "/members/watched/" + show, params, 
+				-> 
+					DB.set 'episodes.' + show, es
+					bgPage.badge.updateCache()
+				->
+					registerAction "/members/watched/" + show, params
+		
+	# Close Stars HOVER
+	$('.close_stars').live
+		click: ->
+			s = $(this).closest('.show')
+			show = s.attr 'id'
+			e = $(this).closest '.episode'
+			es = clean [e]
+			season = e.attr 'season'
+			episode = e.attr 'episode'
+			
+			# On marque comme vu SANS noter
+			params = "&season=" + season + "&episode=" + episode
+			ajax.post "/members/watched/" + show, params, 
+				->
+					DB.set 'episodes.' + show, es
+					bgPage.badge.updateCache()
+				->
+					registerAction "/members/watched/" + show, params
 	
 	## Marquer un épisode comme téléchargé ou pas
 	$('.downloaded').live

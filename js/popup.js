@@ -1,7 +1,7 @@
 var __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 $(document).ready(function() {
-  var badgeType, bgPage, message, registerAction;
+  var badgeType, bgPage, clean, message, registerAction;
   bgPage = chrome.extension.getBackgroundPage();
   $('*[title]').live({
     mouseenter: function() {
@@ -17,105 +17,36 @@ $(document).ready(function() {
   });
   $('.watched').live({
     click: function() {
-      var cleanEpisode, content, e, enable_ratings, episode, episodesCache, global, i, nbrEpisodes, nextGlobal, node, nodeRight, params, s, season, show, showCache;
+      var content, e, enable_ratings, episode, es, i, nodeRight, nodes, params, s, season, show;
       s = $(this).closest('.show');
       show = s.attr('id');
       e = $(this).closest('.episode');
       season = e.attr('season');
       episode = e.attr('episode');
-      global = e.attr('global');
-      nbrEpisodes = $('#' + show).find('.episode').length;
-      showCache = DB.get('shows')[show];
-      episodesCache = DB.get('episodes.' + show);
-      params = "&season=" + season + "&episode=" + episode;
       enable_ratings = DB.get('options').enable_ratings;
-      cleanEpisode = function(n) {
-        $('#' + show + ' .episode:hidden:lt(' + n + ')').removeClass('hidden').slideToggle();
-        episode = Content.episode(e, s);
-        $('#' + show).append(episode);
-        if (nbrEpisodes === 0) $('#' + show).slideToggle();
-        return Fx.updateHeight();
-      };
-      nextGlobal = $('#' + show).find('.episode').last().attr('global');
-      nextGlobal = parseInt(nextGlobal) + 1;
-      node = e;
-      while (node.hasClass('episode')) {
-        if (!enable_ratings) {
-          $(node).css('background-color', '#f5f5f5');
-          $(node).find('.watched').removeClass('watched');
-          nodeRight = $(node).find('.right');
+      nodes = [];
+      while (e.hasClass('episode')) {
+        if (enable_ratings) {
+          $(e).css('background-color', '#f5f5f5');
+          $(e).find('.watched').removeClass('watched');
+          nodeRight = $(e).find('.right');
           content = "";
           for (i = 1; i <= 5; i++) {
             content += '<img src="../img/star_off.gif" width="10" id="star' + i + '" class="star" title="' + i + ' /5" />';
           }
           content += '<img src="../img/archive.png" width="10" class="close_stars" title="' + __('do_not_rate') + '" />';
           nodeRight.html(content);
-          $('.star').on({
-            mouseenter: function() {
-              var nodeStar, _results;
-              nodeStar = $(this);
-              _results = [];
-              while (nodeStar.hasClass('star')) {
-                nodeStar.attr('src', '../img/star.gif');
-                _results.push(nodeStar = nodeStar.prev());
-              }
-              return _results;
-            },
-            mouseleave: function() {
-              var nodeStar, _results;
-              nodeStar = $(this);
-              _results = [];
-              while (nodeStar.hasClass('star')) {
-                nodeStar.attr('src', '../img/star_off.gif');
-                _results.push(nodeStar = nodeStar.prev());
-              }
-              return _results;
-            },
-            click: function() {
-              var nodeEpisode, rate;
-              nodeEpisode = $(this).parent().parent();
-              if (nodeEpisode.hasClass('episode')) {
-                nodeEpisode.slideToggle();
-                nodeEpisode.removeClass('episode');
-                rate = $(this).attr('id').substring(4);
-                params += "&note=" + rate;
-                'ajax.post "/members/watched/" + show, params, \n-> \n	Fx.toRefresh \'membersEpisodes.all\'\n	bgPage.badge.update()\n->\n	registerAction "/members/watched/" + show, params';
-                return cleanEpisode(1);
-              }
-            }
-          });
-          $('.close_stars').on({
-            click: function() {
-              var nodeEpisode;
-              nodeEpisode = $(this).parent().parent();
-              if (nodeEpisode.hasClass('episode')) {
-                nodeEpisode.slideToggle();
-                nodeEpisode.removeClass('episode');
-                'ajax.post "/members/watched/" + show, params, \n->\n	Fx.toRefresh \'membersEpisodes.all\'\n	bgPage.badge.update()\n->\n	registerAction "/members/watched/" + show, params';
-                return cleanEpisode(1);
-              }
-            }
-          });
         } else {
-          episodesCache[node.attr('global')].seen = true;
-          node.slideToggle('slow', function() {
-            return $(this).remove();
-          });
-          if (episodesCache[nextGlobal] != null) {
-            episode = Content.episode(episodesCache[nextGlobal], showCache);
-            $('#' + show).append(episode);
-          } else {
-            nbrEpisodes--;
-          }
-          if (nbrEpisodes === 0) $('#' + show).slideToggle();
+          nodes.push(e);
         }
-        node = node.prev();
-        nextGlobal++;
+        e = e.prev();
       }
       Fx.updateHeight();
-      if (enable_ratings) {
+      if (!enable_ratings) {
+        es = clean(nodes);
+        params = "&season=" + season + "&episode=" + episode;
         return ajax.post("/members/watched/" + show, params, function() {
-          return DB.set('episodes.' + show, episodesCache);
+          return DB.set('episodes.' + show, es);
         }, function() {
           return registerAction("/members/watched/" + show, params);
         });
@@ -140,6 +71,97 @@ $(document).ready(function() {
         _results.push(node = node.prev());
       }
       return _results;
+    }
+  });
+  clean = function(nodes) {
+    var episode, episodesCache, i, nbr, nbrEpisodes, nextGlobal, node, show, showCache, _len;
+    show = nodes[0].closest('.show').attr('id');
+    nbrEpisodes = $('#' + show).find('.episode').length;
+    nextGlobal = $('#' + show).find('.episode').last().attr('global');
+    nextGlobal = parseInt(nextGlobal) + 1;
+    nbr = 0;
+    for (i = 0, _len = nodes.length; i < _len; i++) {
+      node = nodes[i];
+      show = node.closest('.show').attr('id');
+      showCache = DB.get('shows')[show];
+      episodesCache = DB.get('episodes.' + show);
+      episodesCache[node.attr('global')].seen = true;
+      node.slideToggle('slow', function() {
+        return $(this).remove();
+      });
+      if (episodesCache[nextGlobal] != null) {
+        episode = Content.episode(episodesCache[nextGlobal], showCache);
+        $('#' + show).append(episode);
+      } else {
+        nbrEpisodes--;
+      }
+      nextGlobal++;
+      nbr++;
+    }
+    if (nbrEpisodes === 0) {
+      $('#' + show).slideToggle();
+    } else {
+      nbr = parseInt($('#' + show + ' .remain').text()) - nbr;
+      $('#' + show + ' .remain').text('+' + nbr);
+    }
+    Fx.updateHeight();
+    return episodesCache;
+  };
+  $('.star').live({
+    mouseenter: function() {
+      var nodeStar, _results;
+      nodeStar = $(this);
+      _results = [];
+      while (nodeStar.hasClass('star')) {
+        nodeStar.attr('src', '../img/star.gif');
+        _results.push(nodeStar = nodeStar.prev());
+      }
+      return _results;
+    },
+    mouseleave: function() {
+      var nodeStar, _results;
+      nodeStar = $(this);
+      _results = [];
+      while (nodeStar.hasClass('star')) {
+        nodeStar.attr('src', '../img/star_off.gif');
+        _results.push(nodeStar = nodeStar.prev());
+      }
+      return _results;
+    },
+    click: function() {
+      var e, episode, es, params, rate, s, season, show;
+      s = $(this).closest('.show');
+      show = s.attr('id');
+      e = $(this).closest('.episode');
+      es = clean([e]);
+      season = e.attr('season');
+      episode = e.attr('episode');
+      rate = $(this).attr('id').substring(4);
+      params = "&season=" + season + "&episode=" + episode + "&note=" + rate;
+      return ajax.post("/members/watched/" + show, params, function() {
+        DB.set('episodes.' + show, es);
+        return bgPage.badge.updateCache();
+      }, function() {
+        return registerAction("/members/watched/" + show, params);
+      });
+    }
+  });
+  $('.close_stars').live({
+    click: function() {
+      var e, episode, es, params, s, season, show;
+      s = $(this).closest('.show');
+      show = s.attr('id');
+      e = $(this).closest('.episode');
+      es = clean([e]);
+      season = e.attr('season');
+      episode = e.attr('episode');
+      params = "&season=" + season + "&episode=" + episode;
+      return ajax.post("/members/watched/" + show, params, function() {
+        DB.set('episodes.' + show, es);
+        return bgPage.badge.updateCache();
+      }, function() {
+        return registerAction("/members/watched/" + show, params);
+      });
     }
   });
   $('.downloaded').live({
