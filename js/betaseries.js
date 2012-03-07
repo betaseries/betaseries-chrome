@@ -127,30 +127,30 @@ BS = {
       }
     };
   },
-  showsEpisodes: function(url, season, episode) {
+  showsEpisodes: function(url, season, episode, global) {
     return {
-      id: "showsEpisodes." + url + "." + season + "." + episode,
+      id: 'showsEpisodes.' + url + '.' + global,
       name: 'showsEpisodes',
-      url: "/shows/episodes/" + url,
-      params: "&season=" + season + "&episode=" + episode,
+      url: '/shows/episodes/' + url,
+      params: '&season=' + season + '&episode=' + episode,
       root: 'seasons',
       episodes: DB.get('episodes.' + url),
-      number: Fx.getNumber(season, episode),
+      global: global,
       update: function(data) {
         var e;
         e = data['0']['episodes']['0'];
-        if (e.comments != null) this.episodes[this.number].comments = e.comments;
+        if (e.comments != null) this.episodes[this.global].comments = e.comments;
         if (e.description != null) {
-          this.episodes[this.number].description = e.description;
+          this.episodes[this.global].description = e.description;
         }
-        if (e.note != null) this.episodes[this.number].note = e.note;
-        if (e.screen != null) this.episodes[this.number].screen = e.screen;
-        if (e.subs != null) this.episodes[this.number].subs = e.subs;
+        if (e.note != null) this.episodes[this.global].note = e.note;
+        if (e.screen != null) this.episodes[this.global].screen = e.screen;
+        if (e.subs != null) this.episodes[this.global].subs = e.subs;
         return DB.set('episodes.' + url, this.episodes);
       },
       content: function() {
         var e, imgDownloaded, n, nbr_subs, output, sub, texte3, title;
-        e = this.episodes[this.number];
+        e = this.episodes[this.global];
         title = DB.get('options').display_global ? '#' + e.global + ' ' + title : e.title;
         output = "<div>";
         output += '<div class="showtitle">' + e.show + '</div>';

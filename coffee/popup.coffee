@@ -180,12 +180,13 @@ $(document).ready ->
 	## Accéder à la fiche d'un épisode
 	$('.num').live
 		click: ->
-			url = $(this).attr 'show'
-			number = $(this).attr 'number'
-			number = Fx.splitNumber number
-			season = number.season
-			episode = number.episode
-			BS.load('showsEpisodes', url, season, episode)
+			s = $(this).closest('.show')
+			show = s.attr 'id'
+			e = $(this).closest('.episode')
+			season = e.attr 'season'
+			episode = e.attr 'episode'
+			global = e.attr 'global'
+			BS.load('showsEpisodes', show, season, episode, global)
 
 		mouseenter: -> 
 			$(this).css 'cursor', 'pointer'

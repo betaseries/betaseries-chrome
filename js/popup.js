@@ -165,13 +165,14 @@ $(document).ready(function() {
   });
   $('.num').live({
     click: function() {
-      var episode, number, season, url;
-      url = $(this).attr('show');
-      number = $(this).attr('number');
-      number = Fx.splitNumber(number);
-      season = number.season;
-      episode = number.episode;
-      return BS.load('showsEpisodes', url, season, episode);
+      var e, episode, global, s, season, show;
+      s = $(this).closest('.show');
+      show = s.attr('id');
+      e = $(this).closest('.episode');
+      season = e.attr('season');
+      episode = e.attr('episode');
+      global = e.attr('global');
+      return BS.load('showsEpisodes', show, season, episode, global);
     },
     mouseenter: function() {
       $(this).css('cursor', 'pointer');

@@ -156,24 +156,24 @@ BS =
 			output
 		
 	#
-	showsEpisodes: (url, season, episode) ->
-		id: "showsEpisodes.#{url}.#{season}.#{episode}"
+	showsEpisodes: (url, season, episode, global) ->
+		id: 'showsEpisodes.' + url + '.' + global
 		name: 'showsEpisodes'
-		url: "/shows/episodes/#{url}"
-		params: "&season=#{season}&episode=#{episode}"
+		url: '/shows/episodes/' + url
+		params: '&season=' + season + '&episode=' + episode
 		root: 'seasons'
 		episodes: DB.get 'episodes.' + url
-		number: Fx.getNumber season, episode
+		global: global
 		update: (data) ->
 			e = data['0']['episodes']['0']
-			@episodes[@number].comments = e.comments if e.comments?
-			@episodes[@number].description = e.description if e.description?
-			@episodes[@number].note = e.note if e.note?
-			@episodes[@number].screen = e.screen if e.screen?
-			@episodes[@number].subs = e.subs if e.subs?
+			@episodes[@global].comments = e.comments if e.comments?
+			@episodes[@global].description = e.description if e.description?
+			@episodes[@global].note = e.note if e.note?
+			@episodes[@global].screen = e.screen if e.screen?
+			@episodes[@global].subs = e.subs if e.subs?
 			DB.set 'episodes.' + url, @episodes
 		content: ->
-			e = @episodes[@number]
+			e = @episodes[@global]
 			
 			title = if DB.get('options').display_global then '#' + e.global + ' ' + title else e.title
 			
