@@ -20,27 +20,28 @@ $(document).ready ->
 			season = number0.season
 			episode = number0.episode
 			
+			s = DB.get('shows')[show]
+			es = DB.get 'episodes.' + show
+			
 			params = "&season=" + season + "&episode=" + episode
 			enable_ratings = DB.get('options').enable_ratings
 			
 			cleanEpisode = (n) ->
+				# on fait apparaitre les suivants
+				$('#' + show + ' .episode:hidden:lt(' + n + ')').removeClass('hidden').slideToggle()
+				episode = Content.episode e, s
+				$('#' + show).append episode
+				
+				# TODO Mise à jour du remain
+				
 				# s'il n'y a plus d'épisodes à voir dans la série, on la cache
 				if $('#' + show).find('.episode').length is 0
 					$('#' + show).slideToggle()
 				
-				# on fait apparaitre les suivants
-				$('#' + show + ' .episode:hidden:lt(' + n + ')').removeClass('hidden').slideToggle()
-				
-				# Mise à jour du remain
-				remain = $('#' + show).find '.remain'
-				newremain = parseInt(remain.text()) - n
-				remain.text newremain
-				remain.parent().hide() if newremain < 1
-				
 				Fx.updateHeight()
 			
 			# On cache les div
-			n = 0
+			n = 1
 			node = $('#' + show + ' #' + number)
 			while node.hasClass 'episode'
 				# Notation d'un épisode
@@ -82,12 +83,12 @@ $(document).ready ->
 								rate = $(this).attr('id').substring 4
 								params += "&note=" + rate
 								# On marque comme vu EN notant
-								ajax.post "/members/watched/" + show, params, 
+								'''ajax.post "/members/watched/" + show, params, 
 									-> 
 										Fx.toRefresh 'membersEpisodes.all'
 										bgPage.badge.update()
 									->
-										registerAction "/members/watched/" + show, params
+										registerAction "/members/watched/" + show, params'''
 								
 								cleanEpisode 1
 						
@@ -106,28 +107,33 @@ $(document).ready ->
 								nodeEpisode.removeClass 'episode'
 								
 								# On marque comme vu SANS noter
-								ajax.post "/members/watched/" + show, params, 
+								'''ajax.post "/members/watched/" + show, params, 
 									->
 										Fx.toRefresh 'membersEpisodes.all'
 										bgPage.badge.update()
 									->
-										registerAction "/members/watched/" + show, params
+										registerAction "/members/watched/" + show, params'''
 								
 								cleanEpisode 1
 							
-				else if enable_ratings is 'false'
+				else
 					node.slideToggle()
-					node.removeClass 'episode'
+					number = node.attr 'id'
+					#es[number].seen = true
+					episode = Content.episode es[global + n], s
+					$('#' + show).append(episode).slideToggle()
 				
 				node = node.prev()
 				n++
 			
-			if enable_ratings
+			DB.get 'episodes.' + show, es
+			
+			#if enable_ratings
 				# on marque comme vu SANS noter
-				ajax.post "/members/watched/" + show, params, null, 
-					-> registerAction "/members/watched/" + show, params
+				#'''ajax.post "/members/watched/" + show, params, null, 
+				#	-> registerAction "/members/watched/" + show, params'''
 				
-				cleanEpisode n
+				#cleanEpisode n
 		
 		mouseenter: ->
 			show = $(this).attr 'show'
@@ -148,25 +154,27 @@ $(document).ready ->
 	## Marquer un épisode comme téléchargé ou pas
 	$('.downloaded').live
 		click: ->
-			# récupération des infos de l'épisode
-			img = $(this)
-			show = img.attr 'show'
-			number = img.attr 'number'
+			s = $(this).closest('.show')
+			show = s.attr 'id'
+			e = $(this).closest('.episode')
+			season = e.attr 'season'
+			episode = e.attr 'episode'
+			global = e.attr 'global'
 			
 			# mise à jour du cache
 			es = DB.get 'episodes.' + show
-			downloaded = es[number].downloaded
-			es[number].downloaded = !downloaded
+			downloaded = es[global].downloaded
+			es[global].downloaded = !downloaded
 			DB.set 'episodes.' + show, es
 			
 			# modification de l'icône
 			if downloaded
-				img.attr 'src', '../img/folder_off.png'
+				$(this).attr 'src', '../img/folder_off.png'
 			else 
-				img.attr 'src', '../img/folder.png'
+				$(this).attr 'src', '../img/folder.png'
 			
 			# envoi de la requête
-			params = "&season=" + es[number].season + "&episode=" + es[number].episode
+			params = "&season=" + season + "&episode=" + episode
 			ajax.post "/members/downloaded/" + show, params, null,
 				-> registerAction "/members/downloaded/" + show, params
 			
@@ -179,12 +187,13 @@ $(document).ready ->
 	## Accéder à la liste des commentaires d'un épisode
 	$('.comments').live
 		click: ->
-			show = $(this).attr 'show'
-			number = $(this).attr 'number'
-			number0 = Fx.splitNumber number
-			season = number0.season
-			episode = number0.episode
-			BS.load('commentsEpisode', show, season, episode)
+			s = $(this).closest('.show')
+			show = s.attr 'id'
+			e = $(this).closest('.episode')
+			season = e.attr 'season'
+			episode = e.attr 'episode'
+			global = e.attr 'global'
+			BS.load('commentsEpisode', show, season, episode, global)
 	
 	## Accéder à la fiche d'un épisode
 	$('.num').live

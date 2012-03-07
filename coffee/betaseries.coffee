@@ -340,12 +340,13 @@ BS =
 				
 				# cache des infos de *épisode*
 				episodes = DB.get 'episodes.' + e.url, {}
-				if e.global of episodes
+				if episodes[e.global]?
+					# on mets à jour le nombre de commentaires
 					episodes[e.global].comments = e.comments
 					# cas où on marque comme récupéré ou pas depuis le site
-					episodes[e.number].downloaded = e.downloaded
+					episodes[e.global].downloaded = e.downloaded is '1'
 				else
-					episodes[e.number] =
+					episodes[e.global] =
 						comments: e.comments
 						date: e.date
 						downloaded: e.downloaded is '1'
@@ -396,8 +397,8 @@ BS =
 				output += Content.show s, j.nbr_total
 				
 				# construction des blocs *episode*
-				for e, k in j.episodes
-					output += Content.episode e, s, k
+				for e in j.episodes
+					output += Content.episode e, s
 				
 				output += '</div>'
 			
@@ -444,17 +445,17 @@ BS =
 			output += __('no_notifications') if nbrNotifications is 0
 			return output
 	
-	#
-	commentsEpisode: (url, season, episode) ->
-		id: 'commentsEpisode.' + url + '.' + season + '.' + episode
+	## Section "commentaires d'un épisode"
+	commentsEpisode: (url, season, episode, global) ->
+		id: 'commentsEpisode.' + url + '.' + global
 		name: 'commentsEpisode'
 		url: '/comments/episode/' + url
 		params: '&season=' + season + '&episode=' + episode
 		root: 'comments'
 		show: url
-		number: Fx.getNumber season, episode
+		global: global
 		update: (data) ->
-			comments = DB.get 'comments.' + @show + '.' + @number, {}
+			comments = DB.get 'comments.' + @show + '.' + @global, {}
 			
 			# récupération de commentaires en cache
 			nbrComments = comments.length
@@ -465,14 +466,15 @@ BS =
 					continue
 				else
 					comments[i] = comment
-					
-			DB.set 'comments.' + @show + '.' + @number, comments
+			
+			# mise à jour du cache
+			DB.set 'comments.' + @show + '.' + @global, comments
 		content: ->
 			i = 1
 			time = ''
 			show = ''
 			output = '<div class="showtitle">' + show + '</div>';
-			data = DB.get 'comments.' + @show + '.' + @number, {}
+			data = DB.get 'comments.' + @show + '.' + @global, {}
 			for n of data
 				new_date = date('D d F', data[n].date)
 				if new_date isnt time

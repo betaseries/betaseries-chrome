@@ -19,31 +19,19 @@ Content = {
     output += '</div>';
     return output;
   },
-  episode: function(e, s, j) {
-    var classes, date_0, dlSrtLanguage, empty, hidden, imgDownloaded, jours, lang, nbSubs, nbrEpisodesPerSerie, newShow, output, quality, sub, subs, textTitle, texte2, texte3, time, title, url;
+  episode: function(e, s) {
+    var date_0, dlSrtLanguage, empty, hidden, imgDownloaded, jours, lang, nbSubs, nbrEpisodesPerSerie, newShow, output, quality, sub, subs, textTitle, texte2, texte3, time, title, url;
     output = '';
     nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie;
     time = Math.floor(new Date().getTime() / 1000);
     jours = Math.floor(time / (24 * 3600));
     date_0 = (24 * 3600) * jours - 2 * 3600;
-    newShow = e.date >= date_0;
-    classes = "";
-    hidden = "";
-    classes = newShow ? "new" : "";
-    if (j + 1 > nbrEpisodesPerSerie) {
-      classes += ' hidden';
-      if (!s.expanded || s.hidden) hidden = ' style="display: none;"';
-    } else if (s.hidden) {
-      hidden = ' style="display: none;"';
-    }
-    output += '<div id="' + e.number + '" class="episode ' + classes + '"' + hidden + '>';
+    newShow = e.date >= date_0 ? ' new' : '';
+    hidden = s.hidden ? ' hidden' : '';
+    output += '<div class="episode e' + e.global + ' ' + newShow + hidden + '" number="' + e.number + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '">';
     title = DB.get('options').display_global ? '#' + e.global + ' ' + title : e.title;
     textTitle = title.length > 20 ? ' title="' + title + '"' : '';
-    if (j + 1 === 1) {
-      texte2 = __('mark_as_seen');
-    } else if (j + 1 > 1) {
-      texte2 = __('mark_as_seen_pl');
-    }
+    texte2 = __('mark_as_seen');
     output += '<div class="left">';
     output += '<img src="../img/plot_off.png" class="watched action icon-4" title="' + texte2 + '" show="' + e.url + '" number="' + e.number + '" /> <span class="num" show="' + e.url + '" number="' + e.number + '">';
     output += '[' + e.number + ']</span> <span class="title"' + textTitle + '>' + Fx.subFirst(title, 20) + '</span>';
@@ -80,11 +68,11 @@ Content = {
     output += '<div class="right">';
     empty = '<img src="../img/empty.png" alt="hidden" /> ';
     if (e.comments > 0) {
-      output += '<img src="../img/comment.png" class="comments action" title="' + __('nbr_comments', [e.comments]) + '" show="' + e.url + '" number="' + e.number + '" /> ';
+      output += '<img src="../img/comment.png" class="comments action" title="' + __('nbr_comments', [e.comments]) + '" /> ';
     } else {
       output += empty;
     }
-    output += '	<img src="../img/' + imgDownloaded + '.png" class="downloaded action" title="' + texte3 + '" show="' + e.url + '" number="' + e.number + '" /> ';
+    output += '	<img src="../img/' + imgDownloaded + '.png" class="downloaded action" title="' + texte3 + '" /> ';
     if (nbSubs > 0) {
       output += '<img src="../img/srt.png" class="subs action" link="' + url + '" quality="' + quality + '" title="' + __('srt_quality', [lang, quality]) + '" /> ';
     }

@@ -319,11 +319,11 @@ BS = {
           }
           DB.set('shows', shows);
           episodes = DB.get('episodes.' + e.url, {});
-          if (e.global in episodes) {
+          if (episodes[e.global] != null) {
             episodes[e.global].comments = e.comments;
-            episodes[e.number].downloaded = e.downloaded;
+            episodes[e.global].downloaded = e.downloaded === '1';
           } else {
-            episodes[e.number] = {
+            episodes[e.global] = {
               comments: e.comments,
               date: e.date,
               downloaded: e.downloaded === '1',
@@ -343,7 +343,7 @@ BS = {
         return _results;
       },
       content: function() {
-        var data, e, episode, episodes, es, i, j, k, n, nbrEpisodesPerSerie, output, s, _len, _ref;
+        var data, e, episode, episodes, es, i, j, n, nbrEpisodesPerSerie, output, s, _i, _len, _ref;
         data = {};
         nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie;
         for (i in localStorage) {
@@ -379,9 +379,9 @@ BS = {
           output += '<div id="' + s.url + '" class="show">';
           output += Content.show(s, j.nbr_total);
           _ref = j.episodes;
-          for (k = 0, _len = _ref.length; k < _len; k++) {
-            e = _ref[k];
-            output += Content.episode(e, s, k);
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            e = _ref[_i];
+            output += Content.episode(e, s);
           }
           output += '</div>';
         }
@@ -433,18 +433,18 @@ BS = {
       }
     };
   },
-  commentsEpisode: function(url, season, episode) {
+  commentsEpisode: function(url, season, episode, global) {
     return {
-      id: 'commentsEpisode.' + url + '.' + season + '.' + episode,
+      id: 'commentsEpisode.' + url + '.' + global,
       name: 'commentsEpisode',
       url: '/comments/episode/' + url,
       params: '&season=' + season + '&episode=' + episode,
       root: 'comments',
       show: url,
-      number: Fx.getNumber(season, episode),
+      global: global,
       update: function(data) {
         var comment, comments, i, nbrComments;
-        comments = DB.get('comments.' + this.show + '.' + this.number, {});
+        comments = DB.get('comments.' + this.show + '.' + this.global, {});
         nbrComments = comments.length;
         for (i in data) {
           comment = data[i];
@@ -454,7 +454,7 @@ BS = {
             comments[i] = comment;
           }
         }
-        return DB.set('comments.' + this.show + '.' + this.number, comments);
+        return DB.set('comments.' + this.show + '.' + this.global, comments);
       },
       content: function() {
         var data, i, n, new_date, output, show, time;
@@ -462,7 +462,7 @@ BS = {
         time = '';
         show = '';
         output = '<div class="showtitle">' + show + '</div>';
-        data = DB.get('comments.' + this.show + '.' + this.number, {});
+        data = DB.get('comments.' + this.show + '.' + this.global, {});
         for (n in data) {
           new_date = date('D d F', data[n].date);
           if (new_date !== time) {

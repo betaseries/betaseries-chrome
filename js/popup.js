@@ -17,27 +17,26 @@ $(document).ready(function() {
   });
   $('.watched').live({
     click: function() {
-      var cleanEpisode, content, enable_ratings, episode, i, n, node, nodeRight, number, number0, params, season, show;
+      var cleanEpisode, content, enable_ratings, episode, es, i, n, node, nodeRight, number, number0, params, s, season, show;
       show = $(this).attr('show');
       number = $(this).attr('number');
       number0 = Fx.splitNumber(number);
       season = number0.season;
       episode = number0.episode;
+      s = DB.get('shows')[show];
+      es = DB.get('episodes.' + show);
       params = "&season=" + season + "&episode=" + episode;
       enable_ratings = DB.get('options').enable_ratings;
       cleanEpisode = function(n) {
-        var newremain, remain;
+        $('#' + show + ' .episode:hidden:lt(' + n + ')').removeClass('hidden').slideToggle();
+        episode = Content.episode(e, s);
+        $('#' + show).append(episode);
         if ($('#' + show).find('.episode').length === 0) {
           $('#' + show).slideToggle();
         }
-        $('#' + show + ' .episode:hidden:lt(' + n + ')').removeClass('hidden').slideToggle();
-        remain = $('#' + show).find('.remain');
-        newremain = parseInt(remain.text()) - n;
-        remain.text(newremain);
-        if (newremain < 1) remain.parent().hide();
         return Fx.updateHeight();
       };
-      n = 0;
+      n = 1;
       node = $('#' + show + ' #' + number);
       while (node.hasClass('episode')) {
         if (enable_ratings) {
@@ -81,12 +80,7 @@ $(document).ready(function() {
                 nodeEpisode.removeClass('episode');
                 rate = $(this).attr('id').substring(4);
                 params += "&note=" + rate;
-                ajax.post("/members/watched/" + show, params, function() {
-                  Fx.toRefresh('membersEpisodes.all');
-                  return bgPage.badge.update();
-                }, function() {
-                  return registerAction("/members/watched/" + show, params);
-                });
+                'ajax.post "/members/watched/" + show, params, \n-> \n	Fx.toRefresh \'membersEpisodes.all\'\n	bgPage.badge.update()\n->\n	registerAction "/members/watched/" + show, params';
                 return cleanEpisode(1);
               }
             }
@@ -106,29 +100,21 @@ $(document).ready(function() {
               if (nodeEpisode.hasClass('episode')) {
                 nodeEpisode.slideToggle();
                 nodeEpisode.removeClass('episode');
-                ajax.post("/members/watched/" + show, params, function() {
-                  Fx.toRefresh('membersEpisodes.all');
-                  return bgPage.badge.update();
-                }, function() {
-                  return registerAction("/members/watched/" + show, params);
-                });
+                'ajax.post "/members/watched/" + show, params, \n->\n	Fx.toRefresh \'membersEpisodes.all\'\n	bgPage.badge.update()\n->\n	registerAction "/members/watched/" + show, params';
                 return cleanEpisode(1);
               }
             }
           });
-        } else if (enable_ratings === 'false') {
+        } else {
           node.slideToggle();
-          node.removeClass('episode');
+          number = node.attr('id');
+          episode = Content.episode(es[global + n], s);
+          $('#' + show).append(episode).slideToggle();
         }
         node = node.prev();
         n++;
       }
-      if (enable_ratings) {
-        ajax.post("/members/watched/" + show, params, null, function() {
-          return registerAction("/members/watched/" + show, params);
-        });
-        return cleanEpisode(n);
-      }
+      return DB.get('episodes.' + show, es);
     },
     mouseenter: function() {
       var node, number, show, _results;
@@ -157,20 +143,23 @@ $(document).ready(function() {
   });
   $('.downloaded').live({
     click: function() {
-      var downloaded, es, img, number, params, show;
-      img = $(this);
-      show = img.attr('show');
-      number = img.attr('number');
+      var downloaded, e, episode, es, global, params, s, season, show;
+      s = $(this).closest('.show');
+      show = s.attr('id');
+      e = $(this).closest('.episode');
+      season = e.attr('season');
+      episode = e.attr('episode');
+      global = e.attr('global');
       es = DB.get('episodes.' + show);
-      downloaded = es[number].downloaded;
-      es[number].downloaded = !downloaded;
+      downloaded = es[global].downloaded;
+      es[global].downloaded = !downloaded;
       DB.set('episodes.' + show, es);
       if (downloaded) {
-        img.attr('src', '../img/folder_off.png');
+        $(this).attr('src', '../img/folder_off.png');
       } else {
-        img.attr('src', '../img/folder.png');
+        $(this).attr('src', '../img/folder.png');
       }
-      params = "&season=" + es[number].season + "&episode=" + es[number].episode;
+      params = "&season=" + season + "&episode=" + episode;
       return ajax.post("/members/downloaded/" + show, params, null, function() {
         return registerAction("/members/downloaded/" + show, params);
       });
@@ -184,13 +173,14 @@ $(document).ready(function() {
   });
   $('.comments').live({
     click: function() {
-      var episode, number, number0, season, show;
-      show = $(this).attr('show');
-      number = $(this).attr('number');
-      number0 = Fx.splitNumber(number);
-      season = number0.season;
-      episode = number0.episode;
-      return BS.load('commentsEpisode', show, season, episode);
+      var e, episode, global, s, season, show;
+      s = $(this).closest('.show');
+      show = s.attr('id');
+      e = $(this).closest('.episode');
+      season = e.attr('season');
+      episode = e.attr('episode');
+      global = e.attr('global');
+      return BS.load('commentsEpisode', show, season, episode, global);
     }
   });
   $('.num').live({

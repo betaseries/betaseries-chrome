@@ -40,10 +40,9 @@ Content =
 	 # @param	object		Informations d'un *épisode*
 	 # @param	object		Informations d'une *série*
 	 # @param	integer		Position de l'épisode
-	 # @param	integer		Nombre d'épisode affichés
 	 # @return 	string		Bloc *épisode*
 	 #	
-	episode: (e, s, j) ->
+	episode: (e, s) ->
 		output = ''
 		
 		# Nouvel épisode
@@ -51,25 +50,15 @@ Content =
 		time = Math.floor new Date().getTime() / 1000
 		jours = Math.floor time / (24 * 3600)
 		date_0 = (24*3600)* jours - 2*3600
-		newShow = e.date >= date_0
-		classes = ""
-		hidden = ""
-		classes = if newShow then "new" else ""
+		newShow = if e.date >= date_0 then ' new' else ''
+		hidden = if s.hidden then ' hidden' else ''
 		
-		if j + 1 > nbrEpisodesPerSerie
-			classes += ' hidden'
-			hidden = ' style="display: none;"' if !s.expanded or s.hidden
-		else if s.hidden
-			hidden = ' style="display: none;"'
-		output += '<div id="' + e.number + '" class="episode ' + classes + '"' + hidden + '>'
+		output += '<div class="episode e' + e.global + ' ' + newShow + hidden + '" number="' + e.number + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '">'
 			
 		# Titre de l'épisode
 		title = if DB.get('options').display_global then '#' + e.global + ' ' + title else e.title
 		textTitle = if (title.length > 20) then ' title="' + title + '"' else ''
-		if j + 1 is 1 
-			texte2 = __('mark_as_seen')
-		else if j + 1 > 1
-			texte2 = __('mark_as_seen_pl')
+		texte2 = __('mark_as_seen')
 		output += '<div class="left">'
 		output += '<img src="../img/plot_off.png" class="watched action icon-4" title="' + texte2 + '" show="' + e.url + '" number="' + e.number + '" /> <span class="num" show="' + e.url + '" number="' + e.number + '">'
 		output += '[' + e.number + ']</span> <span class="title"' + textTitle + '>' + Fx.subFirst(title, 20) + '</span>'
@@ -107,11 +96,11 @@ Content =
 		output += '<div class="right">'
 		empty = '<img src="../img/empty.png" alt="hidden" /> '
 		if e.comments > 0
-			output += '<img src="../img/comment.png" class="comments action" title="' + __('nbr_comments', [e.comments]) + '" show="' + e.url + '" number="' + e.number + '" /> '
+			output += '<img src="../img/comment.png" class="comments action" title="' + __('nbr_comments', [e.comments]) + '" /> '
 		else 
 			output += empty
 		
-		output += '	<img src="../img/' + imgDownloaded + '.png" class="downloaded action" title="' + texte3 + '" show="' + e.url + '" number="' + e.number + '" /> '
+		output += '	<img src="../img/' + imgDownloaded + '.png" class="downloaded action" title="' + texte3 + '" /> '
 		
 		if nbSubs > 0
 			output += '<img src="../img/srt.png" class="subs action" link="' + url + '" quality="' + quality + '" title="' + __('srt_quality', [lang, quality]) + '" /> '
