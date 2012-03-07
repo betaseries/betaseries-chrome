@@ -362,14 +362,21 @@ BS =
 		content: ->
 			# récupération des épisodes non vus (cache)
 			data = {}
+			nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie
 			for i, episodes of localStorage
 				if i.indexOf('episodes.') is 0
+					n = 0
 					for j, episode of JSON.parse episodes
-						continue if episode.seen
-						es = if data[i.substring(9)]? then data[i.substring(9)] else []
-						es.push episode
-						data[i.substring(9)] = es
-			
+						if episode.seen
+							continue
+						else if n < nbrEpisodesPerSerie
+							es = if data[i.substring(9)]? then data[i.substring(9)] else []
+							es.push episode
+							data[i.substring(9)] = es
+							n++
+						else
+							break
+							
 			# SHOWS
 			output = '<div id="shows">'
 			

@@ -343,18 +343,26 @@ BS = {
         return _results;
       },
       content: function() {
-        var data, e, episode, episodes, es, i, j, output, s, _len, _ref;
+        var data, e, episode, episodes, es, i, j, n, nbrEpisodesPerSerie, output, s, _len, _ref;
         data = {};
+        nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie;
         for (i in localStorage) {
           episodes = localStorage[i];
           if (i.indexOf('episodes.') === 0) {
+            n = 0;
             _ref = JSON.parse(episodes);
             for (j in _ref) {
               episode = _ref[j];
-              if (episode.seen) continue;
-              es = data[i.substring(9)] != null ? data[i.substring(9)] : [];
-              es.push(episode);
-              data[i.substring(9)] = es;
+              if (episode.seen) {
+                continue;
+              } else if (n < nbrEpisodesPerSerie) {
+                es = data[i.substring(9)] != null ? data[i.substring(9)] : [];
+                es.push(episode);
+                data[i.substring(9)] = es;
+                n++;
+              } else {
+                break;
+              }
             }
           }
         }
