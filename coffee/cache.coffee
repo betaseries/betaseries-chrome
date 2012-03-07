@@ -29,10 +29,9 @@ Cache =
 			if !(viewclass in @views)
 				continue
 			if viewclass is 'commentsEpisode'
-				#commentsEpisode.thewalkingdead.2.11
-				#comments.thewalkingdead.S02E11
+				#commentsEpisode.castle.75
+				#comments.castle.75
 				args = viewid.split '.'
-				number = Fx.getNumber args[2], args[3]
-				DB.remove 'comments.' + args[1] + '.' + number
+				DB.remove 'comments.' + args[1] + '.' + args[2]
 				delete views_to_remove[viewid]
 		DB.set 'views_to_remove', views_to_remove

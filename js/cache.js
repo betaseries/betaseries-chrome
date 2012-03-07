@@ -18,15 +18,14 @@ Cache = {
     return DB.set('views_to_remove', views_to_remove);
   },
   clean: function(view) {
-    var args, number, viewclass, viewid, views_to_remove;
+    var args, viewclass, viewid, views_to_remove;
     views_to_remove = DB.get('views_to_remove');
     for (viewid in views_to_remove) {
       viewclass = views_to_remove[viewid];
       if (!(__indexOf.call(this.views, viewclass) >= 0)) continue;
       if (viewclass === 'commentsEpisode') {
         args = viewid.split('.');
-        number = Fx.getNumber(args[2], args[3]);
-        DB.remove('comments.' + args[1] + '.' + number);
+        DB.remove('comments.' + args[1] + '.' + args[2]);
         delete views_to_remove[viewid];
       }
     }
