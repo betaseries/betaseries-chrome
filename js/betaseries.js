@@ -343,7 +343,7 @@ BS = {
         return _results;
       },
       content: function() {
-        var data, e, episode, episodes, es, i, j, n, nbrEpisodesPerSerie, output, s, _i, _len, _ref;
+        var data, e, episode, episodes, es, i, j, n, nbrEpisodesPerSerie, output, s, _i, _len, _ref, _ref2;
         data = {};
         nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie;
         for (i in localStorage) {
@@ -351,20 +351,20 @@ BS = {
           if (i.indexOf('episodes.') === 0) {
             n = 0;
             es = JSON.parse(episodes);
-            data[i.substring(9)] = {
-              nbr_total: Object.keys(es).length
-            };
             for (j in es) {
               episode = es[j];
               if (episode.seen) {
                 continue;
               } else if (n < nbrEpisodesPerSerie) {
                 episodes = [];
-                if (data[i.substring(9)].episodes != null) {
+                if (((_ref = data[i.substring(9)]) != null ? _ref.episodes : void 0) != null) {
                   episodes = data[i.substring(9)].episodes;
                 }
                 episodes.push(episode);
-                data[i.substring(9)].episodes = episodes;
+                data[i.substring(9)] = {
+                  episodes: episodes,
+                  nbr_total: n
+                };
                 n++;
               } else {
                 break;
@@ -378,9 +378,9 @@ BS = {
           s = DB.get('shows')[i];
           output += '<div id="' + s.url + '" class="show">';
           output += Content.show(s, j.nbr_total);
-          _ref = j.episodes;
-          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            e = _ref[_i];
+          _ref2 = j.episodes;
+          for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+            e = _ref2[_i];
             output += Content.episode(e, s);
           }
           output += '</div>';

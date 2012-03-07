@@ -368,21 +368,21 @@ BS =
 				if i.indexOf('episodes.') is 0
 					n = 0
 					es = JSON.parse episodes
-					data[i.substring(9)] =
-						nbr_total: Object.keys(es).length
 					for j, episode of es
 						if episode.seen
 							continue
 						else if n < nbrEpisodesPerSerie
 							episodes = []
-							if data[i.substring(9)].episodes? 
+							if data[i.substring(9)]?.episodes? 
 								episodes = data[i.substring(9)].episodes
 							episodes.push episode
-							data[i.substring(9)].episodes = episodes 
+							data[i.substring(9)] =
+								episodes: episodes 
+								nbr_total: n
 							n++
 						else
 							break
-							
+			
 			# SHOWS
 			output = '<div id="shows">'
 			
