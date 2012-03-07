@@ -604,18 +604,6 @@ BS = {
       }
     };
   },
-  noConnection: function() {
-    return {
-      id: 'noConnection',
-      name: 'noConnection',
-      content: function() {
-        var output;
-        output = __('be_connected') + '<br /><br /><a href="" onclick="BS.refresh(); return false;">';
-        output += '<img src="../img/refresh.png" class="icon2" />' + __('refresh_view') + '</a>';
-        return output;
-      }
-    };
-  },
   menu: function() {
     return {
       id: 'menu',

@@ -594,15 +594,6 @@ BS =
 			
 			return output
 			
-	#
-	noConnection: ->
-		id: 'noConnection'
-		name: 'noConnection'
-		content: ->
-			output = __('be_connected') + '<br /><br /><a href="" onclick="BS.refresh(); return false;">'
-			output += '<img src="../img/refresh.png" class="icon2" />' + __('refresh_view') + '</a>'
-			return output
-	
 	##	
 	menu: ->
 		id: 'menu'
