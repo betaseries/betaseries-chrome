@@ -17,7 +17,7 @@ $(document).ready(function() {
   });
   $('.watched').live({
     click: function() {
-      var cleanEpisode, content, e, enable_ratings, episode, episodesCache, global, i, nbrEpisodes, nextGlobal, node, nodeRight, params, s, season, show, showCache, _results;
+      var cleanEpisode, content, e, enable_ratings, episode, episodesCache, global, i, nbrEpisodes, nextGlobal, node, nodeRight, params, s, season, show, showCache;
       s = $(this).closest('.show');
       show = s.attr('id');
       e = $(this).closest('.episode');
@@ -39,7 +39,6 @@ $(document).ready(function() {
       nextGlobal = $('#' + show).find('.episode').last().attr('global');
       nextGlobal = parseInt(nextGlobal) + 1;
       node = e;
-      _results = [];
       while (node.hasClass('episode')) {
         if (!enable_ratings) {
           $(node).css('background-color', '#f5f5f5');
@@ -53,24 +52,24 @@ $(document).ready(function() {
           nodeRight.html(content);
           $('.star').on({
             mouseenter: function() {
-              var nodeStar, _results2;
+              var nodeStar, _results;
               nodeStar = $(this);
-              _results2 = [];
+              _results = [];
               while (nodeStar.hasClass('star')) {
                 nodeStar.attr('src', '../img/star.gif');
-                _results2.push(nodeStar = nodeStar.prev());
+                _results.push(nodeStar = nodeStar.prev());
               }
-              return _results2;
+              return _results;
             },
             mouseleave: function() {
-              var nodeStar, _results2;
+              var nodeStar, _results;
               nodeStar = $(this);
-              _results2 = [];
+              _results = [];
               while (nodeStar.hasClass('star')) {
                 nodeStar.attr('src', '../img/star_off.gif');
-                _results2.push(nodeStar = nodeStar.prev());
+                _results.push(nodeStar = nodeStar.prev());
               }
-              return _results2;
+              return _results;
             },
             click: function() {
               var nodeEpisode, rate;
@@ -98,6 +97,7 @@ $(document).ready(function() {
             }
           });
         } else {
+          episodesCache[node.attr('global')].seen = true;
           node.slideToggle('slow', function() {
             return $(this).remove();
           });
@@ -108,12 +108,18 @@ $(document).ready(function() {
             nbrEpisodes--;
           }
           if (nbrEpisodes === 0) $('#' + show).slideToggle();
-          Fx.updateHeight();
         }
         node = node.prev();
-        _results.push(nextGlobal++);
+        nextGlobal++;
       }
-      return _results;
+      Fx.updateHeight();
+      if (enable_ratings) {
+        return ajax.post("/members/watched/" + show, params, function() {
+          return DB.set('episodes.' + show, episodesCache);
+        }, function() {
+          return registerAction("/members/watched/" + show, params);
+        });
+      }
     },
     mouseenter: function() {
       var node, _results;

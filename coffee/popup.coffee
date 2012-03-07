@@ -111,8 +111,8 @@ $(document).ready ->
 								cleanEpisode 1
 							
 				else
+					episodesCache[node.attr 'global'].seen = true
 					node.slideToggle 'slow', -> $(this).remove()
-					#episodesCache[global].seen = true
 					if episodesCache[nextGlobal]?
 						episode = Content.episode episodesCache[nextGlobal], showCache
 						$('#' + show).append episode
@@ -122,19 +122,18 @@ $(document).ready ->
 					# s'il n'y a plus d'épisodes à voir dans la série, on la cache
 					$('#' + show).slideToggle() if nbrEpisodes is 0
 					
-					Fx.updateHeight()
-					
 				node = node.prev()
 				nextGlobal++
 			
-			#DB.get 'episodes.' + show, episodesCache
-			
-			#if enable_ratings
+			Fx.updateHeight()
+					
+			if enable_ratings
 				# on marque comme vu SANS noter
-				#'''ajax.post "/members/watched/" + show, params, null, 
-				#	-> registerAction "/members/watched/" + show, params'''
-				
-				#cleanEpisode n
+				ajax.post "/members/watched/" + show, params, 
+					->
+						DB.set 'episodes.' + show, episodesCache
+					-> 
+						registerAction "/members/watched/" + show, params
 		
 		mouseenter: ->
 			node = $(this).closest('.episode')
