@@ -14,14 +14,16 @@ $(document).ready ->
 	## Marquer un ou des épisodes comme vu(s)
 	$('.watched').live
 		click: -> 
-			show = $(this).attr 'show'
-			number = $(this).attr 'number'
-			number0 = Fx.splitNumber number
-			season = number0.season
-			episode = number0.episode
+			s = $(this).closest('.show')
+			show = s.attr 'id'
+			e = $(this).closest('.episode')
+			season = e.attr 'season'
+			episode = e.attr 'episode'
+			global = e.attr 'global'
+			nbrEpisodes = $('#' + show).find('.episode').length
 			
-			s = DB.get('shows')[show]
-			es = DB.get 'episodes.' + show
+			showCache = DB.get('shows')[show]
+			episodesCache = DB.get 'episodes.' + show
 			
 			params = "&season=" + season + "&episode=" + episode
 			enable_ratings = DB.get('options').enable_ratings
@@ -35,21 +37,21 @@ $(document).ready ->
 				# TODO Mise à jour du remain
 				
 				# s'il n'y a plus d'épisodes à voir dans la série, on la cache
-				if $('#' + show).find('.episode').length is 0
+				if nbrEpisodes is 0
 					$('#' + show).slideToggle()
 				
 				Fx.updateHeight()
 			
 			# On cache les div
-			n = 1
-			node = $('#' + show + ' #' + number)
+			nextGlobal = $('#' + show).find('.episode').last().attr 'global'
+			nextGlobal = parseInt(nextGlobal) + 1
+			node = e
 			while node.hasClass 'episode'
 				# Notation d'un épisode
-				if enable_ratings
+				if !enable_ratings
 					# on enlève la possibilité de re-marquer comme vu (alors que c'est en cours)
 					$(node).css 'background-color', '#f5f5f5'
 					$(node).find('.watched').removeClass 'watched'
-					
 					
 					# affichage des étoiles
 					nodeRight = $(node).find '.right'
@@ -109,16 +111,23 @@ $(document).ready ->
 								cleanEpisode 1
 							
 				else
-					node.slideToggle()
-					number = node.attr 'id'
-					#es[number].seen = true
-					episode = Content.episode es[global + n], s
-					$('#' + show).append(episode).slideToggle()
-				
+					node.slideToggle 'slow', -> $(this).remove()
+					#episodesCache[global].seen = true
+					if episodesCache[nextGlobal]?
+						episode = Content.episode episodesCache[nextGlobal], showCache
+						$('#' + show).append episode
+					else
+						nbrEpisodes--
+						
+					# s'il n'y a plus d'épisodes à voir dans la série, on la cache
+					$('#' + show).slideToggle() if nbrEpisodes is 0
+					
+					Fx.updateHeight()
+					
 				node = node.prev()
-				n++
+				nextGlobal++
 			
-			DB.get 'episodes.' + show, es
+			#DB.get 'episodes.' + show, episodesCache
 			
 			#if enable_ratings
 				# on marque comme vu SANS noter

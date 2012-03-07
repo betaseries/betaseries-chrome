@@ -17,29 +17,31 @@ $(document).ready(function() {
   });
   $('.watched').live({
     click: function() {
-      var cleanEpisode, content, enable_ratings, episode, es, i, n, node, nodeRight, number, number0, params, s, season, show;
-      show = $(this).attr('show');
-      number = $(this).attr('number');
-      number0 = Fx.splitNumber(number);
-      season = number0.season;
-      episode = number0.episode;
-      s = DB.get('shows')[show];
-      es = DB.get('episodes.' + show);
+      var cleanEpisode, content, e, enable_ratings, episode, episodesCache, global, i, nbrEpisodes, nextGlobal, node, nodeRight, params, s, season, show, showCache, _results;
+      s = $(this).closest('.show');
+      show = s.attr('id');
+      e = $(this).closest('.episode');
+      season = e.attr('season');
+      episode = e.attr('episode');
+      global = e.attr('global');
+      nbrEpisodes = $('#' + show).find('.episode').length;
+      showCache = DB.get('shows')[show];
+      episodesCache = DB.get('episodes.' + show);
       params = "&season=" + season + "&episode=" + episode;
       enable_ratings = DB.get('options').enable_ratings;
       cleanEpisode = function(n) {
         $('#' + show + ' .episode:hidden:lt(' + n + ')').removeClass('hidden').slideToggle();
         episode = Content.episode(e, s);
         $('#' + show).append(episode);
-        if ($('#' + show).find('.episode').length === 0) {
-          $('#' + show).slideToggle();
-        }
+        if (nbrEpisodes === 0) $('#' + show).slideToggle();
         return Fx.updateHeight();
       };
-      n = 1;
-      node = $('#' + show + ' #' + number);
+      nextGlobal = $('#' + show).find('.episode').last().attr('global');
+      nextGlobal = parseInt(nextGlobal) + 1;
+      node = e;
+      _results = [];
       while (node.hasClass('episode')) {
-        if (enable_ratings) {
+        if (!enable_ratings) {
           $(node).css('background-color', '#f5f5f5');
           $(node).find('.watched').removeClass('watched');
           nodeRight = $(node).find('.right');
@@ -51,24 +53,24 @@ $(document).ready(function() {
           nodeRight.html(content);
           $('.star').on({
             mouseenter: function() {
-              var nodeStar, _results;
+              var nodeStar, _results2;
               nodeStar = $(this);
-              _results = [];
+              _results2 = [];
               while (nodeStar.hasClass('star')) {
                 nodeStar.attr('src', '../img/star.gif');
-                _results.push(nodeStar = nodeStar.prev());
+                _results2.push(nodeStar = nodeStar.prev());
               }
-              return _results;
+              return _results2;
             },
             mouseleave: function() {
-              var nodeStar, _results;
+              var nodeStar, _results2;
               nodeStar = $(this);
-              _results = [];
+              _results2 = [];
               while (nodeStar.hasClass('star')) {
                 nodeStar.attr('src', '../img/star_off.gif');
-                _results.push(nodeStar = nodeStar.prev());
+                _results2.push(nodeStar = nodeStar.prev());
               }
-              return _results;
+              return _results2;
             },
             click: function() {
               var nodeEpisode, rate;
@@ -96,15 +98,22 @@ $(document).ready(function() {
             }
           });
         } else {
-          node.slideToggle();
-          number = node.attr('id');
-          episode = Content.episode(es[global + n], s);
-          $('#' + show).append(episode).slideToggle();
+          node.slideToggle('slow', function() {
+            return $(this).remove();
+          });
+          if (episodesCache[nextGlobal] != null) {
+            episode = Content.episode(episodesCache[nextGlobal], showCache);
+            $('#' + show).append(episode);
+          } else {
+            nbrEpisodes--;
+          }
+          if (nbrEpisodes === 0) $('#' + show).slideToggle();
+          Fx.updateHeight();
         }
         node = node.prev();
-        n++;
+        _results.push(nextGlobal++);
       }
-      return DB.get('episodes.' + show, es);
+      return _results;
     },
     mouseenter: function() {
       var node, _results;
