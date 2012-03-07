@@ -107,10 +107,8 @@ $(document).ready(function() {
       return DB.get('episodes.' + show, es);
     },
     mouseenter: function() {
-      var node, number, show, _results;
-      show = $(this).attr('show');
-      number = $(this).attr('number');
-      node = $('#' + show + ' #' + number);
+      var node, _results;
+      node = $(this).closest('.episode');
       _results = [];
       while (node.hasClass('episode')) {
         node.find('.watched').css('opacity', 1);
@@ -119,10 +117,8 @@ $(document).ready(function() {
       return _results;
     },
     mouseleave: function() {
-      var node, number, show, _results;
-      show = $(this).attr('show');
-      number = $(this).attr('number');
-      node = $('#' + show + ' #' + number);
+      var node, _results;
+      node = $(this).closest('.episode');
       _results = [];
       while (node.hasClass('episode')) {
         node.find('.watched').css('opacity', 0.5);

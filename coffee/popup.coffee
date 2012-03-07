@@ -128,17 +128,13 @@ $(document).ready ->
 				#cleanEpisode n
 		
 		mouseenter: ->
-			show = $(this).attr 'show'
-			number = $(this).attr 'number'
-			node = $('#' + show + ' #' + number)
+			node = $(this).closest('.episode')
 			while node.hasClass 'episode'
 				node.find('.watched').css 'opacity', 1
 				node = node.prev()
 			
 		mouseleave: ->
-			show = $(this).attr 'show'
-			number = $(this).attr 'number'
-			node = $('#' + show + ' #' + number)
+			node = $(this).closest('.episode')
 			while node.hasClass 'episode'
 				node.find('.watched').css 'opacity', 0.5
 				node = node.prev()
@@ -189,13 +185,6 @@ $(document).ready ->
 			number = Fx.splitNumber number
 			season = number.season
 			episode = number.episode
-			
-			#if view is 'planningMember'
-			#	node = $(this).parent()
-			#	url = node.attr 'url'
-			#	season = node.attr 'season'
-			#	episode = node.attr 'episode'
-			
 			BS.load('showsEpisodes', url, season, episode)
 
 		mouseenter: -> 
@@ -208,8 +197,7 @@ $(document).ready ->
 	
 	## Télécharger les sous-titres d'un épisode
 	$('.subs').live
-		click: ->
-			Fx.openTab $(this).attr 'link'
+		click: -> Fx.openTab $(this).attr 'link'
 	
 	## Archiver une série
 	$('.archive').live
