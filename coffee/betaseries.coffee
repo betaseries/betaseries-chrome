@@ -366,13 +366,18 @@ BS =
 			for i, episodes of localStorage
 				if i.indexOf('episodes.') is 0
 					n = 0
-					for j, episode of JSON.parse episodes
+					es = JSON.parse episodes
+					data[i.substring(9)] =
+						nbr_total: Object.keys(es).length
+					for j, episode of es
 						if episode.seen
 							continue
 						else if n < nbrEpisodesPerSerie
-							es = if data[i.substring(9)]? then data[i.substring(9)] else []
-							es.push episode
-							data[i.substring(9)] = es
+							episodes = []
+							if data[i.substring(9)].episodes? 
+								episodes = data[i.substring(9)].episodes
+							episodes.push episode
+							data[i.substring(9)].episodes = episodes 
 							n++
 						else
 							break
@@ -380,7 +385,7 @@ BS =
 			# SHOWS
 			output = '<div id="shows">'
 			
-			for i, es of data
+			for i, j of data
 				# récupération des infos sur la *série*
 				s = DB.get('shows')[i]
 				
@@ -388,11 +393,11 @@ BS =
 				output += '<div id="' + s.url + '" class="show">'
 				
 				# construction du bloc *série*
-				output += Content.show s, es.length
+				output += Content.show s, j.nbr_total
 				
 				# construction des blocs *episode*
-				for e, j in es
-					output += Content.episode e, s, j
+				for e, k in j.episodes
+					output += Content.episode e, s, k
 				
 				output += '</div>'
 			

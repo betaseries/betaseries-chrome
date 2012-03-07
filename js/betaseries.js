@@ -343,22 +343,28 @@ BS = {
         return _results;
       },
       content: function() {
-        var data, e, episode, episodes, es, i, j, n, nbrEpisodesPerSerie, output, s, _len, _ref;
+        var data, e, episode, episodes, es, i, j, k, n, nbrEpisodesPerSerie, output, s, _len, _ref;
         data = {};
         nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie;
         for (i in localStorage) {
           episodes = localStorage[i];
           if (i.indexOf('episodes.') === 0) {
             n = 0;
-            _ref = JSON.parse(episodes);
-            for (j in _ref) {
-              episode = _ref[j];
+            es = JSON.parse(episodes);
+            data[i.substring(9)] = {
+              nbr_total: Object.keys(es).length
+            };
+            for (j in es) {
+              episode = es[j];
               if (episode.seen) {
                 continue;
               } else if (n < nbrEpisodesPerSerie) {
-                es = data[i.substring(9)] != null ? data[i.substring(9)] : [];
-                es.push(episode);
-                data[i.substring(9)] = es;
+                episodes = [];
+                if (data[i.substring(9)].episodes != null) {
+                  episodes = data[i.substring(9)].episodes;
+                }
+                episodes.push(episode);
+                data[i.substring(9)].episodes = episodes;
                 n++;
               } else {
                 break;
@@ -368,13 +374,14 @@ BS = {
         }
         output = '<div id="shows">';
         for (i in data) {
-          es = data[i];
+          j = data[i];
           s = DB.get('shows')[i];
           output += '<div id="' + s.url + '" class="show">';
-          output += Content.show(s, es.length);
-          for (j = 0, _len = es.length; j < _len; j++) {
-            e = es[j];
-            output += Content.episode(e, s, j);
+          output += Content.show(s, j.nbr_total);
+          _ref = j.episodes;
+          for (k = 0, _len = _ref.length; k < _len; k++) {
+            e = _ref[k];
+            output += Content.episode(e, s, k);
           }
           output += '</div>';
         }

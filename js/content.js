@@ -1,31 +1,20 @@
 var Content;
 
 Content = {
-  show: function(s, nbrEpisodes) {
-    var extraIcon, extraText, hidden, nbrEpisodesPerSerie, output, remain, titleIcon, visibleIcon;
+  show: function(s, nbrEpisodesTotal) {
+    var nbrEpisodesPerSerie, output, remain, titleIcon, visibleIcon;
     nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie;
     visibleIcon = s.hidden ? '../img/arrow_right.gif' : '../img/arrow_down.gif';
     titleIcon = s.hidden ? __('maximise') : __('minimise');
-    if (s.hidden) {
-      extraIcon = '../img/downarrow.gif';
-      extraText = __('show_episodes');
-    } else {
-      extraIcon = s.expanded ? '../img/uparrow.gif' : '../img/downarrow.gif';
-      extraText = s.expanded ? __('hide_episodes') : __('show_episodes');
-    }
+    remain = nbrEpisodesTotal - nbrEpisodesPerSerie;
     output = '';
     output += '<div class="showtitle">';
-    output += '<div class="left2"><img src="' + visibleIcon + '" class="toggleShow" title="' + titleIcon + '" /><a href="" onclick="BS.load(\'showsDisplay\', \'' + s.url + '\'); return false;" class="showtitle">' + s.title + '</a>';
-    output += ' <img src="../img/archive.png" class="archive" title="' + __("archive") + '" /></div>';
-    output += '<div class="right2">';
-    remain = s.hidden ? nbrEpisodes : nbrEpisodes - nbrEpisodesPerSerie;
-    hidden = remain <= 0 ? ' style="display: none;"' : '';
-    output += '<span class="toggleEpisodes"' + hidden + '>';
-    output += '<span class="labelRemain">' + extraText + '</span>';
-    output += ' (<span class="remain">' + remain + '</span>)';
-    output += ' <img src="' + extraIcon + '" style="margin-bottom:-2px;" />';
-    output += '</span>';
+    output += '<div class="left">';
+    output += '<img src="' + visibleIcon + '" class="toggleShow" title="' + titleIcon + '" />';
+    output += '<a href="" onclick="BS.load(\'showsDisplay\', \'' + s.url + '\'); return false;" class="showtitle">' + s.title + '</a>';
+    if (remain > 0) output += ' <span class="remain">+' + remain + '</span>';
     output += '</div>';
+    output += '<div class="right"></div>';
     output += '<div class="clear"></div>';
     output += '</div>';
     return output;

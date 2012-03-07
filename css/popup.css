@@ -43,11 +43,11 @@ a.showtitle:hover {color: #900;}
 	border-bottom: 1px solid #dcdcdc;
 	text-transform: uppercase;
 	margin-top: 6px;
-	font-family: Verdana
+	font-family: "Lucida Grande"
 }
-.title {
-	color: #666;
-}
+.remain {color: #777;}
+.toggleShow {padding: 0 2px 0 2px;}
+.title {color: #666;}
 img.archive,img.unarchive{
 	margin-bottom:-1px; 
 	height:11px;
@@ -86,8 +86,6 @@ span.new {color: #900; font-size: 9px; font-variant: small-caps;}
 div#message {color: #900; margin: 3px 0 3px 0; text-align: center; background-color: #fc9;}
 .membersEpisodes .left{float:left; width:230px;}
 .membersEpisodes .right{margin-left: 230px; width:60px;}
-.membersEpisodes .left2{float:left; width:190px;}
-.membersEpisodes .right2{margin-left: 190px; width:100px; text-align:right;}
 span.toggleEpisodes {text-align: right; font-size: 9px; color: #666; margin-right: 5px; font-weight: normal;}
 div.clear{clear: both;}
 

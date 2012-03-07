@@ -9,35 +9,24 @@ Content =
 	 # @param	object		Informations d'une *série*
 	 # @return 	string		Bloc *série*
 	 #
-	show: (s, nbrEpisodes) ->		
+	show: (s, nbrEpisodesTotal) ->		
 		nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie
 		
 		visibleIcon = if s.hidden then '../img/arrow_right.gif' else '../img/arrow_down.gif'
 		titleIcon = if s.hidden then __('maximise') else __('minimise')
-		if s.hidden
-			extraIcon = '../img/downarrow.gif'
-			extraText = __('show_episodes')
-		else
-			extraIcon = if s.expanded then '../img/uparrow.gif' else '../img/downarrow.gif'
-			extraText = if s.expanded then __('hide_episodes') else __('show_episodes')
-				
+		remain = nbrEpisodesTotal - nbrEpisodesPerSerie
 		
 		output = ''
 		
 		output += '<div class="showtitle">'
 		
-		output += '<div class="left2"><img src="' + visibleIcon + '" class="toggleShow" title="' + titleIcon + '" /><a href="" onclick="BS.load(\'showsDisplay\', \'' + s.url + '\'); return false;" class="showtitle">' + s.title + '</a>'
-		output += ' <img src="../img/archive.png" class="archive" title="' + __("archive") + '" /></div>'
+		output += '<div class="left">'
+		output += '<img src="' + visibleIcon + '" class="toggleShow" title="' + titleIcon + '" />'
+		output += '<a href="" onclick="BS.load(\'showsDisplay\', \'' + s.url + '\'); return false;" class="showtitle">' + s.title + '</a>'
+		output += ' <span class="remain">+' + remain + '</span>' if remain > 0
+		output += '</div>'
 		
-		output += '<div class="right2">';
-		remain = if s.hidden then nbrEpisodes else nbrEpisodes - nbrEpisodesPerSerie
-		hidden = if remain <= 0 then ' style="display: none;"' else '' 
-		output += '<span class="toggleEpisodes"' + hidden + '>'
-		output += '<span class="labelRemain">' + extraText + '</span>'
-		output += ' (<span class="remain">' + remain + '</span>)'
-		output += ' <img src="' + extraIcon + '" style="margin-bottom:-2px;" />'
-		output += '</span>'
-		output += '</div>';
+		output += '<div class="right"></div>';
 		
 		output += '<div class="clear"></div>';
 		
