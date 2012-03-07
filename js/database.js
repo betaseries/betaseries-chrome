@@ -20,6 +20,7 @@ DB = {
     this.set('historic', [], false);
     this.set('views_updated', {}, true);
     this.set('views_to_refresh', [], true);
+    this.set('views_to_remove', {}, true);
     return this.set('notifications', {}, true);
   },
   get: function(field, defaultValue) {

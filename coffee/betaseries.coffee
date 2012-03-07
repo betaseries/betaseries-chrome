@@ -20,8 +20,20 @@ BS =
 		# mémorisation des infos
 		sameView = @currentView? and o.id is @currentView.id
 		
+		# Cache de vues à garder ou à supprimer
+		if sameView 
+			Cache.keep() 
+		else 
+			Cache.clean()
+		
 		# mémorisation de la vue courante
 		@currentView = o;
+		
+		# affichage du trash
+		if (o.name in Cache.views)
+			$('#trash').show()
+		else
+			$('#trash').hide()
 		
 		# affichage de la vue (cache)
 		BS.display() if !sameView
@@ -438,7 +450,7 @@ BS =
 			# mise à jour du cache
 			for i, comment of data
 				if i < nbrComments
-					continue;
+					continue
 				else
 					comments[i] = comment
 					

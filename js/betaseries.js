@@ -19,17 +19,27 @@ menu = {
 BS = {
   currentView: null,
   load: function() {
-    var args, forceRefresh, o, outdated, sameView, time, update, views_to_refresh, views_updated, _ref;
+    var args, forceRefresh, o, outdated, sameView, time, update, views_to_refresh, views_updated, _ref, _ref2;
     args = Array.prototype.slice.call(arguments);
     o = BS[arguments[0]].apply(args.shift(), args);
     sameView = (this.currentView != null) && o.id === this.currentView.id;
+    if (sameView) {
+      Cache.keep();
+    } else {
+      Cache.clean();
+    }
     this.currentView = o;
+    if ((_ref = o.name, __indexOf.call(Cache.views, _ref) >= 0)) {
+      $('#trash').show();
+    } else {
+      $('#trash').hide();
+    }
     if (!sameView) BS.display();
     if (o.update) {
       $('#sync').show();
       time = Math.floor(new Date().getTime() / 1000);
       views_to_refresh = DB.get('views_to_refresh');
-      forceRefresh = (_ref = o.id, __indexOf.call(views_to_refresh, _ref) >= 0);
+      forceRefresh = (_ref2 = o.id, __indexOf.call(views_to_refresh, _ref2) >= 0);
       views_updated = DB.get('views_updated');
       outdated = views_updated[o.id] != null ? time - views_updated[o.id] > 3600 : true;
       update = forceRefresh || outdated;

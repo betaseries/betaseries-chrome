@@ -14,14 +14,14 @@ a.showtitle:hover {color: #900;}
 .nano .pane .slider { background: #bbb; }
 
 /*Pannel*/
-#pannel {padding-bottom: 3px; border-bottom: 1px solid #bbb;}
+#header {padding-bottom: 3px; border-bottom: 1px solid #bbb;}
 
 #about {
 	margin: 3px 0 3px 0;
 }
 
 /*Help*/
-#help-wrapper {
+#footer {
 	height: 14px;
 	padding-top: 3px;
 	border-top: 1px solid #BBB;
@@ -67,8 +67,9 @@ img.action:hover {opacity: 1.0;}
 
 #title {float: left; width: 160px; color: #aaa; font-variant: small-caps;}
 #menu-wrapper {text-align:right; margin-right: 3px;}
-#menu-wrapper img.action {opacity: 0.5; cursor: pointer;}
-#menu-wrapper img.action:hover {opacity: 1.0; cursor: pointer;}
+#trash-wrapper {text-align:right; margin-right: 3px;}
+img.action {opacity: 0.5; cursor: pointer;}
+img.action:hover {opacity: 1.0; cursor: pointer;}
 
 /*membersEpisodes*/
 #page {width: 294px;}

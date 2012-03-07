@@ -29,6 +29,7 @@ DB =
 		# Vues à recharger
 		@set 'views_updated', {}, true
 		@set 'views_to_refresh', [], true
+		@set 'views_to_remove', {}, true
 		
 		# Notifications
 		@set 'notifications', {}, true

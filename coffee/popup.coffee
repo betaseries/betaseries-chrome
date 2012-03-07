@@ -593,6 +593,12 @@ $(document).ready ->
 				BS.load('menu');
 		.attr 'title', __('menu')
 		
+	$('#trash')
+		.click ->
+			Cache.remove()
+			$(this).hide()
+		.attr 'title', __('trash')
+		
 	## Afficher le message de confirmation
 	message = (content) -> $('#message').html content
 	

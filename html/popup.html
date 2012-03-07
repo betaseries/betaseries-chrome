@@ -20,6 +20,7 @@
 	<script src="../lib/jquery.js"></script>
 	<script src="../lib/nanoscroller/jquery.nanoscroller.min.js"></script>
 	<script src="../js/database.js"></script>
+	<script src="../js/cache.js"></script>
 	<script src="../js/historic.js"></script>
 	<script src="../js/ajax.js"></script>
 	<script src="../js/betaseries.js"></script>
@@ -29,7 +30,7 @@
 
 <body>
 		
-	<div id="pannel">
+	<div id="header">
 		
 		<div id="logo">
 			<a href="" id="logoLink">chromeseries</a><small><a href="" id="versionLink"></a></small>
@@ -46,6 +47,7 @@
 			<img src="../img/menu.png" id="menu" class="action" style="margin-bottom:-3px;" />
 		</div>
 		
+		<div style="clear:both;"></div>
 	</div>
 				
 	<div id="message" style="display:none;"></div>
@@ -56,9 +58,14 @@
 		</div>
 	</div>
 	
-	<div id="help-wrapper">
-		<img src="../img/help.png" id="help" class="action" style="margin-bottom:-2px; display:none;" />
-		<span id="help-text"></span>
+	<div id="footer">
+		<div id="help-wrapper">
+			<img src="../img/help.png" id="help" class="action" style="margin-bottom:-2px; display:none;" />
+			<span id="help-text"></span>
+		</div>
+		<div id="trash-wrapper">
+			<img src="../img/trash.png" id="trash" class="action" style="margin-bottom:-3px;" />
+		</div>
 	</div>
 	
 </body>

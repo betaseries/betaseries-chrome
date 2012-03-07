@@ -588,6 +588,10 @@ $(document).ready(function() {
       return BS.load('menu');
     }
   }).attr('title', __('menu'));
+  $('#trash').click(function() {
+    Cache.remove();
+    return $(this).hide();
+  }).attr('title', __('trash'));
   message = function(content) {
     return $('#message').html(content);
   };
