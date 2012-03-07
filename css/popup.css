@@ -28,6 +28,10 @@ a.showtitle:hover {color: #900;}
 	padding-left: 10px;
 }
 
+#help-wrapper {
+	float: left;
+}
+
 #help-text {
 	font-style: italic;
 	color: #999;
