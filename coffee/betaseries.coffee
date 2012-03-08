@@ -221,11 +221,15 @@ BS =
 		url: "/planning/member/#{login}"
 		params: "&view=unseen"
 		root: 'planning'
-		content: (data) ->	
+		login: login
+		update: (data) ->
+			DB.set 'planning.' + @login, data
+		content: ->	
 			output = ''
 			week = 100
 			MAX_WEEKS = 2
 			nbrEpisodes = 0
+			data = DB.get 'planning.' + @login
 			for e of data
 				today = Math.floor new Date().getTime() / 1000
 				todayWeek = parseFloat date('W', today)
@@ -255,7 +259,7 @@ BS =
 				output += '<div class="episode ' + date('D', data[e].date).toLowerCase() + '">'
 				
 				output += '<div url="' + data[e].url + '" season="' + data[e].season + '" episode="' + data[e].episode + '" class="left">'
-				output += '<img src="../img/plot_' + plot + '.gif" /> '
+				output += '<img src="../img/folder_off.png" /> '
 				output += '<span class="show">' + data[e].show + '</span> '
 				output += '<span class="num">[' + data[e].number + ']</span>'
 				output += '</div>'
@@ -610,7 +614,7 @@ BS =
 			output += '<img src="../img/timeline.png" id="timeline" class="action" style="margin-bottom:-3px;" />'
 			output += __('timelineFriends') + '</a>'
 			
-			output += '<a href="" onclick="BS.load(\'planningMember\'); return false;">'
+			output += '<a href="" onclick="BS.load(\'planningMember\', \'' + DB.get('member').login + '\'); return false;">'
 			output += '<img src="../img/planning.png" id="planning" class="action" style="margin-bottom:-3px;" />'
 			output += __('planningMember') + '</a>'
 			
