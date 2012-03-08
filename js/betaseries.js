@@ -489,10 +489,14 @@ BS = {
       url: '/timeline/friends',
       params: '&number=10',
       root: 'timeline',
-      content: function(data) {
-        var n, new_date, output, time;
+      update: function(data) {
+        return DB.set('timeline', data);
+      },
+      content: function() {
+        var data, n, new_date, output, time;
         output = '';
         time = '';
+        data = DB.get('timeline');
         for (n in data) {
           new_date = date('D d F', data[n].date);
           if (new_date !== time) {

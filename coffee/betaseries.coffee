@@ -499,9 +499,12 @@ BS =
 		url: '/timeline/friends'
 		params: '&number=10'
 		root: 'timeline'
-		content: (data) ->
+		update: (data) ->
+			DB.set 'timeline', data
+		content: ->
 			output = ''
 			time = ''
+			data = DB.get 'timeline'
 			for n of data
 				new_date = date('D d F', data[n].date)
 				if new_date isnt time
