@@ -21,6 +21,7 @@ BS = {
   load: function() {
     var args, forceRefresh, o, outdated, sameView, time, update, views_to_refresh, views_updated, _ref, _ref2;
     args = Array.prototype.slice.call(arguments);
+    console.log(arguments[0]);
     o = BS[arguments[0]].apply(args.shift(), args);
     sameView = (this.currentView != null) && o.id === this.currentView.id;
     if (sameView) {
@@ -205,7 +206,7 @@ BS = {
         week = 100;
         MAX_WEEKS = 2;
         nbrEpisodes = 0;
-        data = DB.get('planning.' + this.login);
+        data = DB.get('planning.' + this.login, {});
         for (e in data) {
           today = Math.floor(new Date().getTime() / 1000);
           todayWeek = parseFloat(date('W', today));
@@ -248,17 +249,21 @@ BS = {
     };
   },
   membersInfos: function(login) {
-    var myLogin;
     if (login == null) login = DB.get('member.login');
-    myLogin = login === DB.get('member.login');
     return {
       id: 'membersInfos.' + login,
       name: 'membersInfos',
       url: '/members/infos/' + login,
       root: 'member',
-      content: function(data) {
-        var avatar, i, output;
-        if (data.avatar !== '') {
+      login: login,
+      update: function(data) {
+        return DB.set('member.' + this.login, data);
+      },
+      content: function() {
+        var avatar, data, i, myLogin, output;
+        data = DB.get('member.' + this.login, {});
+        if (!(data.login != null)) return '';
+        if ((data.avatar != null) && data.avatar !== '') {
           avatar = new Image;
           avatar.src = data.avatar;
           avatar.onload = function() {
@@ -274,6 +279,7 @@ BS = {
         output += '<div class="episode lun"><img src="../img/report.png" class="icon"> ' + __('nbr_seasons', [data.stats.seasons]) + ' </div>';
         output += '<div class="episode lun"><img src="../img/script.png" class="icon"> ' + __('nbr_episodes', [data.stats.episodes]) + ' </div>';
         output += '<div class="episode lun"><img src="../img/location.png" class="icon">' + data.stats.progress + ' <small>(' + __('progress') + ')</small></div>';
+        myLogin = data.login === DB.get('member').login;
         if (myLogin) {
           output += '<div style="height:11px;"></div>';
           output += '<div class="showtitle">' + __('archived_shows') + '</div>';
@@ -629,7 +635,7 @@ BS = {
         output += '<a href="" onclick="BS.load(\'membersEpisodes\'); return false;">';
         output += '<img src="../img/episodes.png" id="episodes" class="action" style="margin-bottom:-3px;" />';
         output += __('membersEpisodes') + '</a>';
-        output += '<a href="" onclick="BS.load(\'membersInfos\'); return false;">';
+        output += '<a href="" onclick="BS.load(\'membersInfos\', \'' + DB.get('member').login + '\'); return false;">';
         output += '<img src="../img/infos.png" id="infos" class="action" style="margin-bottom:-3px; margin-right: 9px;" />';
         output += __('membersInfos') + '</a>';
         output += '<a href="" onclick="BS.load(\'membersNotifications\'); return false;">';

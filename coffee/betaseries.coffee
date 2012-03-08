@@ -14,6 +14,8 @@ BS =
 		# réception des arguments
 		args = Array.prototype.slice.call arguments
 		
+		console.log arguments[0]
+		
 		# récupération des infos
 		o = BS[arguments[0]].apply(args.shift(), args)
 		
@@ -229,7 +231,7 @@ BS =
 			week = 100
 			MAX_WEEKS = 2
 			nbrEpisodes = 0
-			data = DB.get 'planning.' + @login
+			data = DB.get 'planning.' + @login, {}
 			for e of data
 				today = Math.floor new Date().getTime() / 1000
 				todayWeek = parseFloat date('W', today)
@@ -276,14 +278,19 @@ BS =
 	#
 	membersInfos: (login) ->
 		login ?= DB.get 'member.login'
-		myLogin = login is DB.get 'member.login'
 		
 		id: 'membersInfos.' + login
 		name: 'membersInfos'
 		url: '/members/infos/' + login
 		root: 'member'
-		content: (data) ->
-			if data.avatar isnt ''
+		login: login
+		update: (data) ->
+			DB.set 'member.' + @login, data
+		content: ->
+			data = DB.get 'member.' + @login, {}
+			return '' if !data.login?
+			
+			if data.avatar? and data.avatar isnt ''
 				avatar = new Image
 				avatar.src = data.avatar
 				avatar.onload = ->
@@ -299,6 +306,7 @@ BS =
 			output += '<div class="episode lun"><img src="../img/script.png" class="icon"> ' + __('nbr_episodes', [data.stats.episodes]) + ' </div>'
 			output += '<div class="episode lun"><img src="../img/location.png" class="icon">' + data.stats.progress + ' <small>(' + __('progress') + ')</small></div>'
 			
+			myLogin = data.login is DB.get('member').login
 			if myLogin
 				output += '<div style="height:11px;"></div>'
 				output += '<div class="showtitle">' + __('archived_shows') + '</div>'
@@ -622,7 +630,7 @@ BS =
 			output += '<img src="../img/episodes.png" id="episodes" class="action" style="margin-bottom:-3px;" />'
 			output += __('membersEpisodes') + '</a>'
 			
-			output += '<a href="" onclick="BS.load(\'membersInfos\'); return false;">'
+			output += '<a href="" onclick="BS.load(\'membersInfos\', \'' + DB.get('member').login + '\'); return false;">'
 			output += '<img src="../img/infos.png" id="infos" class="action" style="margin-bottom:-3px; margin-right: 9px;" />'
 			output += __('membersInfos') + '</a>'
 			
