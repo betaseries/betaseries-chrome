@@ -53,7 +53,7 @@
 		"message": "Vous devez être connecté afin de pouvoir afficher les données de cette vue."
 	},
 	"blog": {
-		"message": "Blog"
+		"message": "Le blog"
 	},
 	"close": {
 		"message": "Fermer"
@@ -182,13 +182,13 @@
 		"message": "Membres"
 	},
 	"membersEpisodes": {
-		"message": "Episodes non vus"
+		"message": "Mes épisodes"
 	},
 	"membersInfos": {
-		"message": "Compte"
+		"message": "Mon compte"
 	},
 	"membersNotifications": {
-		"message": "Notifications"
+		"message": "Mes notifications"
 	},
 	"minimise": {
 		"message": "Minimiser"
@@ -301,7 +301,7 @@
 		"message": "Mot de passe invalide."
 	},
 	"planningMember": {
-		"message": "Planning"
+		"message": "Mon planning"
 	},
 	"progress": {
 		"message": "avancement"
@@ -339,7 +339,7 @@
 		"message": "Sauvegardé"
 	},
 	"searchForm": {
-		"message": "Faire une recherche"
+		"message": "Chercher une série ou un ami"
 	},
 	"seasons": {
 		"message": "Saisons"
@@ -409,7 +409,7 @@
 		"message": "Synopsis : "
 	},
 	"timelineFriends": {
-		"message": "Evénements"
+		"message": "Mes amis"
 	},
 	"this_week": {
 		"message": "Cette semaine"

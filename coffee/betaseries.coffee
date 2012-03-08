@@ -606,33 +606,33 @@ BS =
 		content: ->
 			output = ''
 			
-			output += '<a href="" onclick="#{BS.load(\'blog\'); return false;">'
-			output += '<img src="../img/blog.png" id="blog" class="action" style="margin-bottom:-3px;" /> '
-			output += __('blog') + '</a>'
+			output += '<a href="" onclick="BS.load(\'timelineFriends\'); return false;">'
+			output += '<img src="../img/timeline.png" id="timeline" class="action" style="margin-bottom:-3px;" />'
+			output += __('timelineFriends') + '</a>'
 			
 			output += '<a href="" onclick="BS.load(\'planningMember\'); return false;">'
 			output += '<img src="../img/planning.png" id="planning" class="action" style="margin-bottom:-3px;" />'
 			output += __('planningMember') + '</a>'
 			
 			output += '<a href="" onclick="BS.load(\'membersEpisodes\'); return false;">'
-			output += '<img src="../img/episodes.png" id="episodes" class="action" style="margin-bottom:-3px;" /> '
+			output += '<img src="../img/episodes.png" id="episodes" class="action" style="margin-bottom:-3px;" />'
 			output += __('membersEpisodes') + '</a>'
 			
-			output += '<a href="" onclick="BS.load(\'timelineFriends\'); return false;">'
-			output += '<img src="../img/timeline.png" id="timeline" class="action" style="margin-bottom:-3px;" />'
-			output += __('timelineFriends') + '</a>'
+			output += '<a href="" onclick="BS.load(\'membersInfos\'); return false;">'
+			output += '<img src="../img/infos.png" id="infos" class="action" style="margin-bottom:-3px; margin-right: 9px;" />'
+			output += __('membersInfos') + '</a>'
 			
 			output += '<a href="" onclick="BS.load(\'membersNotifications\'); return false;">'
 			output += '<img src="../img/notifications.png" id="notifications" class="action" style="margin-bottom:-3px;" />'
 			output += __('membersNotifications') + '</a>'
 			
-			output += '<a href="" onclick="BS.load(\'membersInfos\'); return false;">'
-			output += '<img src="../img/infos.png" id="infos" class="action" style="margin-bottom:-3px;" />'
-			output += __('membersInfos') + '</a>'
-			
 			output += '<a href="" onclick="BS.load(\'searchForm\'); return false;">'
 			output += '<img src="../img/search.png" id="search" class="action" style="margin-bottom:-3px;" />'
 			output += __('searchForm') + '</a>'
+			
+			output += '<a href="" onclick="#{BS.load(\'blog\'); return false;">'
+			output += '<img src="../img/blog.png" id="blog" class="action" style="margin-bottom:-3px;" />'
+			output += __('blog') + '</a>'
 			
 			return output
 		
