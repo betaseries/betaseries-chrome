@@ -21,7 +21,6 @@ BS = {
   load: function() {
     var args, forceRefresh, o, outdated, sameView, time, update, views_to_refresh, views_updated, _ref, _ref2;
     args = Array.prototype.slice.call(arguments);
-    console.log(arguments[0]);
     o = BS[arguments[0]].apply(args.shift(), args);
     sameView = (this.currentView != null) && o.id === this.currentView.id;
     if (sameView) {
@@ -53,21 +52,25 @@ BS = {
     var o, params;
     o = this.currentView;
     params = o.params || '';
-    return ajax.post(o.url, params, function(data) {
-      var cache, time, views_to_refresh, views_updated, _ref;
-      cache = data.root[o.root];
-      views_updated = DB.get('views_updated');
-      time = Math.floor(new Date().getTime() / 1000);
-      views_updated[o.id] = time;
-      DB.set('views_updated', views_updated);
-      views_to_refresh = DB.get('views_to_refresh');
-      if (_ref = o.id, __indexOf.call(views_to_refresh, _ref) >= 0) {
-        views_to_refresh.splice(views_to_refresh.indexOf(o.id), 1);
-        DB.set('views_to_refresh', views_to_refresh);
-      }
-      o.update(cache);
-      return BS.display();
-    });
+    if (o.url != null) {
+      return ajax.post(o.url, params, function(data) {
+        var cache, time, views_to_refresh, views_updated, _ref;
+        cache = data.root[o.root];
+        views_updated = DB.get('views_updated');
+        time = Math.floor(new Date().getTime() / 1000);
+        views_updated[o.id] = time;
+        DB.set('views_updated', views_updated);
+        views_to_refresh = DB.get('views_to_refresh');
+        if (_ref = o.id, __indexOf.call(views_to_refresh, _ref) >= 0) {
+          views_to_refresh.splice(views_to_refresh.indexOf(o.id), 1);
+          DB.set('views_to_refresh', views_to_refresh);
+        }
+        o.update(cache);
+        return BS.display();
+      });
+    } else {
+      return o.update();
+    }
   },
   display: function() {
     var o;
@@ -587,34 +590,44 @@ BS = {
     return {
       id: 'blog',
       name: 'blog',
-      content: function() {
-        var output;
-        output = '';
-        $.ajax({
+      update: function() {
+        return $.ajax({
           type: 'GET',
           url: 'https://www.betaseries.com/blog/feed/',
           dataType: 'xml',
           async: false,
           success: function(data) {
-            var desc, i, item, items, link, linkOrig, title, titleOrig, _ref, _results;
+            var article, blog, i, item, items, _ref;
             items = $(data).find('item');
-            _results = [];
-            for (i = 0, _ref = Math.min(5, items.length); 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
+            blog = [];
+            for (i = 0, _ref = Math.min(10, items.length); 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
               item = $(items[i]);
-              titleOrig = item.find('title').text();
-              title = titleOrig.substring(0, 40);
-              if (titleOrig.length > 40) title += '..';
-              output += '<div class="showtitle">' + title;
-              output += '</div>';
-              desc = item.find('description').text();
-              linkOrig = item.find('link').text();
-              link = '<a href="#" onclick="Fx.openTab(\'' + linkOrig + '\');">(' + __('read_article') + ')</a>';
-              output += '<div>' + desc.replace(/<a(.*)a>/, link) + '</div>';
-              _results.push(output += '<div style="height:11px;"></div>');
+              article = {};
+              article.title = item.find('title').text();
+              article.description = item.find('description').text();
+              article.link = item.find('link').text();
+              blog.push(article);
             }
-            return _results;
+            DB.set('blog', blog);
+            return BS.display();
           }
         });
+      },
+      content: function() {
+        var article, articles, i, link, output, title, _len;
+        output = '';
+        articles = DB.get('blog', []);
+        if (articles.length === 0) return '';
+        for (i = 0, _len = articles.length; i < _len; i++) {
+          article = articles[i];
+          title = article.title.substring(0, 40);
+          if (article.title.length > 40) title += '..';
+          output += '<div class="showtitle">' + title;
+          output += '</div>';
+          link = '<a href="#" onclick="Fx.openTab(\'' + article.link + '\');">(' + __('read_article') + ')</a>';
+          output += '<div>' + article.description.replace(/<a(.*)a>/, link) + '</div>';
+          output += '<div style="height:11px;"></div>';
+        }
         return output;
       }
     };
@@ -644,7 +657,7 @@ BS = {
         output += '<a href="" onclick="BS.load(\'searchForm\'); return false;">';
         output += '<img src="../img/search.png" id="search" class="action" style="margin-bottom:-3px;" />';
         output += __('searchForm') + '</a>';
-        output += '<a href="" onclick="#{BS.load(\'blog\'); return false;">';
+        output += '<a href="" onclick="BS.load(\'blog\'); return false;">';
         output += '<img src="../img/blog.png" id="blog" class="action" style="margin-bottom:-3px;" />';
         output += __('blog') + '</a>';
         return output;

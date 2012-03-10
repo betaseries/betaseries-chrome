@@ -11,10 +11,9 @@ BS =
 	
 	## Lancer l'affichage d'une vue
 	load: ->
+		
 		# réception des arguments
 		args = Array.prototype.slice.call arguments
-		
-		console.log arguments[0]
 		
 		# récupération des infos
 		o = BS[arguments[0]].apply(args.shift(), args)
@@ -72,28 +71,32 @@ BS =
 		# préparation des paramètres de la requête
 		params = o.params || ''
 		
-		ajax.post o.url, params, 
-			(data) ->
-				# réception des données
-				cache = data.root[o.root]
-				
-				# on met à jour la date de cette mise à jour
-				views_updated = DB.get 'views_updated'
-				time = Math.floor(new Date().getTime() / 1000)
-				views_updated[o.id] = time
-				DB.set 'views_updated', views_updated
+		if o.url?
+			ajax.post o.url, params, 
+				(data) ->
+					# réception des données
+					cache = data.root[o.root]
 					
-				# Mise à jour du tableau des vues à recharger
-				views_to_refresh = DB.get 'views_to_refresh'
-				if o.id in views_to_refresh
-					views_to_refresh.splice (views_to_refresh.indexOf o.id), 1
-					DB.set 'views_to_refresh', views_to_refresh
+					# on met à jour la date de cette mise à jour
+					views_updated = DB.get 'views_updated'
+					time = Math.floor(new Date().getTime() / 1000)
+					views_updated[o.id] = time
+					DB.set 'views_updated', views_updated
+						
+					# Mise à jour du tableau des vues à recharger
+					views_to_refresh = DB.get 'views_to_refresh'
+					if o.id in views_to_refresh
+						views_to_refresh.splice (views_to_refresh.indexOf o.id), 1
+						DB.set 'views_to_refresh', views_to_refresh
+						
+					# mise à jour du cache
+					o.update(cache)
 					
-				# mise à jour du cache
-				o.update(cache)
-				
-				# affichage de la vue courante (cache)
-				BS.display()
+					# affichage de la vue courante (cache)
+					BS.display()
+		else
+			# requête qui ne requiert pas l'API BetaSeries
+			o.update()
 		
 	## Afficher la vue courante avec les données en cache		
 	display: ->
@@ -582,8 +585,7 @@ BS =
 	blog: ->
 		id: 'blog'
 		name: 'blog'
-		content: ->
-			output = ''
+		update: ->
 			$.ajax
 				type: 'GET'
 				url: 'https://www.betaseries.com/blog/feed/'
@@ -591,24 +593,39 @@ BS =
 				async: false
 				success: (data) ->
 					items = $(data).find 'item'
-					for i in [0..(Math.min 5, items.length)]
+					blog = []
+					for i in [0..(Math.min 10, items.length)]
 						item = $(items[i])
-						
-						titleOrig = item.find('title').text()
-						title = titleOrig.substring 0, 40
-						title += '..' if titleOrig.length > 40
-						
-						output += '<div class="showtitle">' + title
-						#output += ' <span class="date">'+date('D d F', data[n].date)+'</span>';
-						output += '</div>'
-						
-						desc = item.find('description').text()
-						linkOrig = item.find('link').text()
-						link = '<a href="#" onclick="Fx.openTab(\'' + linkOrig + '\');">(' + __('read_article') + ')</a>'
-						output += '<div>' + desc.replace(/<a(.*)a>/, link) + '</div>'
-						
-						output += '<div style="height:11px;"></div>'
+						article = {}
+						article.title = item.find('title').text()
+						article.description = item.find('description').text()
+						article.link = item.find('link').text()
+						blog.push article
+					# on met à jour le cache
+					DB.set 'blog', blog
+					# on mets à jour l'affichage
+					BS.display()
+		content: ->
+			output = ''
 			
+			articles = DB.get 'blog', []
+			
+			if articles.length is 0
+				return ''
+			
+			for article, i in articles
+				title = article.title.substring 0, 40
+				title += '..' if article.title.length > 40
+				
+				output += '<div class="showtitle">' + title
+				#output += ' <span class="date">'+date('D d F', data[n].date)+'</span>';
+				output += '</div>'
+				
+				link = '<a href="#" onclick="Fx.openTab(\'' + article.link + '\');">(' + __('read_article') + ')</a>'
+				output += '<div>' + article.description.replace(/<a(.*)a>/, link) + '</div>'
+				
+				output += '<div style="height:11px;"></div>'
+						
 			return output
 			
 	##	
@@ -642,7 +659,7 @@ BS =
 			output += '<img src="../img/search.png" id="search" class="action" style="margin-bottom:-3px;" />'
 			output += __('searchForm') + '</a>'
 			
-			output += '<a href="" onclick="#{BS.load(\'blog\'); return false;">'
+			output += '<a href="" onclick="BS.load(\'blog\'); return false;">'
 			output += '<img src="../img/blog.png" id="blog" class="action" style="margin-bottom:-3px;" />'
 			output += __('blog') + '</a>'
 			
