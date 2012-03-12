@@ -14,11 +14,12 @@ ajax =
 		params ?= ''
 		member = DB.get 'member', {}
 		token = if member.token is null then '' else "&token=" + member.token
+		useragent = "chromeseries-" + Fx.getVersion()
 		$('#sync').attr 'src', '../img/sync.gif'
 		$.ajax
 			type: "POST"
 			url: @url_api + category + ".json"
-			data: "key=" + @key + params + token
+			data: "user-agent=" + useragent + "&key=" + @key + params + token
 			dataType: "json"
 			success: (data) ->
 				#console.log data
