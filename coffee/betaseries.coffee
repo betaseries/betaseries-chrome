@@ -309,17 +309,6 @@ BS =
 			output += '<div class="episode lun"><img src="../img/script.png" class="icon"> ' + __('nbr_episodes', [data.stats.episodes]) + ' </div>'
 			output += '<div class="episode lun"><img src="../img/location.png" class="icon">' + data.stats.progress + ' <small>(' + __('progress') + ')</small></div>'
 			
-			myLogin = data.login is DB.get('member').login
-			if myLogin
-				output += '<div style="height:11px;"></div>'
-				output += '<div class="showtitle">' + __('archived_shows') + '</div>'
-				for i of data.shows
-					if data.shows[i].archive is "1"
-						output += '<div class="episode" id="' + data.shows[i].url + '">'
-						output += data.shows[i].title
-						output += ' <img src="../img/unarchive.png" class="unarchive" title="' + __("unarchive") + '" />'
-						output += '</div>'
-			
 			if data.is_in_account?
 				output += '<div class="showtitle">' + __('actions') + '</div>'
 				if data.is_in_account is 0
@@ -329,6 +318,43 @@ BS =
 			
 			return output
 	
+	membersShows: (login) ->
+		login ?= DB.get 'member.login'
+		
+		id: 'membersShows.' + login
+		name: 'membersShows'
+		url: '/members/infos/' + login
+		root: 'member'
+		login: login
+		update: (data) ->
+			shows = DB.get 'shows.' + @login, {}
+			for i, s of data.shows
+				if s.url of shows
+					# cas où on enlève une série des archives depuis le site
+					shows[s.url].archive = false
+					# cas où on enlève une série du compte depuis le site
+					shows[s.url].is_in_account = false
+				else
+					shows[s.url] =
+						url: s.url
+						title: s.title
+						is_in_account: s.is_in_account
+						archive: false
+						hidden: false
+						expanded: false
+			DB.set 'shows.' + @login, shows
+		content: ->
+			shows = DB.get 'shows.' + @login, {}
+			return '' if Object.keys(shows).length is 0
+			
+			output = ''
+			for i, show of shows
+				output += '<div class="episode" id="' + show.url + '">'
+				output += show.title
+				output += '</div>'
+			
+			return output
+			
 	#
 	membersEpisodes: (lang) ->
 		lang ?= 'all'
@@ -337,10 +363,11 @@ BS =
 		name: 'membersEpisodes',
 		url: '/members/episodes/' + lang
 		root: 'episodes'
+		login: DB.get('member').login
 		update: (data) ->
 			for d, e of data
 				# cache des infos de la *série*
-				shows = DB.get 'shows', {}
+				shows = DB.get 'shows.' + @login, {}
 				if e.url of shows
 					# cas où on enlève une série des archives depuis le site
 					shows[e.url].archive = false
@@ -351,7 +378,7 @@ BS =
 						archive: false
 						hidden: false
 						expanded: false
-				DB.set 'shows', shows
+				DB.set 'shows.' + @login, shows
 				
 				# cache des infos de *épisode*
 				episodes = DB.get 'episodes.' + e.url, {}
@@ -403,7 +430,7 @@ BS =
 			
 			for i, j of data
 				# récupération des infos sur la *série*
-				s = DB.get('shows')[i]
+				s = DB.get('shows.' + @login)[i]
 				
 				# SHOW
 				output += '<div id="' + s.url + '" class="show">'
@@ -646,6 +673,10 @@ BS =
 			output += '<a href="" onclick="BS.load(\'membersEpisodes\'); return false;">'
 			output += '<img src="../img/episodes.png" id="episodes" class="action" style="margin-bottom:-3px;" />'
 			output += __('membersEpisodes') + '</a>'
+			
+			output += '<a href="" onclick="BS.load(\'membersShows\', \'' + DB.get('member').login + '\'); return false;">'
+			output += '<img src="../img/episodes.png" id="shows" class="action" style="margin-bottom:-3px;" />'
+			output += __('membersShows') + '</a>'
 			
 			output += '<a href="" onclick="BS.load(\'membersInfos\', \'' + DB.get('member').login + '\'); return false;">'
 			output += '<img src="../img/infos.png" id="infos" class="action" style="margin-bottom:-3px; margin-right: 9px;" />'

@@ -263,7 +263,7 @@ BS = {
         return DB.set('member.' + this.login, data);
       },
       content: function() {
-        var avatar, data, i, myLogin, output;
+        var avatar, data, output;
         data = DB.get('member.' + this.login, {});
         if (!(data.login != null)) return '';
         if ((data.avatar != null) && data.avatar !== '') {
@@ -282,19 +282,6 @@ BS = {
         output += '<div class="episode lun"><img src="../img/report.png" class="icon"> ' + __('nbr_seasons', [data.stats.seasons]) + ' </div>';
         output += '<div class="episode lun"><img src="../img/script.png" class="icon"> ' + __('nbr_episodes', [data.stats.episodes]) + ' </div>';
         output += '<div class="episode lun"><img src="../img/location.png" class="icon">' + data.stats.progress + ' <small>(' + __('progress') + ')</small></div>';
-        myLogin = data.login === DB.get('member').login;
-        if (myLogin) {
-          output += '<div style="height:11px;"></div>';
-          output += '<div class="showtitle">' + __('archived_shows') + '</div>';
-          for (i in data.shows) {
-            if (data.shows[i].archive === "1") {
-              output += '<div class="episode" id="' + data.shows[i].url + '">';
-              output += data.shows[i].title;
-              output += ' <img src="../img/unarchive.png" class="unarchive" title="' + __("unarchive") + '" />';
-              output += '</div>';
-            }
-          }
-        }
         if (data.is_in_account != null) {
           output += '<div class="showtitle">' + __('actions') + '</div>';
           if (data.is_in_account === 0) {
@@ -307,6 +294,51 @@ BS = {
       }
     };
   },
+  membersShows: function(login) {
+    if (login == null) login = DB.get('member.login');
+    return {
+      id: 'membersShows.' + login,
+      name: 'membersShows',
+      url: '/members/infos/' + login,
+      root: 'member',
+      login: login,
+      update: function(data) {
+        var i, s, shows, _ref;
+        shows = DB.get('shows.' + this.login, {});
+        _ref = data.shows;
+        for (i in _ref) {
+          s = _ref[i];
+          if (s.url in shows) {
+            shows[s.url].archive = false;
+            shows[s.url].is_in_account = false;
+          } else {
+            shows[s.url] = {
+              url: s.url,
+              title: s.title,
+              is_in_account: s.is_in_account,
+              archive: false,
+              hidden: false,
+              expanded: false
+            };
+          }
+        }
+        return DB.set('shows.' + this.login, shows);
+      },
+      content: function() {
+        var i, output, show, shows;
+        shows = DB.get('shows.' + this.login, {});
+        if (Object.keys(shows).length === 0) return '';
+        output = '';
+        for (i in shows) {
+          show = shows[i];
+          output += '<div class="episode" id="' + show.url + '">';
+          output += show.title;
+          output += '</div>';
+        }
+        return output;
+      }
+    };
+  },
   membersEpisodes: function(lang) {
     if (lang == null) lang = 'all';
     return {
@@ -314,12 +346,13 @@ BS = {
       name: 'membersEpisodes',
       url: '/members/episodes/' + lang,
       root: 'episodes',
+      login: DB.get('member').login,
       update: function(data) {
         var d, e, episodes, shows, _results;
         _results = [];
         for (d in data) {
           e = data[d];
-          shows = DB.get('shows', {});
+          shows = DB.get('shows.' + this.login, {});
           if (e.url in shows) {
             shows[e.url].archive = false;
           } else {
@@ -331,7 +364,7 @@ BS = {
               expanded: false
             };
           }
-          DB.set('shows', shows);
+          DB.set('shows.' + this.login, shows);
           episodes = DB.get('episodes.' + e.url, {});
           if (episodes[e.global] != null) {
             episodes[e.global].comments = e.comments;
@@ -389,7 +422,7 @@ BS = {
         output = '<div id="shows">';
         for (i in data) {
           j = data[i];
-          s = DB.get('shows')[i];
+          s = DB.get('shows.' + this.login)[i];
           output += '<div id="' + s.url + '" class="show">';
           output += Content.show(s, j.nbr_total);
           _ref2 = j.episodes;
@@ -648,6 +681,9 @@ BS = {
         output += '<a href="" onclick="BS.load(\'membersEpisodes\'); return false;">';
         output += '<img src="../img/episodes.png" id="episodes" class="action" style="margin-bottom:-3px;" />';
         output += __('membersEpisodes') + '</a>';
+        output += '<a href="" onclick="BS.load(\'membersShows\', \'' + DB.get('member').login + '\'); return false;">';
+        output += '<img src="../img/episodes.png" id="shows" class="action" style="margin-bottom:-3px;" />';
+        output += __('membersShows') + '</a>';
         output += '<a href="" onclick="BS.load(\'membersInfos\', \'' + DB.get('member').login + '\'); return false;">';
         output += '<img src="../img/infos.png" id="infos" class="action" style="margin-bottom:-3px; margin-right: 9px;" />';
         output += __('membersInfos') + '</a>';
