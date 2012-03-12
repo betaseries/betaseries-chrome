@@ -288,7 +288,9 @@ BS =
 		root: 'member'
 		login: login
 		update: (data) ->
-			DB.set 'member.' + @login, data
+			member = DB.set 'member.' + @login
+			member.avatar = data.avatar
+			member.stats = data.stats
 		content: ->
 			data = DB.get 'member.' + @login, {}
 			return '' if !data.login?

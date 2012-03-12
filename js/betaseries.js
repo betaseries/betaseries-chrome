@@ -260,7 +260,10 @@ BS = {
       root: 'member',
       login: login,
       update: function(data) {
-        return DB.set('member.' + this.login, data);
+        var member;
+        member = DB.set('member.' + this.login);
+        member.avatar = data.avatar;
+        return member.stats = data.stats;
       },
       content: function() {
         var avatar, data, output;
