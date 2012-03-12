@@ -263,7 +263,7 @@ BS = {
         var member;
         member = DB.get('member.' + this.login, {});
         member.login = data.login;
-        member.is_in_account = data.is_in_account;
+        if (data.is_in_account != null) member.is_in_account = data.is_in_account;
         member.avatar = data.avatar;
         member.stats = data.stats;
         return DB.set('member.' + this.login, member);

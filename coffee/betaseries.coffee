@@ -290,7 +290,7 @@ BS =
 		update: (data) ->
 			member = DB.get 'member.' + @login, {}
 			member.login = data.login
-			member.is_in_account = data.is_in_account
+			member.is_in_account = data.is_in_account if data.is_in_account?
 			member.avatar = data.avatar
 			member.stats = data.stats
 			DB.set 'member.' + @login, member
