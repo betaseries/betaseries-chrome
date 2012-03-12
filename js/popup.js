@@ -371,7 +371,30 @@ $(document).ready(function() {
       return false;
     }
   });
-  $('#search0').live({
+  $('#searchForMember').live({
+    submit: function() {
+      var params, terms;
+      terms = $('#terms').val();
+      params = "&login=" + terms;
+      ajax.post("/members/search", params, function(data) {
+        var content, member, members, n;
+        content = '<div class="showtitle">' + __('members') + '</div>';
+        members = data.root.members;
+        if (Object.keys(members).length > 0) {
+          for (n in members) {
+            member = members[n];
+            content += '<div class="episode"><a href="#" onclick="BS.load(\'membersInfos\', \'' + member.login + '\'); return false;">' + Fx.subFirst(member.login, 25) + '</a></div>';
+          }
+        } else {
+          content += '<div class="episode">' + __('no_members_found') + '</div>';
+        }
+        $('#results').html(content);
+        return Fx.updateHeight();
+      }, function() {});
+      return false;
+    }
+  });
+  $('#searchForShow').live({
     submit: function() {
       var params, terms;
       terms = $('#terms').val();
@@ -388,23 +411,7 @@ $(document).ready(function() {
         } else {
           content += '<div class="episode">' + __('no_shows_found') + '</div>';
         }
-        $('#shows-results').html(content);
-        return Fx.updateHeight();
-      }, function() {});
-      params = "&login=" + terms;
-      ajax.post("/members/search", params, function(data) {
-        var content, member, members, n;
-        content = '<div class="showtitle">' + __('members') + '</div>';
-        members = data.root.members;
-        if (Object.keys(members).length > 0) {
-          for (n in members) {
-            member = members[n];
-            content += '<div class="episode"><a href="#" onclick="BS.load(\'membersInfos\', \'' + member.login + '\'); return false;">' + Fx.subFirst(member.login, 25) + '</a></div>';
-          }
-        } else {
-          content += '<div class="episode">' + __('no_members_found') + '</div>';
-        }
-        $('#members-results').html(content);
+        $('#results').html(content);
         return Fx.updateHeight();
       }, function() {});
       return false;

@@ -288,9 +288,12 @@ BS =
 		root: 'member'
 		login: login
 		update: (data) ->
-			member = DB.set 'member.' + @login
+			member = DB.get 'member.' + @login, {}
+			member.login = data.login
+			member.is_in_account = data.is_in_account
 			member.avatar = data.avatar
 			member.stats = data.stats
+			DB.set 'member.' + @login, member
 		content: ->
 			data = DB.get 'member.' + @login, {}
 			return '' if !data.login?
@@ -313,9 +316,9 @@ BS =
 			
 			if data.is_in_account?
 				output += '<div class="showtitle">' + __('actions') + '</div>'
-				if data.is_in_account is 0
+				if !data.is_in_account
 					output += '<div class="episode"><img src="../img/friend_add.png" id="friendshipimg" style="margin-bottom: -4px;" /> <a href="#" id="addfriend" login="' + data.login + '">' + __('add_to_friends', [data.login]) + '</a></div>'
-				else if data.is_in_account is 1
+				else
 					output += '<div class="episode"><img src="../img/friend_remove.png" id="friendshipimg" style="margin-bottom: -4px;"  /> <a href="#" id="removefriend" login="' + data.login + '">' + __('remove_to_friends', [data.login]) + '</a></div>'
 			
 			return output
@@ -596,17 +599,30 @@ BS =
 			return output
 	
 	#
-	searchForm: ->
-		id: 'searchForm'
-		name: 'searchForm'
+	searchShow: ->
+		id: 'searchShow'
+		name: 'searchShow'
 		content: ->
 			output = '<div style="height:10px;"></div>';
-			output += '<form id="search0">'
+			output += '<form id="searchForShow">'
 			output += '<input type="text" name="terms" id="terms" /> '
 			output += '<input type="submit" value="chercher" />'
 			output += '</form>'
-			output += '<div id="shows-results"></div>'
-			output += '<div id="members-results"></div>'
+			output += '<div id="results"></div>'
+			setTimeout (() -> $('#terms').focus()), 100
+			return output
+			
+	#
+	searchMember: ->
+		id: 'searchMember'
+		name: 'searchMember'
+		content: ->
+			output = '<div style="height:10px;"></div>';
+			output += '<form id="searchForMember">'
+			output += '<input type="text" name="terms" id="terms" /> '
+			output += '<input type="submit" value="chercher" />'
+			output += '</form>'
+			output += '<div id="results"></div>'
 			setTimeout (() -> $('#terms').focus()), 100
 			return output
 	
@@ -688,9 +704,13 @@ BS =
 			output += '<img src="../img/notifications.png" id="notifications" class="action" style="margin-bottom:-3px;" />'
 			output += __('membersNotifications') + '</a>'
 			
-			output += '<a href="" onclick="BS.load(\'searchForm\'); return false;">'
+			output += '<a href="" onclick="BS.load(\'searchShow\'); return false;">'
 			output += '<img src="../img/search.png" id="search" class="action" style="margin-bottom:-3px;" />'
-			output += __('searchForm') + '</a>'
+			output += __('searchShow') + '</a>'
+			
+			output += '<a href="" onclick="BS.load(\'searchMember\'); return false;">'
+			output += '<img src="../img/search.png" id="search" class="action" style="margin-bottom:-3px;" />'
+			output += __('searchMember') + '</a>'
 			
 			output += '<a href="" onclick="BS.load(\'blog\'); return false;">'
 			output += '<img src="../img/blog.png" id="blog" class="action" style="margin-bottom:-3px;" />'

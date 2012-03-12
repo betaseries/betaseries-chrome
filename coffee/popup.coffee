@@ -364,8 +364,32 @@ $(document).ready ->
 			
 			return false
 	
-	## Faire une recherche
-	$('#search0').live
+	## Faire une recherche de membre
+	$('#searchForMember').live
+		submit: ->
+			terms = $('#terms').val()
+			#var inputs = $(this).find('input').attr {disabled: 'disabled'}
+			
+			params = "&login=" + terms
+			ajax.post "/members/search", params, 
+				(data) ->
+					content = '<div class="showtitle">' + __('members') + '</div>'
+					members = data.root.members
+					if Object.keys(members).length > 0
+						for n of members
+							member = members[n]
+							content += '<div class="episode"><a href="#" onclick="BS.load(\'membersInfos\', \'' + member.login + '\'); return false;">' + Fx.subFirst(member.login, 25) + '</a></div>'
+					else
+						content += '<div class="episode">' + __('no_members_found') + '</div>'
+					$('#results').html content
+					Fx.updateHeight()
+				->
+					#inputs.removeAttr 'disabled'
+			
+			return false
+	
+	## Faire une recherche de membre
+	$('#searchForShow').live
 		submit: ->
 			terms = $('#terms').val()
 			#var inputs = $(this).find('input').attr {disabled: 'disabled'}
@@ -381,23 +405,7 @@ $(document).ready ->
 							content += '<div class="episode"><a href="#" onclick="BS.load(\'showsDisplay\', \'' + show.url + '\'); return false;" title="' + show.title + '">' + Fx.subFirst(show.title, 25) + '</a></div>'
 					else
 						content += '<div class="episode">' + __('no_shows_found') + '</div>'
-					$('#shows-results').html content
-					Fx.updateHeight()
-				->
-					#inputs.removeAttr 'disabled'
-			
-			params = "&login=" + terms
-			ajax.post "/members/search", params, 
-				(data) ->
-					content = '<div class="showtitle">' + __('members') + '</div>'
-					members = data.root.members
-					if Object.keys(members).length > 0
-						for n of members
-							member = members[n]
-							content += '<div class="episode"><a href="#" onclick="BS.load(\'membersInfos\', \'' + member.login + '\'); return false;">' + Fx.subFirst(member.login, 25) + '</a></div>'
-					else
-						content += '<div class="episode">' + __('no_members_found') + '</div>'
-					$('#members-results').html content
+					$('#results').html content
 					Fx.updateHeight()
 				->
 					#inputs.removeAttr 'disabled'

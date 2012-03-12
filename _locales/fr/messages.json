@@ -341,8 +341,11 @@
 	"saved": {
 		"message": "Sauvegardé"
 	},
-	"searchForm": {
-		"message": "Chercher une série ou un ami"
+	"searchMember": {
+		"message": "Chercher un membre"
+	},
+	"searchShow": {
+		"message": "Chercher une série"
 	},
 	"seasons": {
 		"message": "Saisons"

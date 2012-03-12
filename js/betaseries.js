@@ -261,9 +261,12 @@ BS = {
       login: login,
       update: function(data) {
         var member;
-        member = DB.set('member.' + this.login);
+        member = DB.get('member.' + this.login, {});
+        member.login = data.login;
+        member.is_in_account = data.is_in_account;
         member.avatar = data.avatar;
-        return member.stats = data.stats;
+        member.stats = data.stats;
+        return DB.set('member.' + this.login, member);
       },
       content: function() {
         var avatar, data, output;
@@ -287,9 +290,9 @@ BS = {
         output += '<div class="episode lun"><img src="../img/location.png" class="icon">' + data.stats.progress + ' <small>(' + __('progress') + ')</small></div>';
         if (data.is_in_account != null) {
           output += '<div class="showtitle">' + __('actions') + '</div>';
-          if (data.is_in_account === 0) {
+          if (!data.is_in_account) {
             output += '<div class="episode"><img src="../img/friend_add.png" id="friendshipimg" style="margin-bottom: -4px;" /> <a href="#" id="addfriend" login="' + data.login + '">' + __('add_to_friends', [data.login]) + '</a></div>';
-          } else if (data.is_in_account === 1) {
+          } else {
             output += '<div class="episode"><img src="../img/friend_remove.png" id="friendshipimg" style="margin-bottom: -4px;"  /> <a href="#" id="removefriend" login="' + data.login + '">' + __('remove_to_friends', [data.login]) + '</a></div>';
           }
         }
@@ -602,19 +605,37 @@ BS = {
       }
     };
   },
-  searchForm: function() {
+  searchShow: function() {
     return {
-      id: 'searchForm',
-      name: 'searchForm',
+      id: 'searchShow',
+      name: 'searchShow',
       content: function() {
         var output;
         output = '<div style="height:10px;"></div>';
-        output += '<form id="search0">';
+        output += '<form id="searchForShow">';
         output += '<input type="text" name="terms" id="terms" /> ';
         output += '<input type="submit" value="chercher" />';
         output += '</form>';
-        output += '<div id="shows-results"></div>';
-        output += '<div id="members-results"></div>';
+        output += '<div id="results"></div>';
+        setTimeout((function() {
+          return $('#terms').focus();
+        }), 100);
+        return output;
+      }
+    };
+  },
+  searchMember: function() {
+    return {
+      id: 'searchMember',
+      name: 'searchMember',
+      content: function() {
+        var output;
+        output = '<div style="height:10px;"></div>';
+        output += '<form id="searchForMember">';
+        output += '<input type="text" name="terms" id="terms" /> ';
+        output += '<input type="submit" value="chercher" />';
+        output += '</form>';
+        output += '<div id="results"></div>';
         setTimeout((function() {
           return $('#terms').focus();
         }), 100);
@@ -693,9 +714,12 @@ BS = {
         output += '<a href="" onclick="BS.load(\'membersNotifications\'); return false;">';
         output += '<img src="../img/notifications.png" id="notifications" class="action" style="margin-bottom:-3px;" />';
         output += __('membersNotifications') + '</a>';
-        output += '<a href="" onclick="BS.load(\'searchForm\'); return false;">';
+        output += '<a href="" onclick="BS.load(\'searchShow\'); return false;">';
         output += '<img src="../img/search.png" id="search" class="action" style="margin-bottom:-3px;" />';
-        output += __('searchForm') + '</a>';
+        output += __('searchShow') + '</a>';
+        output += '<a href="" onclick="BS.load(\'searchMember\'); return false;">';
+        output += '<img src="../img/search.png" id="search" class="action" style="margin-bottom:-3px;" />';
+        output += __('searchMember') + '</a>';
         output += '<a href="" onclick="BS.load(\'blog\'); return false;">';
         output += '<img src="../img/blog.png" id="blog" class="action" style="margin-bottom:-3px;" />';
         output += __('blog') + '</a>';
