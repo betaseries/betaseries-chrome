@@ -128,22 +128,41 @@ BS =
 	
 	#
 	showsDisplay: (url) ->
-		id: "showsDisplay.#{url}"
+		id: 'showsDisplay.' + url
 		name: 'showsDisplay'
-		url: "/shows/display/#{url}"
+		url: '/shows/display/' + url
 		root: 'show'
-		content: (data) ->
+		login: DB.get('member').login
+		show: url
+		update: (data) ->
+			shows = DB.get 'shows.' + @login, {}
+			shows[data.url] =
+				banner: data.banner
+				description: data.description
+				genres: data.genres
+				is_in_account: data.is_in_account is '1'
+				note: data.note
+				status: data.status
+				title: data.title
+				url: data.url
+			DB.set 'shows.' + @login, shows
+		content: ->
+			shows = DB.get 'shows.' + @login, {}
+			data = shows[@show]
+			return '' if !data
+			
 			if data.banner?
 				output = '<img src="' + data.banner + '" width="290" height="70" alt="banner" /><br />'
+			
 			output += '<div class="showtitle">' + data.title + '</div>'
 			output += __('type')
 			genres = []
 			for k,v of data.genres
 				genres.push v
 			output += genres.join(', ') + '<br />'
-			output += __('status') + __((data.status).toLowerCase()) + '<br />'
-			output += __('avg_note') + data.note.mean + '/5 (' + data.note.members + ')'
-			output += '<div style="height:54px; overflow:hidden">' + __('synopsis') + data.description + '</div>'
+			output += __('status') + __(data.status.toLowerCase()) + '<br />' if data.status?
+			output += __('avg_note') + data.note.mean + '/5 (' + data.note.members + ')' if data.note?
+			output += '<div style="height:54px; overflow:hidden">' + __('synopsis') + data.description + '</div>' if data.description?
 			
 			output += '<div class="showtitle">' + __('seasons') + '</div>'
 			for i of data.seasons
@@ -152,7 +171,7 @@ BS =
 				output += '<small>(' + season.episodes + ' ' + __('episodes') + ')</small><br />'
 			
 			output += '<div class="showtitle">' + __('actions') + '</div>'
-			if data.is_in_account is '1'
+			if data.is_in_account
 				output += '<a href="#' + data.url + '" id="showsRemove">'
 				output += '<img src="../img/film_delete.png" class="icon2" />' + __('show_remove') + '</a><br />'
 			else

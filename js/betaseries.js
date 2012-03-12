@@ -92,12 +92,32 @@ BS = {
   },
   showsDisplay: function(url) {
     return {
-      id: "showsDisplay." + url,
+      id: 'showsDisplay.' + url,
       name: 'showsDisplay',
-      url: "/shows/display/" + url,
+      url: '/shows/display/' + url,
       root: 'show',
-      content: function(data) {
-        var genres, i, k, output, season, v, _ref;
+      login: DB.get('member').login,
+      show: url,
+      update: function(data) {
+        var shows;
+        shows = DB.get('shows.' + this.login, {});
+        shows[data.url] = {
+          banner: data.banner,
+          description: data.description,
+          genres: data.genres,
+          is_in_account: data.is_in_account === '1',
+          note: data.note,
+          status: data.status,
+          title: data.title,
+          url: data.url
+        };
+        return DB.set('shows.' + this.login, shows);
+      },
+      content: function() {
+        var data, genres, i, k, output, season, shows, v, _ref;
+        shows = DB.get('shows.' + this.login, {});
+        data = shows[this.show];
+        if (!data) return '';
         if (data.banner != null) {
           output = '<img src="' + data.banner + '" width="290" height="70" alt="banner" /><br />';
         }
@@ -110,9 +130,15 @@ BS = {
           genres.push(v);
         }
         output += genres.join(', ') + '<br />';
-        output += __('status') + __(data.status.toLowerCase()) + '<br />';
-        output += __('avg_note') + data.note.mean + '/5 (' + data.note.members + ')';
-        output += '<div style="height:54px; overflow:hidden">' + __('synopsis') + data.description + '</div>';
+        if (data.status != null) {
+          output += __('status') + __(data.status.toLowerCase()) + '<br />';
+        }
+        if (data.note != null) {
+          output += __('avg_note') + data.note.mean + '/5 (' + data.note.members + ')';
+        }
+        if (data.description != null) {
+          output += '<div style="height:54px; overflow:hidden">' + __('synopsis') + data.description + '</div>';
+        }
         output += '<div class="showtitle">' + __('seasons') + '</div>';
         for (i in data.seasons) {
           season = data.seasons[i];
@@ -120,7 +146,7 @@ BS = {
           output += '<small>(' + season.episodes + ' ' + __('episodes') + ')</small><br />';
         }
         output += '<div class="showtitle">' + __('actions') + '</div>';
-        if (data.is_in_account === '1') {
+        if (data.is_in_account) {
           output += '<a href="#' + data.url + '" id="showsRemove">';
           output += '<img src="../img/film_delete.png" class="icon2" />' + __('show_remove') + '</a><br />';
         } else {
