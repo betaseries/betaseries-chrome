@@ -19,16 +19,8 @@ Fonctionnalités
 Dernière version
 ----------------
 
-### Version 0.7
-* Minimiser une série
-* Noter un épisode
-* Bouton de retour
-* Ajouter/retirer un ami
-* Utilisation de l'API en HTTPS
-* Nouveau design pour les vues d'une série et d'un épisode
-* Nouvelle gestion de la hauteur du popup (configurable dans les options)
-* Diminution de 50% au moins des requêtes envoyées à l'API
-* Programmation avec CoffeeScript :)
+### Version 0.8
+* Amélioration considérable du chargement des vues (meilleure gestion des données en cache)
 
 Liens
 -----
