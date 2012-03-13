@@ -115,9 +115,16 @@ Fx = {
       episode: parseInt(episode)
     };
   },
-  getCacheSize: function() {
+  getCacheSize: function(key) {
     var size;
-    size = Math.floor(JSON.stringify(localStorage).length);
+    if (key != null) {
+      size = Math.floor(JSON.stringify(localStorage[key]).length);
+    } else {
+      size = Math.floor(JSON.stringify(localStorage).length);
+    }
+    return size;
+  },
+  getCacheFormat: function(size) {
     if (size < 1000) {
       return size + ' o';
     } else if (size < 1000 * 1000) {

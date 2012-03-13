@@ -55,6 +55,9 @@
 	"blog": {
 		"message": "Le blog"
 	},
+	"cache": {
+		"message": "Mémoire"
+	},
 	"close": {
 		"message": "Fermer"
 	},

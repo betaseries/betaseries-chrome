@@ -105,8 +105,15 @@ Fx =
 		episode: parseInt episode
 		
 	##
-	getCacheSize: ->
-		size = Math.floor JSON.stringify(localStorage).length
+	getCacheSize: (key) ->
+		if key?
+			size = Math.floor JSON.stringify(localStorage[key]).length
+		else
+			size = Math.floor JSON.stringify(localStorage).length
+		return size	
+	
+	##
+	getCacheFormat: (size) ->
 		if size < 1000
 			return size + ' o'
 		else if size < 1000*1000

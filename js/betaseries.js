@@ -712,56 +712,40 @@ BS = {
       }
     };
   },
-  options: function() {
+  cache: function() {
     return {
-      id: 'options',
-      name: 'options',
+      id: 'cache',
+      name: 'cache',
       content: function() {
-        var output;
+        var d, data, i, output, privates, size, _len;
         output = '';
-        output += '<div class="showtitle">' + __('badge') + '</div>';
-        output += '<p>' + __('badge_notification_type');
-        output += '<select name="badge_notification_type">';
-        output += '	<option value="watched">' + __('episodes_not_seen') + '</option>';
-        output += '	<option value="downloaded">' + __('episodes_not_dl') + '</option>';
-        output += '</select></p>';
-        output += '<p>' + __("max_height");
-        output += '<input type="text" name="max_height" size="3" /></p>';
-        output += '<div class="showtitle">' + __('view_episodes_not_seen') + '</div>';
-        output += '<p>' + __("dl_srt_language");
-        output += '<select name="dl_srt_language">';
-        output += '	<option value="VF">' + __('vf') + '</option>';
-        output += '	<option value="VO">' + __('vo') + '</option>';
-        output += '	<option value="ALL">' + __('all') + '</option>';
-        output += '</select></p>';
-        output += '<p>' + __("nbr_episodes_per_serie");
-        output += '<input type="text" name="nbr_episodes_per_serie" size="2" /></p>';
-        output += '<p>' + __("display_global");
-        output += '<select name="display_global">';
-        output += '	<option value="true">' + __('yes') + '</option>';
-        output += '	<option value="false">' + __('no') + '</option>';
-        output += '</select></p>';
-        output += '<p>' + __("enable_ratings");
-        output += '<select name="enable_ratings">';
-        output += '	<option value="true">' + __('yes') + '</option>';
-        output += '	<option value="false">' + __('no') + '</option>';
-        output += '</select></p>';
-        output += '<div class="showtitle">Avancé</div>';
-        output += '<p>Taille du cache : ' + Fx.getCacheSize() + '</p>';
+        output += '<div class="showtitle">Total</div>';
+        output += '<div class="episode">';
+        output += ' <div class="left">Taille du cache</div>';
+        output += ' <div class="right">' + Fx.getCacheFormat(Fx.getCacheSize()) + '</div>';
+        output += ' <div class="clear"></div>';
+        output += '</div>';
+        privates = ['badge', 'historic', 'length', 'member', 'notifications', 'options', 'views_to_refresh', 'views_to_remove', 'views_updated'];
+        data = [];
+        output += '<div class="showtitle">Détail</div>';
+        for (i in localStorage) {
+          size = localStorage[i];
+          if (!(__indexOf.call(privates, i) >= 0)) {
+            data.push([i, Fx.getCacheSize(i)]);
+          }
+        }
+        data.sort(function(a, b) {
+          return b[1] - a[1];
+        });
+        for (i = 0, _len = data.length; i < _len; i++) {
+          d = data[i];
+          output += '<div class="episode">';
+          output += ' <div class="left">' + d[0] + '</div>';
+          output += ' <div class="right">' + Fx.getCacheFormat(d[1]) + '</div>';
+          output += ' <div class="clear"></div>';
+          output += '</div>';
+        }
         return output;
-      },
-      after: function() {
-        var display_global, enable_ratings, value;
-        $('select[name=badge_notification_type]').val(DB.get('options').badge_notification_type);
-        $('select[name=dl_srt_language]').val(DB.get('options').dl_srt_language);
-        $('input[name=nbr_episodes_per_serie]').attr('value', DB.get('options').nbr_episodes_per_serie);
-        $('input[name=max_height]').attr('value', DB.get('options').max_height);
-        display_global = DB.get('options').display_global;
-        value = display_global ? 'true' : 'false';
-        $('select[name=display_global]').val(value);
-        enable_ratings = DB.get('options').enable_ratings;
-        value = enable_ratings ? 'true' : 'false';
-        return $('select[name=enable_ratings]').val(value);
       }
     };
   },
@@ -799,9 +783,9 @@ BS = {
         output += '<a href="" onclick="BS.load(\'blog\'); return false;">';
         output += '<img src="../img/blog.png" id="blog" class="action" style="margin-bottom:-3px;" />';
         output += __('blog') + '</a>';
-        output += '<a href="" onclick="BS.load(\'options\'); return false;">';
-        output += '<img src="../img/options.png" id="options" class="action" style="margin-bottom:-3px;" />';
-        output += __('options') + '</a>';
+        output += '<a href="" onclick="BS.load(\'cache\'); return false;">';
+        output += '<img src="../img/cache.png" id="cache" class="action" style="margin-bottom:-3px;" />';
+        output += __('cache') + '</a>';
         output += '<a href="" onclick="BS.logout(); return false;">';
         output += '<img src="../img/close.png" id="logout" class="action" style="margin-bottom:-3px;" />';
         output += __('logout') + '</a>';

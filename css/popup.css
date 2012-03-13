@@ -116,6 +116,10 @@ div.clear{clear: both;}
 .timelineFriends .login, .commentsEpisode .login 
 	{color: #54709D;}
 	
+/*section cache*/
+.cache .left{float:left; width:230px;}
+.cache .right{margin-left: 230px; width:60px; text-align: right;}
+
 /*section menu*/
 .menu a, .menu a:visited {
 	display: block;
