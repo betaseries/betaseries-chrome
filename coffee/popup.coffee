@@ -72,6 +72,7 @@ $(document).ready ->
 				node = node.prev()
 	
 	clean = (nodes) ->
+		login = DB.get('member').login
 		show = nodes[0].closest('.show').attr 'id'
 		
 		# on compte le nombre d'épisodes actuellement affichés
@@ -85,7 +86,7 @@ $(document).ready ->
 		for node, i in nodes				
 			# on met à jour le cache
 			show = node.closest('.show').attr 'id'
-			showCache = DB.get('shows')[show]
+			showCache = DB.get('shows.' + login)[show]
 			episodesCache = DB.get 'episodes.' + show
 			episodesCache[node.attr 'global'].seen = true
 			
@@ -144,7 +145,7 @@ $(document).ready ->
 	# Close Stars HOVER
 	$('.close_stars').live
 		click: ->
-			s = $(this).closest('.show')
+			s = $(this).closest '.show'
 			show = s.attr 'id'
 			e = $(this).closest '.episode'
 			es = clean [e]

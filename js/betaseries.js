@@ -415,31 +415,31 @@ BS = {
         return _results;
       },
       content: function() {
-        var data, e, episode, episodes, es, i, j, n, nbrEpisodesPerSerie, output, s, _i, _len, _ref;
+        var data, e, episode, episodes, es, i, j, nbNotSeen, nbToSee, nbrEpisodesPerSerie, output, s, _i, _len, _ref;
         data = {};
         nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie;
         for (i in localStorage) {
           episodes = localStorage[i];
           if (i.indexOf('episodes.') === 0) {
-            n = 0;
+            nbToSee = 0;
             es = JSON.parse(episodes);
-            data[i.substring(9)] = {
-              episodes: [],
-              nbr_total: Object.keys(es).length
-            };
+            data[i.substring(9)] = {};
+            data[i.substring(9)].episodes = [];
+            nbNotSeen = Object.keys(es).length;
             for (j in es) {
               episode = es[j];
               if (episode.seen) {
-                continue;
-              } else if (n < nbrEpisodesPerSerie) {
+                nbNotSeen--;
+              } else if (nbToSee < nbrEpisodesPerSerie) {
                 episodes = data[i.substring(9)].episodes;
                 episodes.push(episode);
                 data[i.substring(9)].episodes = episodes;
-                n++;
+                nbToSee++;
               } else {
                 break;
               }
             }
+            data[i.substring(9)].nbr_total = nbNotSeen;
           }
         }
         output = '<div id="shows">';

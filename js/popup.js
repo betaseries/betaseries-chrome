@@ -73,7 +73,8 @@ $(document).ready(function() {
     }
   });
   clean = function(nodes) {
-    var episode, episodesCache, i, nbr, nbrEpisodes, nextGlobal, node, show, showCache, _len;
+    var episode, episodesCache, i, login, nbr, nbrEpisodes, nextGlobal, node, show, showCache, _len;
+    login = DB.get('member').login;
     show = nodes[0].closest('.show').attr('id');
     nbrEpisodes = $('#' + show).find('.episode').length;
     nextGlobal = $('#' + show).find('.episode').last().attr('global');
@@ -82,7 +83,7 @@ $(document).ready(function() {
     for (i = 0, _len = nodes.length; i < _len; i++) {
       node = nodes[i];
       show = node.closest('.show').attr('id');
-      showCache = DB.get('shows')[show];
+      showCache = DB.get('shows.' + login)[show];
       episodesCache = DB.get('episodes.' + show);
       episodesCache[node.attr('global')].seen = true;
       node.slideToggle('slow', function() {

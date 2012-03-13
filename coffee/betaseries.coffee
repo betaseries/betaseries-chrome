@@ -424,21 +424,22 @@ BS =
 			nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie
 			for i, episodes of localStorage
 				if i.indexOf('episodes.') is 0
-					n = 0
+					nbToSee = 0
 					es = JSON.parse episodes
-					data[i.substring(9)] =
-						episodes: []
-						nbr_total: Object.keys(es).length
+					data[i.substring(9)] = {}
+					data[i.substring(9)].episodes = []
+					nbNotSeen = Object.keys(es).length
 					for j, episode of es
 						if episode.seen
-							continue
-						else if n < nbrEpisodesPerSerie
+							nbNotSeen--
+						else if nbToSee < nbrEpisodesPerSerie
 							episodes = data[i.substring(9)].episodes
 							episodes.push episode
 							data[i.substring(9)].episodes = episodes 
-							n++
+							nbToSee++
 						else
 							break
+					data[i.substring(9)].nbr_total = nbNotSeen
 			
 			# SHOWS
 			output = '<div id="shows">'
