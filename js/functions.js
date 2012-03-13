@@ -114,5 +114,16 @@ Fx = {
       season: parseInt(season),
       episode: parseInt(episode)
     };
+  },
+  getCacheSize: function() {
+    var size;
+    size = Math.floor(JSON.stringify(localStorage).length);
+    if (size < 1000) {
+      return size + ' o';
+    } else if (size < 1000 * 1000) {
+      return (Math.floor(size / 100) / 10) + ' Ko';
+    } else {
+      return (Math.floor(size / 1000) / 1000) + ' Mo';
+    }
   }
 };

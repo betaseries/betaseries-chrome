@@ -109,6 +109,11 @@ BS =
 		# on affiche la vue avec les données en cache
 		$('#page').html o.content()
 		
+		# Post affichage
+		if o.after?
+			$(document).ready ->
+				o.after()
+		
 		# Titre et classe
 		$('#title').text __(o.name)
 		$('#page').removeClass().addClass o.name
@@ -686,6 +691,67 @@ BS =
 						
 			return output
 			
+	#
+	options: ->
+		id: 'options'
+		name: 'options'
+		content: ->
+			output = ''
+			
+			output += '<div class="showtitle">' + __('badge') + '</div>'
+			
+			output += '<p>' + __('badge_notification_type')
+			output += '<select name="badge_notification_type">'
+			output += '	<option value="watched">' + __('episodes_not_seen') + '</option>'
+			output += '	<option value="downloaded">' + __('episodes_not_dl') + '</option>'
+			output += '</select></p>'
+			
+			output += '<p>' + __("max_height")
+			output += '<input type="text" name="max_height" size="3" /></p>'
+			
+			output += '<div class="showtitle">' + __('view_episodes_not_seen') + '</div>'
+			
+			output += '<p>' + __("dl_srt_language")
+			output += '<select name="dl_srt_language">'
+			output += '	<option value="VF">' + __('vf') + '</option>'
+			output += '	<option value="VO">' + __('vo') + '</option>'
+			output += '	<option value="ALL">' + __('all') + '</option>'
+			output += '</select></p>'
+			
+			output += '<p>' + __("nbr_episodes_per_serie")
+			output += '<input type="text" name="nbr_episodes_per_serie" size="2" /></p>'
+			
+			output += '<p>' + __("display_global")
+			output += '<select name="display_global">'
+			output += '	<option value="true">' + __('yes') + '</option>'
+			output += '	<option value="false">' + __('no') + '</option>'
+			output += '</select></p>'
+			
+			output += '<p>' + __("enable_ratings")
+			output += '<select name="enable_ratings">'
+			output += '	<option value="true">' + __('yes') + '</option>'
+			output += '	<option value="false">' + __('no') + '</option>'
+			output += '</select></p>'
+				
+			output += '<div class="showtitle">Avancé</div>'
+			
+			output += '<p>Taille du cache : ' + Fx.getCacheSize() + '</p>'
+			
+			return output
+		after: ->
+			$('select[name=badge_notification_type]').val DB.get('options').badge_notification_type
+			$('select[name=dl_srt_language]').val DB.get('options').dl_srt_language
+			$('input[name=nbr_episodes_per_serie]').attr 'value', DB.get('options').nbr_episodes_per_serie
+			$('input[name=max_height]').attr 'value', DB.get('options').max_height
+			
+			display_global = DB.get('options').display_global
+			value = if display_global then 'true' else 'false'
+			$('select[name=display_global]').val value
+			
+			enable_ratings = DB.get('options').enable_ratings
+			value = if enable_ratings then 'true' else 'false'
+			$('select[name=enable_ratings]').val value
+			
 	##	
 	menu: ->
 		id: 'menu'
@@ -728,6 +794,10 @@ BS =
 			output += '<a href="" onclick="BS.load(\'blog\'); return false;">'
 			output += '<img src="../img/blog.png" id="blog" class="action" style="margin-bottom:-3px;" />'
 			output += __('blog') + '</a>'
+			
+			output += '<a href="" onclick="BS.load(\'options\'); return false;">'
+			output += '<img src="../img/options.png" id="options" class="action" style="margin-bottom:-3px;" />'
+			output += __('options') + '</a>'
 			
 			output += '<a href="" onclick="BS.logout(); return false;">'
 			output += '<img src="../img/close.png" id="logout" class="action" style="margin-bottom:-3px;" />'
