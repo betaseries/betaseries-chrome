@@ -406,25 +406,19 @@ BS =
 				
 				# cache des infos de *épisode*
 				episodes = DB.get 'episodes.' + e.url, {}
-				if episodes[e.global]?
-					# on mets à jour le nombre de commentaires
-					episodes[e.global].comments = e.comments
-					# cas où on marque comme récupéré ou pas depuis le site
-					episodes[e.global].downloaded = e.downloaded is '1'
-				else
-					episodes[e.global] =
-						comments: e.comments
-						date: e.date
-						downloaded: e.downloaded is '1'
-						episode: e.episode
-						global: e.global
-						number: e.number
-						season: e.season
-						title: e.title
-						show: e.show
-						url: e.url
-						subs: e.subs
-						seen: false
+				episodes[e.global] =
+					comments: e.comments
+					date: e.date
+					downloaded: e.downloaded is '1'
+					episode: e.episode
+					global: e.global
+					number: e.number
+					season: e.season
+					title: e.title
+					show: e.show
+					url: e.url
+					subs: e.subs
+					seen: false
 				DB.set 'episodes.' + e.url, episodes
 		content: ->
 			# récupération des épisodes non vus (cache)

@@ -398,25 +398,20 @@ BS = {
           }
           DB.set('shows.' + this.login, shows);
           episodes = DB.get('episodes.' + e.url, {});
-          if (episodes[e.global] != null) {
-            episodes[e.global].comments = e.comments;
-            episodes[e.global].downloaded = e.downloaded === '1';
-          } else {
-            episodes[e.global] = {
-              comments: e.comments,
-              date: e.date,
-              downloaded: e.downloaded === '1',
-              episode: e.episode,
-              global: e.global,
-              number: e.number,
-              season: e.season,
-              title: e.title,
-              show: e.show,
-              url: e.url,
-              subs: e.subs,
-              seen: false
-            };
-          }
+          episodes[e.global] = {
+            comments: e.comments,
+            date: e.date,
+            downloaded: e.downloaded === '1',
+            episode: e.episode,
+            global: e.global,
+            number: e.number,
+            season: e.season,
+            title: e.title,
+            show: e.show,
+            url: e.url,
+            subs: e.subs,
+            seen: false
+          };
           _results.push(DB.set('episodes.' + e.url, episodes));
         }
         return _results;
