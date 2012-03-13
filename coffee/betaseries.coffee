@@ -728,6 +728,23 @@ BS =
 			output += '<img src="../img/blog.png" id="blog" class="action" style="margin-bottom:-3px;" />'
 			output += __('blog') + '</a>'
 			
+			output += '<a href="" onclick="BS.logout(); return false;">'
+			output += '<img src="../img/close.png" id="logout" class="action" style="margin-bottom:-3px;" />'
+			output += __('logout') + '</a>'
+			
 			return output
 		
-	
+	#
+	logout: ->
+		ajax.post '/members/destroy', '',
+			->
+				DB.removeAll()
+				DB.init()
+				bgPage.badge.init()
+				BS.load('connection')
+			->
+				DB.removeAll()
+				DB.init()
+				bgPage.badge.init()
+				BS.load('connection')
+		return false

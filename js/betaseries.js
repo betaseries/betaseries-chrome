@@ -741,8 +741,25 @@ BS = {
         output += '<a href="" onclick="BS.load(\'blog\'); return false;">';
         output += '<img src="../img/blog.png" id="blog" class="action" style="margin-bottom:-3px;" />';
         output += __('blog') + '</a>';
+        output += '<a href="" onclick="BS.logout(); return false;">';
+        output += '<img src="../img/close.png" id="logout" class="action" style="margin-bottom:-3px;" />';
+        output += __('logout') + '</a>';
         return output;
       }
     };
+  },
+  logout: function() {
+    ajax.post('/members/destroy', '', function() {
+      DB.removeAll();
+      DB.init();
+      bgPage.badge.init();
+      return BS.load('connection');
+    }, function() {
+      DB.removeAll();
+      DB.init();
+      bgPage.badge.init();
+      return BS.load('connection');
+    });
+    return false;
   }
 };

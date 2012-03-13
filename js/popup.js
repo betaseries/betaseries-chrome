@@ -498,20 +498,6 @@ $(document).ready(function() {
     }
     return false;
   }).attr('title', __("back"));
-  $('#logout').live('click', function() {
-    ajax.post("/members/destroy", '', function() {
-      DB.removeAll();
-      DB.init();
-      bgPage.badge.init();
-      return BS.load('connection');
-    }, function() {
-      DB.removeAll();
-      DB.init();
-      bgPage.badge.init();
-      return BS.load('connection');
-    });
-    return false;
-  }).attr('title', __("logout"));
   $('#close').click(function() {
     return window.close();
   }).attr('title', __('close'));

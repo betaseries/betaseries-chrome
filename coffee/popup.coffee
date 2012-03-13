@@ -496,22 +496,6 @@ $(document).ready ->
 			return false
 		.attr 'title', __("back")
 	
-	$('#logout')
-		.live 'click', -> 
-			ajax.post "/members/destroy", '',
-				->
-					DB.removeAll()
-					DB.init()
-					bgPage.badge.init()
-					BS.load('connection')
-				->
-					DB.removeAll()
-					DB.init()
-					bgPage.badge.init()
-					BS.load('connection')
-			return false
-		.attr 'title', __("logout")
-	
 	$('#close')
 		.click(-> window.close())
 		.attr 'title', __('close')
