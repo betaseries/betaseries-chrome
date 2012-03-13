@@ -80,6 +80,7 @@ img.action:hover {opacity: 1.0; cursor: pointer;}
 .episode {height: 18px; border-bottom: 1px solid #eee; padding: 3px 0 0 0;}
 .episode:hover {background-color: #f5f5f5;}
 .episode.new {background-color: #fff3ee;}
+.episode.hidden {display: none;}
 img.subs{cursor: pointer;}
 span.num {color: #1a4377;}
 span.new {color: #900; font-size: 9px; font-variant: small-caps;}

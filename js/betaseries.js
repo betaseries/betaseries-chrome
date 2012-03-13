@@ -349,8 +349,7 @@ BS = {
               title: s.title,
               is_in_account: s.is_in_account,
               archive: false,
-              hidden: false,
-              expanded: false
+              hidden: false
             };
           }
         }
@@ -392,8 +391,7 @@ BS = {
               url: e.url,
               title: e.show,
               archive: false,
-              hidden: false,
-              expanded: false
+              hidden: false
             };
           }
           DB.set('shows.' + this.login, shows);
@@ -450,6 +448,7 @@ BS = {
         for (i in data) {
           j = data[i];
           s = DB.get('shows.' + this.login)[i];
+          if (!s) continue;
           output += '<div id="' + s.url + '" class="show">';
           output += Content.show(s, j.nbr_total);
           _ref2 = j.episodes;

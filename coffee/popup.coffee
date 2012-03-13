@@ -447,63 +447,21 @@ $(document).ready ->
 	## Maximiser/minimiser une série*/
 	$('.toggleShow').live
 		click: ->
-			show = $(this).parent().parent().parent()
+			show = $(this).closest('.show')
 			showName = $(show).attr 'id'
 			nbr_episodes_per_serie = DB.get 'options.nbr_episodes_per_serie'
-			hidden_shows = DB.get 'hidden_shows'
-			hiddenShow = showName in hidden_shows
-			extra_episodes = DB.get 'extra_episodes'
-			extraEpisodes = showName in extra_episodes
-			nb_hiddens = $(show).find('div.episode.hidden').length
-			nb_episodes = $(show).find('div.episode').length
-			
-			toggleEpisodes = $(show).find '.toggleEpisodes'		
-			labelRemainText = if hiddenShow then __('hide_episodes') else __('show_episodes')
-			imgSrc = if hiddenShow then '../img/uparrow.gif' else '../img/downarrow.gif'
-			toggleEpisodes.find('.labelRemain').text labelRemainText
-			toggleEpisodes.find('img').attr 'src', imgSrc
-					
-			if extraEpisodes
-				if hiddenShow
-					toggleEpisodes.find('.remain').text nb_hiddens
-				else
-					remain = parseInt toggleEpisodes.find('.remain').text()
-					remain += parseInt nbr_episodes_per_serie
-					toggleEpisodes.find('.remain').text remain
+			login = DB.get('member').login
+			shows = DB.get 'shows.' + login
+			hidden = shows[showName].hidden
+			shows[showName].hidden = !hidden
+			DB.set 'shows.' + login, shows
 				
-				$(show).find('.episode').slideToggle()
-			else
-				if hiddenShow
-					if nb_hiddens is 0
-						toggleEpisodes.hide()
-					else
-						toggleEpisodes.find('.labelRemain').text __('show_episodes')
-						toggleEpisodes.find('.remain').text nb_hiddens
-						toggleEpisodes.find('img').attr 'src', '../img/downarrow.gif'
-				
-				else
-					if nb_hiddens is 0
-						toggleEpisodes.find('.labelRemain').text __('show_episodes')
-						toggleEpisodes.find('.remain').text nb_episodes
-						toggleEpisodes.find('img').attr 'src', '../img/downarrow.gif'
-						toggleEpisodes.find('.remain').text remain
-						toggleEpisodes.show()
-					else
-						remain = parseInt toggleEpisodes.find('.remain').text()
-						remain += parseInt nbr_episodes_per_serie
-						toggleEpisodes.find('.remain').text remain
-				
-				$(show).find('.episode:lt(' + nbr_episodes_per_serie + ')').slideToggle()
+			$(show).find('.episode').slideToggle()
 			
-			
-			if !hiddenShow
-				hidden_shows.push showName
+			if shows[showName].hidden
 				$(this).attr 'src', '../img/arrow_right.gif'
 			else
-				hidden_shows.splice (hidden_shows.indexOf showName), 1
 				$(this).attr 'src', '../img/arrow_down.gif'
-			
-			DB.set 'hidden_shows', hidden_shows
 			
 			Fx.updateHeight()
 			

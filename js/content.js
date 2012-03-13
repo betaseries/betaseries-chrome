@@ -28,7 +28,7 @@ Content = {
     date_0 = (24 * 3600) * jours - 2 * 3600;
     newShow = e.date >= date_0 ? ' new' : '';
     hidden = s.hidden ? ' hidden' : '';
-    output += '<div class="episode e' + e.global + ' ' + newShow + hidden + '" number="' + e.number + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '">';
+    output += '<div class="episode e' + e.global + newShow + hidden + '" number="' + e.number + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '">';
     title = DB.get('options').display_global ? '#' + e.global + ' ' + title : e.title;
     textTitle = title.length > 20 ? ' title="' + title + '"' : '';
     texte2 = __('mark_as_seen');

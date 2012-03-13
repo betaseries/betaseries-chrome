@@ -1,4 +1,3 @@
-var __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 $(document).ready(function() {
   var badgeType, bgPage, clean, message, registerAction;
@@ -454,62 +453,21 @@ $(document).ready(function() {
   });
   $('.toggleShow').live({
     click: function() {
-      var extraEpisodes, extra_episodes, hiddenShow, hidden_shows, imgSrc, labelRemainText, nb_episodes, nb_hiddens, nbr_episodes_per_serie, remain, show, showName, toggleEpisodes;
-      show = $(this).parent().parent().parent();
+      var hidden, login, nbr_episodes_per_serie, show, showName, shows;
+      show = $(this).closest('.show');
       showName = $(show).attr('id');
       nbr_episodes_per_serie = DB.get('options.nbr_episodes_per_serie');
-      hidden_shows = DB.get('hidden_shows');
-      hiddenShow = __indexOf.call(hidden_shows, showName) >= 0;
-      extra_episodes = DB.get('extra_episodes');
-      extraEpisodes = __indexOf.call(extra_episodes, showName) >= 0;
-      nb_hiddens = $(show).find('div.episode.hidden').length;
-      nb_episodes = $(show).find('div.episode').length;
-      toggleEpisodes = $(show).find('.toggleEpisodes');
-      labelRemainText = hiddenShow ? __('hide_episodes') : __('show_episodes');
-      imgSrc = hiddenShow ? '../img/uparrow.gif' : '../img/downarrow.gif';
-      toggleEpisodes.find('.labelRemain').text(labelRemainText);
-      toggleEpisodes.find('img').attr('src', imgSrc);
-      if (extraEpisodes) {
-        if (hiddenShow) {
-          toggleEpisodes.find('.remain').text(nb_hiddens);
-        } else {
-          remain = parseInt(toggleEpisodes.find('.remain').text());
-          remain += parseInt(nbr_episodes_per_serie);
-          toggleEpisodes.find('.remain').text(remain);
-        }
-        $(show).find('.episode').slideToggle();
-      } else {
-        if (hiddenShow) {
-          if (nb_hiddens === 0) {
-            toggleEpisodes.hide();
-          } else {
-            toggleEpisodes.find('.labelRemain').text(__('show_episodes'));
-            toggleEpisodes.find('.remain').text(nb_hiddens);
-            toggleEpisodes.find('img').attr('src', '../img/downarrow.gif');
-          }
-        } else {
-          if (nb_hiddens === 0) {
-            toggleEpisodes.find('.labelRemain').text(__('show_episodes'));
-            toggleEpisodes.find('.remain').text(nb_episodes);
-            toggleEpisodes.find('img').attr('src', '../img/downarrow.gif');
-            toggleEpisodes.find('.remain').text(remain);
-            toggleEpisodes.show();
-          } else {
-            remain = parseInt(toggleEpisodes.find('.remain').text());
-            remain += parseInt(nbr_episodes_per_serie);
-            toggleEpisodes.find('.remain').text(remain);
-          }
-        }
-        $(show).find('.episode:lt(' + nbr_episodes_per_serie + ')').slideToggle();
-      }
-      if (!hiddenShow) {
-        hidden_shows.push(showName);
+      login = DB.get('member').login;
+      shows = DB.get('shows.' + login);
+      hidden = shows[showName].hidden;
+      shows[showName].hidden = !hidden;
+      DB.set('shows.' + login, shows);
+      $(show).find('.episode').slideToggle();
+      if (shows[showName].hidden) {
         $(this).attr('src', '../img/arrow_right.gif');
       } else {
-        hidden_shows.splice(hidden_shows.indexOf(showName), 1);
         $(this).attr('src', '../img/arrow_down.gif');
       }
-      DB.set('hidden_shows', hidden_shows);
       return Fx.updateHeight();
     }
   });

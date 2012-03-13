@@ -40,7 +40,9 @@ DB =
 	 # defaultValue		<object>	Valeur par défaut si champ non trouvé (optionnel)
 	 #
 	get: (field, defaultValue) ->
-		if localStorage[field]? then JSON.parse localStorage[field] else defaultValue
+		if localStorage[field]? and localStorage[field] isnt 'undefined'
+		then JSON.parse localStorage[field] 
+		else defaultValue
 	
 	##
 	 # Setter - Renseigner un champ de le BD

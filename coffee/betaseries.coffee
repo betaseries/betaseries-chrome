@@ -365,7 +365,6 @@ BS =
 						is_in_account: s.is_in_account
 						archive: false
 						hidden: false
-						expanded: false
 			DB.set 'shows.' + @login, shows
 		content: ->
 			shows = DB.get 'shows.' + @login, {}
@@ -401,7 +400,6 @@ BS =
 						title: e.show
 						archive: false
 						hidden: false
-						expanded: false
 				DB.set 'shows.' + @login, shows
 				
 				# cache des infos de *épisode*
@@ -449,6 +447,8 @@ BS =
 			for i, j of data
 				# récupération des infos sur la *série*
 				s = DB.get('shows.' + @login)[i]
+				
+				continue if !s
 				
 				# SHOW
 				output += '<div id="' + s.url + '" class="show">'

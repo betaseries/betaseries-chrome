@@ -53,7 +53,7 @@ Content =
 		newShow = if e.date >= date_0 then ' new' else ''
 		hidden = if s.hidden then ' hidden' else ''
 		
-		output += '<div class="episode e' + e.global + ' ' + newShow + hidden + '" number="' + e.number + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '">'
+		output += '<div class="episode e' + e.global + newShow + hidden + '" number="' + e.number + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '">'
 			
 		# Titre de l'épisode
 		title = if DB.get('options').display_global then '#' + e.global + ' ' + title else e.title

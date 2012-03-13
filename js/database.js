@@ -24,7 +24,7 @@ DB = {
     return this.set('notifications', {}, true);
   },
   get: function(field, defaultValue) {
-    if (localStorage[field] != null) {
+    if ((localStorage[field] != null) && localStorage[field] !== 'undefined') {
       return JSON.parse(localStorage[field]);
     } else {
       return defaultValue;
