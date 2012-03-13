@@ -14,7 +14,9 @@ Content =
 		
 		visibleIcon = if s.hidden then '../img/arrow_right.gif' else '../img/arrow_down.gif'
 		titleIcon = if s.hidden then __('maximise') else __('minimise')
-		remain = nbrEpisodesTotal - nbrEpisodesPerSerie
+		remain = if s.hidden then nbrEpisodesTotal else nbrEpisodesTotal - nbrEpisodesPerSerie
+		remainHidden = if remain < 0 then ' hidden' else ''
+		remain = '+' + remain if remain > 0
 		
 		output = ''
 		
@@ -23,7 +25,7 @@ Content =
 		output += '<div class="left">'
 		output += '<img src="' + visibleIcon + '" class="toggleShow" title="' + titleIcon + '" />'
 		output += '<a href="" onclick="BS.load(\'showsDisplay\', \'' + s.url + '\'); return false;" class="showtitle">' + s.title + '</a>'
-		output += ' <span class="remain">+' + remain + '</span>' if remain > 0
+		output += ' <span class="remain' + remainHidden + '">' + remain + ' </span>'
 		output += '</div>'
 		
 		output += '<div class="right"></div>';
