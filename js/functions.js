@@ -107,7 +107,7 @@ Fx = {
       return (Math.floor(size / 1000) / 1000) + ' Mo';
     }
   },
-  noDataFound: function() {
-    return 'noDataFound, please update';
+  needUpdate: function() {
+    return 'no data found, please update';
   }
 };

@@ -228,13 +228,16 @@ BS =
 		root: 'planning'
 		login: login
 		update: (data) ->
-			DB.set 'planning.' + @login, data
+			DB.set 'member.' + @login + '.planning', data
 		content: ->	
 			output = ''
 			week = 100
 			MAX_WEEKS = 2
 			nbrEpisodes = 0
-			data = DB.get 'planning.' + @login, {}
+			
+			data = DB.get 'member.' + @login + '.planning', null
+			return Fx.needUpdate() if !data
+			
 			for e of data
 				today = Math.floor new Date().getTime() / 1000
 				todayWeek = parseFloat date('W', today)
@@ -288,15 +291,14 @@ BS =
 		root: 'member'
 		login: login
 		update: (data) ->
-			member = DB.get 'member.' + @login, {}
+			member = DB.get 'member.' + @login + '.infos', {}
 			member.login = data.login
-			member.is_in_account = data.is_in_account if data.is_in_account?
 			member.avatar = data.avatar
 			member.stats = data.stats
-			DB.set 'member.' + @login, member
+			DB.set 'member.' + @login + '.infos', member
 		content: ->
-			data = DB.get 'member.' + @login, {}
-			return '' if !data.login?
+			data = DB.get 'member.' + @login + '.infos', null
+			return Fx.needUpdate() if !data
 			
 			if data.avatar? and data.avatar isnt ''
 				avatar = new Image
@@ -336,27 +338,23 @@ BS =
 			for i, s of data.shows
 				if s.url of shows
 					# cas où on enlève une série des archives depuis le site
-					shows[s.url].archive = false
-					# cas où on enlève une série du compte depuis le site
-					shows[s.url].is_in_account = false
+					shows[s.url].archive = s.archive
 				else
 					shows[s.url] =
 						url: s.url
 						title: s.title
-						is_in_account: s.is_in_account
-						archive: false
+						archive: s.archive
 						hidden: false
-			DB.set 'shows.' + @login, shows
+			DB.set 'member.' + @login + '.shows', shows
 		content: ->
-			shows = DB.get 'shows.' + @login, {}
-			return '' if Object.keys(shows).length is 0
+			shows = DB.get 'member.' + @login + '.shows', null
+			return Fx.needUpdate() if !data
 			
 			output = ''
 			for i, show of shows
 				output += '<div class="episode" id="' + show.url + '">'
 				output += show.title
 				output += '</div>'
-			
 			return output
 			
 	#
@@ -377,6 +375,7 @@ BS =
 					shows[e.url].archive = false
 				else
 					shows[e.url] =
+						url: e.url
 						title: e.show
 						archive: false
 						hidden: false
@@ -405,7 +404,6 @@ BS =
 			# récupération des épisodes non vus (cache)
 			nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie
 			data = {}
-			error = false
 			
 			d = DB.get 'member.' + @login + '.episodes', {}
 			for i, j in d
@@ -416,7 +414,7 @@ BS =
 				
 				episode = DB.get('show.' + show + '.episodes')[global]
 				if !episode
-					return Fx.noDataFound()
+					return Fx.needUpdate()
 				
 				if data[show]?
 					episodes = data[show].episodes
@@ -435,7 +433,7 @@ BS =
 			for i, j of data
 				# récupération des infos sur la *série*
 				s = DB.get('member.' + @login + '.shows')[i]
-				return Fx.noDataFound() if !s
+				return Fx.needUpdate() if !s
 				
 				# SHOW
 				output += '<div id="' + s.url + '" class="show">'
@@ -468,16 +466,19 @@ BS =
 		name: 'membersNotifications'
 		url: '/members/notifications'
 		root: 'notifications'
+		login: DB.get('session').login
 		update: (tab1) ->
-			tab2 = DB.get 'notifications'
+			tab2 = DB.get 'member.' + @login + '.notifs', {}
 			notifications = Fx.concat tab1, tab2
-			DB.set 'notifications', notifications
+			DB.set 'member.' + @login + '.notifs', notifications
 		content: ->
 			output = ''
 			nbrNotifications = 0
-			
 			time = ''
-			data = DB.get 'notifications'
+			
+			data = DB.get 'member.' + @login + '.notifs', null
+			return Fx.needUpdate() if !data
+			
 			for n of data
 				new_date = date('D d F', data[n].date)
 				if new_date isnt time
@@ -546,12 +547,16 @@ BS =
 		url: '/timeline/friends'
 		params: '&number=10'
 		root: 'timeline'
+		login: DB.get('session').login
 		update: (data) ->
-			DB.set 'timeline', data
+			DB.set 'member.' + @login + '.timeline', data
 		content: ->
 			output = ''
 			time = ''
-			data = DB.get 'timeline'
+			
+			data = DB.get 'member.' + @login + '.timeline', null
+			return Fx.needUpdate() if !data
+			
 			for n of data
 				new_date = date('D d F', data[n].date)
 				if new_date isnt time

@@ -214,7 +214,7 @@ BS = {
       root: 'planning',
       login: login,
       update: function(data) {
-        return DB.set('planning.' + this.login, data);
+        return DB.set('member.' + this.login + '.planning', data);
       },
       content: function() {
         var MAX_WEEKS, actualWeek, data, diffWeek, e, hidden, nbrEpisodes, output, plot, today, todayWeek, w, week;
@@ -222,7 +222,8 @@ BS = {
         week = 100;
         MAX_WEEKS = 2;
         nbrEpisodes = 0;
-        data = DB.get('planning.' + this.login, {});
+        data = DB.get('member.' + this.login + '.planning', null);
+        if (!data) return Fx.needUpdate();
         for (e in data) {
           today = Math.floor(new Date().getTime() / 1000);
           todayWeek = parseFloat(date('W', today));
@@ -274,17 +275,16 @@ BS = {
       login: login,
       update: function(data) {
         var member;
-        member = DB.get('member.' + this.login, {});
+        member = DB.get('member.' + this.login + '.infos', {});
         member.login = data.login;
-        if (data.is_in_account != null) member.is_in_account = data.is_in_account;
         member.avatar = data.avatar;
         member.stats = data.stats;
-        return DB.set('member.' + this.login, member);
+        return DB.set('member.' + this.login + '.infos', member);
       },
       content: function() {
         var avatar, data, output;
-        data = DB.get('member.' + this.login, {});
-        if (!(data.login != null)) return '';
+        data = DB.get('member.' + this.login + '.infos', null);
+        if (!data) return Fx.needUpdate();
         if ((data.avatar != null) && data.avatar !== '') {
           avatar = new Image;
           avatar.src = data.avatar;
@@ -328,24 +328,22 @@ BS = {
         for (i in _ref) {
           s = _ref[i];
           if (s.url in shows) {
-            shows[s.url].archive = false;
-            shows[s.url].is_in_account = false;
+            shows[s.url].archive = s.archive;
           } else {
             shows[s.url] = {
               url: s.url,
               title: s.title,
-              is_in_account: s.is_in_account,
-              archive: false,
+              archive: s.archive,
               hidden: false
             };
           }
         }
-        return DB.set('shows.' + this.login, shows);
+        return DB.set('member.' + this.login + '.shows', shows);
       },
       content: function() {
         var i, output, show, shows;
-        shows = DB.get('shows.' + this.login, {});
-        if (Object.keys(shows).length === 0) return '';
+        shows = DB.get('member.' + this.login + '.shows', null);
+        if (!data) return Fx.needUpdate();
         output = '';
         for (i in shows) {
           show = shows[i];
@@ -375,6 +373,7 @@ BS = {
             shows[e.url].archive = false;
           } else {
             shows[e.url] = {
+              url: e.url,
               title: e.show,
               archive: false,
               hidden: false
@@ -403,10 +402,9 @@ BS = {
         return _results;
       },
       content: function() {
-        var d, data, e, episode, episodes, error, global, i, j, nbrEpisodesPerSerie, output, s, show, _i, _len, _len2, _ref;
+        var d, data, e, episode, episodes, global, i, j, nbrEpisodesPerSerie, output, s, show, _i, _len, _len2, _ref;
         nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie;
         data = {};
-        error = false;
         d = DB.get('member.' + this.login + '.episodes', {});
         for (j = 0, _len = d.length; j < _len; j++) {
           i = d[j];
@@ -414,7 +412,7 @@ BS = {
           show = i[0];
           global = i[1];
           episode = DB.get('show.' + show + '.episodes')[global];
-          if (!episode) return Fx.noDataFound();
+          if (!episode) return Fx.needUpdate();
           if (data[show] != null) {
             episodes = data[show].episodes;
             if (data[show].nbr < nbrEpisodesPerSerie) {
@@ -433,7 +431,7 @@ BS = {
         for (i in data) {
           j = data[i];
           s = DB.get('member.' + this.login + '.shows')[i];
-          if (!s) return Fx.noDataFound();
+          if (!s) return Fx.needUpdate();
           output += '<div id="' + s.url + '" class="show">';
           output += Content.show(s, j.nbr);
           _ref = j.episodes;
@@ -462,18 +460,20 @@ BS = {
       name: 'membersNotifications',
       url: '/members/notifications',
       root: 'notifications',
+      login: DB.get('session').login,
       update: function(tab1) {
         var notifications, tab2;
-        tab2 = DB.get('notifications');
+        tab2 = DB.get('member.' + this.login + '.notifs', {});
         notifications = Fx.concat(tab1, tab2);
-        return DB.set('notifications', notifications);
+        return DB.set('member.' + this.login + '.notifs', notifications);
       },
       content: function() {
         var data, n, nbrNotifications, new_date, output, time;
         output = '';
         nbrNotifications = 0;
         time = '';
-        data = DB.get('notifications');
+        data = DB.get('member.' + this.login + '.notifs', null);
+        if (!data) return Fx.needUpdate();
         for (n in data) {
           new_date = date('D d F', data[n].date);
           if (new_date !== time) {
@@ -547,14 +547,16 @@ BS = {
       url: '/timeline/friends',
       params: '&number=10',
       root: 'timeline',
+      login: DB.get('session').login,
       update: function(data) {
-        return DB.set('timeline', data);
+        return DB.set('member.' + this.login + '.timeline', data);
       },
       content: function() {
         var data, n, new_date, output, time;
         output = '';
         time = '';
-        data = DB.get('timeline');
+        data = DB.get('member.' + this.login + '.timeline', null);
+        if (!data) return Fx.needUpdate();
         for (n in data) {
           new_date = date('D d F', data[n].date);
           if (new_date !== time) {

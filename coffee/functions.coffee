@@ -98,6 +98,6 @@ Fx =
 			return (Math.floor(size /1000) /1000) + ' Mo'
 			
 	##
-	noDataFound: ->
-	 	return 'noDataFound, please update'
+	needUpdate: ->
+	 	return 'no data found, please update'
 		
