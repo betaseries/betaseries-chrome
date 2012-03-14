@@ -1,4 +1,5 @@
-var BS, menu;
+var BS, menu,
+  __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 menu = {
   show: function() {
@@ -62,11 +63,6 @@ BS = {
     o = this.currentView;
     Historic.save();
     $('#page').html(o.content());
-    if (o.after != null) {
-      $(document).ready(function() {
-        return o.after();
-      });
-    }
     $('#title').text(__(o.name));
     $('#page').removeClass().addClass(o.name);
     return Fx.updateHeight(true);
@@ -364,7 +360,7 @@ BS = {
       root: 'episodes',
       login: DB.get('session').login,
       update: function(data) {
-        var d, e, episodes, shows, _results;
+        var d, e, episodes, shows, _ref, _results;
         _results = [];
         for (d in data) {
           e = data[d];
@@ -396,7 +392,9 @@ BS = {
           };
           DB.set('show.' + e.url + '.episodes', episodes);
           episodes = DB.get('member.' + this.login + '.episodes', []);
-          episodes.push(e.url + '.' + e.global);
+          if (!(_ref = e.url + '.' + e.global, __indexOf.call(episodes, _ref) >= 0)) {
+            episodes.push(e.url + '.' + e.global);
+          }
           _results.push(DB.set('member.' + this.login + '.episodes', episodes));
         }
         return _results;

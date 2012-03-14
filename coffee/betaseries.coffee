@@ -90,9 +90,9 @@ BS =
 		$('#page').html o.content()
 		
 		# Post affichage
-		if o.after?
-			$(document).ready ->
-				o.after()
+		#if o.after?
+		#	$(document).ready ->
+		#		o.after()
 		
 		# Titre et classe
 		$('#title').text __(o.name)
@@ -398,7 +398,8 @@ BS =
 				DB.set 'show.' + e.url + '.episodes', episodes
 				
 				episodes = DB.get 'member.' + @login + '.episodes', []
-				episodes.push e.url + '.' + e.global
+				if !(e.url + '.' + e.global in episodes)
+					episodes.push e.url + '.' + e.global
 				DB.set 'member.' + @login + '.episodes', episodes
 		content: ->
 			# récupération des épisodes non vus (cache)
