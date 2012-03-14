@@ -19,6 +19,7 @@ $(document).ready ->
 			e = $(this).closest('.episode')
 			season = e.attr 'season'
 			episode = e.attr 'episode'
+			login = DB.get('session').login
 			
 			enable_ratings = DB.get('options').enable_ratings
 			
@@ -55,7 +56,7 @@ $(document).ready ->
 				params = "&season=" + season + "&episode=" + episode
 				ajax.post "/members/watched/" + show, params, 
 					->
-						DB.set 'episodes.' + show, es
+						DB.set 'member.' + login + '.episodes', es
 					-> 
 						registerAction "/members/watched/" + show, params
 		
@@ -74,6 +75,9 @@ $(document).ready ->
 	clean = (nodes) ->
 		login = DB.get('session').login
 		show = nodes[0].closest('.show').attr 'id'
+		episodes = DB.get 'member.' + login + '.episodes'
+		s = DB.get('member.' + login + '.shows')[show]
+		es = DB.get 'show.' + show + '.episodes'
 		
 		# on compte le nombre d'épisodes actuellement affichés
 		nbrEpisodes = $('#' + show).find('.episode').length
@@ -85,15 +89,13 @@ $(document).ready ->
 		nbr = 0
 		for node, i in nodes				
 			# on met à jour le cache
-			show = node.closest('.show').attr 'id'
-			showCache = DB.get('shows.' + login)[show]
-			episodesCache = DB.get 'episodes.' + show
-			episodesCache[node.attr 'global'].seen = true
+			value = show + '.' + node.attr('global')
+			#episodes.splice(episodes.indexOf(value), 1);
 			
 			# on fait apparaitre les suivants
 			node.slideToggle 'slow', -> $(@).remove()
-			if episodesCache[nextGlobal]?
-				episode = Content.episode episodesCache[nextGlobal], showCache
+			if es[nextGlobal]?
+				episode = Content.episode es[nextGlobal], s
 				$('#' + show).append episode
 			else
 				nbrEpisodes--
@@ -103,14 +105,12 @@ $(document).ready ->
 		
 		# s'il n'y a plus d'épisodes à voir dans la série, on la cache
 		if nbrEpisodes is 0
-			$('#' + show).slideToggle() 
+			$('#' + show).slideToggle 'slow', -> $(@).remove()
 		else
 			nbr = parseInt($('#' + show + ' .remain').text()) - nbr
 			$('#' + show + ' .remain').text '+' + nbr
-			
-		Fx.updateHeight()
 		
-		return episodesCache
+		return episodes
 	
 	# Star HOVER
 	$('.star').live
@@ -131,13 +131,14 @@ $(document).ready ->
 			es = clean [e]
 			season = e.attr 'season'
 			episode = e.attr 'episode'
+			login = DB.get('session').login
 			
 			# On marque comme vu EN notant
 			rate = $(this).attr('id').substring 4
 			params = "&season=" + season + "&episode=" + episode + "&note=" + rate
 			ajax.post "/members/watched/" + show, params, 
 				-> 
-					DB.set 'episodes.' + show, es
+					DB.set 'member.' + login + '.episodes', es
 					bgPage.badge.updateCache()
 				->
 					registerAction "/members/watched/" + show, params
@@ -151,12 +152,13 @@ $(document).ready ->
 			es = clean [e]
 			season = e.attr 'season'
 			episode = e.attr 'episode'
+			login = DB.get('session').login
 			
 			# On marque comme vu SANS noter
 			params = "&season=" + season + "&episode=" + episode
 			ajax.post "/members/watched/" + show, params, 
 				->
-					DB.set 'episodes.' + show, es
+					DB.set 'member.' + login + '.episodes', es
 					bgPage.badge.updateCache()
 				->
 					registerAction "/members/watched/" + show, params
@@ -172,10 +174,10 @@ $(document).ready ->
 			global = e.attr 'global'
 			
 			# mise à jour du cache
-			es = DB.get 'episodes.' + show
+			es = DB.get 'show.' + show + '.episodes'
 			downloaded = es[global].downloaded
 			es[global].downloaded = !downloaded
-			DB.set 'episodes.' + show, es
+			DB.set 'show.' + show + '.episodes', es
 			
 			# modification de l'icône
 			if downloaded
@@ -450,10 +452,10 @@ $(document).ready ->
 			showName = $(show).attr 'id'
 			nbr_episodes_per_serie = DB.get('options').nbr_episodes_per_serie
 			login = DB.get('session').login
-			shows = DB.get 'shows.' + login
+			shows = DB.get 'member.' + login + '.shows'
 			hidden = shows[showName].hidden
 			shows[showName].hidden = !hidden
-			DB.set 'shows.' + login, shows
+			DB.set 'member.' + login + '.shows', shows
 				
 			$(show).find('.episode').slideToggle()
 			

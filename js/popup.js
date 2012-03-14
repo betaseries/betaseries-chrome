@@ -16,12 +16,13 @@ $(document).ready(function() {
   });
   $('.watched').live({
     click: function() {
-      var content, e, enable_ratings, episode, es, i, nodeRight, nodes, params, s, season, show;
+      var content, e, enable_ratings, episode, es, i, login, nodeRight, nodes, params, s, season, show;
       s = $(this).closest('.show');
       show = s.attr('id');
       e = $(this).closest('.episode');
       season = e.attr('season');
       episode = e.attr('episode');
+      login = DB.get('session').login;
       enable_ratings = DB.get('options').enable_ratings;
       nodes = [];
       while (e.hasClass('episode')) {
@@ -45,7 +46,7 @@ $(document).ready(function() {
         es = clean(nodes);
         params = "&season=" + season + "&episode=" + episode;
         return ajax.post("/members/watched/" + show, params, function() {
-          return DB.set('episodes.' + show, es);
+          return DB.set('member.' + login + '.episodes', es);
         }, function() {
           return registerAction("/members/watched/" + show, params);
         });
@@ -73,24 +74,24 @@ $(document).ready(function() {
     }
   });
   clean = function(nodes) {
-    var episode, episodesCache, i, login, nbr, nbrEpisodes, nextGlobal, node, show, showCache, _len;
+    var episode, episodes, es, i, login, nbr, nbrEpisodes, nextGlobal, node, s, show, value, _len;
     login = DB.get('session').login;
     show = nodes[0].closest('.show').attr('id');
+    episodes = DB.get('member.' + login + '.episodes');
+    s = DB.get('member.' + login + '.shows')[show];
+    es = DB.get('show.' + show + '.episodes');
     nbrEpisodes = $('#' + show).find('.episode').length;
     nextGlobal = $('#' + show).find('.episode').last().attr('global');
     nextGlobal = parseInt(nextGlobal) + 1;
     nbr = 0;
     for (i = 0, _len = nodes.length; i < _len; i++) {
       node = nodes[i];
-      show = node.closest('.show').attr('id');
-      showCache = DB.get('shows.' + login)[show];
-      episodesCache = DB.get('episodes.' + show);
-      episodesCache[node.attr('global')].seen = true;
+      value = show + '.' + node.attr('global');
       node.slideToggle('slow', function() {
         return $(this).remove();
       });
-      if (episodesCache[nextGlobal] != null) {
-        episode = Content.episode(episodesCache[nextGlobal], showCache);
+      if (es[nextGlobal] != null) {
+        episode = Content.episode(es[nextGlobal], s);
         $('#' + show).append(episode);
       } else {
         nbrEpisodes--;
@@ -99,13 +100,14 @@ $(document).ready(function() {
       nbr++;
     }
     if (nbrEpisodes === 0) {
-      $('#' + show).slideToggle();
+      $('#' + show).slideToggle('slow', function() {
+        return $(this).remove();
+      });
     } else {
       nbr = parseInt($('#' + show + ' .remain').text()) - nbr;
       $('#' + show + ' .remain').text('+' + nbr);
     }
-    Fx.updateHeight();
-    return episodesCache;
+    return episodes;
   };
   $('.star').live({
     mouseenter: function() {
@@ -129,17 +131,18 @@ $(document).ready(function() {
       return _results;
     },
     click: function() {
-      var e, episode, es, params, rate, s, season, show;
+      var e, episode, es, login, params, rate, s, season, show;
       s = $(this).closest('.show');
       show = s.attr('id');
       e = $(this).closest('.episode');
       es = clean([e]);
       season = e.attr('season');
       episode = e.attr('episode');
+      login = DB.get('session').login;
       rate = $(this).attr('id').substring(4);
       params = "&season=" + season + "&episode=" + episode + "&note=" + rate;
       return ajax.post("/members/watched/" + show, params, function() {
-        DB.set('episodes.' + show, es);
+        DB.set('member.' + login + '.episodes', es);
         return bgPage.badge.updateCache();
       }, function() {
         return registerAction("/members/watched/" + show, params);
@@ -148,16 +151,17 @@ $(document).ready(function() {
   });
   $('.close_stars').live({
     click: function() {
-      var e, episode, es, params, s, season, show;
+      var e, episode, es, login, params, s, season, show;
       s = $(this).closest('.show');
       show = s.attr('id');
       e = $(this).closest('.episode');
       es = clean([e]);
       season = e.attr('season');
       episode = e.attr('episode');
+      login = DB.get('session').login;
       params = "&season=" + season + "&episode=" + episode;
       return ajax.post("/members/watched/" + show, params, function() {
-        DB.set('episodes.' + show, es);
+        DB.set('member.' + login + '.episodes', es);
         return bgPage.badge.updateCache();
       }, function() {
         return registerAction("/members/watched/" + show, params);
@@ -173,10 +177,10 @@ $(document).ready(function() {
       season = e.attr('season');
       episode = e.attr('episode');
       global = e.attr('global');
-      es = DB.get('episodes.' + show);
+      es = DB.get('show.' + show + '.episodes');
       downloaded = es[global].downloaded;
       es[global].downloaded = !downloaded;
-      DB.set('episodes.' + show, es);
+      DB.set('show.' + show + '.episodes', es);
       if (downloaded) {
         $(this).attr('src', '../img/folder_off.png');
       } else {
@@ -457,10 +461,10 @@ $(document).ready(function() {
       showName = $(show).attr('id');
       nbr_episodes_per_serie = DB.get('options').nbr_episodes_per_serie;
       login = DB.get('session').login;
-      shows = DB.get('shows.' + login);
+      shows = DB.get('member.' + login + '.shows');
       hidden = shows[showName].hidden;
       shows[showName].hidden = !hidden;
-      DB.set('shows.' + login, shows);
+      DB.set('member.' + login + '.shows', shows);
       $(show).find('.episode').slideToggle();
       remain = parseInt(show.find('.remain').text());
       if (shows[showName].hidden) {
