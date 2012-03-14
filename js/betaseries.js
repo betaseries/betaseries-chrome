@@ -700,7 +700,7 @@ BS = {
       id: 'cache',
       name: 'cache',
       content: function() {
-        var d, data, i, output, size, _len;
+        var d, data, i, output, privates, size, _len;
         output = '';
         output += '<div class="showtitle">Total</div>';
         output += '<div class="episode">';
@@ -708,11 +708,14 @@ BS = {
         output += ' <div class="right">' + Fx.getCacheFormat(Fx.getCacheSize()) + '</div>';
         output += ' <div class="clear"></div>';
         output += '</div>';
+        privates = ['badge', 'historic', 'length', 'options', 'session', 'views'];
         data = [];
         output += '<div class="showtitle">Détail</div>';
         for (i in localStorage) {
           size = localStorage[i];
-          if (i !== 'length') data.push([i, Fx.getCacheSize(i)]);
+          if (!(__indexOf.call(privates, i) >= 0)) {
+            data.push([i, Fx.getCacheSize(i)]);
+          }
         }
         data.sort(function(a, b) {
           return b[1] - a[1];

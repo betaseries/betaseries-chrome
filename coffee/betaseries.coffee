@@ -694,10 +694,19 @@ BS =
 			output += ' <div class="clear"></div>'
 			output += '</div>'
 			
+			privates = [
+				'badge'
+				'historic'
+				'length'
+				'options'
+				'session'
+				'views'
+			]
+			
 			data = []
 			output += '<div class="showtitle">Détail</div>'
 			for i, size of localStorage
-				if i isnt 'length' 
+				if !(i in privates) 
 					data.push [i, Fx.getCacheSize(i)]
 			
 			#console.log data
