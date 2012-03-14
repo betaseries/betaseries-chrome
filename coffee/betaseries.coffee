@@ -347,11 +347,11 @@ BS =
 						hidden: false
 			DB.set 'member.' + @login + '.shows', shows
 		content: ->
-			shows = DB.get 'member.' + @login + '.shows', null
+			data = DB.get 'member.' + @login + '.shows', null
 			return Fx.needUpdate() if !data
 			
 			output = ''
-			for i, show of shows
+			for i, show of data
 				output += '<div class="episode" id="' + show.url + '">'
 				output += show.title
 				output += '</div>'

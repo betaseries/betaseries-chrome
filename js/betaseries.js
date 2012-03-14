@@ -337,12 +337,12 @@ BS = {
         return DB.set('member.' + this.login + '.shows', shows);
       },
       content: function() {
-        var i, output, show, shows;
-        shows = DB.get('member.' + this.login + '.shows', null);
+        var data, i, output, show;
+        data = DB.get('member.' + this.login + '.shows', null);
         if (!data) return Fx.needUpdate();
         output = '';
-        for (i in shows) {
-          show = shows[i];
+        for (i in data) {
+          show = data[i];
           output += '<div class="episode" id="' + show.url + '">';
           output += show.title;
           output += '</div>';
