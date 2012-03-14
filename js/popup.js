@@ -518,6 +518,7 @@ $(document).ready(function() {
     return $('#message').html(content);
   };
   DB.init();
+  Fx.updateHeight(true);
   $('#versionLink').text(Fx.getVersion());
   if (bgPage.connected()) {
     badgeType = DB.get('badge').type;

@@ -97,9 +97,6 @@ BS =
 		# Titre et classe
 		$('#title').text __(o.name)
 		$('#page').removeClass().addClass o.name
-			
-		# Réglage de la hauteur du popup
-		Fx.updateHeight true
 		
 	## Réactualise la vue courante
 	refresh: ->

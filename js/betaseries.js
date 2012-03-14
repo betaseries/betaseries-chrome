@@ -64,8 +64,7 @@ BS = {
     Historic.save();
     $('#page').html(o.content());
     $('#title').text(__(o.name));
-    $('#page').removeClass().addClass(o.name);
-    return Fx.updateHeight(true);
+    return $('#page').removeClass().addClass(o.name);
   },
   refresh: function() {
     var args;

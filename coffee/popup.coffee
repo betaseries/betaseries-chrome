@@ -522,7 +522,11 @@ $(document).ready ->
 	
 	## INIT
 	DB.init()
+		
+	# Réglage de la hauteur du popup
+	Fx.updateHeight true
 	
+	# récupération du numéro de version
 	$('#versionLink').text Fx.getVersion()
 	
 	if bgPage.connected()
