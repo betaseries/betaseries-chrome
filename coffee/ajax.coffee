@@ -12,7 +12,7 @@ ajax =
 	## Envoie des données en POST vers un des WS de BetaSeries
 	post: (category, params, successCallback, errorCallback) ->
 		params ?= ''
-		member = DB.get 'member', {}
+		member = DB.get 'session', {}
 		token = if member.token is null then '' else "&token=" + member.token
 		useragent = "chromeseries-" + Fx.getVersion()
 		$('#sync').attr 'src', '../img/sync.gif'

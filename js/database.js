@@ -3,6 +3,10 @@ var DB;
 DB = {
   init: function() {
     var badge, options;
+    badge = {
+      value: 0,
+      type: 'membersEpisodes'
+    };
     options = {
       badge_notification_type: 'watched',
       dl_srt_language: 'VF',
@@ -11,17 +15,10 @@ DB = {
       enable_ratings: true,
       max_height: 200
     };
-    this.set('options', options, true);
-    badge = {
-      value: 0,
-      type: 'membersEpisodes'
-    };
     this.set('badge', badge, true);
     this.set('historic', [], false);
-    this.set('views_updated', {}, true);
-    this.set('views_to_refresh', [], true);
-    this.set('views_to_remove', {}, true);
-    return this.set('notifications', {}, true);
+    this.set('options', options, true);
+    return this.set('views', {}, true);
   },
   get: function(field, defaultValue) {
     if ((localStorage[field] != null) && localStorage[field] !== 'undefined') {

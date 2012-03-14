@@ -76,7 +76,7 @@ badge =
 			setTimeout @update, 1000 * 3600
 
 ## Retourne vrai si l'utilisateur est connecté, faux sinon
-connected = -> DB.get('member', null)?
+connected = -> DB.get('session', null)?
 
 ## INIT
 DB.init()

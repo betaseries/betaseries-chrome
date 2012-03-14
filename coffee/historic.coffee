@@ -8,7 +8,7 @@ Historic =
 		historic = DB.get 'historic'
 		length = historic.length
 		args = historic[length-1].split '.'
-		BS.load.apply(BS, args)
+		BS.load.apply BS, args
 		
 	##	
 	save: ->

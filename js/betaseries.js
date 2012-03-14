@@ -1,5 +1,4 @@
-var BS, menu,
-  __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+var BS, menu;
 
 menu = {
   show: function() {
@@ -19,31 +18,19 @@ menu = {
 BS = {
   currentView: null,
   load: function() {
-    var args, forceRefresh, o, outdated, sameView, time, update, views_to_refresh, views_updated, _ref, _ref2;
+    var args, force, o, outdated, sameView, time, views;
     args = Array.prototype.slice.call(arguments);
     o = BS[arguments[0]].apply(args.shift(), args);
     sameView = (this.currentView != null) && o.id === this.currentView.id;
-    if (sameView) {
-      Cache.keep();
-    } else {
-      Cache.clean();
-    }
     this.currentView = o;
-    if ((_ref = o.name, __indexOf.call(Cache.views, _ref) >= 0)) {
-      $('#trash').show();
-    } else {
-      $('#trash').hide();
-    }
     if (!sameView) BS.display();
     if (o.update) {
       $('#sync').show();
       time = Math.floor(new Date().getTime() / 1000);
-      views_to_refresh = DB.get('views_to_refresh');
-      forceRefresh = (_ref2 = o.id, __indexOf.call(views_to_refresh, _ref2) >= 0);
-      views_updated = DB.get('views_updated');
-      outdated = views_updated[o.id] != null ? time - views_updated[o.id] > 3600 : true;
-      update = forceRefresh || outdated;
-      if (update) return BS.update();
+      views = DB.get('views');
+      outdated = views[o.id] != null ? time - views[o.id].time > 3600 : true;
+      force = views[o.id] != null ? views[o.id].force : true;
+      if (outdated || force) return BS.update();
     } else {
       return $('#sync').hide();
     }
@@ -54,21 +41,19 @@ BS = {
     params = o.params || '';
     if (o.url != null) {
       return ajax.post(o.url, params, function(data) {
-        var cache, time, views_to_refresh, views_updated, _ref;
+        var cache, time, views;
         cache = data.root[o.root];
-        views_updated = DB.get('views_updated');
         time = Math.floor(new Date().getTime() / 1000);
-        views_updated[o.id] = time;
-        DB.set('views_updated', views_updated);
-        views_to_refresh = DB.get('views_to_refresh');
-        if (_ref = o.id, __indexOf.call(views_to_refresh, _ref) >= 0) {
-          views_to_refresh.splice(views_to_refresh.indexOf(o.id), 1);
-          DB.set('views_to_refresh', views_to_refresh);
-        }
+        views = DB.get('views');
+        views[o.id] = {
+          time: time,
+          force: false
+        };
+        DB.set('views', views);
         o.update(cache);
         return BS.display();
       });
-    } else {
+    } else if (o.update != null) {
       return o.update();
     }
   },
@@ -88,12 +73,9 @@ BS = {
   },
   refresh: function() {
     var args;
-    Fx.toRefresh(this.currentView.id);
+    Fx.toUpdate(this.currentView.id);
     args = this.currentView.id.split('.');
     return BS.load.apply(BS, args);
-  },
-  size: function() {
-    return (JSON.stringify(localStorage).length / 1000) + 'k';
   },
   showsDisplay: function(url) {
     return {
@@ -101,7 +83,7 @@ BS = {
       name: 'showsDisplay',
       url: '/shows/display/' + url,
       root: 'show',
-      login: DB.get('member').login,
+      login: DB.get('session').login,
       show: url,
       update: function(data) {
         var shows;
@@ -223,11 +205,11 @@ BS = {
     };
   },
   planningMember: function(login) {
-    if (login == null) login = DB.get('member.login');
+    if (login == null) login = DB.get('session').login;
     return {
-      id: "planningMember." + login,
+      id: 'planningMember.' + login,
       name: 'planningMember',
-      url: "/planning/member/" + login,
+      url: '/planning/member/' + login,
       params: "&view=unseen",
       root: 'planning',
       login: login,
@@ -283,7 +265,7 @@ BS = {
     };
   },
   membersInfos: function(login) {
-    if (login == null) login = DB.get('member.login');
+    if (login == null) login = DB.get('session').login;
     return {
       id: 'membersInfos.' + login,
       name: 'membersInfos',
@@ -332,7 +314,7 @@ BS = {
     };
   },
   membersShows: function(login) {
-    if (login == null) login = DB.get('member.login');
+    if (login == null) login = DB.get('session').login;
     return {
       id: 'membersShows.' + login,
       name: 'membersShows',
@@ -341,7 +323,7 @@ BS = {
       login: login,
       update: function(data) {
         var i, s, shows, _ref;
-        shows = DB.get('shows.' + this.login, {});
+        shows = DB.get('member.' + this.login + '.shows', {});
         _ref = data.shows;
         for (i in _ref) {
           s = _ref[i];
@@ -382,25 +364,24 @@ BS = {
       name: 'membersEpisodes',
       url: '/members/episodes/' + lang,
       root: 'episodes',
-      login: DB.get('member').login,
+      login: DB.get('session').login,
       update: function(data) {
         var d, e, episodes, shows, _results;
         _results = [];
         for (d in data) {
           e = data[d];
-          shows = DB.get('shows.' + this.login, {});
+          shows = DB.get('member.' + this.login + '.shows', {});
           if (e.url in shows) {
             shows[e.url].archive = false;
           } else {
             shows[e.url] = {
-              url: e.url,
               title: e.show,
               archive: false,
               hidden: false
             };
           }
-          DB.set('shows.' + this.login, shows);
-          episodes = DB.get('episodes.' + e.url, {});
+          DB.set('member.' + this.login + '.shows', shows);
+          episodes = DB.get('show.' + e.url + '.episodes', {});
           episodes[e.global] = {
             comments: e.comments,
             date: e.date,
@@ -412,50 +393,51 @@ BS = {
             title: e.title,
             show: e.show,
             url: e.url,
-            subs: e.subs,
-            seen: false
+            subs: e.subs
           };
-          _results.push(DB.set('episodes.' + e.url, episodes));
+          DB.set('show.' + e.url + '.episodes', episodes);
+          episodes = DB.get('member.' + this.login + '.episodes', []);
+          episodes.push(e.url + '.' + e.global);
+          _results.push(DB.set('member.' + this.login + '.episodes', episodes));
         }
         return _results;
       },
       content: function() {
-        var data, e, episode, episodes, es, i, j, nbNotSeen, nbToSee, nbrEpisodesPerSerie, output, s, _i, _len, _ref;
-        data = {};
+        var d, data, e, episode, episodes, error, global, i, j, nbrEpisodesPerSerie, output, s, show, _i, _len, _len2, _ref;
         nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie;
-        for (i in localStorage) {
-          episodes = localStorage[i];
-          if (i.indexOf('episodes.') === 0) {
-            nbToSee = 0;
-            es = JSON.parse(episodes);
-            data[i.substring(9)] = {};
-            data[i.substring(9)].episodes = [];
-            nbNotSeen = Object.keys(es).length;
-            for (j in es) {
-              episode = es[j];
-              if (episode.seen) {
-                nbNotSeen--;
-              } else if (nbToSee < nbrEpisodesPerSerie) {
-                episodes = data[i.substring(9)].episodes;
-                episodes.push(episode);
-                data[i.substring(9)].episodes = episodes;
-                nbToSee++;
-              } else {
-                break;
-              }
+        data = {};
+        error = false;
+        d = DB.get('member.' + this.login + '.episodes', {});
+        for (j = 0, _len = d.length; j < _len; j++) {
+          i = d[j];
+          i = i.split('.');
+          show = i[0];
+          global = i[1];
+          episode = DB.get('show.' + show + '.episodes')[global];
+          if (!episode) return Fx.noDataFound();
+          if (data[show] != null) {
+            episodes = data[show].episodes;
+            if (data[show].nbr < nbrEpisodesPerSerie) {
+              episodes.push(episode);
+              data[show].episodes = episodes;
             }
-            data[i.substring(9)].nbr_total = nbNotSeen;
+            data[show].nbr++;
+          } else {
+            data[show] = {
+              episodes: [episode],
+              nbr: 1
+            };
           }
         }
         output = '<div id="shows">';
         for (i in data) {
           j = data[i];
-          s = DB.get('shows.' + this.login)[i];
-          if (!s) continue;
+          s = DB.get('member.' + this.login + '.shows')[i];
+          if (!s) return Fx.noDataFound();
           output += '<div id="' + s.url + '" class="show">';
-          output += Content.show(s, j.nbr_total);
+          output += Content.show(s, j.nbr);
           _ref = j.episodes;
-          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          for (_i = 0, _len2 = _ref.length; _i < _len2; _i++) {
             e = _ref[_i];
             output += Content.episode(e, s);
           }
@@ -717,7 +699,7 @@ BS = {
       id: 'cache',
       name: 'cache',
       content: function() {
-        var d, data, i, output, privates, size, _len;
+        var d, data, i, output, size, _len;
         output = '';
         output += '<div class="showtitle">Total</div>';
         output += '<div class="episode">';
@@ -725,14 +707,11 @@ BS = {
         output += ' <div class="right">' + Fx.getCacheFormat(Fx.getCacheSize()) + '</div>';
         output += ' <div class="clear"></div>';
         output += '</div>';
-        privates = ['badge', 'historic', 'length', 'member', 'notifications', 'options', 'views_to_refresh', 'views_to_remove', 'views_updated'];
         data = [];
         output += '<div class="showtitle">Détail</div>';
         for (i in localStorage) {
           size = localStorage[i];
-          if (!(__indexOf.call(privates, i) >= 0)) {
-            data.push([i, Fx.getCacheSize(i)]);
-          }
+          if (i !== 'length') data.push([i, Fx.getCacheSize(i)]);
         }
         data.sort(function(a, b) {
           return b[1] - a[1];
@@ -759,16 +738,16 @@ BS = {
         output += '<a href="" onclick="BS.load(\'timelineFriends\'); return false;">';
         output += '<img src="../img/timeline.png" id="timeline" class="action" style="margin-bottom:-3px;" />';
         output += __('timelineFriends') + '</a>';
-        output += '<a href="" onclick="BS.load(\'planningMember\', \'' + DB.get('member').login + '\'); return false;">';
+        output += '<a href="" onclick="BS.load(\'planningMember\', \'' + DB.get('session').login + '\'); return false;">';
         output += '<img src="../img/planning.png" id="planning" class="action" style="margin-bottom:-3px;" />';
         output += __('planningMember') + '</a>';
         output += '<a href="" onclick="BS.load(\'membersEpisodes\'); return false;">';
         output += '<img src="../img/episodes.png" id="episodes" class="action" style="margin-bottom:-3px;" />';
         output += __('membersEpisodes') + '</a>';
-        output += '<a href="" onclick="BS.load(\'membersShows\', \'' + DB.get('member').login + '\'); return false;">';
+        output += '<a href="" onclick="BS.load(\'membersShows\', \'' + DB.get('session').login + '\'); return false;">';
         output += '<img src="../img/episodes.png" id="shows" class="action" style="margin-bottom:-3px;" />';
         output += __('membersShows') + '</a>';
-        output += '<a href="" onclick="BS.load(\'membersInfos\', \'' + DB.get('member').login + '\'); return false;">';
+        output += '<a href="" onclick="BS.load(\'membersInfos\', \'' + DB.get('session').login + '\'); return false;">';
         output += '<img src="../img/infos.png" id="infos" class="action" style="margin-bottom:-3px; margin-right: 9px;" />';
         output += __('membersInfos') + '</a>';
         output += '<a href="" onclick="BS.load(\'membersNotifications\'); return false;">';

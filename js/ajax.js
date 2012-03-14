@@ -9,7 +9,7 @@ ajax = {
   post: function(category, params, successCallback, errorCallback) {
     var member, token, useragent;
     if (params == null) params = '';
-    member = DB.get('member', {});
+    member = DB.get('session', {});
     token = member.token === null ? '' : "&token=" + member.token;
     useragent = "chromeseries-" + Fx.getVersion();
     $('#sync').attr('src', '../img/sync.gif');

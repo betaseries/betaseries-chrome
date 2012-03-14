@@ -96,7 +96,7 @@ badge = {
 };
 
 connected = function() {
-  return DB.get('member', null) != null;
+  return DB.get('session', null) != null;
 };
 
 DB.init();

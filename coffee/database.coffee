@@ -5,6 +5,11 @@
 DB =
 
 	init: ->
+		# BADGE
+		badge = 
+			value: 0
+			type: 'membersEpisodes'
+		
 		# OPTIONS
 		options = 
 			badge_notification_type: 'watched'
@@ -13,26 +18,11 @@ DB =
 			display_global: false
 			enable_ratings: true
 			max_height: 200
-			
-		@set 'options', options, true
 		
-		# BADGE
-		badge = 
-			value: 0
-			type: 'membersEpisodes'
-			
 		@set 'badge', badge, true
-		
-		# Historique
 		@set 'historic', [], false
-		
-		# Vues à recharger
-		@set 'views_updated', {}, true
-		@set 'views_to_refresh', [], true
-		@set 'views_to_remove', {}, true
-		
-		# Notifications
-		@set 'notifications', {}, true
+		@set 'options', options, true
+		@set 'views', {}, true
 		
 	## Getter - Obtenir la valeur d'un champ de la BD
 	 #

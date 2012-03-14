@@ -12,33 +12,22 @@ BS =
 	## Lancer l'affichage d'une vue
 	load: ->
 		
-		# réception des arguments
+		# arguments
 		args = Array.prototype.slice.call arguments
 		
-		# récupération des infos
+		# infos de la vue
 		o = BS[arguments[0]].apply(args.shift(), args)
 		
-		# mémorisation des infos
+		# réaffichage de la vue ?
 		sameView = @currentView? and o.id is @currentView.id
 		
-		# Cache de vues à garder ou à supprimer
-		if sameView 
-			Cache.keep() 
-		else 
-			Cache.clean()
-		
-		# mémorisation de la vue courante
+		# mémorisation de la vue
 		@currentView = o;
-		
-		# affichage du trash
-		if (o.name in Cache.views)
-			$('#trash').show()
-		else
-			$('#trash').hide()
 		
 		# affichage de la vue (cache)
 		BS.display() if !sameView
 		
+		# mise à jour des données
 		if o.update
 			# on montre le bouton #sync
 			$('#sync').show()	
@@ -46,29 +35,23 @@ BS =
 			# heure actuelle à la seconde près
 			time = Math.floor(new Date().getTime() / 1000)
 			
-			# conditions pour être mis à jour
-			views_to_refresh = DB.get 'views_to_refresh'
-			forceRefresh = o.id in views_to_refresh
-			
-			views_updated = DB.get 'views_updated'
-			outdated = if views_updated[o.id]? then time - views_updated[o.id] > 3600 else true
-			
-			# on détermine si la vue va être mise à jour ou pas
-			update = forceRefresh or outdated
+			views = DB.get 'views'
+			outdated = if views[o.id]? then time - views[o.id].time > 3600 else true
+			force = if views[o.id]? then views[o.id].force else true
 			
 			# on lance la requête de mise à jour ssi ça doit l'être
-			BS.update() if update
+			BS.update() if outdated or force
+		
+		# on cache le bouton #sync
 		else
-			# on cache le bouton #sync
 			$('#sync').hide()	
-		
-		
+	
 	## Mettre à jour les données de la vue courante	
 	update: ->
-		# réception des infos de la vue courante
+		# infos de la vue
 		o = @currentView
 		
-		# préparation des paramètres de la requête
+		# paramètres
 		params = o.params || ''
 		
 		if o.url?
@@ -77,36 +60,33 @@ BS =
 					# réception des données
 					cache = data.root[o.root]
 					
-					# on met à jour la date de cette mise à jour
-					views_updated = DB.get 'views_updated'
+					# infos de la vue
 					time = Math.floor(new Date().getTime() / 1000)
-					views_updated[o.id] = time
-					DB.set 'views_updated', views_updated
-						
-					# Mise à jour du tableau des vues à recharger
-					views_to_refresh = DB.get 'views_to_refresh'
-					if o.id in views_to_refresh
-						views_to_refresh.splice (views_to_refresh.indexOf o.id), 1
-						DB.set 'views_to_refresh', views_to_refresh
+					views = DB.get 'views'
+					views[o.id] = 
+						time: time
+						force: false
+					DB.set 'views', views
 						
 					# mise à jour du cache
 					o.update(cache)
 					
 					# affichage de la vue courante (cache)
 					BS.display()
-		else
-			# requête qui ne requiert pas l'API BetaSeries
+		
+		# requête qui ne requiert pas l'API BetaSeries
+		else if o.update?
 			o.update()
 		
 	## Afficher la vue courante avec les données en cache		
 	display: ->
-		# récecption des infos de la vue courante
+		# infos de la vue
 		o = @currentView
 		
 		# mise à jour de l'historique
 		Historic.save()
 		
-		# on affiche la vue avec les données en cache
+		# affichage de la vue (cache)
 		$('#page').html o.content()
 		
 		# Post affichage
@@ -123,13 +103,9 @@ BS =
 		
 	## Réactualise la vue courante
 	refresh: ->
-		Fx.toRefresh @currentView.id
+		Fx.toUpdate @currentView.id
 		args = @currentView.id.split '.'
-		BS.load.apply(BS, args)
-	
-	#	
-	size: ->
-		return (JSON.stringify(localStorage).length /1000) + 'k'
+		BS.load.apply BS, args
 	
 	#
 	showsDisplay: (url) ->
@@ -137,7 +113,7 @@ BS =
 		name: 'showsDisplay'
 		url: '/shows/display/' + url
 		root: 'show'
-		login: DB.get('member').login
+		login: DB.get('session').login
 		show: url
 		update: (data) ->
 			shows = DB.get 'shows.' + @login, {}
@@ -243,11 +219,11 @@ BS =
 	
 	#
 	planningMember: (login) ->
-		login ?= DB.get 'member.login'
+		login ?= DB.get('session').login
 		
-		id: "planningMember.#{login}"
+		id: 'planningMember.' + login
 		name: 'planningMember'
-		url: "/planning/member/#{login}"
+		url: '/planning/member/' + login
 		params: "&view=unseen"
 		root: 'planning'
 		login: login
@@ -304,7 +280,7 @@ BS =
 	
 	#
 	membersInfos: (login) ->
-		login ?= DB.get 'member.login'
+		login ?= DB.get('session').login
 		
 		id: 'membersInfos.' + login
 		name: 'membersInfos'
@@ -348,7 +324,7 @@ BS =
 			return output
 	
 	membersShows: (login) ->
-		login ?= DB.get 'member.login'
+		login ?= DB.get('session').login
 		
 		id: 'membersShows.' + login
 		name: 'membersShows'
@@ -356,7 +332,7 @@ BS =
 		root: 'member'
 		login: login
 		update: (data) ->
-			shows = DB.get 'shows.' + @login, {}
+			shows = DB.get 'member.' + @login + '.shows', {}
 			for i, s of data.shows
 				if s.url of shows
 					# cas où on enlève une série des archives depuis le site
@@ -391,24 +367,23 @@ BS =
 		name: 'membersEpisodes',
 		url: '/members/episodes/' + lang
 		root: 'episodes'
-		login: DB.get('member').login
+		login: DB.get('session').login
 		update: (data) ->
 			for d, e of data
 				# cache des infos de la *série*
-				shows = DB.get 'shows.' + @login, {}
+				shows = DB.get 'member.' + @login + '.shows', {}
 				if e.url of shows
 					# cas où on enlève une série des archives depuis le site
 					shows[e.url].archive = false
 				else
 					shows[e.url] =
-						url: e.url
 						title: e.show
 						archive: false
 						hidden: false
-				DB.set 'shows.' + @login, shows
+				DB.set 'member.' + @login + '.shows', shows
 				
 				# cache des infos de *épisode*
-				episodes = DB.get 'episodes.' + e.url, {}
+				episodes = DB.get 'show.' + e.url + '.episodes', {}
 				episodes[e.global] =
 					comments: e.comments
 					date: e.date
@@ -421,45 +396,52 @@ BS =
 					show: e.show
 					url: e.url
 					subs: e.subs
-					seen: false
-				DB.set 'episodes.' + e.url, episodes
+				DB.set 'show.' + e.url + '.episodes', episodes
+				
+				episodes = DB.get 'member.' + @login + '.episodes', []
+				episodes.push e.url + '.' + e.global
+				DB.set 'member.' + @login + '.episodes', episodes
 		content: ->
 			# récupération des épisodes non vus (cache)
-			data = {}
 			nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie
-			for i, episodes of localStorage
-				if i.indexOf('episodes.') is 0
-					nbToSee = 0
-					es = JSON.parse episodes
-					data[i.substring(9)] = {}
-					data[i.substring(9)].episodes = []
-					nbNotSeen = Object.keys(es).length
-					for j, episode of es
-						if episode.seen
-							nbNotSeen--
-						else if nbToSee < nbrEpisodesPerSerie
-							episodes = data[i.substring(9)].episodes
-							episodes.push episode
-							data[i.substring(9)].episodes = episodes 
-							nbToSee++
-						else
-							break
-					data[i.substring(9)].nbr_total = nbNotSeen
+			data = {}
+			error = false
+			
+			d = DB.get 'member.' + @login + '.episodes', {}
+			for i, j in d
+				
+				i = i.split '.'
+				show = i[0]
+				global = i[1]
+				
+				episode = DB.get('show.' + show + '.episodes')[global]
+				if !episode
+					return Fx.noDataFound()
+				
+				if data[show]?
+					episodes = data[show].episodes
+					if data[show].nbr < nbrEpisodesPerSerie
+						episodes.push episode
+						data[show].episodes = episodes
+					data[show].nbr++
+				else
+					data[show] =
+						episodes: [episode]
+						nbr: 1
 			
 			# SHOWS
 			output = '<div id="shows">'
 			
 			for i, j of data
 				# récupération des infos sur la *série*
-				s = DB.get('shows.' + @login)[i]
-				
-				continue if !s
+				s = DB.get('member.' + @login + '.shows')[i]
+				return Fx.noDataFound() if !s
 				
 				# SHOW
 				output += '<div id="' + s.url + '" class="show">'
 				
 				# construction du bloc *série*
-				output += Content.show s, j.nbr_total
+				output += Content.show s, j.nbr
 				
 				# construction des blocs *episode*
 				for e in j.episodes
@@ -704,23 +686,11 @@ BS =
 			output += ' <div class="right">' + Fx.getCacheFormat(Fx.getCacheSize())  + '</div>'
 			output += ' <div class="clear"></div>'
 			output += '</div>'
-				
-			privates = [
-				'badge'
-				'historic'
-				'length'
-				'member'
-				'notifications'
-				'options'
-				'views_to_refresh'
-				'views_to_remove'
-				'views_updated'
-			]
 			
 			data = []
 			output += '<div class="showtitle">Détail</div>'
 			for i, size of localStorage
-				if !(i in privates) 
+				if i isnt 'length' 
 					data.push [i, Fx.getCacheSize(i)]
 			
 			#console.log data
@@ -747,7 +717,7 @@ BS =
 			output += '<img src="../img/timeline.png" id="timeline" class="action" style="margin-bottom:-3px;" />'
 			output += __('timelineFriends') + '</a>'
 			
-			output += '<a href="" onclick="BS.load(\'planningMember\', \'' + DB.get('member').login + '\'); return false;">'
+			output += '<a href="" onclick="BS.load(\'planningMember\', \'' + DB.get('session').login + '\'); return false;">'
 			output += '<img src="../img/planning.png" id="planning" class="action" style="margin-bottom:-3px;" />'
 			output += __('planningMember') + '</a>'
 			
@@ -755,11 +725,11 @@ BS =
 			output += '<img src="../img/episodes.png" id="episodes" class="action" style="margin-bottom:-3px;" />'
 			output += __('membersEpisodes') + '</a>'
 			
-			output += '<a href="" onclick="BS.load(\'membersShows\', \'' + DB.get('member').login + '\'); return false;">'
+			output += '<a href="" onclick="BS.load(\'membersShows\', \'' + DB.get('session').login + '\'); return false;">'
 			output += '<img src="../img/episodes.png" id="shows" class="action" style="margin-bottom:-3px;" />'
 			output += __('membersShows') + '</a>'
 			
-			output += '<a href="" onclick="BS.load(\'membersInfos\', \'' + DB.get('member').login + '\'); return false;">'
+			output += '<a href="" onclick="BS.load(\'membersInfos\', \'' + DB.get('session').login + '\'); return false;">'
 			output += '<img src="../img/infos.png" id="infos" class="action" style="margin-bottom:-3px; margin-right: 9px;" />'
 			output += __('membersInfos') + '</a>'
 			

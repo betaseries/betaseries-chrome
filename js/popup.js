@@ -74,7 +74,7 @@ $(document).ready(function() {
   });
   clean = function(nodes) {
     var episode, episodesCache, i, login, nbr, nbrEpisodes, nextGlobal, node, show, showCache, _len;
-    login = DB.get('member').login;
+    login = DB.get('session').login;
     show = nodes[0].closest('.show').attr('id');
     nbrEpisodes = $('#' + show).find('.episode').length;
     nextGlobal = $('#' + show).find('.episode').last().attr('global');
@@ -232,7 +232,7 @@ $(document).ready(function() {
       $('#' + show).slideUp();
       ajax.post("/shows/archive/" + show, "", function() {
         Fx.toRefresh('membersEpisodes.all');
-        Fx.toRefresh('membersInfos.' + DB.get('member.login'));
+        Fx.toRefresh('membersInfos.' + DB.get('session').login);
         return bgPage.badge.update();
       }, function() {
         return registerAction("/shows/archive/" + show, "");
@@ -248,7 +248,7 @@ $(document).ready(function() {
       $('#' + show).hide();
       ajax.post("/shows/unarchive/" + show, "", function() {
         Fx.toRefresh('membersEpisodes.all');
-        Fx.toRefresh('membersInfos.' + DB.get('member.login'));
+        Fx.toRefresh('membersInfos.' + DB.get('session').login);
         return bgPage.badge.update();
       }, function() {
         return registerAction("/shows/unarchive/" + show, "");
@@ -264,7 +264,7 @@ $(document).ready(function() {
       $('#showsAdd').html(__('show_added'));
       ajax.post("/shows/add/" + show, "", function() {
         Fx.toRefresh('membersEpisodes.all');
-        Fx.toRefresh('membersInfos.' + DB.get('member.login'));
+        Fx.toRefresh('membersInfos.' + DB.get('session').login);
         return bgPage.badge.update();
       }, function() {
         return registerAction("/shows/add/" + show, "");
@@ -279,7 +279,7 @@ $(document).ready(function() {
       $('#showsRemove').html(__('show_removed'));
       ajax.post("/shows/remove/" + show, "", function() {
         Fx.toRefresh('membersEpisodes.all');
-        Fx.toRefresh('membersInfos.' + DB.get('member.login'));
+        Fx.toRefresh('membersInfos.' + DB.get('session').login);
         return bgPage.badge.update();
       }, function() {
         return registerAction("/shows/remove/" + show, "");
@@ -297,17 +297,15 @@ $(document).ready(function() {
       });
       params = "&login=" + login + "&password=" + password;
       ajax.post("/members/auth", params, function(data) {
-        var member, token;
+        var token;
         if (data.root.member != null) {
           message('');
           $('#connect').remove();
           token = data.root.member.token;
-          DB.init();
-          member = {
+          DB.set('session', {
             login: login,
             token: data.root.member.token
-          };
-          DB.set('member', member);
+          });
           menu.show();
           $('#back').hide();
           return BS.load('membersEpisodes');
@@ -429,7 +427,7 @@ $(document).ready(function() {
         $('#addfriend').attr('href', '#removefriend');
         $('#addfriend').attr('id', 'removefriend');
         $('#friendshipimg').attr('src', '../img/friend_remove.png');
-        Fx.toRefresh('membersInfos.' + DB.get('member.login'));
+        Fx.toRefresh('membersInfos.' + DB.get('session').login);
         Fx.toRefresh('membersInfos.' + login);
         return Fx.toRefresh('timelineFriends');
       });
@@ -445,7 +443,7 @@ $(document).ready(function() {
         $('#removefriend').attr('href', '#addfriend');
         $('#removefriend').attr('id', 'addfriend');
         $('#friendshipimg').attr('src', '../img/friend_add.png');
-        Fx.toRefresh('membersInfos.' + DB.get('member.login'));
+        Fx.toRefresh('membersInfos.' + DB.get('session').login);
         Fx.toRefresh('membersInfos.' + login);
         return Fx.toRefresh('timelineFriends');
       });
@@ -458,7 +456,7 @@ $(document).ready(function() {
       show = $(this).closest('.show');
       showName = $(show).attr('id');
       nbr_episodes_per_serie = DB.get('options').nbr_episodes_per_serie;
-      login = DB.get('member').login;
+      login = DB.get('session').login;
       shows = DB.get('shows.' + login);
       hidden = shows[showName].hidden;
       shows[showName].hidden = !hidden;

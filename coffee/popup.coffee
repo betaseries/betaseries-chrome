@@ -72,7 +72,7 @@ $(document).ready ->
 				node = node.prev()
 	
 	clean = (nodes) ->
-		login = DB.get('member').login
+		login = DB.get('session').login
 		show = nodes[0].closest('.show').attr 'id'
 		
 		# on compte le nombre d'épisodes actuellement affichés
@@ -233,7 +233,7 @@ $(document).ready ->
 			ajax.post "/shows/archive/" + show, "", 
 				->
 					Fx.toRefresh 'membersEpisodes.all'
-					Fx.toRefresh 'membersInfos.' + DB.get 'member.login'
+					Fx.toRefresh 'membersInfos.' + DB.get('session').login
 					bgPage.badge.update()
 				-> registerAction "/shows/archive/" + show, ""
 			
@@ -251,7 +251,7 @@ $(document).ready ->
 			ajax.post "/shows/unarchive/" + show, "", 
 				->
 					Fx.toRefresh 'membersEpisodes.all'
-					Fx.toRefresh 'membersInfos.' + DB.get 'member.login'
+					Fx.toRefresh 'membersInfos.' + DB.get('session').login
 					bgPage.badge.update()
 				-> registerAction "/shows/unarchive/" + show, ""
 			
@@ -269,7 +269,7 @@ $(document).ready ->
 			ajax.post "/shows/add/" + show, "", 
 				->
 					Fx.toRefresh 'membersEpisodes.all'
-					Fx.toRefresh 'membersInfos.' + DB.get 'member.login'
+					Fx.toRefresh 'membersInfos.' + DB.get('session').login
 					bgPage.badge.update()
 				-> registerAction "/shows/add/" + show, ""
 			
@@ -286,7 +286,7 @@ $(document).ready ->
 			ajax.post "/shows/remove/" + show, "", 
 				->
 					Fx.toRefresh 'membersEpisodes.all'
-					Fx.toRefresh 'membersInfos.' + DB.get 'member.login'
+					Fx.toRefresh 'membersInfos.' + DB.get('session').login
 					bgPage.badge.update()
 				-> registerAction "/shows/remove/" + show, ""
 			
@@ -305,11 +305,9 @@ $(document).ready ->
 						message('')
 						$('#connect').remove()
 						token = data.root.member.token
-						DB.init()
-						member = 
+						DB.set 'session', 
 							login: login
 							token: data.root.member.token
-						DB.set 'member', member
 						menu.show()
 						$('#back').hide()
 						BS.load('membersEpisodes')
@@ -426,7 +424,7 @@ $(document).ready ->
 				$('#addfriend').attr 'href', '#removefriend'
 				$('#addfriend').attr 'id', 'removefriend'
 				$('#friendshipimg').attr 'src', '../img/friend_remove.png'
-				Fx.toRefresh 'membersInfos.' + DB.get 'member.login'
+				Fx.toRefresh 'membersInfos.' + DB.get('session').login
 				Fx.toRefresh 'membersInfos.' + login
 				Fx.toRefresh 'timelineFriends'
 			return false
@@ -440,7 +438,7 @@ $(document).ready ->
 				$('#removefriend').attr 'href', '#addfriend'
 				$('#removefriend').attr 'id', 'addfriend'
 				$('#friendshipimg').attr 'src', '../img/friend_add.png'
-				Fx.toRefresh 'membersInfos.' + DB.get 'member.login'
+				Fx.toRefresh 'membersInfos.' + DB.get('session').login
 				Fx.toRefresh 'membersInfos.' + login
 				Fx.toRefresh 'timelineFriends'
 			return false
@@ -451,7 +449,7 @@ $(document).ready ->
 			show = $(this).closest('.show')
 			showName = $(show).attr 'id'
 			nbr_episodes_per_serie = DB.get('options').nbr_episodes_per_serie
-			login = DB.get('member').login
+			login = DB.get('session').login
 			shows = DB.get 'shows.' + login
 			hidden = shows[showName].hidden
 			shows[showName].hidden = !hidden
@@ -524,10 +522,11 @@ $(document).ready ->
 	
 	## INIT
 	DB.init()
+	
 	$('#versionLink').text Fx.getVersion()
+	
 	if bgPage.connected()
-		#Fx.cleanCache()
 		badgeType = DB.get('badge').type
-		BS.load(badgeType)
+		BS.load badgeType
 	else
-		BS.load('connection')
+		BS.load 'connection'
