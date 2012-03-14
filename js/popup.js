@@ -87,6 +87,7 @@ $(document).ready(function() {
     for (i = 0, _len = nodes.length; i < _len; i++) {
       node = nodes[i];
       value = show + '.' + node.attr('global');
+      episodes.splice(episodes.indexOf(value), 1);
       node.slideToggle('slow', function() {
         return $(this).remove();
       });

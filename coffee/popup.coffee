@@ -90,7 +90,7 @@ $(document).ready ->
 		for node, i in nodes				
 			# on met à jour le cache
 			value = show + '.' + node.attr('global')
-			#episodes.splice(episodes.indexOf(value), 1);
+			episodes.splice episodes.indexOf(value), 1
 			
 			# on fait apparaitre les suivants
 			node.slideToggle 'slow', -> $(@).remove()
