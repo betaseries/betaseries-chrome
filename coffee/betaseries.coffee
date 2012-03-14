@@ -164,7 +164,8 @@ BS =
 		url: '/shows/episodes/' + url
 		params: '&season=' + season + '&episode=' + episode
 		root: 'seasons'
-		episodes: DB.get 'episodes.' + url
+		episodes: DB.get 'show.' + url + '.episodes'
+		show: url
 		global: global
 		update: (data) ->
 			e = data['0']['episodes']['0']
@@ -173,7 +174,7 @@ BS =
 			@episodes[@global].note = e.note if e.note?
 			@episodes[@global].screen = e.screen if e.screen?
 			@episodes[@global].subs = e.subs if e.subs?
-			DB.set 'episodes.' + url, @episodes
+			DB.set 'show.' + @show + '.episodes', @episodes
 		content: ->
 			e = @episodes[@global]
 			

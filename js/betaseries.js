@@ -146,7 +146,8 @@ BS = {
       url: '/shows/episodes/' + url,
       params: '&season=' + season + '&episode=' + episode,
       root: 'seasons',
-      episodes: DB.get('episodes.' + url),
+      episodes: DB.get('show.' + url + '.episodes'),
+      show: url,
       global: global,
       update: function(data) {
         var e;
@@ -158,7 +159,7 @@ BS = {
         if (e.note != null) this.episodes[this.global].note = e.note;
         if (e.screen != null) this.episodes[this.global].screen = e.screen;
         if (e.subs != null) this.episodes[this.global].subs = e.subs;
-        return DB.set('episodes.' + url, this.episodes);
+        return DB.set('show.' + this.show + '.episodes', this.episodes);
       },
       content: function() {
         var e, imgDownloaded, n, nbr_subs, output, sub, texte3, title;
