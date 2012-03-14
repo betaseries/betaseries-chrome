@@ -504,7 +504,7 @@ BS =
 		show: url
 		global: global
 		update: (data) ->
-			comments = DB.get 'comments.' + @show + '.' + @global, {}
+			comments = DB.get 'show.' + @show + '.' + @global + '.comments', {}
 			
 			# récupération de commentaires en cache
 			nbrComments = comments.length
@@ -517,13 +517,16 @@ BS =
 					comments[i] = comment
 			
 			# mise à jour du cache
-			DB.set 'comments.' + @show + '.' + @global, comments
+			DB.set 'show.' + @show + '.' + @global + '.comments', comments
 		content: ->
 			i = 1
 			time = ''
 			show = ''
 			output = '<div class="showtitle">' + show + '</div>';
-			data = DB.get 'comments.' + @show + '.' + @global, {}
+			
+			data = DB.get 'show.' + @show + '.' + @global + '.comments', null
+			return Fx.needUpdate() if !data
+			
 			for n of data
 				new_date = date('D d F', data[n].date)
 				if new_date isnt time

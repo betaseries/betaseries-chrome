@@ -500,7 +500,7 @@ BS = {
       global: global,
       update: function(data) {
         var comment, comments, i, nbrComments;
-        comments = DB.get('comments.' + this.show + '.' + this.global, {});
+        comments = DB.get('show.' + this.show + '.' + this.global + '.comments', {});
         nbrComments = comments.length;
         for (i in data) {
           comment = data[i];
@@ -510,7 +510,7 @@ BS = {
             comments[i] = comment;
           }
         }
-        return DB.set('comments.' + this.show + '.' + this.global, comments);
+        return DB.set('show.' + this.show + '.' + this.global + '.comments', comments);
       },
       content: function() {
         var data, i, n, new_date, output, show, time;
@@ -518,7 +518,8 @@ BS = {
         time = '';
         show = '';
         output = '<div class="showtitle">' + show + '</div>';
-        data = DB.get('comments.' + this.show + '.' + this.global, {});
+        data = DB.get('show.' + this.show + '.' + this.global + '.comments', null);
+        if (!data) return Fx.needUpdate();
         for (n in data) {
           new_date = date('D d F', data[n].date);
           if (new_date !== time) {
