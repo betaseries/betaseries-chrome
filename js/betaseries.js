@@ -27,9 +27,9 @@ BS = {
     if (!sameView) BS.display();
     if (o.update) {
       $('#sync').show();
-      time = Math.floor(new Date().getTime() / 1000);
+      time = (new Date().getDate()) + '.' + (new Date().getFullYear());
       views = DB.get('views');
-      outdated = views[o.id] != null ? time - views[o.id].time > 3600 : true;
+      outdated = views[o.id] != null ? views[o.id].time !== time : true;
       force = views[o.id] != null ? views[o.id].force : true;
       if (outdated || force) return BS.update();
     } else {
@@ -44,7 +44,7 @@ BS = {
       return ajax.post(o.url, params, function(data) {
         var cache, time, views;
         cache = data.root[o.root];
-        time = Math.floor(new Date().getTime() / 1000);
+        time = (new Date().getDate()) + '.' + (new Date().getFullYear());
         views = DB.get('views');
         views[o.id] = {
           time: time,
@@ -666,12 +666,12 @@ BS = {
         });
       },
       content: function() {
-        var article, articles, i, link, output, title, _len;
+        var article, data, i, link, output, title, _len;
         output = '';
-        articles = DB.get('blog', []);
-        if (articles.length === 0) return '';
-        for (i = 0, _len = articles.length; i < _len; i++) {
-          article = articles[i];
+        data = DB.get('blog', null);
+        if (!data) return Fx.needUpdate();
+        for (i = 0, _len = data.length; i < _len; i++) {
+          article = data[i];
           title = article.title.substring(0, 40);
           if (article.title.length > 40) title += '..';
           output += '<div class="showtitle">' + title;

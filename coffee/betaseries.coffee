@@ -33,10 +33,10 @@ BS =
 			$('#sync').show()	
 		
 			# heure actuelle à la seconde près
-			time = Math.floor(new Date().getTime() / 1000)
+			time = (new Date().getDate()) + '.' + (new Date().getFullYear())
 			
 			views = DB.get 'views'
-			outdated = if views[o.id]? then time - views[o.id].time > 3600 else true
+			outdated = if views[o.id]? then views[o.id].time isnt time else true
 			force = if views[o.id]? then views[o.id].force else true
 			
 			# on lance la requête de mise à jour ssi ça doit l'être
@@ -61,7 +61,7 @@ BS =
 					cache = data.root[o.root]
 					
 					# infos de la vue
-					time = Math.floor(new Date().getTime() / 1000)
+					time = (new Date().getDate()) + '.' + (new Date().getFullYear())
 					views = DB.get 'views'
 					views[o.id] = 
 						time: time
@@ -659,12 +659,10 @@ BS =
 		content: ->
 			output = ''
 			
-			articles = DB.get 'blog', []
+			data = DB.get 'blog', null
+			return Fx.needUpdate() if !data
 			
-			if articles.length is 0
-				return ''
-			
-			for article, i in articles
+			for article, i in data
 				title = article.title.substring 0, 40
 				title += '..' if article.title.length > 40
 				
