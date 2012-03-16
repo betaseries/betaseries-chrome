@@ -75,7 +75,7 @@ $(document).ready ->
 	clean = (nodes) ->
 		login = DB.get('session').login
 		show = nodes[0].closest('.show').attr 'id'
-		episodes = DB.get 'member.' + login + '.episodes'
+		memberEpisodes = DB.get 'member.' + login + '.episodes'
 		s = DB.get('member.' + login + '.shows')[show]
 		es = DB.get 'show.' + show + '.episodes'
 		
@@ -89,8 +89,12 @@ $(document).ready ->
 		nbr = 0
 		for node, i in nodes				
 			# on met à jour le cache
-			value = show + '.' + node.attr('global')
-			episodes.splice episodes.indexOf(value), 1
+			me = memberEpisodes[show].episodes
+			value = node.attr('global')
+			me.splice me.indexOf(value), 1
+			memberEpisodes[show].nbr_total--
+			if memberEpisodes[show].nbr_total is 0
+				delete memberEpisodes[show]
 			
 			# on fait apparaitre les suivants
 			node.slideToggle 'slow', -> $(@).remove()
@@ -110,7 +114,7 @@ $(document).ready ->
 			nbr = parseInt($('#' + show + ' .remain').text()) - nbr
 			$('#' + show + ' .remain').text '+' + nbr
 		
-		return episodes
+		return memberEpisodes
 	
 	# Star HOVER
 	$('.star').live

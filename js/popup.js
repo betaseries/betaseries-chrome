@@ -74,10 +74,10 @@ $(document).ready(function() {
     }
   });
   clean = function(nodes) {
-    var episode, episodes, es, i, login, nbr, nbrEpisodes, nextGlobal, node, s, show, value, _len;
+    var episode, es, i, login, me, memberEpisodes, nbr, nbrEpisodes, nextGlobal, node, s, show, value, _len;
     login = DB.get('session').login;
     show = nodes[0].closest('.show').attr('id');
-    episodes = DB.get('member.' + login + '.episodes');
+    memberEpisodes = DB.get('member.' + login + '.episodes');
     s = DB.get('member.' + login + '.shows')[show];
     es = DB.get('show.' + show + '.episodes');
     nbrEpisodes = $('#' + show).find('.episode').length;
@@ -86,8 +86,11 @@ $(document).ready(function() {
     nbr = 0;
     for (i = 0, _len = nodes.length; i < _len; i++) {
       node = nodes[i];
-      value = show + '.' + node.attr('global');
-      episodes.splice(episodes.indexOf(value), 1);
+      me = memberEpisodes[show].episodes;
+      value = node.attr('global');
+      me.splice(me.indexOf(value), 1);
+      memberEpisodes[show].nbr_total--;
+      if (memberEpisodes[show].nbr_total === 0) delete memberEpisodes[show];
       node.slideToggle('slow', function() {
         return $(this).remove();
       });
@@ -108,7 +111,7 @@ $(document).ready(function() {
       nbr = parseInt($('#' + show + ' .remain').text()) - nbr;
       $('#' + show + ' .remain').text('+' + nbr);
     }
-    return episodes;
+    return memberEpisodes;
   };
   $('.star').live({
     mouseenter: function() {
