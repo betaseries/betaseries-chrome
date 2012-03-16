@@ -65,7 +65,8 @@ BS = {
     document.getElementById('page').innerHTML = '';
     $('#page').html(o.content());
     $('#title').text(__(o.name));
-    return $('#page').removeClass().addClass(o.name);
+    $('#page').removeClass().addClass(o.name);
+    return Fx.updateHeight();
   },
   refresh: function() {
     var args;

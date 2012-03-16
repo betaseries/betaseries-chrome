@@ -45,9 +45,6 @@ $(document).ready ->
 					nodes.push e
 					
 				e = e.prev()
-			
-			
-			Fx.updateHeight()
 					
 			if !enable_ratings
 				es = clean nodes
@@ -112,6 +109,8 @@ $(document).ready ->
 			nbr = parseInt($('#' + show + ' .remain').text()) - nbr
 			$('#' + show + ' .remain').text '+' + nbr
 		
+		Fx.updateHeight()
+				
 		return memberEpisodes
 	
 	# Star HOVER

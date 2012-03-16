@@ -99,6 +99,9 @@ BS =
 		$('#title').text __(o.name)
 		$('#page').removeClass().addClass o.name
 		
+		# Hauteur du popup
+		Fx.updateHeight()
+			
 	## Réactualise la vue courante
 	refresh: ->
 		Fx.toUpdate @currentView.id

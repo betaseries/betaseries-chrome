@@ -41,7 +41,6 @@ $(document).ready(function() {
         }
         e = e.prev();
       }
-      Fx.updateHeight();
       if (!enable_ratings) {
         es = clean(nodes);
         params = "&season=" + season + "&episode=" + episode;
@@ -109,6 +108,7 @@ $(document).ready(function() {
       nbr = parseInt($('#' + show + ' .remain').text()) - nbr;
       $('#' + show + ' .remain').text('+' + nbr);
     }
+    Fx.updateHeight();
     return memberEpisodes;
   };
   $('.star').live({
