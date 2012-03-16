@@ -361,8 +361,7 @@ BS = {
       root: 'episodes',
       login: DB.get('session').login,
       update: function(data) {
-        var d, e, memberEpisodes, nbrEpisodesPerSerie, show, showEpisodes, shows, _ref;
-        nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie;
+        var d, e, memberEpisodes, showEpisodes, shows;
         shows = DB.get('member.' + this.login + '.shows', {});
         memberEpisodes = {};
         for (d in data) {
@@ -393,16 +392,10 @@ BS = {
           };
           DB.set('show.' + e.url + '.episodes', showEpisodes);
           if (e.url in memberEpisodes) {
-            show = memberEpisodes[e.url];
-            if (!(_ref = e.global, __indexOf.call(show.episodes, _ref) >= 0)) {
-              if (show.nbr_total < nbrEpisodesPerSerie) {
-                memberEpisodes[e.url].episodes.push(e.global);
-              }
-              memberEpisodes[e.url].nbr_total++;
-            }
+            memberEpisodes[e.url].nbr_total++;
           } else {
             memberEpisodes[e.url] = {
-              episodes: [e.global],
+              start: e.global,
               nbr_total: 1
             };
           }
@@ -411,7 +404,7 @@ BS = {
         return DB.set('member.' + this.login + '.episodes', memberEpisodes);
       },
       content: function() {
-        var data, e, i, j, k, nbrEpisodesPerSerie, output, s, shows, _i, _len, _ref;
+        var data, e, global, i, j, nbDisplay, nbrEpisodesPerSerie, output, s, showEpisodes, shows;
         nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie;
         data = DB.get('member.' + this.login + '.episodes', null);
         if (!data) return Fx.needUpdate();
@@ -423,11 +416,14 @@ BS = {
           s = shows[i];
           output += '<div id="' + i + '" class="show">';
           output += Content.show(s, j.nbr_total);
-          _ref = j.episodes;
-          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            k = _ref[_i];
-            e = DB.get('show.' + i + '.episodes')[k];
+          showEpisodes = DB.get('show.' + i + '.episodes');
+          global = j.start;
+          nbDisplay = 0;
+          while (global in showEpisodes && nbDisplay < nbrEpisodesPerSerie) {
+            e = showEpisodes[global];
             output += Content.episode(e, s);
+            global++;
+            nbDisplay++;
           }
           output += '</div>';
         }

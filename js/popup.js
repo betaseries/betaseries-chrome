@@ -74,7 +74,7 @@ $(document).ready(function() {
     }
   });
   clean = function(nodes) {
-    var episode, es, i, login, me, memberEpisodes, nbr, nbrEpisodes, nextGlobal, node, s, show, value, _len;
+    var episode, es, i, login, memberEpisodes, nbr, nbrEpisodes, nextGlobal, node, s, show, _len;
     login = DB.get('session').login;
     show = nodes[0].closest('.show').attr('id');
     memberEpisodes = DB.get('member.' + login + '.episodes');
@@ -86,9 +86,7 @@ $(document).ready(function() {
     nbr = 0;
     for (i = 0, _len = nodes.length; i < _len; i++) {
       node = nodes[i];
-      me = memberEpisodes[show].episodes;
-      value = node.attr('global');
-      me.splice(me.indexOf(value), 1);
+      memberEpisodes[show].start = "" + (parseInt(node.attr('global')) + 1);
       memberEpisodes[show].nbr_total--;
       if (memberEpisodes[show].nbr_total === 0) delete memberEpisodes[show];
       node.slideToggle('slow', function() {

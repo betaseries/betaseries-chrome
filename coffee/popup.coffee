@@ -89,9 +89,7 @@ $(document).ready ->
 		nbr = 0
 		for node, i in nodes				
 			# on met à jour le cache
-			me = memberEpisodes[show].episodes
-			value = node.attr('global')
-			me.splice me.indexOf(value), 1
+			memberEpisodes[show].start = "" + (parseInt(node.attr 'global') + 1)
 			memberEpisodes[show].nbr_total--
 			if memberEpisodes[show].nbr_total is 0
 				delete memberEpisodes[show]

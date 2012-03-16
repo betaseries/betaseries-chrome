@@ -366,7 +366,6 @@ BS =
 		root: 'episodes'
 		login: DB.get('session').login
 		update: (data) ->
-			nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie
 			shows = DB.get 'member.' + @login + '.shows', {}
 			memberEpisodes = {}
 				
@@ -400,14 +399,10 @@ BS =
 				
 				# cache des épisodes déjà vus
 				if e.url of memberEpisodes
-					show = memberEpisodes[e.url]
-					if !(e.global in show.episodes)
-						if show.nbr_total < nbrEpisodesPerSerie
-							memberEpisodes[e.url].episodes.push e.global
-						memberEpisodes[e.url].nbr_total++
+					memberEpisodes[e.url].nbr_total++
 				else
 					memberEpisodes[e.url] = 
-						episodes: [e.global]
+						start: e.global
 						nbr_total: 1
 			
 			DB.set 'member.' + @login + '.shows', shows
@@ -436,9 +431,14 @@ BS =
 				output += Content.show s, j.nbr_total
 				
 				# construction des blocs *episode*
-				for k in j.episodes
-					e = DB.get('show.' + i + '.episodes')[k]
+				showEpisodes = DB.get('show.' + i + '.episodes')
+				global = j.start
+				nbDisplay = 0
+				while (global of showEpisodes and nbDisplay < nbrEpisodesPerSerie)
+					e = showEpisodes[global]
 					output += Content.episode e, s
+					global++
+					nbDisplay++
 				
 				output += '</div>'
 			
