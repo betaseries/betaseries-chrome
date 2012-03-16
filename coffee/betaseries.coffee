@@ -87,6 +87,7 @@ BS =
 		Historic.save()
 		
 		# affichage de la vue (cache)
+		document.getElementById('page').innerHTML = ''
 		$('#page').html o.content()
 		
 		# Post affichage
@@ -365,9 +366,12 @@ BS =
 		root: 'episodes'
 		login: DB.get('session').login
 		update: (data) ->
+			nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie
+			shows = DB.get 'member.' + @login + '.shows', {}
+			memberEpisodes = DB.get 'member.' + @login + '.episodes', {}
+				
 			for d, e of data
 				# cache des infos de la *série*
-				shows = DB.get 'member.' + @login + '.shows', {}
 				if e.url of shows
 					# cas où on enlève une série des archives depuis le site
 					shows[e.url].archive = false
@@ -377,11 +381,10 @@ BS =
 						title: e.show
 						archive: false
 						hidden: false
-				DB.set 'member.' + @login + '.shows', shows
 				
 				# cache des infos de *épisode*
-				episodes = DB.get 'show.' + e.url + '.episodes', {}
-				episodes[e.global] =
+				showEpisodes = DB.get 'show.' + e.url + '.episodes', {}
+				showEpisodes[e.global] =
 					comments: e.comments
 					date: e.date
 					downloaded: e.downloaded is '1'
@@ -393,55 +396,48 @@ BS =
 					show: e.show
 					url: e.url
 					subs: e.subs
-				DB.set 'show.' + e.url + '.episodes', episodes
+				DB.set 'show.' + e.url + '.episodes', showEpisodes
 				
-				episodes = DB.get 'member.' + @login + '.episodes', []
-				if !(e.url + '.' + e.global in episodes)
-					episodes.push e.url + '.' + e.global
-				DB.set 'member.' + @login + '.episodes', episodes
+				# cache des épisodes déjà vus
+				if e.url of memberEpisodes
+					show = memberEpisodes[e.url]
+					if !(e.global in show.episodes)
+						if show.nbr_total < nbrEpisodesPerSerie
+							memberEpisodes[e.url].episodes.push e.global
+						memberEpisodes[e.url].nbr_total++
+				else
+					memberEpisodes[e.url] = 
+						episodes: [e.global]
+						nbr_total: 1
+			
+			DB.set 'member.' + @login + '.shows', shows
+			DB.set 'member.' + @login + '.episodes', memberEpisodes
 		content: ->
 			# récupération des épisodes non vus (cache)
 			nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie
-			data = {}
 			
-			d = DB.get 'member.' + @login + '.episodes', {}
-			for i, j in d
-				
-				i = i.split '.'
-				show = i[0]
-				global = i[1]
-				
-				episode = DB.get('show.' + show + '.episodes')[global]
-				if !episode
-					return Fx.needUpdate()
-				
-				if data[show]?
-					episodes = data[show].episodes
-					if data[show].nbr < nbrEpisodesPerSerie
-						episodes.push episode
-						data[show].episodes = episodes
-					data[show].nbr++
-				else
-					data[show] =
-						episodes: [episode]
-						nbr: 1
+			data = DB.get 'member.' + @login + '.episodes', null
+			return Fx.needUpdate() if !data
 			
+			shows = DB.get 'member.' + @login + '.shows', null
+			return Fx.needUpdate() if !shows
+				
 			# SHOWS
 			output = '<div id="shows">'
 			
 			for i, j of data
 				# récupération des infos sur la *série*
-				s = DB.get('member.' + @login + '.shows')[i]
-				return Fx.needUpdate() if !s
+				s = shows[i]
 				
 				# SHOW
-				output += '<div id="' + s.url + '" class="show">'
+				output += '<div id="' + i + '" class="show">'
 				
 				# construction du bloc *série*
-				output += Content.show s, j.nbr
+				output += Content.show s, j.nbr_total
 				
 				# construction des blocs *episode*
-				for e in j.episodes
+				for k in j.episodes
+					e = DB.get('show.' + i + '.episodes')[k]
 					output += Content.episode e, s
 				
 				output += '</div>'

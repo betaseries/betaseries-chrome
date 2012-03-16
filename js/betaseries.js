@@ -62,6 +62,7 @@ BS = {
     var o;
     o = this.currentView;
     Historic.save();
+    document.getElementById('page').innerHTML = '';
     $('#page').html(o.content());
     $('#title').text(__(o.name));
     return $('#page').removeClass().addClass(o.name);
@@ -360,11 +361,12 @@ BS = {
       root: 'episodes',
       login: DB.get('session').login,
       update: function(data) {
-        var d, e, episodes, shows, _ref, _results;
-        _results = [];
+        var d, e, memberEpisodes, nbrEpisodesPerSerie, show, showEpisodes, shows, _ref;
+        nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie;
+        shows = DB.get('member.' + this.login + '.shows', {});
+        memberEpisodes = DB.get('member.' + this.login + '.episodes', {});
         for (d in data) {
           e = data[d];
-          shows = DB.get('member.' + this.login + '.shows', {});
           if (e.url in shows) {
             shows[e.url].archive = false;
           } else {
@@ -375,9 +377,8 @@ BS = {
               hidden: false
             };
           }
-          DB.set('member.' + this.login + '.shows', shows);
-          episodes = DB.get('show.' + e.url + '.episodes', {});
-          episodes[e.global] = {
+          showEpisodes = DB.get('show.' + e.url + '.episodes', {});
+          showEpisodes[e.global] = {
             comments: e.comments,
             date: e.date,
             downloaded: e.downloaded === '1',
@@ -390,51 +391,42 @@ BS = {
             url: e.url,
             subs: e.subs
           };
-          DB.set('show.' + e.url + '.episodes', episodes);
-          episodes = DB.get('member.' + this.login + '.episodes', []);
-          if (!(_ref = e.url + '.' + e.global, __indexOf.call(episodes, _ref) >= 0)) {
-            episodes.push(e.url + '.' + e.global);
-          }
-          _results.push(DB.set('member.' + this.login + '.episodes', episodes));
-        }
-        return _results;
-      },
-      content: function() {
-        var d, data, e, episode, episodes, global, i, j, nbrEpisodesPerSerie, output, s, show, _i, _len, _len2, _ref;
-        nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie;
-        data = {};
-        d = DB.get('member.' + this.login + '.episodes', {});
-        for (j = 0, _len = d.length; j < _len; j++) {
-          i = d[j];
-          i = i.split('.');
-          show = i[0];
-          global = i[1];
-          episode = DB.get('show.' + show + '.episodes')[global];
-          if (!episode) return Fx.needUpdate();
-          if (data[show] != null) {
-            episodes = data[show].episodes;
-            if (data[show].nbr < nbrEpisodesPerSerie) {
-              episodes.push(episode);
-              data[show].episodes = episodes;
+          DB.set('show.' + e.url + '.episodes', showEpisodes);
+          if (e.url in memberEpisodes) {
+            show = memberEpisodes[e.url];
+            if (!(_ref = e.global, __indexOf.call(show.episodes, _ref) >= 0)) {
+              if (show.nbr_total < nbrEpisodesPerSerie) {
+                memberEpisodes[e.url].episodes.push(e.global);
+              }
+              memberEpisodes[e.url].nbr_total++;
             }
-            data[show].nbr++;
           } else {
-            data[show] = {
-              episodes: [episode],
-              nbr: 1
+            memberEpisodes[e.url] = {
+              episodes: [e.global],
+              nbr_total: 1
             };
           }
         }
+        DB.set('member.' + this.login + '.shows', shows);
+        return DB.set('member.' + this.login + '.episodes', memberEpisodes);
+      },
+      content: function() {
+        var data, e, i, j, k, nbrEpisodesPerSerie, output, s, shows, _i, _len, _ref;
+        nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie;
+        data = DB.get('member.' + this.login + '.episodes', null);
+        if (!data) return Fx.needUpdate();
+        shows = DB.get('member.' + this.login + '.shows', null);
+        if (!shows) return Fx.needUpdate();
         output = '<div id="shows">';
         for (i in data) {
           j = data[i];
-          s = DB.get('member.' + this.login + '.shows')[i];
-          if (!s) return Fx.needUpdate();
-          output += '<div id="' + s.url + '" class="show">';
-          output += Content.show(s, j.nbr);
+          s = shows[i];
+          output += '<div id="' + i + '" class="show">';
+          output += Content.show(s, j.nbr_total);
           _ref = j.episodes;
-          for (_i = 0, _len2 = _ref.length; _i < _len2; _i++) {
-            e = _ref[_i];
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            k = _ref[_i];
+            e = DB.get('show.' + i + '.episodes')[k];
             output += Content.episode(e, s);
           }
           output += '</div>';
