@@ -364,7 +364,7 @@ BS = {
         var d, e, memberEpisodes, nbrEpisodesPerSerie, show, showEpisodes, shows, _ref;
         nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie;
         shows = DB.get('member.' + this.login + '.shows', {});
-        memberEpisodes = DB.get('member.' + this.login + '.episodes', {});
+        memberEpisodes = {};
         for (d in data) {
           e = data[d];
           if (e.url in shows) {

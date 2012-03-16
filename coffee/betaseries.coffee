@@ -368,7 +368,7 @@ BS =
 		update: (data) ->
 			nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie
 			shows = DB.get 'member.' + @login + '.shows', {}
-			memberEpisodes = DB.get 'member.' + @login + '.episodes', {}
+			memberEpisodes = {}
 				
 			for d, e of data
 				# cache des infos de la *série*
