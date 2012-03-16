@@ -25,7 +25,7 @@ BS = {
     sameView = (this.currentView != null) && o.id === this.currentView.id;
     this.currentView = o;
     if (!sameView) BS.display();
-    if (o.update) {
+    if (o.update != null) {
       $('#sync').show();
       time = (new Date().getDate()) + '.' + (new Date().getFullYear());
       views = DB.get('views');
@@ -54,7 +54,7 @@ BS = {
         o.update(cache);
         return BS.display();
       });
-    } else if (o.update != null) {
+    } else {
       return o.update();
     }
   },

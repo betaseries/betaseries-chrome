@@ -28,7 +28,7 @@ BS =
 		BS.display() if !sameView
 		
 		# mise à jour des données
-		if o.update
+		if o.update?
 			# on montre le bouton #sync
 			$('#sync').show()	
 		
@@ -40,7 +40,7 @@ BS =
 			force = if views[o.id]? then views[o.id].force else true
 			
 			# on lance la requête de mise à jour ssi ça doit l'être
-			BS.update() if outdated or force
+			BS.update() if (outdated or force)
 		
 		# on cache le bouton #sync
 		else
@@ -75,7 +75,8 @@ BS =
 					BS.display()
 		
 		# requête qui ne requiert pas l'API BetaSeries
-		else if o.update?
+		# la requête devra gérer elle-même le BS.display()
+		else
 			o.update()
 		
 	## Afficher la vue courante avec les données en cache		
