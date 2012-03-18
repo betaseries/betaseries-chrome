@@ -58,7 +58,7 @@ Content =
 		output += '<div class="episode e' + e.global + newShow + hidden + '" number="' + e.number + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '">'
 			
 		# Titre de l'épisode
-		title = if DB.get('options').display_global then '#' + e.global + ' ' + title else e.title
+		title = if DB.get('options').display_global then '#' + e.global + ' ' + e.title else e.title
 		textTitle = if (title.length > 20) then ' title="' + title + '"' else ''
 		texte2 = __('mark_as_seen')
 		output += '<div class="left">'
