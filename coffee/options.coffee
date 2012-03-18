@@ -25,12 +25,12 @@ $(document).ready ->
 	$('#title_suggestions').text __('suggestions_or_bugs')
 	
 	## Remplissage des champs
-	$('select[name=badge_notification_type]').val DB.get 'options.badge_notification_type'
-	$('select[name=dl_srt_language]').val DB.get 'options.dl_srt_language'
-	$('input[name=nbr_episodes_per_serie]').attr 'value', DB.get 'options.nbr_episodes_per_serie'
-	$('select[name=display_global]').val DB.get 'options.display_global'
-	$('select[name=enable_ratings]').val DB.get 'options.enable_ratings'
-	$('input[name=max_height]').attr 'value', DB.get 'options.max_height'
+	$('select[name=badge_notification_type]').val DB.get('options').badge_notification_type
+	$('select[name=dl_srt_language]').val DB.get('options').dl_srt_language
+	$('input[name=nbr_episodes_per_serie]').attr 'value', DB.get('options').nbr_episodes_per_serie
+	$('select[name=display_global]').val DB.get('options').display_global
+	$('select[name=enable_ratings]').val DB.get('options').enable_ratings
+	$('input[name=max_height]').attr 'value', DB.get('options').max_height
 	$('option[value=watched]').text __('episodes_not_seen')
 	$('option[value=downloaded]').text __('episodes_not_dl')
 	$('option[value=VO]').text __('vo')
@@ -40,12 +40,14 @@ $(document).ready ->
 	$('option[value=false]').text __('no')
 	
 	$('#save_options').click ->
-		DB.set 'options.badge_notification_type', $('select[name=badge_notification_type] :selected').val()
-		DB.set 'options.dl_srt_language', $('select[name=dl_srt_language] :selected').val()
-		DB.set 'options.nbr_episodes_per_serie', $('input[name=nbr_episodes_per_serie]').attr 'value'
-		DB.set 'options.display_global', $('select[name=display_global] :selected').val()
-		DB.set 'options.enable_ratings', $('select[name=enable_ratings] :selected').val()
-		DB.set 'options.max_height', $('input[name=max_height]').attr 'value'
+		options =
+			badge_notification_type: $('select[name=badge_notification_type] :selected').val()
+			dl_srt_language: $('select[name=dl_srt_language] :selected').val()
+			nbr_episodes_per_serie: parseInt $('input[name=nbr_episodes_per_serie]').attr 'value'
+			display_global: $('select[name=display_global] :selected').val() is 'true'
+			enable_ratings: $('select[name=enable_ratings] :selected').val() is 'true'
+			max_height: parseInt $('input[name=max_height]').attr 'value'
+		DB.set 'options', options
 		bgPage.badge.update()
 		$(this).html __('saved')
 		$(this).css 'background-color', '#eafedf'
