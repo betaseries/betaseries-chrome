@@ -42,6 +42,7 @@ $(document).ready(function() {
         e = e.prev();
       }
       if (!enable_ratings) {
+        nodes.reverse();
         es = clean(nodes);
         params = "&season=" + season + "&episode=" + episode;
         return ajax.post("/members/watched/" + show, params, function() {
@@ -100,13 +101,13 @@ $(document).ready(function() {
       nextGlobal++;
       nbr++;
     }
-    if (nbrEpisodes === 0) {
+    nbr = parseInt($('#' + show + ' .remain').text()) - nbr;
+    if (nbrEpisodes === 0 && nbr <= 0) {
       $('#' + show).slideToggle('slow', function() {
         return $(this).remove();
       });
     } else {
-      nbr = parseInt($('#' + show + ' .remain').text()) - nbr;
-      $('#' + show + ' .remain').text('+' + nbr);
+      if (nbr > 0) $('#' + show + ' .remain').text('+' + nbr);
     }
     Fx.updateHeight();
     return memberEpisodes;

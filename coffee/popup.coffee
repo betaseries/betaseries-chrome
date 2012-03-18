@@ -47,8 +47,9 @@ $(document).ready ->
 				e = e.prev()
 					
 			if !enable_ratings
+				nodes.reverse()
 				es = clean nodes
-			
+				
 				# on marque comme vu SANS noter
 				params = "&season=" + season + "&episode=" + episode
 				ajax.post "/members/watched/" + show, params, 
@@ -76,9 +77,9 @@ $(document).ready ->
 		s = DB.get('member.' + login + '.shows')[show]
 		es = DB.get 'show.' + show + '.episodes'
 		
-		# on compte le nombre d'épisodes actuellement affichés
+		# nombre d'épisodes affichés
 		nbrEpisodes = $('#' + show).find('.episode').length
-			
+		
 		# on sélectionne le dernier épisode et on calcule le nextGlobal
 		nextGlobal = $('#' + show).find('.episode').last().attr 'global'
 		nextGlobal = parseInt(nextGlobal) + 1
@@ -91,8 +92,10 @@ $(document).ready ->
 			if memberEpisodes[show].nbr_total is 0
 				delete memberEpisodes[show]
 			
-			# on fait apparaitre les suivants
+			# on fait disparaître l'actuel
 			node.slideToggle 'slow', -> $(@).remove()
+			
+			# on fait apparaitre le suivant
 			if es[nextGlobal]?
 				episode = Content.episode es[nextGlobal], s
 				$('#' + show).append episode
@@ -103,11 +106,11 @@ $(document).ready ->
 			nbr++
 		
 		# s'il n'y a plus d'épisodes à voir dans la série, on la cache
-		if nbrEpisodes is 0
+		nbr = parseInt($('#' + show + ' .remain').text()) - nbr
+		if nbrEpisodes is 0 and nbr <= 0
 			$('#' + show).slideToggle 'slow', -> $(@).remove()
 		else
-			nbr = parseInt($('#' + show + ' .remain').text()) - nbr
-			$('#' + show + ' .remain').text '+' + nbr
+			$('#' + show + ' .remain').text('+' + nbr) if nbr > 0
 		
 		Fx.updateHeight()
 				
