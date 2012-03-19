@@ -74,7 +74,7 @@ $(document).ready(function() {
     }
   });
   clean = function(nodes) {
-    var episode, es, i, login, memberEpisodes, nbr, nbrEpisodes, nextGlobal, node, s, show, valueBadge, _len;
+    var episode, es, i, login, memberEpisodes, nbr, nbrEpisodes, nextGlobal, node, s, show, _len;
     login = DB.get('session').login;
     show = nodes[0].closest('.show').attr('id');
     memberEpisodes = DB.get('member.' + login + '.episodes');
@@ -109,8 +109,6 @@ $(document).ready(function() {
     } else {
       if (nbr > 0) $('#' + show + ' .remain').text('+' + nbr);
     }
-    valueBadge = DB.get('badge').value;
-    if (valueBadge - nbr >= 0) badge.display(valueBadge - nbr, 'membersEpisodes');
     Fx.updateHeight();
     return memberEpisodes;
   };
@@ -148,7 +146,7 @@ $(document).ready(function() {
       params = "&season=" + season + "&episode=" + episode + "&note=" + rate;
       return ajax.post("/members/watched/" + show, params, function() {
         DB.set('member.' + login + '.episodes', es);
-        return bgPage.badge.updateCache();
+        return bgPage.Badge.updateCache();
       }, function() {
         return registerAction("/members/watched/" + show, params);
       });
@@ -167,7 +165,7 @@ $(document).ready(function() {
       params = "&season=" + season + "&episode=" + episode;
       return ajax.post("/members/watched/" + show, params, function() {
         DB.set('member.' + login + '.episodes', es);
-        return bgPage.badge.updateCache();
+        return bgPage.Badge.updateCache();
       }, function() {
         return registerAction("/members/watched/" + show, params);
       });
@@ -242,7 +240,7 @@ $(document).ready(function() {
       ajax.post("/shows/archive/" + show, "", function() {
         Fx.toRefresh('membersEpisodes.all');
         Fx.toRefresh('membersInfos.' + DB.get('session').login);
-        return bgPage.badge.update();
+        return bgPage.Badge.update();
       }, function() {
         return registerAction("/shows/archive/" + show, "");
       });
@@ -258,7 +256,7 @@ $(document).ready(function() {
       ajax.post("/shows/unarchive/" + show, "", function() {
         Fx.toRefresh('membersEpisodes.all');
         Fx.toRefresh('membersInfos.' + DB.get('session').login);
-        return bgPage.badge.update();
+        return bgPage.Badge.update();
       }, function() {
         return registerAction("/shows/unarchive/" + show, "");
       });
@@ -274,7 +272,7 @@ $(document).ready(function() {
       ajax.post("/shows/add/" + show, "", function() {
         Fx.toRefresh('membersEpisodes.all');
         Fx.toRefresh('membersInfos.' + DB.get('session').login);
-        return bgPage.badge.update();
+        return bgPage.Badge.update();
       }, function() {
         return registerAction("/shows/add/" + show, "");
       });
@@ -289,7 +287,7 @@ $(document).ready(function() {
       ajax.post("/shows/remove/" + show, "", function() {
         Fx.toRefresh('membersEpisodes.all');
         Fx.toRefresh('membersInfos.' + DB.get('session').login);
-        return bgPage.badge.update();
+        return bgPage.Badge.update();
       }, function() {
         return registerAction("/shows/remove/" + show, "");
       });

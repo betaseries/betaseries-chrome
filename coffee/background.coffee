@@ -2,7 +2,7 @@
  # Background.js
  # Gestion du badge
  # 
-badge = 
+Badge = 
 	
 	## Initialise le badge
 	init: ->
@@ -21,7 +21,7 @@ badge =
 					value: j
 					type: 'membersNotifications'
 				if j > 0
-					badge.display j, 'membersNotifications'
+					Badge.display j, 'membersNotifications'
 				else
 					# Nombre d'épisodes non vus
 					ajax.post '/members/episodes/all', '', 
@@ -35,25 +35,25 @@ badge =
 							DB.set 'badge',
 								value: j
 								type: 'membersEpisodes'
-							badge.display j, 'membersEpisodes'
+							Badge.display j, 'membersEpisodes'
 						->
 							value = DB.get('badge').value
 							type = DB.get('badge').type
-							badge.display value, type
+							Badge.display value, type
 			->
 				value = DB.get('badge').value
 				type = DB.get('badge').type
-				badge.display value, type
+				Badge.display value, type
 	
 	##
 	updateCache: ->
 		# affichage des épisodes non vus
+		login = DB.get('session').login
+		episodes = DB.get 'member.' + login + '.episodes'
 		n = 0
-		for i, episodes of localStorage
-			if i.indexOf('episodes.') is 0
-				for j, episode of JSON.parse episodes
-					n++ if episode.seen
-		badge.display n, 'membersEpisodes'
+		for i, es of episodes
+			n += es.nbr_total
+		Badge.display n, 'membersEpisodes'
 		
 		# TODO affichage des notifications	
 	
@@ -81,5 +81,5 @@ connected = -> DB.get('session', null)?
 
 ## INIT
 DB.init()
-badge.init()
-badge.autoUpdate()
+Badge.init()
+Badge.autoUpdate()

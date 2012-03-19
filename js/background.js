@@ -1,7 +1,7 @@
-var badge, connected,
+var Badge, connected,
   __hasProp = Object.prototype.hasOwnProperty;
 
-badge = {
+Badge = {
   init: function() {
     chrome.browserAction.setBadgeText({
       text: "?"
@@ -20,7 +20,7 @@ badge = {
         type: 'membersNotifications'
       });
       if (j > 0) {
-        return badge.display(j, 'membersNotifications');
+        return Badge.display(j, 'membersNotifications');
       } else {
         return ajax.post('/members/episodes/all', '', function(data) {
           var badgeNotificationType, episodes, i;
@@ -38,35 +38,31 @@ badge = {
             value: j,
             type: 'membersEpisodes'
           });
-          return badge.display(j, 'membersEpisodes');
+          return Badge.display(j, 'membersEpisodes');
         }, function() {
           var type, value;
           value = DB.get('badge').value;
           type = DB.get('badge').type;
-          return badge.display(value, type);
+          return Badge.display(value, type);
         });
       }
     }, function() {
       var type, value;
       value = DB.get('badge').value;
       type = DB.get('badge').type;
-      return badge.display(value, type);
+      return Badge.display(value, type);
     });
   },
   updateCache: function() {
-    var episode, episodes, i, j, n, _ref;
+    var episodes, es, i, login, n;
+    login = DB.get('session').login;
+    episodes = DB.get('member.' + login + '.episodes');
     n = 0;
-    for (i in localStorage) {
-      episodes = localStorage[i];
-      if (i.indexOf('episodes.') === 0) {
-        _ref = JSON.parse(episodes);
-        for (j in _ref) {
-          episode = _ref[j];
-          if (episode.seen) n++;
-        }
-      }
+    for (i in episodes) {
+      es = episodes[i];
+      n += es.nbr_total;
     }
-    return badge.display(n, 'membersEpisodes');
+    return Badge.display(n, 'membersEpisodes');
   },
   display: function(value, type) {
     var colors;
@@ -102,6 +98,6 @@ connected = function() {
 
 DB.init();
 
-badge.init();
+Badge.init();
 
-badge.autoUpdate();
+Badge.autoUpdate();

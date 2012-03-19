@@ -447,7 +447,7 @@ BS =
 				output += '</div>'
 			
 			###	
-			bgPage.badge.update()
+			bgPage.Badge.update()
 			output += '<div id="noEpisodes">'
 			output += __('no_episodes_to_see') 
 			output += '<br /><br /><a href="#" onclick="BS.load(\'searchForm\').display(); return false;">'
@@ -488,7 +488,7 @@ BS =
 				output += '</div>'
 				nbrNotifications++	
 			
-			bgPage.badge.update()
+			bgPage.Badge.update()
 			output += __('no_notifications') if nbrNotifications is 0
 			return output
 	
@@ -783,11 +783,11 @@ BS =
 			->
 				DB.removeAll()
 				DB.init()
-				bgPage.badge.init()
+				bgPage.Badge.init()
 				BS.load('connection')
 			->
 				DB.removeAll()
 				DB.init()
-				bgPage.badge.init()
+				bgPage.Badge.init()
 				BS.load('connection')
 		return false

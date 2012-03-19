@@ -111,10 +111,6 @@ $(document).ready ->
 			$('#' + show).slideToggle 'slow', -> $(@).remove()
 		else
 			$('#' + show + ' .remain').text('+' + nbr) if nbr > 0
-			
-		# on met à jour le badge
-		valueBadge = DB.get('badge').value
-		badge.display(valueBadge - nbr, 'membersEpisodes') if valueBadge - nbr >= 0
 		
 		Fx.updateHeight()
 				
@@ -147,7 +143,7 @@ $(document).ready ->
 			ajax.post "/members/watched/" + show, params, 
 				-> 
 					DB.set 'member.' + login + '.episodes', es
-					bgPage.badge.updateCache()
+					bgPage.Badge.updateCache()
 				->
 					registerAction "/members/watched/" + show, params
 		
@@ -167,7 +163,7 @@ $(document).ready ->
 			ajax.post "/members/watched/" + show, params, 
 				->
 					DB.set 'member.' + login + '.episodes', es
-					bgPage.badge.updateCache()
+					bgPage.Badge.updateCache()
 				->
 					registerAction "/members/watched/" + show, params
 	
@@ -244,7 +240,7 @@ $(document).ready ->
 				->
 					Fx.toRefresh 'membersEpisodes.all'
 					Fx.toRefresh 'membersInfos.' + DB.get('session').login
-					bgPage.badge.update()
+					bgPage.Badge.update()
 				-> registerAction "/shows/archive/" + show, ""
 			
 			Fx.updateHeight()
@@ -262,7 +258,7 @@ $(document).ready ->
 				->
 					Fx.toRefresh 'membersEpisodes.all'
 					Fx.toRefresh 'membersInfos.' + DB.get('session').login
-					bgPage.badge.update()
+					bgPage.Badge.update()
 				-> registerAction "/shows/unarchive/" + show, ""
 			
 			Fx.updateHeight()
@@ -280,7 +276,7 @@ $(document).ready ->
 				->
 					Fx.toRefresh 'membersEpisodes.all'
 					Fx.toRefresh 'membersInfos.' + DB.get('session').login
-					bgPage.badge.update()
+					bgPage.Badge.update()
 				-> registerAction "/shows/add/" + show, ""
 			
 			return false
@@ -297,7 +293,7 @@ $(document).ready ->
 				->
 					Fx.toRefresh 'membersEpisodes.all'
 					Fx.toRefresh 'membersInfos.' + DB.get('session').login
-					bgPage.badge.update()
+					bgPage.Badge.update()
 				-> registerAction "/shows/remove/" + show, ""
 			
 			return false

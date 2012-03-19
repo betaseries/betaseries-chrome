@@ -429,7 +429,7 @@ BS = {
           output += '</div>';
         }
         /*	
-        			bgPage.badge.update()
+        			bgPage.Badge.update()
         			output += '<div id="noEpisodes">'
         			output += __('no_episodes_to_see') 
         			output += '<br /><br /><a href="#" onclick="BS.load(\'searchForm\').display(); return false;">'
@@ -472,7 +472,7 @@ BS = {
           output += '</div>';
           nbrNotifications++;
         }
-        bgPage.badge.update();
+        bgPage.Badge.update();
         if (nbrNotifications === 0) output += __('no_notifications');
         return output;
       }
@@ -772,12 +772,12 @@ BS = {
     ajax.post('/members/destroy', '', function() {
       DB.removeAll();
       DB.init();
-      bgPage.badge.init();
+      bgPage.Badge.init();
       return BS.load('connection');
     }, function() {
       DB.removeAll();
       DB.init();
-      bgPage.badge.init();
+      bgPage.Badge.init();
       return BS.load('connection');
     });
     return false;
