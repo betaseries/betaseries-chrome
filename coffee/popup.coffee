@@ -55,6 +55,8 @@ $(document).ready ->
 				ajax.post "/members/watched/" + show, params, 
 					->
 						DB.set 'member.' + login + '.episodes', es
+						Fx.toRefresh 'timelineFriends'
+						bgPage.Badge.updateCache()
 					-> 
 						registerAction "/members/watched/" + show, params
 		
@@ -143,6 +145,7 @@ $(document).ready ->
 			ajax.post "/members/watched/" + show, params, 
 				-> 
 					DB.set 'member.' + login + '.episodes', es
+					Fx.toRefresh 'timelineFriends'
 					bgPage.Badge.updateCache()
 				->
 					registerAction "/members/watched/" + show, params
@@ -163,6 +166,7 @@ $(document).ready ->
 			ajax.post "/members/watched/" + show, params, 
 				->
 					DB.set 'member.' + login + '.episodes', es
+					Fx.toRefresh 'timelineFriends'
 					bgPage.Badge.updateCache()
 				->
 					registerAction "/members/watched/" + show, params

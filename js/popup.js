@@ -46,7 +46,9 @@ $(document).ready(function() {
         es = clean(nodes);
         params = "&season=" + season + "&episode=" + episode;
         return ajax.post("/members/watched/" + show, params, function() {
-          return DB.set('member.' + login + '.episodes', es);
+          DB.set('member.' + login + '.episodes', es);
+          Fx.toRefresh('timelineFriends');
+          return bgPage.Badge.updateCache();
         }, function() {
           return registerAction("/members/watched/" + show, params);
         });
@@ -146,6 +148,7 @@ $(document).ready(function() {
       params = "&season=" + season + "&episode=" + episode + "&note=" + rate;
       return ajax.post("/members/watched/" + show, params, function() {
         DB.set('member.' + login + '.episodes', es);
+        Fx.toRefresh('timelineFriends');
         return bgPage.Badge.updateCache();
       }, function() {
         return registerAction("/members/watched/" + show, params);
@@ -165,6 +168,7 @@ $(document).ready(function() {
       params = "&season=" + season + "&episode=" + episode;
       return ajax.post("/members/watched/" + show, params, function() {
         DB.set('member.' + login + '.episodes', es);
+        Fx.toRefresh('timelineFriends');
         return bgPage.Badge.updateCache();
       }, function() {
         return registerAction("/members/watched/" + show, params);
