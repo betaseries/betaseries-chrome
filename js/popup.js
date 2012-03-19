@@ -74,7 +74,7 @@ $(document).ready(function() {
     }
   });
   clean = function(nodes) {
-    var episode, es, i, login, memberEpisodes, nbr, nbrEpisodes, nextGlobal, node, s, show, _len;
+    var episode, es, i, login, memberEpisodes, nbr, nbrEpisodes, nextGlobal, node, s, show, valueBadge, _len;
     login = DB.get('session').login;
     show = nodes[0].closest('.show').attr('id');
     memberEpisodes = DB.get('member.' + login + '.episodes');
@@ -109,6 +109,8 @@ $(document).ready(function() {
     } else {
       if (nbr > 0) $('#' + show + ' .remain').text('+' + nbr);
     }
+    valueBadge = DB.get('badge').value;
+    if (valueBadge - nbr >= 0) badge.display(valueBadge - nbr, 'membersEpisodes');
     Fx.updateHeight();
     return memberEpisodes;
   };

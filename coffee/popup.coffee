@@ -111,6 +111,10 @@ $(document).ready ->
 			$('#' + show).slideToggle 'slow', -> $(@).remove()
 		else
 			$('#' + show + ' .remain').text('+' + nbr) if nbr > 0
+			
+		# on met à jour le badge
+		valueBadge = DB.get('badge').value
+		badge.display(valueBadge - nbr, 'membersEpisodes') if valueBadge - nbr >= 0
 		
 		Fx.updateHeight()
 				
