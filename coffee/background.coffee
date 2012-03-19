@@ -37,13 +37,9 @@ Badge =
 								type: 'membersEpisodes'
 							Badge.display j, 'membersEpisodes'
 						->
-							value = DB.get('badge').value
-							type = DB.get('badge').type
-							Badge.display value, type
+							Badge.updateCache()
 			->
-				value = DB.get('badge').value
-				type = DB.get('badge').type
-				Badge.display value, type
+				Badge.updateCache()
 	
 	##
 	updateCache: ->

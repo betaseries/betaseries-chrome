@@ -40,17 +40,11 @@ Badge = {
           });
           return Badge.display(j, 'membersEpisodes');
         }, function() {
-          var type, value;
-          value = DB.get('badge').value;
-          type = DB.get('badge').type;
-          return Badge.display(value, type);
+          return Badge.updateCache();
         });
       }
     }, function() {
-      var type, value;
-      value = DB.get('badge').value;
-      type = DB.get('badge').type;
-      return Badge.display(value, type);
+      return Badge.updateCache();
     });
   },
   updateCache: function() {

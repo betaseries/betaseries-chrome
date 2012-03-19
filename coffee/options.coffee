@@ -48,7 +48,7 @@ $(document).ready ->
 			enable_ratings: $('select[name=enable_ratings] :selected').val() is 'true'
 			max_height: parseInt $('input[name=max_height]').attr 'value'
 		DB.set 'options', options
-		bgPage.badge.update()
+		bgPage.Badge.update()
 		$(this).html __('saved')
 		$(this).css 'background-color', '#eafedf'
 		$('#save_options').css 'color', '#999'
