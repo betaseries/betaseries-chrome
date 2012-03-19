@@ -86,7 +86,7 @@ BS = {
         return DB.set('show.' + this.show, data);
       },
       content: function() {
-        var data, genres, i, k, output, s, v, _ref, _ref2;
+        var data, genres, k, output, v, _ref;
         data = DB.get('show.' + this.show, null);
         if (!data) return Fx.needUpdate();
         if (data.banner != null) {
@@ -110,14 +110,8 @@ BS = {
         if (data.description != null) {
           output += '<div style="height:54px; overflow:hidden">' + __('synopsis') + data.description + '</div>';
         }
-        output += '<div class="showtitle">' + __('seasons') + '</div>';
-        _ref2 = data.seasons;
-        for (i in _ref2) {
-          s = _ref2[i];
-          output += __('season') + ' ' + s.number + ' ';
-          output += '<small>(' + s.episodes + ' ' + __('episodes') + ')</small><br />';
-        }
         output += '<div class="showtitle">' + __('actions') + '</div>';
+        output += '<a href=""><img src="../img/search.png" class="icon2" />Voir les épisodes</a><br />';
         if (data.is_in_account) {
           output += '<a href="#' + data.url + '" id="showsRemove">';
           output += '<img src="../img/film_delete.png" class="icon2" />' + __('show_remove') + '</a><br />';

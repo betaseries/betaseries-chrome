@@ -136,12 +136,8 @@ BS =
 			output += __('avg_note') + data.note.mean + '/5 (' + data.note.members + ')' if data.note?
 			output += '<div style="height:54px; overflow:hidden">' + __('synopsis') + data.description + '</div>' if data.description?
 			
-			output += '<div class="showtitle">' + __('seasons') + '</div>'
-			for i, s of data.seasons
-				output += __('season') + ' ' + s.number + ' '
-				output += '<small>(' + s.episodes + ' ' + __('episodes') + ')</small><br />'
-			
 			output += '<div class="showtitle">' + __('actions') + '</div>'
+			output += '<a href=""><img src="../img/search.png" class="icon2" />Voir les épisodes</a><br />'
 			if data.is_in_account
 				output += '<a href="#' + data.url + '" id="showsRemove">'
 				output += '<img src="../img/film_delete.png" class="icon2" />' + __('show_remove') + '</a><br />'
