@@ -83,25 +83,12 @@ BS = {
       login: DB.get('session').login,
       show: url,
       update: function(data) {
-        var shows;
-        shows = DB.get('shows.' + this.login, {});
-        shows[data.url] = {
-          banner: data.banner,
-          description: data.description,
-          genres: data.genres,
-          is_in_account: data.is_in_account === '1',
-          note: data.note,
-          status: data.status,
-          title: data.title,
-          url: data.url
-        };
-        return DB.set('shows.' + this.login, shows);
+        return DB.set('show.' + this.show, data);
       },
       content: function() {
-        var data, genres, i, k, output, season, shows, v, _ref;
-        shows = DB.get('shows.' + this.login, {});
-        data = shows[this.show];
-        if (!data) return '';
+        var data, genres, i, k, output, s, v, _ref, _ref2;
+        data = DB.get('show.' + this.show, null);
+        if (!data) return Fx.needUpdate();
         if (data.banner != null) {
           output = '<img src="' + data.banner + '" width="290" height="70" alt="banner" /><br />';
         }
@@ -124,10 +111,11 @@ BS = {
           output += '<div style="height:54px; overflow:hidden">' + __('synopsis') + data.description + '</div>';
         }
         output += '<div class="showtitle">' + __('seasons') + '</div>';
-        for (i in data.seasons) {
-          season = data.seasons[i];
-          output += __('season') + ' ' + season.number + ' ';
-          output += '<small>(' + season.episodes + ' ' + __('episodes') + ')</small><br />';
+        _ref2 = data.seasons;
+        for (i in _ref2) {
+          s = _ref2[i];
+          output += __('season') + ' ' + s.number + ' ';
+          output += '<small>(' + s.episodes + ' ' + __('episodes') + ')</small><br />';
         }
         output += '<div class="showtitle">' + __('actions') + '</div>';
         if (data.is_in_account) {

@@ -118,21 +118,10 @@ BS =
 		login: DB.get('session').login
 		show: url
 		update: (data) ->
-			shows = DB.get 'shows.' + @login, {}
-			shows[data.url] =
-				banner: data.banner
-				description: data.description
-				genres: data.genres
-				is_in_account: data.is_in_account is '1'
-				note: data.note
-				status: data.status
-				title: data.title
-				url: data.url
-			DB.set 'shows.' + @login, shows
+			DB.set 'show.' + @show, data
 		content: ->
-			shows = DB.get 'shows.' + @login, {}
-			data = shows[@show]
-			return '' if !data
+			data = DB.get 'show.' + @show, null
+			return Fx.needUpdate() if !data
 			
 			if data.banner?
 				output = '<img src="' + data.banner + '" width="290" height="70" alt="banner" /><br />'
@@ -148,10 +137,9 @@ BS =
 			output += '<div style="height:54px; overflow:hidden">' + __('synopsis') + data.description + '</div>' if data.description?
 			
 			output += '<div class="showtitle">' + __('seasons') + '</div>'
-			for i of data.seasons
-				season = data.seasons[i]
-				output += __('season') + ' ' + season.number + ' '
-				output += '<small>(' + season.episodes + ' ' + __('episodes') + ')</small><br />'
+			for i, s of data.seasons
+				output += __('season') + ' ' + s.number + ' '
+				output += '<small>(' + s.episodes + ' ' + __('episodes') + ')</small><br />'
 			
 			output += '<div class="showtitle">' + __('actions') + '</div>'
 			if data.is_in_account
