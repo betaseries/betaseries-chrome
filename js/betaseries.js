@@ -758,6 +758,9 @@ BS = {
         output += '<a href="" onclick="BS.load(\'cache\'); return false;">';
         output += '<img src="../img/cache.png" id="cache" class="action" style="margin-bottom:-3px;" />';
         output += __('cache') + '</a>';
+        output += '<a href="" onclick="Fx.openTab(chrome.extension.getURL(\'../html/options.html\', true)); return false;">';
+        output += '<img src="../img/options.png" id="options" class="options" style="margin-bottom:-3px;" />';
+        output += __('options') + '</a>';
         output += '<a href="" onclick="BS.logout(); return false;">';
         output += '<img src="../img/close.png" id="logout" class="action" style="margin-bottom:-3px;" />';
         output += __('logout') + '</a>';
