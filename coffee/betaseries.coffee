@@ -395,6 +395,7 @@ BS =
 			
 			DB.set 'member.' + @login + '.shows', shows
 			DB.set 'member.' + @login + '.episodes', memberEpisodes
+			bgPage.Badge.updateCache()
 		content: ->
 			# récupération des épisodes non vus (cache)
 			nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie
@@ -430,8 +431,7 @@ BS =
 				
 				output += '</div>'
 			
-			###	
-			bgPage.Badge.update()
+			###
 			output += '<div id="noEpisodes">'
 			output += __('no_episodes_to_see') 
 			output += '<br /><br /><a href="#" onclick="BS.load(\'searchForm\').display(); return false;">'

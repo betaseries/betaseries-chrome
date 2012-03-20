@@ -55,7 +55,7 @@ $(document).ready ->
 				ajax.post "/members/watched/" + show, params, 
 					->
 						DB.set 'member.' + login + '.episodes', es
-						Fx.toRefresh 'timelineFriends'
+						Cache.force 'timelineFriends'
 						bgPage.Badge.updateCache()
 					-> 
 						registerAction "/members/watched/" + show, params
@@ -145,7 +145,7 @@ $(document).ready ->
 			ajax.post "/members/watched/" + show, params, 
 				-> 
 					DB.set 'member.' + login + '.episodes', es
-					Fx.toRefresh 'timelineFriends'
+					Cache.force 'timelineFriends'
 					bgPage.Badge.updateCache()
 				->
 					registerAction "/members/watched/" + show, params
@@ -166,7 +166,7 @@ $(document).ready ->
 			ajax.post "/members/watched/" + show, params, 
 				->
 					DB.set 'member.' + login + '.episodes', es
-					Fx.toRefresh 'timelineFriends'
+					Cache.force 'timelineFriends'
 					bgPage.Badge.updateCache()
 				->
 					registerAction "/members/watched/" + show, params
@@ -242,8 +242,8 @@ $(document).ready ->
 			
 			ajax.post "/shows/archive/" + show, "", 
 				->
-					Fx.toRefresh 'membersEpisodes.all'
-					Fx.toRefresh 'membersInfos.' + DB.get('session').login
+					Cache.force 'membersEpisodes.all'
+					Cache.force 'membersInfos.' + DB.get('session').login
 					bgPage.Badge.update()
 				-> registerAction "/shows/archive/" + show, ""
 			
@@ -260,8 +260,8 @@ $(document).ready ->
 			
 			ajax.post "/shows/unarchive/" + show, "", 
 				->
-					Fx.toRefresh 'membersEpisodes.all'
-					Fx.toRefresh 'membersInfos.' + DB.get('session').login
+					Cache.force 'membersEpisodes.all'
+					Cache.force 'membersInfos.' + DB.get('session').login
 					bgPage.Badge.update()
 				-> registerAction "/shows/unarchive/" + show, ""
 			
@@ -278,8 +278,8 @@ $(document).ready ->
 			
 			ajax.post "/shows/add/" + show, "", 
 				->
-					Fx.toRefresh 'membersEpisodes.all'
-					Fx.toRefresh 'membersInfos.' + DB.get('session').login
+					Cache.force 'membersEpisodes.all'
+					Cache.force 'membersInfos.' + DB.get('session').login
 					bgPage.Badge.update()
 				-> registerAction "/shows/add/" + show, ""
 			
@@ -295,8 +295,8 @@ $(document).ready ->
 			
 			ajax.post "/shows/remove/" + show, "", 
 				->
-					Fx.toRefresh 'membersEpisodes.all'
-					Fx.toRefresh 'membersInfos.' + DB.get('session').login
+					Cache.force 'membersEpisodes.all'
+					Cache.force 'membersInfos.' + DB.get('session').login
 					bgPage.Badge.update()
 				-> registerAction "/shows/remove/" + show, ""
 			
@@ -434,9 +434,9 @@ $(document).ready ->
 				$('#addfriend').attr 'href', '#removefriend'
 				$('#addfriend').attr 'id', 'removefriend'
 				$('#friendshipimg').attr 'src', '../img/friend_remove.png'
-				Fx.toRefresh 'membersInfos.' + DB.get('session').login
-				Fx.toRefresh 'membersInfos.' + login
-				Fx.toRefresh 'timelineFriends'
+				Cache.force 'membersInfos.' + DB.get('session').login
+				Cache.force 'membersInfos.' + login
+				Cache.force 'timelineFriends'
 			return false
 	
 	## Enlever un ami
@@ -448,9 +448,9 @@ $(document).ready ->
 				$('#removefriend').attr 'href', '#addfriend'
 				$('#removefriend').attr 'id', 'addfriend'
 				$('#friendshipimg').attr 'src', '../img/friend_add.png'
-				Fx.toRefresh 'membersInfos.' + DB.get('session').login
-				Fx.toRefresh 'membersInfos.' + login
-				Fx.toRefresh 'timelineFriends'
+				Cache.force 'membersInfos.' + DB.get('session').login
+				Cache.force 'membersInfos.' + login
+				Cache.force 'timelineFriends'
 			return false
 	
 	## Maximiser/minimiser une série*/

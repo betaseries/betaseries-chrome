@@ -384,7 +384,8 @@ BS = {
           }
         }
         DB.set('member.' + this.login + '.shows', shows);
-        return DB.set('member.' + this.login + '.episodes', memberEpisodes);
+        DB.set('member.' + this.login + '.episodes', memberEpisodes);
+        return bgPage.Badge.updateCache();
       },
       content: function() {
         var data, e, global, i, j, nbDisplay, nbrEpisodesPerSerie, output, s, showEpisodes, shows;
@@ -410,8 +411,7 @@ BS = {
           }
           output += '</div>';
         }
-        /*	
-        			bgPage.Badge.update()
+        /*
         			output += '<div id="noEpisodes">'
         			output += __('no_episodes_to_see') 
         			output += '<br /><br /><a href="#" onclick="BS.load(\'searchForm\').display(); return false;">'

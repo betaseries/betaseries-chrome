@@ -4,6 +4,13 @@
  #
 Cache =
 
+	## force à mettre à jour le cache de la vue
+	force: (view) ->
+		views = DB.get 'views', {}
+		if views[view]?
+			views[view].force = true
+			DB.set 'views', views
+	
 	## Supprime une vue de cache (plus subtil que DB.remove)
 	remove: (view) ->
 		views_to_remove = DB.get 'views_to_remove'
