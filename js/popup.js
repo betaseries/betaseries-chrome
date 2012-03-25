@@ -16,7 +16,7 @@ $(document).ready(function() {
   });
   $('.watched').live({
     click: function() {
-      var content, e, enable_ratings, episode, es, i, login, nodeRight, nodes, params, s, season, show;
+      var content, e, enable_ratings, episode, es, i, login, nbr, nodeRight, params, s, season, show;
       s = $(this).closest('.show');
       show = s.attr('id');
       e = $(this).closest('.episode');
@@ -24,8 +24,11 @@ $(document).ready(function() {
       episode = e.attr('episode');
       login = DB.get('session').login;
       enable_ratings = DB.get('options').enable_ratings;
-      nodes = [];
+      es = DB.get('member.' + login + '.episodes');
+      es[show].start = "" + (parseInt(e.attr('global')) + 1);
+      nbr = 0;
       while (e.hasClass('episode')) {
+        nbr++;
         if (enable_ratings) {
           $(e).css('background-color', '#f5f5f5');
           $(e).find('.watched').removeClass('watched');
@@ -37,73 +40,61 @@ $(document).ready(function() {
           content += '<img src="../img/archive.png" width="10" class="close_stars" title="' + __('do_not_rate') + '" />';
           nodeRight.html(content);
         } else {
-          nodes.push(e);
+          clean(e);
         }
         e = e.prev();
       }
-      if (!enable_ratings) {
-        nodes.reverse();
-        es = clean(nodes);
-        params = "&season=" + season + "&episode=" + episode;
-        return ajax.post("/members/watched/" + show, params, function() {
-          DB.set('member.' + login + '.episodes', es);
-          Cache.force('timelineFriends');
-          return bgPage.Badge.updateCache();
-        }, function() {
-          return registerAction("/members/watched/" + show, params);
-        });
-      }
+      es[show].nbr_total -= nbr;
+      if (es[show].nbr_total === 0) delete es[show];
+      params = "&season=" + season + "&episode=" + episode;
+      return ajax.post("/members/watched/" + show, params, function() {
+        DB.set('member.' + login + '.episodes', es);
+        Cache.force('timelineFriends');
+        return bgPage.Badge.updateCache();
+      }, function() {
+        return registerAction("/members/watched/" + show, params);
+      });
     },
     mouseenter: function() {
-      var node, _results;
-      node = $(this).closest('.episode');
+      var e, _results;
+      e = $(this).closest('.episode');
       _results = [];
-      while (node.hasClass('episode')) {
-        node.find('.watched').css('opacity', 1);
-        _results.push(node = node.prev());
+      while (e.hasClass('episode')) {
+        e.find('.watched').css('opacity', 1);
+        _results.push(e = e.prev());
       }
       return _results;
     },
     mouseleave: function() {
-      var node, _results;
-      node = $(this).closest('.episode');
+      var e, _results;
+      e = $(this).closest('.episode');
       _results = [];
-      while (node.hasClass('episode')) {
-        node.find('.watched').css('opacity', 0.5);
-        _results.push(node = node.prev());
+      while (e.hasClass('episode')) {
+        e.find('.watched').css('opacity', 0.5);
+        _results.push(e = e.prev());
       }
       return _results;
     }
   });
-  clean = function(nodes) {
-    var episode, es, i, login, memberEpisodes, nbr, nbrEpisodes, nextGlobal, node, s, show, _len;
+  clean = function(node) {
+    var episode, es, login, nbr, nbrEpisodes, nextGlobal, s, show;
     login = DB.get('session').login;
-    show = nodes[0].closest('.show').attr('id');
-    memberEpisodes = DB.get('member.' + login + '.episodes');
+    show = node.closest('.show').attr('id');
     s = DB.get('member.' + login + '.shows')[show];
     es = DB.get('show.' + show + '.episodes');
     nbrEpisodes = $('#' + show).find('.episode').length;
     nextGlobal = $('#' + show).find('.episode').last().attr('global');
     nextGlobal = parseInt(nextGlobal) + 1;
-    nbr = 0;
-    for (i = 0, _len = nodes.length; i < _len; i++) {
-      node = nodes[i];
-      memberEpisodes[show].start = "" + (parseInt(node.attr('global')) + 1);
-      memberEpisodes[show].nbr_total--;
-      if (memberEpisodes[show].nbr_total === 0) delete memberEpisodes[show];
-      node.slideToggle('slow', function() {
-        return $(this).remove();
-      });
-      if (es[nextGlobal] != null) {
-        episode = Content.episode(es[nextGlobal], s);
-        $('#' + show).append(episode);
-      } else {
-        nbrEpisodes--;
-      }
-      nextGlobal++;
-      nbr++;
+    node.slideToggle('slow', function() {
+      return $(this).remove();
+    });
+    if (es[nextGlobal] != null) {
+      episode = Content.episode(es[nextGlobal], s);
+      $('#' + show).append(episode);
+    } else {
+      nbrEpisodes--;
     }
-    nbr = parseInt($('#' + show + ' .remain').text()) - nbr;
+    nbr = parseInt($('#' + show + ' .remain').text()) - 1;
     if (nbrEpisodes === 0 && nbr <= 0) {
       $('#' + show).slideToggle('slow', function() {
         return $(this).remove();
@@ -112,7 +103,7 @@ $(document).ready(function() {
       if (nbr > 0) $('#' + show + ' .remain').text('+' + nbr);
     }
     Fx.updateHeight();
-    return memberEpisodes;
+    return true;
   };
   $('.star').live({
     mouseenter: function() {
@@ -136,20 +127,17 @@ $(document).ready(function() {
       return _results;
     },
     click: function() {
-      var e, episode, es, login, params, rate, s, season, show;
+      var e, episode, params, rate, s, season, show;
       s = $(this).closest('.show');
       show = s.attr('id');
       e = $(this).closest('.episode');
-      es = clean([e]);
+      clean(e);
       season = e.attr('season');
       episode = e.attr('episode');
-      login = DB.get('session').login;
       rate = $(this).attr('id').substring(4);
       params = "&season=" + season + "&episode=" + episode + "&note=" + rate;
-      return ajax.post("/members/watched/" + show, params, function() {
-        DB.set('member.' + login + '.episodes', es);
-        Cache.force('timelineFriends');
-        return bgPage.Badge.updateCache();
+      return ajax.post("/members/note/" + show, params, function() {
+        return Cache.force('timelineFriends');
       }, function() {
         return registerAction("/members/watched/" + show, params);
       });
@@ -157,22 +145,9 @@ $(document).ready(function() {
   });
   $('.close_stars').live({
     click: function() {
-      var e, episode, es, login, params, s, season, show;
-      s = $(this).closest('.show');
-      show = s.attr('id');
+      var e;
       e = $(this).closest('.episode');
-      es = clean([e]);
-      season = e.attr('season');
-      episode = e.attr('episode');
-      login = DB.get('session').login;
-      params = "&season=" + season + "&episode=" + episode;
-      return ajax.post("/members/watched/" + show, params, function() {
-        DB.set('member.' + login + '.episodes', es);
-        Cache.force('timelineFriends');
-        return bgPage.Badge.updateCache();
-      }, function() {
-        return registerAction("/members/watched/" + show, params);
-      });
+      return clean(e);
     }
   });
   $('.downloaded').live({

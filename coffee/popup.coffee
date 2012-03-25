@@ -20,13 +20,17 @@ $(document).ready ->
 			season = e.attr 'season'
 			episode = e.attr 'episode'
 			login = DB.get('session').login
-			
 			enable_ratings = DB.get('options').enable_ratings
 			
+			# Cache : mise à jour du dernier épisode marqué comme vu
+			es = DB.get 'member.' + login + '.episodes'
+			es[show].start = "" + (parseInt(e.attr 'global') + 1)
+			
 			# On cache les div
-			nodes = []
+			nbr = 0
 			while e.hasClass 'episode'
-				# Notation d'un épisode
+				nbr++
+			
 				if enable_ratings
 					# on enlève la possibilité de re-marquer comme vu (alors que c'est en cours)
 					$(e).css 'background-color', '#f5f5f5'
@@ -40,42 +44,42 @@ $(document).ready ->
 					
 					content += '<img src="../img/archive.png" width="10" class="close_stars" title="' + __('do_not_rate') + '" />'
 					nodeRight.html content
-							
 				else
-					nodes.push e
-					
-				e = e.prev()
-					
-			if !enable_ratings
-				nodes.reverse()
-				es = clean nodes
+					clean e
 				
-				# on marque comme vu SANS noter
-				params = "&season=" + season + "&episode=" + episode
-				ajax.post "/members/watched/" + show, params, 
-					->
-						DB.set 'member.' + login + '.episodes', es
-						Cache.force 'timelineFriends'
-						bgPage.Badge.updateCache()
-					-> 
-						registerAction "/members/watched/" + show, params
-		
+				# sélection de l'épisode précédent	
+				e = e.prev()
+			
+			# Cache : mise à jour du nbr d'épisodes restants
+			es[show].nbr_total -= nbr
+			if es[show].nbr_total is 0
+				delete es[show]
+			
+			# Requête
+			params = "&season=" + season + "&episode=" + episode
+			ajax.post "/members/watched/" + show, params, 
+				->
+					DB.set 'member.' + login + '.episodes', es
+					Cache.force 'timelineFriends'
+					bgPage.Badge.updateCache()
+				-> 
+					registerAction "/members/watched/" + show, params
+			
 		mouseenter: ->
-			node = $(this).closest('.episode')
-			while node.hasClass 'episode'
-				node.find('.watched').css 'opacity', 1
-				node = node.prev()
+			e = $(this).closest('.episode')
+			while e.hasClass 'episode'
+				e.find('.watched').css 'opacity', 1
+				e = e.prev()
 			
 		mouseleave: ->
-			node = $(this).closest('.episode')
-			while node.hasClass 'episode'
-				node.find('.watched').css 'opacity', 0.5
-				node = node.prev()
+			e = $(this).closest('.episode')
+			while e.hasClass 'episode'
+				e.find('.watched').css 'opacity', 0.5
+				e = e.prev()
 	
-	clean = (nodes) ->
+	clean = (node) ->
 		login = DB.get('session').login
-		show = nodes[0].closest('.show').attr 'id'
-		memberEpisodes = DB.get 'member.' + login + '.episodes'
+		show = node.closest('.show').attr 'id'
 		s = DB.get('member.' + login + '.shows')[show]
 		es = DB.get 'show.' + show + '.episodes'
 		
@@ -83,32 +87,21 @@ $(document).ready ->
 		nbrEpisodes = $('#' + show).find('.episode').length
 		
 		# on sélectionne le dernier épisode et on calcule le nextGlobal
-		nextGlobal = $('#' + show).find('.episode').last().attr 'global'
+		nextGlobal = $('#' + show).find('.episode').last().attr 'global' # $('#' + show + '.episode').eq(nbrEpisodes - 1).attr 'global'
 		nextGlobal = parseInt(nextGlobal) + 1
 		
-		nbr = 0
-		for node, i in nodes				
-			# on met à jour le cache
-			memberEpisodes[show].start = "" + (parseInt(node.attr 'global') + 1)
-			memberEpisodes[show].nbr_total--
-			if memberEpisodes[show].nbr_total is 0
-				delete memberEpisodes[show]
-			
-			# on fait disparaître l'actuel
-			node.slideToggle 'slow', -> $(@).remove()
-			
-			# on fait apparaitre le suivant
-			if es[nextGlobal]?
-				episode = Content.episode es[nextGlobal], s
-				$('#' + show).append episode
-			else
-				nbrEpisodes--
-			
-			nextGlobal++
-			nbr++
+		# on fait disparaître l'actuel
+		node.slideToggle 'slow', -> $(@).remove()
 		
+		# on fait apparaitre le suivant
+		if es[nextGlobal]?
+			episode = Content.episode es[nextGlobal], s
+			$('#' + show).append episode
+		else
+			nbrEpisodes--
+				
 		# s'il n'y a plus d'épisodes à voir dans la série, on la cache
-		nbr = parseInt($('#' + show + ' .remain').text()) - nbr
+		nbr = parseInt($('#' + show + ' .remain').text()) - 1
 		if nbrEpisodes is 0 and nbr <= 0
 			$('#' + show).slideToggle 'slow', -> $(@).remove()
 		else
@@ -116,7 +109,7 @@ $(document).ready ->
 		
 		Fx.updateHeight()
 				
-		return memberEpisodes
+		return true
 	
 	# Star HOVER
 	$('.star').live
@@ -134,42 +127,24 @@ $(document).ready ->
 			s = $(this).closest('.show')
 			show = s.attr 'id'
 			e = $(this).closest '.episode'
-			es = clean [e]
-			season = e.attr 'season'
-			episode = e.attr 'episode'
-			login = DB.get('session').login
+			clean e
 			
 			# On marque comme vu EN notant
+			season = e.attr 'season'
+			episode = e.attr 'episode'
 			rate = $(this).attr('id').substring 4
 			params = "&season=" + season + "&episode=" + episode + "&note=" + rate
-			ajax.post "/members/watched/" + show, params, 
+			ajax.post "/members/note/" + show, params, 
 				-> 
-					DB.set 'member.' + login + '.episodes', es
 					Cache.force 'timelineFriends'
-					bgPage.Badge.updateCache()
 				->
 					registerAction "/members/watched/" + show, params
 		
 	# Close Stars HOVER
 	$('.close_stars').live
 		click: ->
-			s = $(this).closest '.show'
-			show = s.attr 'id'
 			e = $(this).closest '.episode'
-			es = clean [e]
-			season = e.attr 'season'
-			episode = e.attr 'episode'
-			login = DB.get('session').login
-			
-			# On marque comme vu SANS noter
-			params = "&season=" + season + "&episode=" + episode
-			ajax.post "/members/watched/" + show, params, 
-				->
-					DB.set 'member.' + login + '.episodes', es
-					Cache.force 'timelineFriends'
-					bgPage.Badge.updateCache()
-				->
-					registerAction "/members/watched/" + show, params
+			clean e
 	
 	## Marquer un épisode comme téléchargé ou pas
 	$('.downloaded').live
