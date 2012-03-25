@@ -83,6 +83,9 @@ BS = {
       login: DB.get('session').login,
       show: url,
       update: function(data) {
+        var is_in_account;
+        is_in_account = data.is_in_account === "1";
+        data.is_in_account = is_in_account;
         return DB.set('show.' + this.show, data);
       },
       content: function() {

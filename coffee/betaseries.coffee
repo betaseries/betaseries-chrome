@@ -118,6 +118,8 @@ BS =
 		login: DB.get('session').login
 		show: url
 		update: (data) ->
+			is_in_account = data.is_in_account is "1"
+			data.is_in_account = is_in_account
 			DB.set 'show.' + @show, data
 		content: ->
 			data = DB.get 'show.' + @show, null
