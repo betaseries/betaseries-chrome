@@ -1,6 +1,6 @@
 
 $(document).ready(function() {
-  var bgPage, currentMenu, init_save, showPart, __;
+  var bgPage, init_save, showPart, __;
   bgPage = chrome.extension.getBackgroundPage();
   __ = function(msgname) {
     return chrome.i18n.getMessage(msgname);
@@ -64,17 +64,10 @@ $(document).ready(function() {
     return false;
   });
   showPart = function(menu) {
-    var currentMenu;
     $('.content div.part').hide();
     $('.content div#' + menu).slideDown();
-    $('li#' + menu).css('opacity', '0.7');
-    $('li#' + menu).css('margin-left', '5px');
-    if (currentMenu) {
-      $('li#' + currentMenu).css('opacity', '1');
-      $('li#' + currentMenu).css('margin-left', '0px');
-    }
-    return currentMenu = menu;
+    $('li').removeClass('selected');
+    return $('li#' + menu).addClass('selected');
   };
-  currentMenu = "";
   return showPart("general");
 });

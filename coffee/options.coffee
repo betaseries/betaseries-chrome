@@ -68,14 +68,8 @@ $(document).ready ->
 		$('.content div.part').hide()
 		$('.content div#'+menu).slideDown()
 		
-		$('li#'+menu).css 'opacity', '0.7'
-		$('li#'+menu).css 'margin-left', '5px'
+		$('li').removeClass 'selected'
+		$('li#' + menu).addClass 'selected'
 		
-		if currentMenu
-			$('li#'+currentMenu).css 'opacity', '1'
-			$('li#'+currentMenu).css 'margin-left', '0px'
-		currentMenu = menu;
-	
-	currentMenu = ""
 	showPart "general"
 	
