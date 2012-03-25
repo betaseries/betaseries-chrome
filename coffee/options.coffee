@@ -28,8 +28,8 @@ $(document).ready ->
 	$('select[name=badge_notification_type]').val DB.get('options').badge_notification_type
 	$('select[name=dl_srt_language]').val DB.get('options').dl_srt_language
 	$('input[name=nbr_episodes_per_serie]').attr 'value', DB.get('options').nbr_episodes_per_serie
-	$('select[name=display_global]').val DB.get('options').display_global
-	$('select[name=enable_ratings]').val DB.get('options').enable_ratings
+	$('select[name=display_global]').val DB.get('options').display_global + ""
+	$('select[name=enable_ratings]').val DB.get('options').enable_ratings + ""
 	$('input[name=max_height]').attr 'value', DB.get('options').max_height
 	$('option[value=watched]').text __('episodes_not_seen')
 	$('option[value=downloaded]').text __('episodes_not_dl')
