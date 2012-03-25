@@ -391,6 +391,9 @@
 	"shows": {
 		"message": "Séries"
 	},
+	"showsDisplay": {
+		"message": "Vue d'une série"
+	},
 	"srt_quality": {
 		"message": "Qualité SRT $lang$ : $quality$/5", 
 		"placeholders":{
