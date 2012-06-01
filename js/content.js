@@ -38,7 +38,7 @@ Content = {
     textTitle = title.length > 20 ? ' title="' + title + '"' : '';
     texte2 = __('mark_as_seen');
     output += '<div class="left">';
-    output += '<img src="../img/plot_off.png" class="watched action icon-4" title="' + texte2 + '" /> <span class="num">';
+    output += '<img src="../img/add.png" class="watched action icon-4" title="' + texte2 + '" /> <span class="num">';
     output += '[' + e.number + ']</span> <span class="title"' + textTitle + '>' + Fx.subFirst(title, 20) + '</span>';
     if (newShow) {
       output += ' <span class="new">' + __('new') + '</span>';
