@@ -81,7 +81,7 @@ Content = {
     }
     output += '	<img src="../img/' + imgDownloaded + '.png" class="downloaded action" title="' + texte3 + '" /> ';
     if (nbSubs > 0) {
-      output += '<img src="../img/srt.png" class="subs action" link="' + url + '" quality="' + quality + '" title="' + __('srt_quality', [lang, quality]) + '" /> ';
+      output += '<img src="../img/page_white_text.png" class="subs action" link="' + url + '" quality="' + quality + '" title="' + __('srt_quality', [lang, quality]) + '" /> ';
     }
     output += '</div>';
     output += '<div class="clear"></div>';
