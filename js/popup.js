@@ -505,7 +505,7 @@ $(document).ready(function() {
   };
   DB.init();
   Fx.updateHeight(true);
-  $('#versionLink').text(Fx.getVersion());
+  Fx.checkVersion();
   if (bgPage.connected()) {
     badgeType = DB.get('badge').type;
     return BS.load(badgeType);

@@ -109,5 +109,10 @@ Fx = {
   },
   needUpdate: function() {
     return 'no data found, please update';
+  },
+  checkVersion: function() {
+    var currVersion, version;
+    version = currVersion = Fx.getVersion();
+    return $('#versionLink').text(Fx.getVersion());
   }
 };

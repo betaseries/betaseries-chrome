@@ -512,7 +512,7 @@ $(document).ready ->
 	Fx.updateHeight true
 	
 	# récupération du numéro de version
-	$('#versionLink').text Fx.getVersion()
+	Fx.checkVersion()
 	
 	if bgPage.connected()
 		badgeType = DB.get('badge').type

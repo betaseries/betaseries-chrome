@@ -100,4 +100,10 @@ Fx =
 	##
 	needUpdate: ->
 	 	return 'no data found, please update'
+	 	
+	##
+	checkVersion: ->
+		version = 
+		currVersion = Fx.getVersion()
+		$('#versionLink').text Fx.getVersion()
 		
