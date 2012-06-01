@@ -98,7 +98,7 @@ Content =
 		output += '<div class="right">'
 		empty = '<img src="../img/empty.png" alt="hidden" /> '
 		if e.comments > 0
-			output += '<img src="../img/comment.png" class="comments action" title="' + __('nbr_comments', [e.comments]) + '" /> '
+			output += '<img src="../img/comments.png" class="comments action" title="' + __('nbr_comments', [e.comments]) + '" /> '
 		else 
 			output += empty
 		

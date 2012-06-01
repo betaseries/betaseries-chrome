@@ -198,7 +198,7 @@ BS =
 				texte3 = __('mark_as_dl')
 			
 			output += '<div class="showtitle">' + __('actions') + '</div>'
-			output += '<img src="../img/comment.png" class="comments"> ';
+			output += '<img src="../img/comments.png" class="comments"> ';
 			output += '<img src="../img/' + imgDownloaded + '.png" class="downloaded" show="' + e.url + '" number="' + e.number + '" />'
 			
 			# wrapper end
