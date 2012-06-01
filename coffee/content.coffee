@@ -15,7 +15,7 @@ Content =
 		visibleIcon = if s.hidden then '../img/arrow_right.gif' else '../img/arrow_down.gif'
 		titleIcon = if s.hidden then __('maximise') else __('minimise')
 		remain = if s.hidden then nbrEpisodesTotal else nbrEpisodesTotal - nbrEpisodesPerSerie
-		remainHidden = if remain < 0 then ' hidden' else ''
+		remainHidden = if remain <= 0 then ' hidden' else ''
 		remain = '+' + remain if remain > 0
 		
 		output = ''
