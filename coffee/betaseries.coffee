@@ -128,7 +128,7 @@ BS =
 			if data.banner?
 				output = '<img src="' + data.banner + '" width="290" height="70" alt="banner" /><br />'
 			
-			output += '<div class="showtitle">' + data.title + '</div>'
+			output += '<div class="title2">' + data.title + '</div>'
 			output += __('type')
 			genres = []
 			for k,v of data.genres
@@ -138,20 +138,16 @@ BS =
 			output += __('avg_note') + data.note.mean + '/5 (' + data.note.members + ')' if data.note?
 			output += '<div style="height:54px; overflow:hidden">' + __('synopsis') + data.description + '</div>' if data.description?
 			
-			output += '<div class="showtitle">' + __('actions') + '</div>'
-			output += '<a href=""><img src="../img/search.png" class="icon2" />Voir les épisodes</a><br />'
+			output += '<div class="title2">' + __('actions') + '</div>'
+			output += '<a href="" class="link"><span class="imgSyncNo"></span>Voir les épisodes</a>'
 			if data.is_in_account and data.archive
-				output += '<a href="#' + data.url + '" id="showsUnarchive">'
-				output += '<img src="../img/film_add.png" class="icon2" />' + __('show_unarchive') + '</a><br />'
+				output += '<a href="#' + data.url + '" id="showsUnarchive" class="link">' + '<span class="imgSyncOff"></span>' + __('show_unarchive') + '</a>'
 			else if data.is_in_account and !data.archive
-				output += '<a href="#' + data.url + '" id="showsArchive">'
-				output += '<img src="../img/film_delete.png" class="icon2" />' + __('show_archive') + '</a><br />'
+				output += '<a href="#' + data.url + '" id="showsArchive" class="link">' + '<span class="imgSyncOff"></span>' + __('show_archive') + '</a>'
 			if data.is_in_account
-				output += '<a href="#' + data.url + '" id="showsRemove">'
-				output += '<img src="../img/film_delete.png" class="icon2" />' + __('show_remove') + '</a><br />'
+				output += '<a href="#' + data.url + '" id="showsRemove" class="link">' + '<span class="imgSyncOff"></span>' + __('show_remove') + '</a>'
 			else
-				output += '<a href="#' + data.url + '" id="showsAdd">'
-				output += '<img src="../img/film_add.png" class="icon2" />' + __('show_add') + '</a><br />'
+				output += '<a href="#' + data.url + '" id="showsAdd" class="link">' + '<span class="imgSyncOff"></span>' + __('show_add') + '</a>'
 			output
 		
 	#

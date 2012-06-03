@@ -212,11 +212,15 @@ $(document).ready ->
 		click: ->
 			show = $(this).attr('href').substring 1
 
+			$(this).find('span').toggleClass 'imgSyncOff imgSyncOn'
+			
 			ajax.post "/shows/archive/" + show, "", 
-				->
+				=>
 					Cache.force 'membersEpisodes.all'
 					Cache.force 'membersInfos.' + DB.get('session').login
 					bgPage.Badge.update()
+					$(this).html '<span class="imgSyncOff"></span>' + __('show_unarchive')
+					$(this).attr 'id', 'showsUnarchive'
 				-> registerAction "/shows/archive/" + show, ""
 			
 			return false
@@ -226,11 +230,15 @@ $(document).ready ->
 		click: ->
 			show = $(this).attr('href').substring 1
 			
+			$(this).find('span').toggleClass 'imgSyncOff imgSyncOn'
+			
 			ajax.post "/shows/unarchive/" + show, "", 
-				->
+				=>
 					Cache.force 'membersEpisodes.all'
 					Cache.force 'membersInfos.' + DB.get('session').login
 					bgPage.Badge.update()
+					$(this).html '<span class="imgSyncOff"></span>' + __('show_archive')
+					$(this).attr 'id', 'showsArchive'
 				-> registerAction "/shows/unarchive/" + show, ""
 			
 			return false
@@ -240,14 +248,15 @@ $(document).ready ->
 		click: ->
 			show = $(this).attr('href').substring 1
 			
-			# On ajoute la série tout de suite
-			$('#showsAdd').html __('show_added')
+			$(this).find('span').toggleClass 'imgSyncOff imgSyncOn'
 			
 			ajax.post "/shows/add/" + show, "", 
-				->
+				=>
 					Cache.force 'membersEpisodes.all'
 					Cache.force 'membersInfos.' + DB.get('session').login
 					bgPage.Badge.update()
+					$(this).html '<span class="imgSyncOff"></span>' + __('show_remove')
+					$(this).attr 'id', 'showsRemove'
 				-> registerAction "/shows/add/" + show, ""
 			
 			return false
@@ -257,14 +266,18 @@ $(document).ready ->
 		click: ->
 			show = $(this).attr('href').substring 1
 			
-			# On retire la série tout de suite
-			$('#showsRemove').html __('show_removed')
-			
+			$(this).find('span').toggleClass 'imgSyncOff imgSyncOn'
+
+			$('#showsArchive').slideUp();
+			$('#showsUnarchive').slideUp();
+
 			ajax.post "/shows/remove/" + show, "", 
-				->
+				=>
 					Cache.force 'membersEpisodes.all'
 					Cache.force 'membersInfos.' + DB.get('session').login
 					bgPage.Badge.update()
+					$(this).html '<span class="imgSyncOff"></span>' + __('show_add')
+					$(this).attr 'id', 'showsAdd'
 				-> registerAction "/shows/remove/" + show, ""
 			
 			return false

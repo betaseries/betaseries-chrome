@@ -218,12 +218,16 @@ $(document).ready(function() {
   });
   $('#showsArchive').live({
     click: function() {
-      var show;
+      var show,
+        _this = this;
       show = $(this).attr('href').substring(1);
+      $(this).find('span').toggleClass('imgSyncOff imgSyncOn');
       ajax.post("/shows/archive/" + show, "", function() {
         Cache.force('membersEpisodes.all');
         Cache.force('membersInfos.' + DB.get('session').login);
-        return bgPage.Badge.update();
+        bgPage.Badge.update();
+        $(_this).html('<span class="imgSyncOff"></span>' + __('show_unarchive'));
+        return $(_this).attr('id', 'showsUnarchive');
       }, function() {
         return registerAction("/shows/archive/" + show, "");
       });
@@ -232,12 +236,16 @@ $(document).ready(function() {
   });
   $('#showsUnarchive').live({
     click: function() {
-      var show;
+      var show,
+        _this = this;
       show = $(this).attr('href').substring(1);
+      $(this).find('span').toggleClass('imgSyncOff imgSyncOn');
       ajax.post("/shows/unarchive/" + show, "", function() {
         Cache.force('membersEpisodes.all');
         Cache.force('membersInfos.' + DB.get('session').login);
-        return bgPage.Badge.update();
+        bgPage.Badge.update();
+        $(_this).html('<span class="imgSyncOff"></span>' + __('show_archive'));
+        return $(_this).attr('id', 'showsArchive');
       }, function() {
         return registerAction("/shows/unarchive/" + show, "");
       });
@@ -246,13 +254,16 @@ $(document).ready(function() {
   });
   $('#showsAdd').live({
     click: function() {
-      var show;
+      var show,
+        _this = this;
       show = $(this).attr('href').substring(1);
-      $('#showsAdd').html(__('show_added'));
+      $(this).find('span').toggleClass('imgSyncOff imgSyncOn');
       ajax.post("/shows/add/" + show, "", function() {
         Cache.force('membersEpisodes.all');
         Cache.force('membersInfos.' + DB.get('session').login);
-        return bgPage.Badge.update();
+        bgPage.Badge.update();
+        $(_this).html('<span class="imgSyncOff"></span>' + __('show_remove'));
+        return $(_this).attr('id', 'showsRemove');
       }, function() {
         return registerAction("/shows/add/" + show, "");
       });
@@ -261,13 +272,18 @@ $(document).ready(function() {
   });
   $('#showsRemove').live({
     click: function() {
-      var show;
+      var show,
+        _this = this;
       show = $(this).attr('href').substring(1);
-      $('#showsRemove').html(__('show_removed'));
+      $(this).find('span').toggleClass('imgSyncOff imgSyncOn');
+      $('#showsArchive').slideUp();
+      $('#showsUnarchive').slideUp();
       ajax.post("/shows/remove/" + show, "", function() {
         Cache.force('membersEpisodes.all');
         Cache.force('membersInfos.' + DB.get('session').login);
-        return bgPage.Badge.update();
+        bgPage.Badge.update();
+        $(_this).html('<span class="imgSyncOff"></span>' + __('show_add'));
+        return $(_this).attr('id', 'showsAdd');
       }, function() {
         return registerAction("/shows/remove/" + show, "");
       });

@@ -374,25 +374,25 @@
 		"message": "s'inscrire"
 	},
 	"show_add": {
-		"message": "Ajouter à mes séries"
+		"message": "Ajouter à mes séries..."
 	},
 	"show_added": {
 		"message": "Série ajoutée!"
 	},
 	"show_archive": {
-		"message": "Archiver la série"
+		"message": "Archiver la série..."
 	},
 	"show_episodes": {
 		"message": "Voir"
 	},
 	"show_remove": {
-		"message": "Retirer de mes séries"
+		"message": "Retirer de mes séries..."
 	},
 	"show_removed": {
 		"message": "Série retirée!"
 	},
 	"show_unarchive": {
-		"message": "Retirer la série des archives"
+		"message": "Retirer la série des archives..."
 	},
 	"shows": {
 		"message": "Séries"
