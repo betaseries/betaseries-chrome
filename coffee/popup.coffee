@@ -193,7 +193,7 @@ $(document).ready ->
 			season = e.attr 'season'
 			episode = e.attr 'episode'
 			global = e.attr 'global'
-			BS.load('showsEpisodes', show, season, episode, global)
+			BS.load('showsEpisode', show, season, episode, global)
 
 		mouseenter: -> 
 			$(this).css 'cursor', 'pointer'

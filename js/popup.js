@@ -200,7 +200,7 @@ $(document).ready(function() {
       season = e.attr('season');
       episode = e.attr('episode');
       global = e.attr('global');
-      return BS.load('showsEpisodes', show, season, episode, global);
+      return BS.load('showsEpisode', show, season, episode, global);
     },
     mouseenter: function() {
       $(this).css('cursor', 'pointer');

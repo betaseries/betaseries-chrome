@@ -120,7 +120,7 @@ BS = {
           output += '<div style="height:54px; overflow:hidden">' + __('synopsis') + data.description + '</div>';
         }
         output += '<div class="title2">' + __('actions') + '</div>';
-        output += '<a href="" class="link"><span class="imgSyncNo"></span>Voir les épisodes</a>';
+        output += '<a href="" class="link" onclick="BS.load(\'showsEpisodes\', \'' + data.url + '\'); return false;"><span class="imgSyncNo"></span>Voir les épisodes</a>';
         if (data.is_in_account && data.archive) {
           output += '<a href="#' + data.url + '" id="showsUnarchive" class="link">' + '<span class="imgSyncOff"></span>' + __('show_unarchive') + '</a>';
         } else if (data.is_in_account && !data.archive) {
@@ -135,10 +135,95 @@ BS = {
       }
     };
   },
-  showsEpisodes: function(url, season, episode, global) {
+  showsEpisodes: function(url) {
     return {
-      id: 'showsEpisodes.' + url + '.' + global,
+      id: 'showsEpisodes.' + url,
       name: 'showsEpisodes',
+      url: '/shows/episodes/' + url,
+      params: '&summary=1&hide_notes=1',
+      root: 'seasons',
+      login: DB.get('session').login,
+      episodes: DB.get('show.' + url + '.episodes'),
+      show: url,
+      update: function(data) {
+        var e, i, j, n, seasons, showEpisodes, shows, _ref;
+        console.log(data);
+        shows = DB.get('member.' + this.login + '.shows', {});
+        if (this.show in shows) {
+          shows[this.show].archive = false;
+        } else {
+          shows[this.show] = {
+            url: this.show,
+            archive: false,
+            hidden: false
+          };
+        }
+        showEpisodes = DB.get('show.' + this.show + '.episodes', {});
+        for (i in data) {
+          seasons = data[i];
+          _ref = seasons.episodes;
+          for (j in _ref) {
+            e = _ref[j];
+            n = Fx.splitNumber(e.number);
+            showEpisodes[e.global] = {
+              comments: e.comments,
+              date: e.date,
+              downloaded: e.downloaded === '1',
+              episode: n.episode,
+              global: e.global,
+              number: e.number,
+              season: n.season,
+              title: e.title,
+              show: this.show,
+              url: this.show
+            };
+          }
+        }
+        DB.set('show.' + this.show + '.episodes', showEpisodes);
+        return DB.set('member.' + this.login + '.shows', shows);
+      },
+      content: function() {
+        var data, e, hidden, i, lastSeason, output, s, season, seasons, shows;
+        data = DB.get('show.' + this.show + '.episodes', null);
+        if (!data) {
+          return Fx.needUpdate();
+        }
+        shows = DB.get('member.' + this.login + '.shows', null);
+        if (!shows) {
+          return Fx.needUpdate();
+        }
+        s = shows[this.show];
+        seasons = {};
+        lastSeason = -1;
+        for (i in data) {
+          e = data[i];
+          lastSeason = e.season;
+          if (e.season in seasons) {
+            seasons[e.season]++;
+          } else {
+            seasons[e.season] = 1;
+          }
+        }
+        output = '<div id="shows">';
+        season = -1;
+        for (i in data) {
+          e = data[i];
+          hidden = e.season !== lastSeason;
+          if (e.season !== season) {
+            output += Content.season(e.season, seasons[e.season], hidden);
+            season = e.season;
+          }
+          output += Content.episode2(e, hidden);
+        }
+        output += '</div>';
+        return output;
+      }
+    };
+  },
+  showsEpisode: function(url, season, episode, global) {
+    return {
+      id: 'showsEpisode.' + url + '.' + global,
+      name: 'showsEpisode',
       url: '/shows/episodes/' + url,
       params: '&season=' + season + '&episode=' + episode,
       root: 'seasons',
