@@ -88,9 +88,8 @@ BS = {
       login: DB.get('session').login,
       show: url,
       update: function(data) {
-        var is_in_account;
-        is_in_account = data.is_in_account === "1";
-        data.is_in_account = is_in_account;
+        data.is_in_account = data.is_in_account === "1";
+        data.archive = data.archive === "1";
         return DB.set('show.' + this.show, data);
       },
       content: function() {
@@ -122,6 +121,13 @@ BS = {
         }
         output += '<div class="showtitle">' + __('actions') + '</div>';
         output += '<a href=""><img src="../img/search.png" class="icon2" />Voir les épisodes</a><br />';
+        if (data.is_in_account && data.archive) {
+          output += '<a href="#' + data.url + '" id="showsUnarchive">';
+          output += '<img src="../img/film_add.png" class="icon2" />' + __('show_unarchive') + '</a><br />';
+        } else if (data.is_in_account && !data.archive) {
+          output += '<a href="#' + data.url + '" id="showsArchive">';
+          output += '<img src="../img/film_delete.png" class="icon2" />' + __('show_archive') + '</a><br />';
+        }
         if (data.is_in_account) {
           output += '<a href="#' + data.url + '" id="showsRemove">';
           output += '<img src="../img/film_delete.png" class="icon2" />' + __('show_remove') + '</a><br />';

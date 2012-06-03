@@ -379,6 +379,9 @@
 	"show_added": {
 		"message": "Série ajoutée!"
 	},
+	"show_archive": {
+		"message": "Archiver la série"
+	},
 	"show_episodes": {
 		"message": "Voir"
 	},
@@ -387,6 +390,9 @@
 	},
 	"show_removed": {
 		"message": "Série retirée!"
+	},
+	"show_unarchive": {
+		"message": "Retirer la série des archives"
 	},
 	"shows": {
 		"message": "Séries"

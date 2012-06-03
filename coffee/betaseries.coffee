@@ -118,8 +118,8 @@ BS =
 		login: DB.get('session').login
 		show: url
 		update: (data) ->
-			is_in_account = data.is_in_account is "1"
-			data.is_in_account = is_in_account
+			data.is_in_account = data.is_in_account is "1"
+			data.archive = data.archive is "1"
 			DB.set 'show.' + @show, data
 		content: ->
 			data = DB.get 'show.' + @show, null
@@ -140,6 +140,12 @@ BS =
 			
 			output += '<div class="showtitle">' + __('actions') + '</div>'
 			output += '<a href=""><img src="../img/search.png" class="icon2" />Voir les épisodes</a><br />'
+			if data.is_in_account and data.archive
+				output += '<a href="#' + data.url + '" id="showsUnarchive">'
+				output += '<img src="../img/film_add.png" class="icon2" />' + __('show_unarchive') + '</a><br />'
+			else if data.is_in_account and !data.archive
+				output += '<a href="#' + data.url + '" id="showsArchive">'
+				output += '<img src="../img/film_delete.png" class="icon2" />' + __('show_archive') + '</a><br />'
 			if data.is_in_account
 				output += '<a href="#' + data.url + '" id="showsRemove">'
 				output += '<img src="../img/film_delete.png" class="icon2" />' + __('show_remove') + '</a><br />'

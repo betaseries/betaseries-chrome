@@ -208,13 +208,10 @@ $(document).ready ->
 		click: -> Fx.openTab $(this).attr 'link'
 	
 	## Archiver une série
-	$('.archive').live
+	$('#showsArchive').live
 		click: ->
-			show = $(this).parent().parent().parent().attr 'id'
-			
-			# On efface la série tout de suite
-			$('#' + show).slideUp()
-			
+			show = $(this).attr('href').substring 1
+
 			ajax.post "/shows/archive/" + show, "", 
 				->
 					Cache.force 'membersEpisodes.all'
@@ -222,16 +219,12 @@ $(document).ready ->
 					bgPage.Badge.update()
 				-> registerAction "/shows/archive/" + show, ""
 			
-			Fx.updateHeight()
 			return false
 	
 	## Sortir une série des archives
-	$('.unarchive').live
+	$('#showsUnarchive').live
 		click: ->
-			show = $(this).parent().attr 'id'
-			
-			# On ajoute la série tout de suite
-			$('#' + show).hide()
+			show = $(this).attr('href').substring 1
 			
 			ajax.post "/shows/unarchive/" + show, "", 
 				->
@@ -240,7 +233,6 @@ $(document).ready ->
 					bgPage.Badge.update()
 				-> registerAction "/shows/unarchive/" + show, ""
 			
-			Fx.updateHeight()
 			return false
 	
 	## Ajoute à mes séries
