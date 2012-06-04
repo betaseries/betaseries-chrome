@@ -70,15 +70,24 @@ Fx =
 		return number
 	
 	##
+	displayNumber: (number) ->
+		res = '#'
+		res += number[1] if number[1] isnt '0'
+		res += number[2]
+		res += number[4]
+		res += number[5]
+		return res
+
+	##
 	splitNumber: (number) ->
 		season = ''
-		season += number[1] if number[1] isnt 0
+		season += number[1] if number[1] isnt '0'
 		season += number[2]
 		episode = ''
-		episode += number[4] if number[4] isnt 0
+		episode += number[4] if number[4] isnt '0'
 		episode += number[5]
-		season: parseInt season
-		episode: parseInt episode
+		season: season
+		episode: episode
 		
 	##
 	getCacheSize: (key) ->

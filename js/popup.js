@@ -191,26 +191,6 @@ $(document).ready(function() {
       return BS.load('commentsEpisode', show, season, episode, global);
     }
   });
-  $('.num').live({
-    click: function() {
-      var e, episode, global, s, season, show;
-      s = $(this).closest('.show');
-      show = s.attr('id');
-      e = $(this).closest('.episode');
-      season = e.attr('season');
-      episode = e.attr('episode');
-      global = e.attr('global');
-      return BS.load('showsEpisode', show, season, episode, global);
-    },
-    mouseenter: function() {
-      $(this).css('cursor', 'pointer');
-      return $(this).css('color', '#900');
-    },
-    mouseleave: function() {
-      $(this).css('cursor', 'auto');
-      return $(this).css('color', '#1a4377');
-    }
-  });
   $('.subs').live({
     click: function() {
       return Fx.openTab($(this).attr('link'));

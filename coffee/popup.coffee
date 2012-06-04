@@ -184,25 +184,6 @@ $(document).ready ->
 			global = e.attr 'global'
 			BS.load('commentsEpisode', show, season, episode, global)
 	
-	## Accéder à la fiche d'un épisode
-	$('.num').live
-		click: ->
-			s = $(this).closest('.show')
-			show = s.attr 'id'
-			e = $(this).closest('.episode')
-			season = e.attr 'season'
-			episode = e.attr 'episode'
-			global = e.attr 'global'
-			BS.load('showsEpisode', show, season, episode, global)
-
-		mouseenter: -> 
-			$(this).css 'cursor', 'pointer'
-			$(this).css 'color', '#900'
-			
-		mouseleave: -> 
-			$(this).css 'cursor', 'auto'
-			$(this).css 'color', '#1a4377'
-	
 	## Télécharger les sous-titres d'un épisode
 	$('.subs').live
 		click: -> Fx.openTab $(this).attr 'link'

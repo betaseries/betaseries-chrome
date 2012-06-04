@@ -84,11 +84,12 @@ Content =
 			
 		# Titre de l'épisode
 		title = if DB.get('options').display_global then '#' + e.global + ' ' + e.title else e.title
-		textTitle = if (title.length > 20) then ' title="' + title + '"' else ''
 		texte2 = __('mark_as_seen')
 		output += '<div class="left">'
-		output += '<img src="../img/add.png" class="watched action icon-4" title="' + texte2 + '" /> <span class="num">'
-		output += '[' + e.number + ']</span> <span class="title"' + textTitle + '>' + Fx.subFirst(title, 20) + '</span>'
+		output += '<img src="../img/add.png" class="watched action icon-4" title="' + texte2 + '" /> '
+		output += '<span class="num">' + Fx.displayNumber(e.number) + '</span> '
+		output += '<a href="#" onclick="BS.load(\'showsEpisode\', \'' + e.url + '\', \'' + e.season + '\', \'' + e.episode + '\', \'' + e.global + '\'); return false;" class="episode" title="' + title + '">'
+		output += Fx.subFirst(title, 20) + '</a>'
 		if newShow 
 			output += ' <span class="new">' + __('new') + '</span>'
 		output += '</div>'
