@@ -438,7 +438,6 @@ $(document).ready ->
 		click: ->
 			show = $(this).closest('.show')
 			showName = $(show).attr 'id'
-			nbr_episodes_per_serie = DB.get('options').nbr_episodes_per_serie
 			login = DB.get('session').login
 			shows = DB.get 'member.' + login + '.shows'
 			hidden = shows[showName].hidden
@@ -447,21 +446,10 @@ $(document).ready ->
 				
 			$(show).find('.episode').slideToggle()
 			
-			remain = parseInt show.find('.remain').text()
-			
 			if shows[showName].hidden
 				$(this).attr 'src', '../img/arrow_right.gif'
-				remain += nbr_episodes_per_serie
 			else
 				$(this).attr 'src', '../img/arrow_down.gif'
-				remain -= nbr_episodes_per_serie
-			
-			remain = '+' + remain if remain > 0
-			if remain > 0
-				show.find('.remain').removeClass 'hidden' 
-			else
-				show.find('.remain').addClass 'hidden' 
-			show.find('.remain').text remain
 			
 			Fx.updateHeight()
 

@@ -474,7 +474,7 @@ BS = {
       root: 'episodes',
       login: DB.get('session').login,
       update: function(data) {
-        var d, e, memberEpisodes, showEpisodes, shows;
+        var d, e, memberEpisodes, showEpisodes, shows, today;
         shows = DB.get('member.' + this.login + '.shows', {});
         memberEpisodes = {};
         for (d in data) {
@@ -505,7 +505,10 @@ BS = {
           };
           DB.set('show.' + e.url + '.episodes', showEpisodes);
           if (e.url in memberEpisodes) {
-            memberEpisodes[e.url].nbr_total++;
+            today = Math.floor(new Date().getTime() / 1000);
+            if (e.date <= today) {
+              memberEpisodes[e.url].nbr_total++;
+            }
           } else {
             memberEpisodes[e.url] = {
               start: e.global,
@@ -518,8 +521,7 @@ BS = {
         return bgPage.Badge.updateCache();
       },
       content: function() {
-        var data, e, global, i, j, nbDisplay, nbrEpisodesPerSerie, output, s, showEpisodes, shows;
-        nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie;
+        var data, e, global, i, j, output, s, showEpisodes, shows, today;
         data = DB.get('member.' + this.login + '.episodes', null);
         if (!data) {
           return Fx.needUpdate();
@@ -536,12 +538,13 @@ BS = {
           output += Content.show(s, j.nbr_total);
           showEpisodes = DB.get('show.' + i + '.episodes');
           global = j.start;
-          nbDisplay = 0;
-          while (global in showEpisodes && nbDisplay < nbrEpisodesPerSerie) {
+          while (global in showEpisodes) {
             e = showEpisodes[global];
-            output += Content.episode(e, s);
+            today = Math.floor(new Date().getTime() / 1000);
             global++;
-            nbDisplay++;
+            if (e.date <= today) {
+              output += Content.episode(e, s);
+            }
           }
           output += '</div>';
         }

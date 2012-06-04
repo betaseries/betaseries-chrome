@@ -455,33 +455,20 @@ $(document).ready(function() {
   });
   $('.toggleShow').live({
     click: function() {
-      var hidden, login, nbr_episodes_per_serie, remain, show, showName, shows;
+      var hidden, login, show, showName, shows;
       show = $(this).closest('.show');
       showName = $(show).attr('id');
-      nbr_episodes_per_serie = DB.get('options').nbr_episodes_per_serie;
       login = DB.get('session').login;
       shows = DB.get('member.' + login + '.shows');
       hidden = shows[showName].hidden;
       shows[showName].hidden = !hidden;
       DB.set('member.' + login + '.shows', shows);
       $(show).find('.episode').slideToggle();
-      remain = parseInt(show.find('.remain').text());
       if (shows[showName].hidden) {
         $(this).attr('src', '../img/arrow_right.gif');
-        remain += nbr_episodes_per_serie;
       } else {
         $(this).attr('src', '../img/arrow_down.gif');
-        remain -= nbr_episodes_per_serie;
       }
-      if (remain > 0) {
-        remain = '+' + remain;
-      }
-      if (remain > 0) {
-        show.find('.remain').removeClass('hidden');
-      } else {
-        show.find('.remain').addClass('hidden');
-      }
-      show.find('.remain').text(remain);
       return Fx.updateHeight();
     }
   });

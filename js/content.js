@@ -3,21 +3,16 @@ var Content;
 
 Content = {
   show: function(s, nbrEpisodesTotal) {
-    var nbrEpisodesPerSerie, output, remain, remainHidden, titleIcon, visibleIcon;
+    var nbrEpisodesPerSerie, output, titleIcon, visibleIcon;
     nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie;
     visibleIcon = s.hidden ? '../img/arrow_right.gif' : '../img/arrow_down.gif';
     titleIcon = s.hidden ? __('maximise') : __('minimise');
-    remain = s.hidden ? nbrEpisodesTotal : nbrEpisodesTotal - nbrEpisodesPerSerie;
-    remainHidden = remain <= 0 ? ' hidden' : '';
-    if (remain > 0) {
-      remain = '+' + remain;
-    }
     output = '';
     output += '<div class="showtitle">';
     output += '<div class="left">';
     output += '<img src="' + visibleIcon + '" class="toggleShow" title="' + titleIcon + '" />';
     output += '<a href="" onclick="BS.load(\'showsDisplay\', \'' + s.url + '\'); return false;" class="showtitle">' + s.title + '</a>';
-    output += ' <span class="remain' + remainHidden + '">' + remain + ' </span>';
+    output += ' <span class="remain">' + nbrEpisodesTotal + ' </span>';
     output += '</div>';
     output += '<div class="right"></div>';
     output += '<div class="clear"></div>';
@@ -30,9 +25,6 @@ Content = {
     titleIcon = hidden ? __('maximise') : __('minimise');
     remain = hidden ? nbrEpisodesTotal : 0;
     remainHidden = remain <= 0 ? ' hidden' : '';
-    if (remain > 0) {
-      remain = '+' + remain;
-    }
     output = '';
     output += '<div class="title2">';
     output += '<div class="left">';

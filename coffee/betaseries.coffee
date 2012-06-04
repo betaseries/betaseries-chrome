@@ -478,7 +478,8 @@ BS =
 				
 				# cache des épisodes déjà vus
 				if e.url of memberEpisodes
-					memberEpisodes[e.url].nbr_total++
+					today = Math.floor new Date().getTime() / 1000
+					memberEpisodes[e.url].nbr_total++ if e.date <= today
 				else
 					memberEpisodes[e.url] = 
 						start: e.global
@@ -489,8 +490,6 @@ BS =
 			bgPage.Badge.updateCache()
 		content: ->
 			# récupération des épisodes non vus (cache)
-			nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie
-			
 			data = DB.get 'member.' + @login + '.episodes', null
 			return Fx.needUpdate() if !data
 			
@@ -513,12 +512,11 @@ BS =
 				# construction des blocs *episode*
 				showEpisodes = DB.get('show.' + i + '.episodes')
 				global = j.start
-				nbDisplay = 0
-				while (global of showEpisodes and nbDisplay < nbrEpisodesPerSerie)
+				while (global of showEpisodes)
 					e = showEpisodes[global]
-					output += Content.episode e, s
+					today = Math.floor new Date().getTime() / 1000
 					global++
-					nbDisplay++
+					output += Content.episode(e, s) if e.date <= today
 				
 				output += '</div>'
 			
