@@ -216,17 +216,6 @@ $(document).ready ->
 			params = "&season=" + season + "&episode=" + episode
 			ajax.post "/members/downloaded/" + show, params, null,
 				-> registerAction "/members/downloaded/" + show, params
-			
-	## Accéder à la liste des commentaires d'un épisode
-	$('.comments').live
-		click: ->
-			s = $(this).closest('.show')
-			show = s.attr 'id'
-			e = $(this).closest('.episode')
-			season = e.attr 'season'
-			episode = e.attr 'episode'
-			global = e.attr 'global'
-			BS.load('commentsEpisode', show, season, episode, global)
 	
 	## Télécharger les sous-titres d'un épisode
 	$('.subs').live

@@ -229,18 +229,6 @@ $(document).ready(function() {
       });
     }
   });
-  $('.comments').live({
-    click: function() {
-      var e, episode, global, s, season, show;
-      s = $(this).closest('.show');
-      show = s.attr('id');
-      e = $(this).closest('.episode');
-      season = e.attr('season');
-      episode = e.attr('episode');
-      global = e.attr('global');
-      return BS.load('commentsEpisode', show, season, episode, global);
-    }
-  });
   $('.subs').live({
     click: function() {
       return Fx.openTab($(this).attr('link'));
