@@ -111,7 +111,6 @@ Content = {
     output += '<div class="episode e' + e.global + newShow + hidden + '" number="' + e.number + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '">';
     title = DB.get('options').display_global ? '#' + e.global + ' ' + e.title : e.title;
     texte2 = __('mark_as_seen');
-    console.log(start);
     plot = parseInt(e.global) < start ? 'tick' : 'empty';
     output += '<div class="left">';
     output += '<img src="../img/' + plot + '.png" class="watched2 action icon-4" title="' + texte2 + '" /> ';
@@ -153,7 +152,9 @@ Content = {
     output += '<div class="right">';
     empty = '<img src="../img/empty.png" alt="hidden" /> ';
     if (e.comments > 0) {
-      output += '<img src="../img/comments.png" class="comments action" title="' + __('nbr_comments', [e.comments]) + '" /> ';
+      output += '<a href="#" onclick="BS.load(\'commentsEpisode\', \'' + e.url + '\', \'' + e.season + '\', \'' + e.episode + '\', \'' + e.global + '\'); return false;" title="' + __('nbr_comments', [e.comments]) + '">';
+      output += '<img src="../img/comments.png" class="comments action" /> ';
+      output += '</a>';
     } else {
       output += empty;
     }

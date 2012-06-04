@@ -164,7 +164,6 @@ Content =
 		# Titre de l'épisode
 		title = if DB.get('options').display_global then '#' + e.global + ' ' + e.title else e.title
 		texte2 = __('mark_as_seen')
-		console.log start
 		plot = if parseInt(e.global) < start then 'tick' else 'empty'
 		output += '<div class="left">'
 		output += '<img src="../img/' + plot + '.png" class="watched2 action icon-4" title="' + texte2 + '" /> '
@@ -205,7 +204,9 @@ Content =
 		output += '<div class="right">'
 		empty = '<img src="../img/empty.png" alt="hidden" /> '
 		if e.comments > 0
-			output += '<img src="../img/comments.png" class="comments action" title="' + __('nbr_comments', [e.comments]) + '" /> '
+			output += '<a href="#" onclick="BS.load(\'commentsEpisode\', \'' + e.url + '\', \'' + e.season + '\', \'' + e.episode + '\', \'' + e.global + '\'); return false;" title="' + __('nbr_comments', [e.comments]) + '">'
+			output += '<img src="../img/comments.png" class="comments action" /> '
+			output += '</a>'
 		else 
 			output += empty
 		
