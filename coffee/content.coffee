@@ -88,7 +88,7 @@ Content =
 		output += '<div class="left">'
 		output += '<img src="../img/add.png" class="watched action icon-4" title="' + texte2 + '" /> '
 		output += '<span class="num">' + Fx.displayNumber(e.number) + '</span> '
-		output += '<a href="#" onclick="BS.load(\'showsEpisode\', \'' + e.url + '\', \'' + e.season + '\', \'' + e.episode + '\', \'' + e.global + '\'); return false;" class="episode" title="' + title + '">'
+		output += '<a href="#" onclick="BS.load(\'showsEpisode\', \'' + e.url + '\', \'' + e.season + '\', \'' + e.episode + '\', \'' + e.global + '\'); return false;" title="' + title + '">'
 		output += Fx.subFirst(title, 20) + '</a>'
 		if newShow 
 			output += ' <span class="new">' + __('new') + '</span>'
