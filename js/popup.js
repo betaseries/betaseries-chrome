@@ -128,47 +128,18 @@ $(document).ready(function() {
       });
     },
     mouseenter: function() {
-      var e, start, _results, _results1;
-      start = parseInt($(this).closest('.show').attr('start'));
+      var e;
       e = $(this).closest('.episode');
-      if (e.attr('global') >= start) {
-        _results = [];
-        while (e.attr('global') >= start) {
-          e.find('.watched2').css('opacity', 1);
-          _results.push(e = e.prev());
-        }
-        return _results;
-      } else {
-        e.find('.watched2').css('opacity', 1);
-        e = e.next();
-        _results1 = [];
-        while (e.attr('global') < start) {
-          e.find('.watched2').attr('src', '../img/delete.png').css('opacity', 1);
-          _results1.push(e = e.next());
-        }
-        return _results1;
-      }
+      return e.find('.watched2').attr('src', '../img/arrow_right.png').css('opacity', 1);
     },
     mouseleave: function() {
-      var e, start, _results, _results1;
+      var e, start;
       start = parseInt($(this).closest('.show').attr('start'));
       e = $(this).closest('.episode');
-      if (e.attr('global') >= start) {
-        _results = [];
-        while (e.attr('global') >= start) {
-          e.find('.watched2').css('opacity', 0.5);
-          _results.push(e = e.prev());
-        }
-        return _results;
+      if (e.attr('global') < start) {
+        return e.find('.watched2').attr('src', '../img/tick.png').css('opacity', 0.5);
       } else {
-        e.find('.watched2').css('opacity', 0.5);
-        e = e.next();
-        _results1 = [];
-        while (e.attr('global') < start) {
-          e.find('.watched2').attr('src', '../img/tick.png').css('opacity', 0.5);
-          _results1.push(e = e.next());
-        }
-        return _results1;
+        return e.find('.watched2').attr('src', '../img/empty.png').css('opacity', 1);
       }
     }
   });

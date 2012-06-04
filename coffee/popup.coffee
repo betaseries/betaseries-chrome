@@ -125,32 +125,18 @@ $(document).ready ->
 					registerAction "/members/watched/" + show, params
 			
 		mouseenter: ->
-			start = parseInt $(this).closest('.show').attr 'start'
 			e = $(this).closest('.episode')
-			if (e.attr('global') >= start)
-				while (e.attr('global') >= start)
-					e.find('.watched2').css 'opacity', 1
-					e = e.prev()
-			else
-				e.find('.watched2').css('opacity', 1)
-				e = e.next()
-				while (e.attr('global') < start)
-					e.find('.watched2').attr('src', '../img/delete.png').css('opacity', 1)
-					e = e.next()
+			e.find('.watched2').attr('src', '../img/arrow_right.png').css('opacity', 1)
 			
 		mouseleave: ->
 			start = parseInt $(this).closest('.show').attr 'start'
 			e = $(this).closest('.episode')
-			if (e.attr('global') >= start)
-				while (e.attr('global') >= start)
-					e.find('.watched2').css 'opacity', 0.5
-					e = e.prev()
+
+			if (e.attr('global') < start)
+				e.find('.watched2').attr('src', '../img/tick.png').css('opacity', 0.5)
 			else
-				e.find('.watched2').css('opacity', 0.5)
-				e = e.next()
-				while (e.attr('global') < start)
-					e.find('.watched2').attr('src', '../img/tick.png').css('opacity', 0.5)
-					e = e.next()
+				e.find('.watched2').attr('src', '../img/empty.png').css('opacity', 1)
+		
 	
 	clean = (node) ->
 		show = node.closest('.show')

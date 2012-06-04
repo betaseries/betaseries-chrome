@@ -112,7 +112,7 @@ Content = {
     title = DB.get('options').display_global ? '#' + e.global + ' ' + e.title : e.title;
     texte2 = __('mark_as_seen');
     console.log(start);
-    plot = parseInt(e.global) < start ? 'tick' : 'add';
+    plot = parseInt(e.global) < start ? 'tick' : 'empty';
     output += '<div class="left">';
     output += '<img src="../img/' + plot + '.png" class="watched2 action icon-4" title="' + texte2 + '" /> ';
     output += '<span class="num">' + Fx.displayNumber(e.number) + '</span> ';

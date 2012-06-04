@@ -165,7 +165,7 @@ Content =
 		title = if DB.get('options').display_global then '#' + e.global + ' ' + e.title else e.title
 		texte2 = __('mark_as_seen')
 		console.log start
-		plot = if parseInt(e.global) < start then 'tick' else 'add'
+		plot = if parseInt(e.global) < start then 'tick' else 'empty'
 		output += '<div class="left">'
 		output += '<img src="../img/' + plot + '.png" class="watched2 action icon-4" title="' + texte2 + '" /> '
 		output += '<span class="num">' + Fx.displayNumber(e.number) + '</span> '
