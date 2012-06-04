@@ -78,37 +78,20 @@ $(document).ready ->
 				e = e.prev()
 	
 	clean = (node) ->
-		login = DB.get('session').login
-		show = node.closest('.show').attr 'id'
-		s = DB.get('member.' + login + '.shows')[show]
-		es = DB.get 'show.' + show + '.episodes'
+		show = node.closest('.show')
 		
-		# nombre d'épisodes affichés
-		nbrEpisodes = $('#' + show).find('.episode').length
-		
-		# on sélectionne le dernier épisode et on calcule le nextGlobal
-		nextGlobal = $('#' + show).find('.episode').last().attr 'global' # $('#' + show + '.episode').eq(nbrEpisodes - 1).attr 'global'
-		nextGlobal = parseInt(nextGlobal) + 1
-		
-		# on fait disparaître l'actuel
+		# on fait disparaître la ligne de l'épisode
 		node.slideToggle 'slow', -> $(@).remove()
-		
-		# on fait apparaitre le suivant
-		if es[nextGlobal]?
-			episode = Content.episode es[nextGlobal], s
-			$('#' + show).append episode
-		else
-			nbrEpisodes--
 				
 		# s'il n'y a plus d'épisodes à voir dans la série, on la cache
-		nbr = parseInt($('#' + show + ' .remain').text()) - 1
-		if nbrEpisodes is 0 and nbr <= 0
-			$('#' + show).slideToggle 'slow', -> $(@).remove()
+		nbr = parseInt($(show).find('.remain').text()) - 1
+		if nbr is 0
+			$(show).slideToggle 'slow', -> $(@).remove()
 		else
-			$('#' + show + ' .remain').text('+' + nbr) if nbr > 0
+			$(show).find('.remain').text nbr
 		
 		Fx.updateHeight()
-				
+		
 		return true
 	
 	# Star HOVER

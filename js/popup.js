@@ -80,32 +80,18 @@ $(document).ready(function() {
     }
   });
   clean = function(node) {
-    var episode, es, login, nbr, nbrEpisodes, nextGlobal, s, show;
-    login = DB.get('session').login;
-    show = node.closest('.show').attr('id');
-    s = DB.get('member.' + login + '.shows')[show];
-    es = DB.get('show.' + show + '.episodes');
-    nbrEpisodes = $('#' + show).find('.episode').length;
-    nextGlobal = $('#' + show).find('.episode').last().attr('global');
-    nextGlobal = parseInt(nextGlobal) + 1;
+    var nbr, show;
+    show = node.closest('.show');
     node.slideToggle('slow', function() {
       return $(this).remove();
     });
-    if (es[nextGlobal] != null) {
-      episode = Content.episode(es[nextGlobal], s);
-      $('#' + show).append(episode);
-    } else {
-      nbrEpisodes--;
-    }
-    nbr = parseInt($('#' + show + ' .remain').text()) - 1;
-    if (nbrEpisodes === 0 && nbr <= 0) {
-      $('#' + show).slideToggle('slow', function() {
+    nbr = parseInt($(show).find('.remain').text()) - 1;
+    if (nbr === 0) {
+      $(show).slideToggle('slow', function() {
         return $(this).remove();
       });
     } else {
-      if (nbr > 0) {
-        $('#' + show + ' .remain').text('+' + nbr);
-      }
+      $(show).find('.remain').text(nbr);
     }
     Fx.updateHeight();
     return true;
