@@ -36,7 +36,7 @@ Content = {
     output = '';
     output += '<div class="title2">';
     output += '<div class="left">';
-    output += '<img src="' + visibleIcon + '" class="toggleShow" title="' + titleIcon + '" />';
+    output += '<img src="' + visibleIcon + '" class="toggleSeason" title="' + titleIcon + '" />';
     output += 'Saison ' + n + ' <span class="remain' + remainHidden + '">' + remain + ' </span>';
     output += '</div>';
     output += '<div class="right"></div>';

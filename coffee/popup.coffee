@@ -464,6 +464,22 @@ $(document).ready ->
 			show.find('.remain').text remain
 			
 			Fx.updateHeight()
+
+	## Maximiser/minimiser une saison*/
+	$('.toggleSeason').live
+		click: ->
+			season = $(this).closest('.season')
+			seasonName = $(season).attr 'id'
+			hidden = $(season).hasClass('hidden')
+			$(season).toggleClass('hidden')
+			$(season).find('.episode').slideToggle()
+			
+			if hidden
+				$(this).attr 'src', '../img/arrow_down.gif'
+			else
+				$(this).attr 'src', '../img/arrow_right.gif'
+			
+			Fx.updateHeight()
 			
 	## HEADER links
 	$('#logoLink')

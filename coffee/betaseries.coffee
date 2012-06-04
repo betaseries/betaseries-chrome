@@ -217,21 +217,24 @@ BS =
 					seasons[e.season] = 1
 			
 			# SEASONS
-			output = '<div id="shows">'
+			output = '<div id="show">'
 			
 			season = -1;
 			for i, e of data
 				hidden = e.season isnt lastSeason
+				classHidden = if hidden then ' hidden' else ''
 				
 				if (e.season isnt season)
 					# construction du bloc *season*
+					output += '</div>' if season isnt -1
+					output += '<div class="season' + classHidden + '" id="season' + e.season + '">'
 					output += Content.season e.season, seasons[e.season], hidden
 					season = e.season
 				
 				# construction des blocs *episode*
 				output += Content.episode2 e, hidden
 			
-			output += '</div>'
+			output += '</div></div>'
 			
 			return output
 	#

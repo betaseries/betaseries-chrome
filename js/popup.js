@@ -485,6 +485,22 @@ $(document).ready(function() {
       return Fx.updateHeight();
     }
   });
+  $('.toggleSeason').live({
+    click: function() {
+      var hidden, season, seasonName;
+      season = $(this).closest('.season');
+      seasonName = $(season).attr('id');
+      hidden = $(season).hasClass('hidden');
+      $(season).toggleClass('hidden');
+      $(season).find('.episode').slideToggle();
+      if (hidden) {
+        $(this).attr('src', '../img/arrow_down.gif');
+      } else {
+        $(this).attr('src', '../img/arrow_right.gif');
+      }
+      return Fx.updateHeight();
+    }
+  });
   $('#logoLink').click(function() {
     return Fx.openTab(ajax.site_url, true);
   }).attr('title', __("logo"));

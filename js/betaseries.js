@@ -183,7 +183,7 @@ BS = {
         return DB.set('member.' + this.login + '.shows', shows);
       },
       content: function() {
-        var data, e, hidden, i, lastSeason, output, s, season, seasons, shows;
+        var classHidden, data, e, hidden, i, lastSeason, output, s, season, seasons, shows;
         data = DB.get('show.' + this.show + '.episodes', null);
         if (!data) {
           return Fx.needUpdate();
@@ -204,18 +204,23 @@ BS = {
             seasons[e.season] = 1;
           }
         }
-        output = '<div id="shows">';
+        output = '<div id="show">';
         season = -1;
         for (i in data) {
           e = data[i];
           hidden = e.season !== lastSeason;
+          classHidden = hidden ? ' hidden' : '';
           if (e.season !== season) {
+            if (season !== -1) {
+              output += '</div>';
+            }
+            output += '<div class="season' + classHidden + '" id="season' + e.season + '">';
             output += Content.season(e.season, seasons[e.season], hidden);
             season = e.season;
           }
           output += Content.episode2(e, hidden);
         }
-        output += '</div>';
+        output += '</div></div>';
         return output;
       }
     };

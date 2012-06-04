@@ -48,13 +48,13 @@ Content =
 		remain = if hidden then nbrEpisodesTotal else 0
 		remainHidden = if remain <= 0 then ' hidden' else ''
 		remain = '+' + remain if remain > 0
-		
+
 		output = ''
 		
 		output += '<div class="title2">'
 		
 		output += '<div class="left">'
-		output += '<img src="' + visibleIcon + '" class="toggleShow" title="' + titleIcon + '" />'
+		output += '<img src="' + visibleIcon + '" class="toggleSeason" title="' + titleIcon + '" />'
 		output += 'Saison ' + n + ' <span class="remain' + remainHidden + '">' + remain + ' </span>'
 		output += '</div>'
 		
