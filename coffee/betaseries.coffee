@@ -199,7 +199,10 @@ BS =
 		content: ->
 			data = DB.get 'show.' + @show + '.episodes', null
 			return Fx.needUpdate() if !data
-			
+
+			episodes = DB.get 'member.' + @login + '.episodes', null
+			return Fx.needUpdate() if !episodes
+
 			shows = DB.get 'member.' + @login + '.shows', null
 			return Fx.needUpdate() if !shows
 
@@ -209,15 +212,19 @@ BS =
 			# on compte le nombre d'épisodes par saisons
 			seasons = {}
 			lastSeason = -1
+			nbrEpisodes = 0
 			for i, e of data
+				nbrEpisodes++
 				lastSeason = e.season
 				if e.season of seasons
 					seasons[e.season]++
 				else
 					seasons[e.season] = 1
-			
+
+			start = if @show of episodes then episodes[@show].start else nbrEpisodes
+				
 			# SEASONS
-			output = '<div id="show">'
+			output = '<div id="' + @show + '" class="show" start="' + start + '">'
 			
 			season = -1;
 			for i, e of data
@@ -232,7 +239,8 @@ BS =
 					season = e.season
 				
 				# construction des blocs *episode*
-				output += Content.episode2 e, hidden
+				
+				output += Content.episode2 e, hidden, start
 			
 			output += '</div></div>'
 			

@@ -76,6 +76,81 @@ $(document).ready ->
 			while e.hasClass 'episode'
 				e.find('.watched').css 'opacity', 0.5
 				e = e.prev()
+
+	## Marquer un ou des épisodes comme vu(s)
+	$('.watched2').live
+		click: -> 
+			s = $(this).closest '.show'
+			show = s.attr 'id'
+			start = parseInt s.attr 'start'
+			
+			e = $(this).closest '.episode'
+			newStart = parseInt(e.attr('global')) + 1
+			s.attr 'start', newStart
+			season = e.attr 'season'
+			episode = e.attr 'episode'
+
+			# Cache : mise à jour du dernier épisode marqué comme vu
+			login = DB.get('session').login
+			es = DB.get 'member.' + login + '.episodes'
+			if (not show in es) then es[show] = {}
+			es[show].start = "" + newStart
+			
+			# Mise à jour des plots
+			nbr = 0
+			if (e.attr('global') >= start)
+				while (e.attr('global') >= start)
+					e.find('.watched2').attr('src', '../img/tick.png').css('opacity', 0.5)
+					e = e.prev()
+					nbr++
+				es[show].nbr_total -= nbr
+				if es[show].nbr_total is 0 then delete es[show]
+			else
+				e.find('.watched2').css('opacity', 0.5)
+				e = e.next()
+				while (e.attr('global') < start)
+					e.find('.watched2').attr('src', '../img/add.png').css('opacity', 0.5)
+					e = e.next()
+					nbr++
+				es[show].nbr_total += nbr
+			
+			# Requête
+			params = "&season=" + season + "&episode=" + episode
+			ajax.post "/members/watched/" + show, params, 
+				->
+					DB.set 'member.' + login + '.episodes', es
+					Cache.force 'timelineFriends'
+					bgPage.Badge.updateCache()
+				-> 
+					registerAction "/members/watched/" + show, params
+			
+		mouseenter: ->
+			start = parseInt $(this).closest('.show').attr 'start'
+			e = $(this).closest('.episode')
+			if (e.attr('global') >= start)
+				while (e.attr('global') >= start)
+					e.find('.watched2').css 'opacity', 1
+					e = e.prev()
+			else
+				e.find('.watched2').css('opacity', 1)
+				e = e.next()
+				while (e.attr('global') < start)
+					e.find('.watched2').attr('src', '../img/delete.png').css('opacity', 1)
+					e = e.next()
+			
+		mouseleave: ->
+			start = parseInt $(this).closest('.show').attr 'start'
+			e = $(this).closest('.episode')
+			if (e.attr('global') >= start)
+				while (e.attr('global') >= start)
+					e.find('.watched2').css 'opacity', 0.5
+					e = e.prev()
+			else
+				e.find('.watched2').css('opacity', 0.5)
+				e = e.next()
+				while (e.attr('global') < start)
+					e.find('.watched2').attr('src', '../img/tick.png').css('opacity', 0.5)
+					e = e.next()
 	
 	clean = (node) ->
 		show = node.closest('.show')

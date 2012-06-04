@@ -183,9 +183,13 @@ BS = {
         return DB.set('member.' + this.login + '.shows', shows);
       },
       content: function() {
-        var classHidden, data, e, hidden, i, lastSeason, output, s, season, seasons, shows;
+        var classHidden, data, e, episodes, hidden, i, lastSeason, nbrEpisodes, output, s, season, seasons, shows, start;
         data = DB.get('show.' + this.show + '.episodes', null);
         if (!data) {
+          return Fx.needUpdate();
+        }
+        episodes = DB.get('member.' + this.login + '.episodes', null);
+        if (!episodes) {
           return Fx.needUpdate();
         }
         shows = DB.get('member.' + this.login + '.shows', null);
@@ -195,8 +199,10 @@ BS = {
         s = shows[this.show];
         seasons = {};
         lastSeason = -1;
+        nbrEpisodes = 0;
         for (i in data) {
           e = data[i];
+          nbrEpisodes++;
           lastSeason = e.season;
           if (e.season in seasons) {
             seasons[e.season]++;
@@ -204,7 +210,8 @@ BS = {
             seasons[e.season] = 1;
           }
         }
-        output = '<div id="show">';
+        start = this.show in episodes ? episodes[this.show].start : nbrEpisodes;
+        output = '<div id="' + this.show + '" class="show" start="' + start + '">';
         season = -1;
         for (i in data) {
           e = data[i];
@@ -218,7 +225,7 @@ BS = {
             output += Content.season(e.season, seasons[e.season], hidden);
             season = e.season;
           }
-          output += Content.episode2(e, hidden);
+          output += Content.episode2(e, hidden, start);
         }
         output += '</div></div>';
         return output;

@@ -100,8 +100,8 @@ Content = {
     output += '</div>';
     return output;
   },
-  episode2: function(e, hidden) {
-    var date_0, dlSrtLanguage, empty, imgDownloaded, jours, lang, nbSubs, newShow, output, quality, sub, subs, textTitle, texte2, texte3, time, title, url;
+  episode2: function(e, hidden, start) {
+    var date_0, dlSrtLanguage, empty, imgDownloaded, jours, lang, nbSubs, newShow, output, plot, quality, sub, subs, texte2, texte3, time, title, url;
     output = '';
     time = Math.floor(new Date().getTime() / 1000);
     jours = Math.floor(time / (24 * 3600));
@@ -110,11 +110,14 @@ Content = {
     hidden = hidden ? ' hidden' : '';
     output += '<div class="episode e' + e.global + newShow + hidden + '" number="' + e.number + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '">';
     title = DB.get('options').display_global ? '#' + e.global + ' ' + e.title : e.title;
-    textTitle = title.length > 20 ? ' title="' + title + '"' : '';
     texte2 = __('mark_as_seen');
+    console.log(start);
+    plot = parseInt(e.global) < start ? 'tick' : 'add';
     output += '<div class="left">';
-    output += '<img src="../img/add.png" class="watched action icon-4" title="' + texte2 + '" /> <span class="num">';
-    output += '[' + e.number + ']</span> <span class="title"' + textTitle + '>' + Fx.subFirst(title, 20) + '</span>';
+    output += '<img src="../img/' + plot + '.png" class="watched2 action icon-4" title="' + texte2 + '" /> ';
+    output += '<span class="num">' + Fx.displayNumber(e.number) + '</span> ';
+    output += '<a href="#" onclick="BS.load(\'showsEpisode\', \'' + e.url + '\', \'' + e.season + '\', \'' + e.episode + '\', \'' + e.global + '\'); return false;" title="' + title + '">';
+    output += Fx.subFirst(title, 20) + '</a>';
     if (newShow) {
       output += ' <span class="new">' + __('new') + '</span>';
     }
