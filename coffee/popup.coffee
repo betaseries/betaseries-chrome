@@ -146,7 +146,7 @@ $(document).ready ->
 		return true
 	
 	# Episode HOVER
-	$('.showsEpisodes .episode').live
+	$('.episode').live
 		mouseenter: ->
 			$(@).find('.watched').attr('src', '../img/arrow_right.png').css('opacity', 0.5)
 		mouseleave: ->

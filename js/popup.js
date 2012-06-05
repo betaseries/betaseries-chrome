@@ -150,7 +150,7 @@ $(document).ready(function() {
     Fx.updateHeight();
     return true;
   };
-  $('.showsEpisodes .episode').live({
+  $('.episode').live({
     mouseenter: function() {
       return $(this).find('.watched').attr('src', '../img/arrow_right.png').css('opacity', 0.5);
     },
