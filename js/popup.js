@@ -129,7 +129,7 @@ $(document).ready(function() {
       if (e.attr('global') < start) {
         return e.find('.watched2').attr('src', '../img/tick.png').css('opacity', 0.5);
       } else {
-        return e.find('.watched2').attr('src', '../img/empty.png').css('opacity', 1);
+        return e.find('.watched2').attr('src', '../img/empty.png');
       }
     }
   });
@@ -150,6 +150,21 @@ $(document).ready(function() {
     Fx.updateHeight();
     return true;
   };
+  $('.episode').live({
+    mouseenter: function() {
+      return $(this).find('.watched2').attr('src', '../img/arrow_right.png').css('opacity', 0.5);
+    },
+    mouseleave: function() {
+      var e, start;
+      start = parseInt($(this).closest('.show').attr('start'));
+      e = $(this).closest('.episode');
+      if (e.attr('global') < start) {
+        return e.find('.watched2').attr('src', '../img/tick.png').css('opacity', 0.5);
+      } else {
+        return e.find('.watched2').attr('src', '../img/empty.png');
+      }
+    }
+  });
   $('.star').live({
     mouseenter: function() {
       var nodeStar, _results;

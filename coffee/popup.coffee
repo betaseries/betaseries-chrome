@@ -126,9 +126,8 @@ $(document).ready ->
 			if (e.attr('global') < start)
 				e.find('.watched2').attr('src', '../img/tick.png').css('opacity', 0.5)
 			else
-				e.find('.watched2').attr('src', '../img/empty.png').css('opacity', 1)
+				e.find('.watched2').attr('src', '../img/empty.png')
 		
-	
 	clean = (node) ->
 		show = node.closest('.show')
 		
@@ -146,6 +145,19 @@ $(document).ready ->
 		
 		return true
 	
+	# Episode HOVER
+	$('.episode').live
+		mouseenter: ->
+			$(@).find('.watched2').attr('src', '../img/arrow_right.png').css('opacity', 0.5)
+		mouseleave: ->
+			start = parseInt $(this).closest('.show').attr 'start'
+			e = $(this).closest('.episode')
+
+			if (e.attr('global') < start)
+				e.find('.watched2').attr('src', '../img/tick.png').css('opacity', 0.5)
+			else
+				e.find('.watched2').attr('src', '../img/empty.png')
+		
 	# Star HOVER
 	$('.star').live
 		mouseenter: ->
