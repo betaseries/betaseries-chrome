@@ -115,7 +115,7 @@ Content = {
     texte2 = __('mark_as_seen');
     plot = parseInt(e.global) < start ? 'tick' : 'empty';
     output += '<div class="left">';
-    output += '<img src="../img/' + plot + '.png" class="watched2 action icon-4" title="' + texte2 + '" /> ';
+    output += '<img src="../img/' + plot + '.png" class="watched action icon-4" title="' + texte2 + '" /> ';
     output += '<span class="num">' + Fx.displayNumber(e.number) + '</span> ';
     output += '<a href="#" onclick="BS.load(\'showsEpisode\', \'' + e.url + '\', \'' + e.season + '\', \'' + e.episode + '\', \'' + e.global + '\'); return false;" title="' + title + '">';
     output += Fx.subFirst(title, 20) + '</a>';

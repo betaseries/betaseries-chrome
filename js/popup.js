@@ -16,7 +16,7 @@ $(document).ready(function() {
       return $('#help-text').html('');
     }
   });
-  $('.watched').live({
+  $('.membersEpisodes .watched').live({
     click: function() {
       var content, e, enable_ratings, episode, es, i, login, nbr, nodeRight, params, s, season, show, _i;
       s = $(this).closest('.show');
@@ -80,7 +80,7 @@ $(document).ready(function() {
       return _results;
     }
   });
-  $('.watched2').live({
+  $('.showsEpisodes .watched').live({
     click: function() {
       var e, episode, es, login, newStart, params, s, season, show, start, _ref;
       s = $(this).closest('.show');
@@ -103,9 +103,9 @@ $(document).ready(function() {
       }
       $('.show').find('.episode').each(function(i) {
         if ($(this).attr('global') <= newStart - 1) {
-          return $(this).find('.watched2').attr('src', '../img/tick.png').css('opacity', 0.5);
+          return $(this).find('.watched').attr('src', '../img/tick.png').css('opacity', 0.5);
         } else {
-          return $(this).find('.watched2').attr('src', '../img/empty.png');
+          return $(this).find('.watched').attr('src', '../img/empty.png');
         }
       });
       params = "&season=" + season + "&episode=" + episode;
@@ -120,16 +120,16 @@ $(document).ready(function() {
     mouseenter: function() {
       var e;
       e = $(this).closest('.episode');
-      return e.find('.watched2').attr('src', '../img/arrow_right.png').css('opacity', 1);
+      return e.find('.watched').attr('src', '../img/arrow_right.png').css('opacity', 1);
     },
     mouseleave: function() {
       var e, start;
       start = parseInt($(this).closest('.show').attr('start'));
       e = $(this).closest('.episode');
       if (e.attr('global') < start) {
-        return e.find('.watched2').attr('src', '../img/tick.png').css('opacity', 0.5);
+        return e.find('.watched').attr('src', '../img/tick.png').css('opacity', 0.5);
       } else {
-        return e.find('.watched2').attr('src', '../img/empty.png');
+        return e.find('.watched').attr('src', '../img/empty.png');
       }
     }
   });
@@ -150,18 +150,18 @@ $(document).ready(function() {
     Fx.updateHeight();
     return true;
   };
-  $('.episode').live({
+  $('.showsEpisodes .episode').live({
     mouseenter: function() {
-      return $(this).find('.watched2').attr('src', '../img/arrow_right.png').css('opacity', 0.5);
+      return $(this).find('.watched').attr('src', '../img/arrow_right.png').css('opacity', 0.5);
     },
     mouseleave: function() {
       var e, start;
       start = parseInt($(this).closest('.show').attr('start'));
       e = $(this).closest('.episode');
       if (e.attr('global') < start) {
-        return e.find('.watched2').attr('src', '../img/tick.png').css('opacity', 0.5);
+        return e.find('.watched').attr('src', '../img/tick.png').css('opacity', 0.5);
       } else {
-        return e.find('.watched2').attr('src', '../img/empty.png');
+        return e.find('.watched').attr('src', '../img/empty.png');
       }
     }
   });

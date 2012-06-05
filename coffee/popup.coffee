@@ -12,7 +12,7 @@ $(document).ready ->
 			$('#help-text').html ''
 	
 	## Marquer un ou des épisodes comme vu(s)
-	$('.watched').live
+	$('.membersEpisodes .watched').live
 		click: -> 
 			s = $(this).closest('.show')
 			show = s.attr 'id'
@@ -78,7 +78,7 @@ $(document).ready ->
 				e = e.prev()
 
 	## Marquer un ou des épisodes comme vu(s)
-	$('.watched2').live
+	$('.showsEpisodes .watched').live
 		click: -> 
 			s = $(this).closest '.show'
 			show = s.attr 'id'
@@ -101,9 +101,9 @@ $(document).ready ->
 			# Mise à jour des plots
 			$('.show').find('.episode').each (i) -> 
 				if $(@).attr('global') <= newStart - 1
-					$(@).find('.watched2').attr('src', '../img/tick.png').css('opacity', 0.5)
+					$(@).find('.watched').attr('src', '../img/tick.png').css('opacity', 0.5)
 				else
-					$(@).find('.watched2').attr('src', '../img/empty.png')
+					$(@).find('.watched').attr('src', '../img/empty.png')
 			
 			# Requête
 			params = "&season=" + season + "&episode=" + episode
@@ -117,16 +117,16 @@ $(document).ready ->
 			
 		mouseenter: ->
 			e = $(this).closest('.episode')
-			e.find('.watched2').attr('src', '../img/arrow_right.png').css('opacity', 1)
+			e.find('.watched').attr('src', '../img/arrow_right.png').css('opacity', 1)
 			
 		mouseleave: ->
 			start = parseInt $(this).closest('.show').attr 'start'
 			e = $(this).closest('.episode')
 
 			if (e.attr('global') < start)
-				e.find('.watched2').attr('src', '../img/tick.png').css('opacity', 0.5)
+				e.find('.watched').attr('src', '../img/tick.png').css('opacity', 0.5)
 			else
-				e.find('.watched2').attr('src', '../img/empty.png')
+				e.find('.watched').attr('src', '../img/empty.png')
 		
 	clean = (node) ->
 		show = node.closest('.show')
@@ -146,17 +146,17 @@ $(document).ready ->
 		return true
 	
 	# Episode HOVER
-	$('.episode').live
+	$('.showsEpisodes .episode').live
 		mouseenter: ->
-			$(@).find('.watched2').attr('src', '../img/arrow_right.png').css('opacity', 0.5)
+			$(@).find('.watched').attr('src', '../img/arrow_right.png').css('opacity', 0.5)
 		mouseleave: ->
 			start = parseInt $(this).closest('.show').attr 'start'
 			e = $(this).closest('.episode')
 
 			if (e.attr('global') < start)
-				e.find('.watched2').attr('src', '../img/tick.png').css('opacity', 0.5)
+				e.find('.watched').attr('src', '../img/tick.png').css('opacity', 0.5)
 			else
-				e.find('.watched2').attr('src', '../img/empty.png')
+				e.find('.watched').attr('src', '../img/empty.png')
 		
 	# Star HOVER
 	$('.star').live
