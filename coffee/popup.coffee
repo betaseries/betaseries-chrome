@@ -95,24 +95,15 @@ $(document).ready ->
 			es = DB.get 'member.' + login + '.episodes'
 			if (not show in es) then es[show] = {}
 			es[show].start = "" + newStart
+			es[show].nbr_total += start - newStart
+			if es[show].nbr_total is 0 then delete es[show]
 			
 			# Mise à jour des plots
-			nbr = 0
-			if (e.attr('global') >= start)
-				while (e.attr('global') >= start)
-					e.find('.watched2').attr('src', '../img/tick.png').css('opacity', 0.5)
-					e = e.prev()
-					nbr++
-				es[show].nbr_total -= nbr
-				if es[show].nbr_total is 0 then delete es[show]
-			else
-				e.find('.watched2').css('opacity', 0.5)
-				e = e.next()
-				while (e.attr('global') < start)
-					e.find('.watched2').attr('src', '../img/add.png').css('opacity', 0.5)
-					e = e.next()
-					nbr++
-				es[show].nbr_total += nbr
+			$('.show').find('.episode').each (i) -> 
+				if $(@).attr('global') <= newStart - 1
+					$(@).find('.watched2').attr('src', '../img/tick.png').css('opacity', 0.5)
+				else
+					$(@).find('.watched2').attr('src', '../img/empty.png')
 			
 			# Requête
 			params = "&season=" + season + "&episode=" + episode
@@ -216,10 +207,14 @@ $(document).ready ->
 			params = "&season=" + season + "&episode=" + episode
 			ajax.post "/members/downloaded/" + show, params, null,
 				-> registerAction "/members/downloaded/" + show, params
+
+			return false
 	
 	## Télécharger les sous-titres d'un épisode
 	$('.subs').live
-		click: -> Fx.openTab $(this).attr 'link'
+		click: -> 
+			Fx.openTab $(this).attr 'link'
+			return false
 	
 	## Archiver une série
 	$('#showsArchive').live

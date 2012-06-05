@@ -5,9 +5,9 @@ __ = (msgname, placeholders) -> chrome.i18n.getMessage msgname, placeholders
 Fx = 
 	
 	##
-	openTab: (url, selected) ->
-		selected ?= false
-		chrome.tabs.create {"url": url, "selected": selected}
+	openTab: (url, active) ->
+		active ?= false
+		chrome.tabs.create {"url": url, "active": active}
 		return false
 	
 	## Concaténer plusieurs objets (notifications page)

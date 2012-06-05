@@ -82,7 +82,7 @@ $(document).ready(function() {
   });
   $('.watched2').live({
     click: function() {
-      var e, episode, es, login, nbr, newStart, params, s, season, show, start, _ref;
+      var e, episode, es, login, newStart, params, s, season, show, start, _ref;
       s = $(this).closest('.show');
       show = s.attr('id');
       start = parseInt(s.attr('start'));
@@ -97,27 +97,17 @@ $(document).ready(function() {
         es[show] = {};
       }
       es[show].start = "" + newStart;
-      nbr = 0;
-      if (e.attr('global') >= start) {
-        while (e.attr('global') >= start) {
-          e.find('.watched2').attr('src', '../img/tick.png').css('opacity', 0.5);
-          e = e.prev();
-          nbr++;
-        }
-        es[show].nbr_total -= nbr;
-        if (es[show].nbr_total === 0) {
-          delete es[show];
-        }
-      } else {
-        e.find('.watched2').css('opacity', 0.5);
-        e = e.next();
-        while (e.attr('global') < start) {
-          e.find('.watched2').attr('src', '../img/add.png').css('opacity', 0.5);
-          e = e.next();
-          nbr++;
-        }
-        es[show].nbr_total += nbr;
+      es[show].nbr_total += start - newStart;
+      if (es[show].nbr_total === 0) {
+        delete es[show];
       }
+      $('.show').find('.episode').each(function(i) {
+        if ($(this).attr('global') <= newStart - 1) {
+          return $(this).find('.watched2').attr('src', '../img/tick.png').css('opacity', 0.5);
+        } else {
+          return $(this).find('.watched2').attr('src', '../img/empty.png');
+        }
+      });
       params = "&season=" + season + "&episode=" + episode;
       return ajax.post("/members/watched/" + show, params, function() {
         DB.set('member.' + login + '.episodes', es);
@@ -224,14 +214,16 @@ $(document).ready(function() {
         $(this).attr('src', '../img/folder.png');
       }
       params = "&season=" + season + "&episode=" + episode;
-      return ajax.post("/members/downloaded/" + show, params, null, function() {
+      ajax.post("/members/downloaded/" + show, params, null, function() {
         return registerAction("/members/downloaded/" + show, params);
       });
+      return false;
     }
   });
   $('.subs').live({
     click: function() {
-      return Fx.openTab($(this).attr('link'));
+      Fx.openTab($(this).attr('link'));
+      return false;
     }
   });
   $('#showsArchive').live({

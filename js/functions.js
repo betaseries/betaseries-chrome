@@ -6,13 +6,13 @@ __ = function(msgname, placeholders) {
 };
 
 Fx = {
-  openTab: function(url, selected) {
-    if (selected == null) {
-      selected = false;
+  openTab: function(url, active) {
+    if (active == null) {
+      active = false;
     }
     chrome.tabs.create({
       "url": url,
-      "selected": selected
+      "active": active
     });
     return false;
   },
