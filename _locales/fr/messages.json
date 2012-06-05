@@ -161,10 +161,10 @@
 		"message": "Mars"
 	},
 	"mark_as_dl": {
-		"message": "Marquer comme récupéré"
+		"message": "Marquer comme récupéré..."
 	},
 	"mark_as_not_dl": {
-		"message": "Marquer comme non-récupéré"
+		"message": "Marquer comme non-récupéré..."
 	},
 	"mark_as_seen": {
 		"message": "Marquer comme vu cet épisode!"
@@ -321,6 +321,9 @@
 	"refresh_view": {
 		"message": "Recharger la vue"
 	},
+	"release_date": {
+		"message": "Date de sortie : "
+	},
 	"remove_to_friends": {
 		"message": "Enlever $user$ de vos amis", 
 		"placeholders":{
@@ -424,7 +427,7 @@
 		"message": "Dim"
 	},
 	"synopsis": {
-		"message": "Synopsis : "
+		"message": "Synopsis"
 	},
 	"timelineFriends": {
 		"message": "Mes amis"

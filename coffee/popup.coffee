@@ -194,7 +194,7 @@ $(document).ready ->
 			clean e
 	
 	## Marquer un épisode comme téléchargé ou pas
-	$('.downloaded').live
+	$('.membersEpisodes .downloaded').live
 		click: ->
 			s = $(this).closest('.show')
 			show = s.attr 'id'
@@ -221,6 +221,34 @@ $(document).ready ->
 				-> registerAction "/members/downloaded/" + show, params
 
 			return false
+
+	## Marquer un épisode comme téléchargé ou pas
+	$('.showsEpisode .downloaded').live
+		click: ->
+			show = $(@).attr 'show'
+			season = $(@).attr 'season'
+			episode = $(@).attr 'episode'
+			global = $(@).attr 'global'
+			
+			# mise à jour du cache
+			es = DB.get 'show.' + show + '.episodes'
+			downloaded = es[global].downloaded
+			es[global].downloaded = !downloaded
+			DB.set 'show.' + show + '.episodes', es
+			
+			# modification de l'icône
+			$(@).find('span').toggleClass 'imgSyncOff imgSyncOn'
+			dl = if downloaded then 'mark_as_dl' else 'mark_as_not_dl'
+
+			# envoi de la requête
+			params = "&season=" + season + "&episode=" + episode
+			ajax.post "/members/downloaded/" + show, params, 
+				=>
+					$(@).html '<span class="imgSyncOff"></span>' + __(dl)
+				-> 
+					registerAction "/members/downloaded/" + show, params
+
+			return false
 	
 	## Télécharger les sous-titres d'un épisode
 	$('.subs').live
@@ -231,17 +259,17 @@ $(document).ready ->
 	## Archiver une série
 	$('#showsArchive').live
 		click: ->
-			show = $(this).attr('href').substring 1
+			show = $(@).attr('href').substring 1
 
-			$(this).find('span').toggleClass 'imgSyncOff imgSyncOn'
+			$(@).find('span').toggleClass 'imgSyncOff imgSyncOn'
 			
 			ajax.post "/shows/archive/" + show, "", 
 				=>
 					Cache.force 'membersEpisodes.all'
 					Cache.force 'membersInfos.' + DB.get('session').login
 					bgPage.Badge.update()
-					$(this).html '<span class="imgSyncOff"></span>' + __('show_unarchive')
-					$(this).attr 'id', 'showsUnarchive'
+					$(@).html '<span class="imgSyncOff"></span>' + __('show_unarchive')
+					$(@).attr 'id', 'showsUnarchive'
 				-> registerAction "/shows/archive/" + show, ""
 			
 			return false

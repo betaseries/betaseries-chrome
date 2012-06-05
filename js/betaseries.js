@@ -263,22 +263,23 @@ BS = {
         return DB.set('show.' + this.show + '.episodes', this.episodes);
       },
       content: function() {
-        var e, imgDownloaded, n, nbr_subs, output, sub, texte3, title;
+        var dl, e, n, nbr_subs, output, sub, title;
         e = this.episodes[this.global];
         title = DB.get('options').display_global ? '#' + e.global + ' ' + title : e.title;
         output = "<div>";
+        console.log(e);
         output += '<div class="showtitle">' + e.show + '</div>';
         if (e.screen != null) {
           output += '<img src="' + e.screen + '" style="width:100px; float:right; margin:3px;" />';
         }
-        output += "<div><span class=\"num\">[" + e.number + "]</span> " + e.title + "</div>";
-        output += '<div><span class="date">' + date('D d F', e.date) + '</span></div>';
-        output += '<div style="height:4px;"></div>';
+        output += '<span class="num">' + Fx.displayNumber(e.number) + '</span> ' + e.title;
+        output += '<br /><br />' + __('release_date') + date('D d F', e.date);
         if (e.note != null) {
-          output += __('avg_note') + ("" + e.note.mean + " (" + e.note.members + ")<br />");
+          output += '<br />' + __('avg_note') + ("" + e.note.mean + " (" + e.note.members + ")<br />");
         }
-        output += '<div style="height:54px; overflow:hidden">' + __('synopsis') + e.description + '</div>';
-        output += '<div class="showtitle">' + __('subtitles') + '</div>';
+        output += '<div class="title2">' + __('synopsis') + '</div>';
+        output += '<div style="margin-right:5px; text-align:justify;">' + e.description + '</div>';
+        output += '<div class="title2">' + __('subtitles') + '</div>';
         nbr_subs = 0;
         for (n in e.subs) {
           sub = e.subs[n];
@@ -288,16 +289,12 @@ BS = {
         if (nbr_subs === 0) {
           output += __('no_subs');
         }
-        if (e.downloaded) {
-          imgDownloaded = "folder";
-          texte3 = __('mark_as_not_dl');
-        } else {
-          imgDownloaded = "folder_off";
-          texte3 = __('mark_as_dl');
-        }
-        output += '<div class="showtitle">' + __('actions') + '</div>';
-        output += '<img src="../img/comments.png" class="comments"> ';
-        output += '<img src="../img/' + imgDownloaded + '.png" class="downloaded" show="' + e.url + '" number="' + e.number + '" />';
+        output += '<div class="title2">' + __('actions') + '</div>';
+        output += '<a href="#" class="link" onclick="BS.load(\'commentsEpisode\', \'' + e.url + '\', \'' + e.season + '\', \'' + e.episode + '\', \'' + e.global + '\'); return false;">';
+        output += '<span class="imgSyncNo"></span>' + __('see_comments', e.comments) + '</a>';
+        dl = e.downloaded ? 'mark_as_not_dl' : 'mark_as_dl';
+        output += '<a href="#" class="link downloaded" show="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" onclick="return false;">';
+        output += '<span class="imgSyncOff"></span>' + __(dl) + '</a>';
         output += '</div>';
         return output;
       }

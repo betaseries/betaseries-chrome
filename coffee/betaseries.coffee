@@ -270,16 +270,17 @@ BS =
 			
 			# wrapper start
 			output = "<div>"
-			
+			console.log e
 			output += '<div class="showtitle">' + e.show + '</div>'
 			output += '<img src="' + e.screen + '" style="width:100px; float:right; margin:3px;" />' if e.screen?
-			output += "<div><span class=\"num\">[#{e.number}]</span> #{e.title}</div>"
-			output += '<div><span class="date">' + date('D d F', e.date) + '</span></div>'
-			output += '<div style="height:4px;"></div>'
-			output += __('avg_note') + "#{e.note.mean} (#{e.note.members})<br />" if e.note?
-			output += '<div style="height:54px; overflow:hidden">' + __('synopsis') + e.description + '</div>'
+			output += '<span class="num">' + Fx.displayNumber(e.number) + '</span> ' + e.title
+			output += '<br /><br />' + __('release_date') + date('D d F', e.date)
+			output += '<br />' + __('avg_note') + "#{e.note.mean} (#{e.note.members})<br />" if e.note?
 			
-			output += '<div class="showtitle">' + __('subtitles') + '</div>'
+			output += '<div class="title2">' + __('synopsis') + '</div>'
+			output += '<div style="margin-right:5px; text-align:justify;">' + e.description + '</div>'
+			
+			output += '<div class="title2">' + __('subtitles') + '</div>'
 			nbr_subs = 0
 			for n of e.subs
 				sub = e.subs[n]
@@ -287,18 +288,17 @@ BS =
 				nbr_subs++
 			output += __('no_subs') if nbr_subs is 0
 			
-			if e.downloaded
-				imgDownloaded = "folder"
-				texte3 = __('mark_as_not_dl')
-			else
-				imgDownloaded = "folder_off"
-				texte3 = __('mark_as_dl')
+			output += '<div class="title2">' + __('actions') + '</div>'
 			
-			output += '<div class="showtitle">' + __('actions') + '</div>'
-			output += '<img src="../img/comments.png" class="comments"> ';
-			output += '<img src="../img/' + imgDownloaded + '.png" class="downloaded" show="' + e.url + '" number="' + e.number + '" />'
+			# Voir les commentaires
+			output += '<a href="#" class="link" onclick="BS.load(\'commentsEpisode\', \'' + e.url + '\', \'' + e.season + '\', \'' + e.episode + '\', \'' + e.global + '\'); return false;">'
+			output += '<span class="imgSyncNo"></span>' + __('see_comments', e.comments) + '</a>'
 			
-			# wrapper end
+			# Marquer comme récupéré ou pas
+			dl = if e.downloaded then 'mark_as_not_dl' else 'mark_as_dl'
+			output += '<a href="#" class="link downloaded" show="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" onclick="return false;">'
+			output += '<span class="imgSyncOff"></span>' + __(dl) + '</a>'
+			
 			output += '</div>'
 			
 			return output

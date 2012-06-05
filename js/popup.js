@@ -210,7 +210,7 @@ $(document).ready(function() {
       return clean(e);
     }
   });
-  $('.downloaded').live({
+  $('.membersEpisodes .downloaded').live({
     click: function() {
       var downloaded, e, episode, es, global, params, s, season, show;
       s = $(this).closest('.show');
@@ -230,6 +230,29 @@ $(document).ready(function() {
       }
       params = "&season=" + season + "&episode=" + episode;
       ajax.post("/members/downloaded/" + show, params, null, function() {
+        return registerAction("/members/downloaded/" + show, params);
+      });
+      return false;
+    }
+  });
+  $('.showsEpisode .downloaded').live({
+    click: function() {
+      var dl, downloaded, episode, es, global, params, season, show,
+        _this = this;
+      show = $(this).attr('show');
+      season = $(this).attr('season');
+      episode = $(this).attr('episode');
+      global = $(this).attr('global');
+      es = DB.get('show.' + show + '.episodes');
+      downloaded = es[global].downloaded;
+      es[global].downloaded = !downloaded;
+      DB.set('show.' + show + '.episodes', es);
+      $(this).find('span').toggleClass('imgSyncOff imgSyncOn');
+      dl = downloaded ? 'mark_as_dl' : 'mark_as_not_dl';
+      params = "&season=" + season + "&episode=" + episode;
+      ajax.post("/members/downloaded/" + show, params, function() {
+        return $(_this).html('<span class="imgSyncOff"></span>' + __(dl));
+      }, function() {
         return registerAction("/members/downloaded/" + show, params);
       });
       return false;
