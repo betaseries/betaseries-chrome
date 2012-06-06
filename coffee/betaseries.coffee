@@ -848,7 +848,7 @@ BS =
 			output += '<img src="../img/cache.png" id="cache" class="action" style="margin-bottom:-3px;" />'
 			output += __('cache') + '</a>'
 			
-			output += '<a href="" onclick="Fx.openTab(chrome.extension.getURL(\'../html/options.html\', true)); return false;">'
+			output += '<a href="" onclick="Fx.openTab(chrome.extension.getURL(\'../html/options.html\')); return false;">'
 			output += '<img src="../img/options.png" id="options" class="options" style="margin-bottom:-3px;" />'
 			output += __('options') + '</a>'
 			
