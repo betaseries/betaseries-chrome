@@ -3,7 +3,7 @@ var DB;
 
 DB = {
   init: function() {
-    var badge, options;
+    var badge, options, version;
     badge = {
       value: 0,
       type: 'membersEpisodes'
@@ -19,7 +19,11 @@ DB = {
     this.set('badge', badge, true);
     this.set('historic', [], false);
     this.set('options', options, true);
-    return this.set('views', {}, true);
+    this.set('views', {}, true);
+    version = this.get('version', null);
+    if (version === null) {
+      return this.set('version', Fx.getVersion(), true);
+    }
   },
   get: function(field, defaultValue) {
     if ((localStorage[field] != null) && localStorage[field] !== 'undefined') {

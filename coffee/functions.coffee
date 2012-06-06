@@ -118,7 +118,6 @@ Fx =
 		newVersion = version isnt currVersion
 		$('#versionLink').text Fx.getVersion()
 		if (newVersion) 
-			DB.set 'version', currVersion, true
 			BS.load 'logout'
 			$('#message').html(__('new_version')).show()
 		

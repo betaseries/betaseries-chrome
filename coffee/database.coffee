@@ -23,6 +23,9 @@ DB =
 		@set 'historic', [], false
 		@set 'options', options, true
 		@set 'views', {}, true
+
+		version = @get 'version', null
+		if version is null then @set 'version', Fx.getVersion(), true
 		
 	## Getter - Obtenir la valeur d'un champ de la BD
 	 #
