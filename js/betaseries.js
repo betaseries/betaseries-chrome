@@ -68,7 +68,9 @@ BS = {
     o = this.currentView;
     Historic.save();
     document.getElementById('page').innerHTML = '';
-    $('#page').html(o.content());
+    if (o.content) {
+      $('#page').html(o.content());
+    }
     $('#title').text(__(o.name));
     $('#page').removeClass().addClass(o.name);
     return Fx.updateHeight();

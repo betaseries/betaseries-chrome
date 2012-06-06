@@ -89,7 +89,7 @@ BS =
 		
 		# affichage de la vue (cache)
 		document.getElementById('page').innerHTML = ''
-		$('#page').html o.content()
+		$('#page').html o.content() if o.content
 		
 		# Post affichage
 		#if o.after?

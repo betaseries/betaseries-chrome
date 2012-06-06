@@ -1,5 +1,6 @@
 ## Internationalisation
-__ = (msgname, placeholders) -> chrome.i18n.getMessage msgname, placeholders
+__ = (msgname, placeholders) -> 
+	if msgname then chrome.i18n.getMessage msgname, placeholders
 
 ## Functions (Fx)
 Fx = 
@@ -112,7 +113,12 @@ Fx =
 	 	
 	##
 	checkVersion: ->
-		version = 
+		version = DB.get 'version', 0
 		currVersion = Fx.getVersion()
+		newVersion = version isnt currVersion
 		$('#versionLink').text Fx.getVersion()
+		if (newVersion) 
+			DB.set 'version', currVersion, true
+			BS.load 'logout'
+			$('#message').html(__('new_version')).show()
 		

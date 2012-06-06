@@ -267,6 +267,9 @@
 	"new": {
 		"message": "NEW!"
 	},
+	"new_version": {
+		"message": "ChromeSeries a été mis à jour ! <br /> Vous devez vous reconnecter."
+	},
 	"no": {
 		"message": "Non"
 	},

@@ -24,3 +24,8 @@ Cache =
 				DB.remove 'comments.' + args[1] + '.' + args[2]
 				delete views_to_remove[viewid]
 		DB.set 'views_to_remove', views_to_remove
+
+	## Réinitialise le cache si une nouvelle version est détectée
+	removeAll: ->
+		for i, j of localStorage
+			console.log i

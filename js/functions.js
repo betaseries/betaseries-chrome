@@ -2,7 +2,9 @@
 var Fx, __;
 
 __ = function(msgname, placeholders) {
-  return chrome.i18n.getMessage(msgname, placeholders);
+  if (msgname) {
+    return chrome.i18n.getMessage(msgname, placeholders);
+  }
 };
 
 Fx = {
@@ -139,8 +141,15 @@ Fx = {
     return 'no data found, please update';
   },
   checkVersion: function() {
-    var currVersion, version;
-    version = currVersion = Fx.getVersion();
-    return $('#versionLink').text(Fx.getVersion());
+    var currVersion, newVersion, version;
+    version = DB.get('version', 0);
+    currVersion = Fx.getVersion();
+    newVersion = version !== currVersion;
+    $('#versionLink').text(Fx.getVersion());
+    if (newVersion) {
+      DB.set('version', currVersion, true);
+      BS.load('logout');
+      return $('#message').html(__('new_version')).show();
+    }
   }
 };
