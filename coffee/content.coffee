@@ -20,7 +20,7 @@ Content =
 		output += '<div class="left">'
 		output += '<img src="' + visibleIcon + '" class="toggleShow" title="' + titleIcon + '" />'
 		output += '<a href="" onclick="BS.load(\'showsDisplay\', \'' + s.url + '\'); return false;" class="showtitle">' + s.title + '</a>'
-		output += ' <span class="remain">' + nbrEpisodesTotal + ' </span>'
+		output += ' <span class="remain remain-right">' + nbrEpisodesTotal + ' </span>'
 		output += '</div>'
 		
 		output += '<div class="right"></div>';
@@ -49,7 +49,7 @@ Content =
 		
 		output += '<div class="left">'
 		output += '<img src="' + visibleIcon + '" class="toggleSeason" title="' + titleIcon + '" />'
-		output += 'Saison ' + n + ' <span class="remain' + remainHidden + '">' + remain + ' </span>'
+		output += 'Saison ' + n + ' <span class="remain remain-right' + remainHidden + '">' + remain + ' </span>'
 		output += '</div>'
 		
 		output += '<div class="right"></div>';
