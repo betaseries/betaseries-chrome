@@ -8,6 +8,10 @@ a, a:visited {text-decoration: none; color: #009; outline: none;}
 a:hover {text-decoration: underline; color: #006;}
 a.showtitle, a.showtitle:visited {text-decoration: none; color: #000; outline: none;}
 a.showtitle:hover {color: #900;}
+a.epLink, a.epLink:visited {text-decoration: none; color: #333; outline: none;}
+a.epLink:hover {color: #900; text-decoration: none;}
+a.link, a.link:visited {display: block; margin-top: 4px; text-decoration: none; color: #666; line-height: 18px; clear: left;}
+a.link:hover {color: #000; font-weight: bold;}
 
 .nano .content      { padding: 0px; }
 .nano .pane         { background: #fff; }
@@ -127,19 +131,6 @@ div.clear{clear: both;}
 .cache .right{margin-left: 230px; width:60px; text-align: right;}
 
 /* Liens */
-a.link, a.link:visited {
-	display: block;
-	margin-top: 4px;
-	text-decoration: none;
-	color: #666;
-	line-height: 18px;
-	clear: left;
-}
-
-a.link:hover {
-	color: #000;
-	font-weight: bold;
-}
 
 .imgSyncNo {
 	width: 19px;
