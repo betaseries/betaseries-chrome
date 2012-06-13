@@ -6,9 +6,9 @@ body {
 /*Links*/
 a, a:visited {text-decoration: none; color: #009; outline: none;}
 a:hover {text-decoration: underline; color: #006;}
-a.showtitle, a.showtitle:visited {text-decoration: none; color: #000; outline: none;}
-a.showtitle:hover {color: #900;}
-a.epLink, a.epLink:visited {text-decoration: none; color: #333; outline: none;}
+a.showtitle, a.showtitle:visited {text-decoration: none; color: #444; outline: none; font-weight: bold;}
+a.showtitle:hover {color: #900; text-decoration: none;}
+a.epLink, a.epLink:visited {text-decoration: none; color: #444; outline: none;}
 a.epLink:hover {color: #900; text-decoration: none;}
 a.link, a.link:visited {display: block; margin-top: 4px; text-decoration: none; color: #666; line-height: 18px; clear: left;}
 a.link:hover {color: #000; font-weight: bold;}
