@@ -3,8 +3,7 @@ var Content;
 
 Content = {
   show: function(s, nbrEpisodesTotal) {
-    var nbrEpisodesPerSerie, output, titleIcon, visibleIcon;
-    nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie;
+    var output, titleIcon, visibleIcon;
     visibleIcon = s.hidden ? '../img/arrow_right.gif' : '../img/arrow_down.gif';
     titleIcon = s.hidden ? __('maximise') : __('minimise');
     output = '';

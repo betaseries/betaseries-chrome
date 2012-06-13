@@ -226,9 +226,6 @@
 			}
 		}
 	},
-	"nbr_episodes_per_serie": {
-		"message": "Nombre d'épisodes maximum affichés d'une série : "
-	},
 	"nbr_friends": {
 		"message": "$nbr$ amis", 
 		"placeholders":{

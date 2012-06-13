@@ -11,7 +11,6 @@ DB = {
     options = {
       badge_notification_type: 'watched',
       dl_srt_language: 'VF',
-      nbr_episodes_per_serie: 5,
       display_global: false,
       enable_ratings: true,
       max_height: 200

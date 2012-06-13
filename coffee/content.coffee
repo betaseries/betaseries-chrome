@@ -10,8 +10,6 @@ Content =
 	 # @return 	string		Bloc *série*
 	 #
 	show: (s, nbrEpisodesTotal) ->		
-		nbrEpisodesPerSerie = DB.get('options').nbr_episodes_per_serie
-		
 		visibleIcon = if s.hidden then '../img/arrow_right.gif' else '../img/arrow_down.gif'
 		titleIcon = if s.hidden then __('maximise') else __('minimise')
 

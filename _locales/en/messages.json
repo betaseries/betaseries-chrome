@@ -220,9 +220,6 @@
 			}
 		}
 	},
-	"nbr_episodes_per_serie": {
-		"message": "Maximum number of episodes for a tvshow : "
-	},
 	"nbr_friends": {
 		"message": "$nbr$ friends", 
 		"placeholders":{
