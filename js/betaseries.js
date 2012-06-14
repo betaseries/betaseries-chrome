@@ -71,7 +71,7 @@ BS = {
     if (o.content) {
       $('#page').html(o.content());
     }
-    $('#title').text(__(o.name));
+    $('#title').text(__('title_' + o.name));
     $('#page').removeClass().addClass(o.name);
     return Fx.updateHeight();
   },
@@ -236,7 +236,7 @@ BS = {
   },
   showsEpisode: function(url, season, episode, global) {
     return {
-      id: 'showsEpisode.' + url + '.' + global,
+      id: 'showsEpisode.' + url + '.' + season + '.' + episode + '.' + global,
       name: 'showsEpisode',
       url: '/shows/episodes/' + url,
       params: '&season=' + season + '&episode=' + episode,
@@ -267,7 +267,7 @@ BS = {
       content: function() {
         var dl, e, n, nbr_subs, output, sub, title;
         e = this.episodes[this.global];
-        title = DB.get('options').display_global ? '#' + e.global + ' ' + title : e.title;
+        title = DB.get('options').display_global ? '#' + e.global + ' ' + e.title : e.title;
         output = "<div>";
         console.log(e);
         output += '<div class="showtitle">' + e.show + '</div>';
@@ -610,7 +610,7 @@ BS = {
   },
   commentsEpisode: function(url, season, episode, global) {
     return {
-      id: 'commentsEpisode.' + url + '.' + global,
+      id: 'commentsEpisode.' + url + '.' + season + '.' + episode + '.' + global,
       name: 'commentsEpisode',
       url: '/comments/episode/' + url,
       params: '&season=' + season + '&episode=' + episode,

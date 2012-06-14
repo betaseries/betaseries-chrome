@@ -97,7 +97,7 @@ BS =
 		#		o.after()
 		
 		# Titre et classe
-		$('#title').text __(o.name)
+		$('#title').text __('title_' + o.name)
 		$('#page').removeClass().addClass o.name
 		
 		# Hauteur du popup
@@ -247,7 +247,7 @@ BS =
 			return output
 	#
 	showsEpisode: (url, season, episode, global) ->
-		id: 'showsEpisode.' + url + '.' + global
+		id: 'showsEpisode.' + url + '.' + season + '.' + episode + '.' + global
 		name: 'showsEpisode'
 		url: '/shows/episodes/' + url
 		params: '&season=' + season + '&episode=' + episode
@@ -266,7 +266,7 @@ BS =
 		content: ->
 			e = @episodes[@global]
 			
-			title = if DB.get('options').display_global then '#' + e.global + ' ' + title else e.title
+			title = if DB.get('options').display_global then '#' + e.global + ' ' + e.title else e.title
 			
 			# wrapper start
 			output = "<div>"
@@ -575,7 +575,7 @@ BS =
 	
 	## Section "commentaires d'un épisode"
 	commentsEpisode: (url, season, episode, global) ->
-		id: 'commentsEpisode.' + url + '.' + global
+		id: 'commentsEpisode.' + url + '.' + season + '.' + episode + '.' + global
 		name: 'commentsEpisode'
 		url: '/comments/episode/' + url
 		params: '&season=' + season + '&episode=' + episode

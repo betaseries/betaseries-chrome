@@ -184,18 +184,6 @@
 	"members": {
 		"message": "Membres"
 	},
-	"membersEpisodes": {
-		"message": "Mes épisodes"
-	},
-	"membersInfos": {
-		"message": "Mon compte"
-	},
-	"membersNotifications": {
-		"message": "Mes notifications"
-	},
-	"membersShows": {
-		"message": "Mes séries"
-	},
 	"menu": {
 		"message": "Accéder au menu"
 	},
@@ -403,9 +391,6 @@
 	"shows": {
 		"message": "Séries"
 	},
-	"showsDisplay": {
-		"message": "Vue d'une série"
-	},
 	"srt_quality": {
 		"message": "Qualité SRT $lang$ : $quality$/5", 
 		"placeholders":{
@@ -437,6 +422,30 @@
 	},
 	"timelineFriends": {
 		"message": "Mes amis"
+	},
+	"title_membersEpisodes": {
+		"message": "Mes épisodes"
+	},
+	"title_membersInfos": {
+		"message": "Mon compte"
+	},
+	"title_membersNotifications": {
+		"message": "Mes notifications"
+	},
+	"title_membersShows": {
+		"message": "Mes séries"
+	},
+	"title_menu": {
+		"message": "Menu"
+	},
+	"title_showsDisplay": {
+		"message": "Vue d'une série"
+	},
+	"title_showsEpisode": {
+		"message": "Vue d'un épisode"
+	},
+	"title_showsEpisodes": {
+		"message": "Vue de tous les épisodes"
 	},
 	"this_week": {
 		"message": "Cette semaine"
