@@ -543,21 +543,9 @@ $(document).ready(function() {
     return Fx.openTab('https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true);
   }).attr('title', __("version"));
   $('#back').click(function() {
-    var historic, length;
-    historic = DB.get('historic');
-    if ((length = historic.length) >= 2) {
-      historic.pop();
-      BS.back();
-      DB.set('historic', historic);
-      if (length === 2) {
-        $(this).hide();
-      }
-    }
+    Historic.back();
     return false;
   }).attr('title', __("back"));
-  $('#close').click(function() {
-    return window.close();
-  }).attr('title', __('close'));
   $('#sync').click(function() {
     return BS.refresh();
   }).attr('title', __('sync'));
@@ -568,6 +556,9 @@ $(document).ready(function() {
       return BS.load('menu');
     }
   }).attr('title', __('menu'));
+  $('#close').click(function() {
+    return window.close();
+  }).attr('title', __('close'));
   $('#trash').click(function() {
     Cache.remove();
     return $(this).hide();

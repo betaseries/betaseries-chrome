@@ -41,7 +41,7 @@
 		"message": "Note moyenne : "
 	},
 	"back": {
-		"message": "Retour"
+		"message": "Retourner à la vue précédente"
 	},
 	"badge": {
 		"message": "Badge"
@@ -59,7 +59,7 @@
 		"message": "Mémoire"
 	},
 	"close": {
-		"message": "Fermer"
+		"message": "Fermer ce pop-up"
 	},
 	"commentsEpisode": {
 		"message": "Commentaires d'un épisode"
@@ -195,6 +195,9 @@
 	},
 	"membersShows": {
 		"message": "Mes séries"
+	},
+	"menu": {
+		"message": "Accéder au menu"
 	},
 	"minimise": {
 		"message": "Minimiser"
@@ -425,6 +428,9 @@
 	},
 	"sun": {
 		"message": "Dim"
+	},
+	"sync": {
+		"message": "Rafraîchir cette vue"
 	},
 	"synopsis": {
 		"message": "Synopsis"

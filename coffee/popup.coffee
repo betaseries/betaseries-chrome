@@ -529,18 +529,9 @@ $(document).ready ->
 	
 	## MENU actions
 	$('#back').click ->
-			historic = DB.get 'historic'
-			if (length = historic.length) >= 2
-				historic.pop()
-				BS.back()
-				DB.set 'historic', historic
-				$(this).hide() if length is 2
+			Historic.back()
 			return false
 		.attr 'title', __("back")
-	
-	$('#close')
-		.click(-> window.close())
-		.attr 'title', __('close')
 	
 	$('#sync')
 		.click(-> BS.refresh())
@@ -554,6 +545,10 @@ $(document).ready ->
 				BS.load('menu');
 		.attr 'title', __('menu')
 		
+	$('#close')
+		.click(-> window.close())
+		.attr 'title', __('close')
+	
 	$('#trash')
 		.click ->
 			Cache.remove()
