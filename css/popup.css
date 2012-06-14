@@ -40,7 +40,7 @@ img.archive:hover,img.unarchive:hover{cursor: pointer;}
 
 /*Actions*/
 #logo {float: left; width: 200px;}
-#actions {text-align: right; padding: 2px 3px 0 0;}
+#actions {text-align: right; padding: 2px 3px 0 0; height: 21px;}
 img.action {opacity: 0.5; cursor: pointer;}
 img.action:hover {opacity: 1.0;}
 
