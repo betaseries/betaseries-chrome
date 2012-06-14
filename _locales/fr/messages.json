@@ -52,20 +52,11 @@
 	"be_connected": {
 		"message": "Vous devez être connecté afin de pouvoir afficher les données de cette vue."
 	},
-	"blog": {
-		"message": "Le blog"
-	},
-	"cache": {
-		"message": "Mémoire"
-	},
 	"close": {
 		"message": "Fermer ce pop-up"
 	},
 	"commentsEpisode": {
 		"message": "Commentaires d'un épisode"
-	},
-	"connection": {
-		"message": "Connexion"
 	},
 	"continuing": {
 		"message": "En cours"
@@ -151,9 +142,6 @@
 	"logo": {
 		"message": "Aller sur le site de BetaSeries!"
 	},
-	"logout": {
-		"message": "Déconnexion"
-	},
 	"long_login": {
 		"message": "Login trop long (<24 caractères)."
 	},
@@ -184,8 +172,44 @@
 	"members": {
 		"message": "Membres"
 	},
-	"menu": {
+	"menu_blog": {
+		"message": "Le blog"
+	},
+	"menu_cache": {
+		"message": "Mémoire"
+	},
+	"menu_logout": {
+		"message": "Déconnexion"
+	},
+	"menu_membersEpisodes": {
+		"message": "Mes épisodes"
+	},
+	"menu_membersInfos": {
+		"message": "Mon compte"
+	},
+	"menu_membersNotifications": {
+		"message": "Mes notifications"
+	},
+	"menu_membersShows": {
+		"message": "Mes séries"
+	},
+	"menu_menu": {
 		"message": "Accéder au menu"
+	},
+	"menu_options": {
+		"message": "Options"
+	},
+	"menu_planningMember": {
+		"message": "Mon planning"
+	},
+	"menu_searchMember": {
+		"message": "Chercher un membre"
+	},
+	"menu_searchShow": {
+		"message": "Chercher une série"
+	},
+	"menu_timelineFriends": {
+		"message": "Mes amis"
 	},
 	"minimise": {
 		"message": "Minimiser"
@@ -279,26 +303,17 @@
 	"no_subs": {
 		"message": "Aucun sous-titre pour cet épisode."
 	},
-	"noConnection": {
-		"message": "Pas de connexion"
-	},
 	"november": {
 		"message": "Nov"
 	},
 	"october": {
 		"message": "Oct"
 	},
-	"options": {
-		"message": "Options"
-	},
 	"password": {
 		"message": "Mot de passe"
 	},
 	"password_not_matching": {
 		"message": "Mot de passe invalide."
-	},
-	"planningMember": {
-		"message": "Mon planning"
 	},
 	"progress": {
 		"message": "avancement"
@@ -326,9 +341,6 @@
 	"repassword": {
 		"message": "Répéter mot de passe"
 	},
-	"registration": {
-		"message": "Inscription"
-	},
 	"sat": {
 		"message": "Sam"
 	},
@@ -337,12 +349,6 @@
 	},
 	"saved": {
 		"message": "Sauvegardé"
-	},
-	"searchMember": {
-		"message": "Chercher un membre"
-	},
-	"searchShow": {
-		"message": "Chercher une série"
 	},
 	"seasons": {
 		"message": "Saisons"
@@ -420,8 +426,14 @@
 	"synopsis": {
 		"message": "Synopsis"
 	},
-	"timelineFriends": {
-		"message": "Mes amis"
+	"title_blog": {
+		"message": "Le blog"
+	},
+	"title_cache": {
+		"message": "Mémoire"
+	},
+	"title_connection": {
+		"message": "Connexion"
 	},
 	"title_membersEpisodes": {
 		"message": "Mes épisodes"
@@ -438,6 +450,21 @@
 	"title_menu": {
 		"message": "Menu"
 	},
+	"title_noConnection": {
+		"message": "Pas de connexion"
+	},
+	"title_planningMember": {
+		"message": "Mon planning"
+	},
+	"title_registration": {
+		"message": "Inscription"
+	},
+	"title_searchMember": {
+		"message": "Chercher un membre"
+	},
+	"title_searchShow": {
+		"message": "Chercher une série"
+	},
 	"title_showsDisplay": {
 		"message": "Vue d'une série"
 	},
@@ -446,6 +473,9 @@
 	},
 	"title_showsEpisodes": {
 		"message": "Vue de tous les épisodes"
+	},
+	"title_timelineFriends": {
+		"message": "Mes amis"
 	},
 	"this_week": {
 		"message": "Cette semaine"

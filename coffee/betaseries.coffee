@@ -810,51 +810,51 @@ BS =
 			
 			output += '<a href="" onclick="BS.load(\'timelineFriends\'); return false;">'
 			output += '<img src="../img/timeline.png" id="timeline" class="action" style="margin-bottom:-3px;" />'
-			output += __('timelineFriends') + '</a>'
+			output += __('menu_timelineFriends') + '</a>'
 			
 			output += '<a href="" onclick="BS.load(\'planningMember\', \'' + DB.get('session').login + '\'); return false;">'
 			output += '<img src="../img/planning.png" id="planning" class="action" style="margin-bottom:-3px;" />'
-			output += __('planningMember') + '</a>'
+			output += __('menu_planningMember') + '</a>'
 			
 			output += '<a href="" onclick="BS.load(\'membersEpisodes\'); return false;">'
 			output += '<img src="../img/episodes.png" id="episodes" class="action" style="margin-bottom:-3px;" />'
-			output += __('membersEpisodes') + '</a>'
+			output += __('menu_membersEpisodes') + '</a>'
 			
 			output += '<a href="" onclick="BS.load(\'membersShows\', \'' + DB.get('session').login + '\'); return false;">'
 			output += '<img src="../img/episodes.png" id="shows" class="action" style="margin-bottom:-3px;" />'
-			output += __('membersShows') + '</a>'
+			output += __('menu_membersShows') + '</a>'
 			
 			output += '<a href="" onclick="BS.load(\'membersInfos\', \'' + DB.get('session').login + '\'); return false;">'
 			output += '<img src="../img/infos.png" id="infos" class="action" style="margin-bottom:-3px; margin-right: 9px;" />'
-			output += __('membersInfos') + '</a>'
+			output += __('menu_membersInfos') + '</a>'
 			
 			output += '<a href="" onclick="BS.load(\'membersNotifications\'); return false;">'
 			output += '<img src="../img/notifications.png" id="notifications" class="action" style="margin-bottom:-3px;" />'
-			output += __('membersNotifications') + '</a>'
+			output += __('menu_membersNotifications') + '</a>'
 			
 			output += '<a href="" onclick="BS.load(\'searchShow\'); return false;">'
 			output += '<img src="../img/search.png" id="search" class="action" style="margin-bottom:-3px;" />'
-			output += __('searchShow') + '</a>'
+			output += __('menu_searchShow') + '</a>'
 			
 			output += '<a href="" onclick="BS.load(\'searchMember\'); return false;">'
 			output += '<img src="../img/search.png" id="search" class="action" style="margin-bottom:-3px;" />'
-			output += __('searchMember') + '</a>'
+			output += __('menu_searchMember') + '</a>'
 			
 			output += '<a href="" onclick="BS.load(\'blog\'); return false;">'
 			output += '<img src="../img/blog.png" id="blog" class="action" style="margin-bottom:-3px;" />'
-			output += __('blog') + '</a>'
+			output += __('menu_blog') + '</a>'
 			
 			output += '<a href="" onclick="BS.load(\'cache\'); return false;">'
 			output += '<img src="../img/cache.png" id="cache" class="action" style="margin-bottom:-3px;" />'
-			output += __('cache') + '</a>'
+			output += __('menu_cache') + '</a>'
 			
 			output += '<a href="" onclick="Fx.openTab(chrome.extension.getURL(\'../html/options.html\')); return false;">'
 			output += '<img src="../img/options.png" id="options" class="options" style="margin-bottom:-3px;" />'
-			output += __('options') + '</a>'
+			output += __('menu_options') + '</a>'
 			
 			output += '<a href="" onclick="BS.logout(); return false;">'
 			output += '<img src="../img/close.png" id="logout" class="action" style="margin-bottom:-3px;" />'
-			output += __('logout') + '</a>'
+			output += __('menu_logout') + '</a>'
 			
 			return output
 		
