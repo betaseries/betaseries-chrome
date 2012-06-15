@@ -145,7 +145,7 @@ Fx = {
     version = DB.get('version', 0);
     currVersion = Fx.getVersion();
     newVersion = version !== currVersion;
-    $('#versionLink').text(Fx.getVersion() + ' BETA 2');
+    $('#versionLink').text(Fx.getVersion() + ' BETA 3');
     if (newVersion) {
       BS.load('logout');
       return $('#message').html(__('new_version')).show();

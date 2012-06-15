@@ -155,9 +155,6 @@
 		"message": "Marquer comme non-récupéré..."
 	},
 	"mark_as_seen": {
-		"message": "Marquer cet épisode comme vu"
-	},
-	"mark_as_seen_pl": {
 		"message": "Marquer cet épisode, et les précédents, comme vus"
 	},
 	"max_height": {
