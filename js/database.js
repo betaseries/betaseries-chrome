@@ -12,7 +12,7 @@ DB = {
       badge_notification_type: 'watched',
       dl_srt_language: 'VF',
       display_global: false,
-      enable_ratings: true,
+      enable_ratings: false,
       max_height: 200
     };
     this.set('badge', badge, true);
