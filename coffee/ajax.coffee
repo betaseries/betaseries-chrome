@@ -22,7 +22,7 @@ ajax =
 			data: "user-agent=" + useragent + "&key=" + @key + params + token
 			dataType: "json"
 			success: (data) ->
-				#console.log data
+				console.log data
 				$('#sync').attr 'src', '../img/sync.png'
 				successCallback data if successCallback?
 			error: ->

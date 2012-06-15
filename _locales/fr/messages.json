@@ -50,7 +50,7 @@
 		"message": "Type de notification : "
 	},
 	"be_connected": {
-		"message": "Vous devez être connecté afin de pouvoir afficher les données de cette vue."
+		"message": "Vous devez être connecté afin de pouvoir afficher les données de cette vue"
 	},
 	"close": {
 		"message": "Fermer ce pop-up"
@@ -104,7 +104,7 @@
 		"message": "Extension Chrome pour BetaSeries (www.betaseries.com)"
 	},
 	"extension_page": {
-		"message": "Page de l'extension"
+		"message": "Aller sur la page de l'extension"
 	},
 	"facebook": {
 		"message": "facebook"
@@ -140,10 +140,10 @@
 		"message": "Identifiant"
 	},
 	"logo": {
-		"message": "Aller sur le site de BetaSeries!"
+		"message": "Aller sur BetaSeries.com"
 	},
 	"long_login": {
-		"message": "Login trop long (<24 caractères)."
+		"message": "Login trop long (<24 caractères)"
 	},
 	"march": {
 		"message": "Mars"
@@ -155,10 +155,10 @@
 		"message": "Marquer comme non-récupéré..."
 	},
 	"mark_as_seen": {
-		"message": "Marquer comme vu cet épisode!"
+		"message": "Marquer cet épisode comme vu"
 	},
 	"mark_as_seen_pl": {
-		"message": "Marquer comme vu ces épisodes!"
+		"message": "Marquer cet épisode, et les précédents, comme vus"
 	},
 	"max_height": {
 		"message": "Hauteur maximale du popup : "
@@ -171,6 +171,9 @@
 	},
 	"members": {
 		"message": "Membres"
+	},
+	"menu": {
+		"message": "Accéder au menu"
 	},
 	"menu_blog": {
 		"message": "Le blog"
@@ -192,9 +195,6 @@
 	},
 	"menu_membersShows": {
 		"message": "Mes séries"
-	},
-	"menu_menu": {
-		"message": "Accéder au menu"
 	},
 	"menu_options": {
 		"message": "Options"
@@ -280,28 +280,28 @@
 		"message": "NEW!"
 	},
 	"new_version": {
-		"message": "ChromeSeries a été mis à jour ! <br /> Vous devez vous reconnecter."
+		"message": "ChromeSeries a été mis à jour"
 	},
 	"no": {
 		"message": "Non"
 	},
 	"no_comments": {
-		"message": "Aucun commentaire pour cet épisode !"
+		"message": "Aucun commentaire pour cet épisode"
 	},
 	"no_episodes_to_see": {
-		"message": "Aucun épisode à voir !"
+		"message": "Aucun épisode à voir"
 	},
 	"no_members_found": {
-		"message": "Aucun membre correspondant."
+		"message": "Aucun membre correspondant"
 	},
 	"no_notifications": {
-		"message": "Aucune notification !"
+		"message": "Aucune notification"
 	},
 	"no_shows_found": {
-		"message": "Aucune série correspondante."
+		"message": "Aucune série correspondante"
 	},
 	"no_subs": {
-		"message": "Aucun sous-titre pour cet épisode."
+		"message": "Aucun sous-titre pour cet épisode"
 	},
 	"november": {
 		"message": "Nov"
@@ -313,7 +313,7 @@
 		"message": "Mot de passe"
 	},
 	"password_not_matching": {
-		"message": "Mot de passe invalide."
+		"message": "Mot de passe invalide"
 	},
 	"progress": {
 		"message": "avancement"
@@ -377,7 +377,7 @@
 		"message": "Ajouter à mes séries..."
 	},
 	"show_added": {
-		"message": "Série ajoutée!"
+		"message": "Série ajoutée"
 	},
 	"show_archive": {
 		"message": "Archiver la série..."
@@ -389,7 +389,7 @@
 		"message": "Retirer de mes séries..."
 	},
 	"show_removed": {
-		"message": "Série retirée!"
+		"message": "Série retirée"
 	},
 	"show_unarchive": {
 		"message": "Retirer la série des archives..."
@@ -398,7 +398,7 @@
 		"message": "Séries"
 	},
 	"srt_quality": {
-		"message": "Qualité SRT $lang$ : $quality$/5", 
+		"message": "Sous-titre $lang$ (qualité $quality$/5)", 
 		"placeholders":{
 			"lang":{
 				"content":"$1"
@@ -493,7 +493,7 @@
 		"message": "Sortir la série des archives"
 	},
 	"version": {
-		"message": "Commenter/noter cette extension!"
+		"message": "Aller sur la page de l'extension"
 	},
 	"vf": {
 		"message": "VF"
@@ -516,7 +516,7 @@
 		}
 	},
 	"wrong_login_or_password": {
-		"message": "Login et/ou password incorrects!"
+		"message": "Identifiants incorrects"
 	},
 	"yes": {
 		"message": "Oui"
