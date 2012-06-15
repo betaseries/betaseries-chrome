@@ -149,7 +149,6 @@ BS = {
       show: url,
       update: function(data) {
         var e, i, j, n, seasons, showEpisodes, shows, _ref;
-        console.log(data);
         shows = DB.get('member.' + this.login + '.shows', {});
         if (this.show in shows) {
           shows[this.show].archive = false;
@@ -269,7 +268,6 @@ BS = {
         e = this.episodes[this.global];
         title = DB.get('options').display_global ? '#' + e.global + ' ' + e.title : e.title;
         output = "<div>";
-        console.log(e);
         output += '<div class="showtitle">' + e.show + '</div>';
         if (e.screen != null) {
           output += '<img src="' + e.screen + '" style="width:100px; float:right; margin:3px;" />';
@@ -527,7 +525,7 @@ BS = {
         return bgPage.Badge.updateCache();
       },
       content: function() {
-        var data, e, global, i, j, output, s, showEpisodes, shows, today;
+        var data, e, global, i, j, nbr_episodes_per_serie, output, s, showEpisodes, shows, today;
         data = DB.get('member.' + this.login + '.episodes', null);
         if (!data) {
           return Fx.needUpdate();
@@ -542,9 +540,10 @@ BS = {
           s = shows[i];
           output += '<div id="' + i + '" class="show">';
           output += Content.show(s, j.nbr_total);
+          nbr_episodes_per_serie = DB.get('options').nbr_episodes_per_serie;
           showEpisodes = DB.get('show.' + i + '.episodes');
           global = j.start;
-          while (global in showEpisodes) {
+          while (global in showEpisodes && global - j.start < nbr_episodes_per_serie) {
             e = showEpisodes[global];
             today = Math.floor(new Date().getTime() / 1000);
             global++;

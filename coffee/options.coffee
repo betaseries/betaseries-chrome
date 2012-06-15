@@ -13,6 +13,7 @@ $(document).ready ->
 	$('#title_view_episodes_not_seen').text __('view_episodes_not_seen')
 	$('#save_options').text __('save')
 	$('#dl_srt_language').text __("dl_srt_language")
+	$('#nbr_episodes_per_serie').text __("nbr_episodes_per_serie")
 	$('#badge_notification_type').text __("badge_notification_type")
 	$('#display_global').text __("display_global")
 	$('#enable_ratings').text __("enable_ratings")
@@ -26,6 +27,7 @@ $(document).ready ->
 	## Remplissage des champs
 	$('select[name=badge_notification_type]').val DB.get('options').badge_notification_type
 	$('select[name=dl_srt_language]').val DB.get('options').dl_srt_language
+	$('input[name=nbr_episodes_per_serie]').attr 'value', DB.get('options').nbr_episodes_per_serie
 	$('select[name=display_global]').val DB.get('options').display_global + ""
 	$('select[name=enable_ratings]').val DB.get('options').enable_ratings + ""
 	$('input[name=max_height]').attr 'value', DB.get('options').max_height
@@ -41,6 +43,7 @@ $(document).ready ->
 		options =
 			badge_notification_type: $('select[name=badge_notification_type] :selected').val()
 			dl_srt_language: $('select[name=dl_srt_language] :selected').val()
+			nbr_episodes_per_serie: parseInt $('input[name=nbr_episodes_per_serie]').attr 'value'
 			display_global: $('select[name=display_global] :selected').val() is 'true'
 			enable_ratings: $('select[name=enable_ratings] :selected').val() is 'true'
 			max_height: parseInt $('input[name=max_height]').attr 'value'

@@ -12,6 +12,7 @@ DB =
 		
 		# OPTIONS
 		options = 
+			nbr_episodes_per_serie: 5
 			badge_notification_type: 'watched'
 			dl_srt_language: 'VF'
 			display_global: false

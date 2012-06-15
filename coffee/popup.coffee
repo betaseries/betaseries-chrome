@@ -133,14 +133,25 @@ $(document).ready ->
 		
 		# on fait disparaître la ligne de l'épisode
 		node.slideToggle 'slow', -> $(@).remove()
-				
+
 		# s'il n'y a plus d'épisodes à voir dans la série, on la cache
 		nbr = parseInt($(show).find('.remain').text()) - 1
 		if nbr is 0
 			$(show).slideToggle 'slow', -> $(@).remove()
 		else
 			$(show).find('.remain').text nbr
-		
+
+		# afficher les épisodes cachés
+		nbr_episodes_per_serie = DB.get('options').nbr_episodes_per_serie
+		if nbr + 1 > nbr_episodes_per_serie
+			global = parseInt($(show).find('.episode').last().attr('global')) + 1
+			login = DB.get('session').login
+			showName = $(show).attr 'id'
+			s = DB.get('member.' + login + '.shows')[showName]
+			es = DB.get 'show.' + showName + '.episodes'
+			episode = Content.episode es[global], s
+			$(show).append episode
+
 		Fx.updateHeight()
 		
 		return true

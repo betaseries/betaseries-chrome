@@ -162,7 +162,6 @@ BS =
 		episodes: DB.get 'show.' + url + '.episodes'
 		show: url
 		update: (data) ->
-			console.log data
 			shows = DB.get 'member.' + @login + '.shows', {}
 			
 			# cache des infos de la *série*
@@ -270,7 +269,6 @@ BS =
 			
 			# wrapper start
 			output = "<div>"
-			console.log e
 			output += '<div class="showtitle">' + e.show + '</div>'
 			output += '<img src="' + e.screen + '" style="width:100px; float:right; margin:3px;" />' if e.screen?
 			output += '<span class="num">' + Fx.displayNumber(e.number) + '</span> ' + e.title
@@ -518,9 +516,10 @@ BS =
 				output += Content.show s, j.nbr_total
 				
 				# construction des blocs *episode*
+				nbr_episodes_per_serie = DB.get('options').nbr_episodes_per_serie
 				showEpisodes = DB.get('show.' + i + '.episodes')
 				global = j.start
-				while (global of showEpisodes)
+				while (global of showEpisodes and global - j.start < nbr_episodes_per_serie)
 					e = showEpisodes[global]
 					today = Math.floor new Date().getTime() / 1000
 					global++

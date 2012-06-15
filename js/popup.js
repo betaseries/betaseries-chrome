@@ -134,7 +134,7 @@ $(document).ready(function() {
     }
   });
   clean = function(node) {
-    var nbr, show;
+    var episode, es, global, login, nbr, nbr_episodes_per_serie, s, show, showName;
     show = node.closest('.show');
     node.slideToggle('slow', function() {
       return $(this).remove();
@@ -146,6 +146,16 @@ $(document).ready(function() {
       });
     } else {
       $(show).find('.remain').text(nbr);
+    }
+    nbr_episodes_per_serie = DB.get('options').nbr_episodes_per_serie;
+    if (nbr + 1 > nbr_episodes_per_serie) {
+      global = parseInt($(show).find('.episode').last().attr('global')) + 1;
+      login = DB.get('session').login;
+      showName = $(show).attr('id');
+      s = DB.get('member.' + login + '.shows')[showName];
+      es = DB.get('show.' + showName + '.episodes');
+      episode = Content.episode(es[global], s);
+      $(show).append(episode);
     }
     Fx.updateHeight();
     return true;
