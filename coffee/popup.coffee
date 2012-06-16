@@ -204,7 +204,7 @@ $(document).ready ->
 			e = $(this).closest '.episode'
 			clean e
 	
-	## Marquer un épisode comme téléchargé ou pas
+	## Marquer un épisode comme récupéré ou pas
 	$('.membersEpisodes .downloaded').live
 		click: ->
 			s = $(this).closest('.show')
@@ -233,7 +233,7 @@ $(document).ready ->
 
 			return false
 
-	## Marquer un épisode comme téléchargé ou pas
+	## Marquer un épisode comme récupéré ou pas
 	$('.showsEpisode .downloaded').live
 		click: ->
 			show = $(@).attr 'show'
@@ -575,7 +575,7 @@ $(document).ready ->
 	# Réglage de la hauteur du popup
 	Fx.updateHeight true
 	
-	# récupération du numéro de version
+	# Récupération du numéro de version
 	Fx.checkVersion()
 	
 	if bgPage.connected()
