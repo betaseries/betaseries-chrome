@@ -128,7 +128,7 @@ BS =
 			output = '<div class="title">'
 			output += '<div class="fleft200">' + data.title + '</div>'
 			output += '<div class="fright200 aright">'
-			note = Math.floor data.note.mean
+			note = if data.note? then Math.floor data.note.mean else 0
 			for i in [1..note]
 				output += '<img src="../img/star.gif" /> '
 			output += '</div>'
@@ -143,7 +143,7 @@ BS =
 			output += __(data.status.toLowerCase()) if data.status?
 			output += '</div>'
 			output += '<div class="fright200 aright">'
-			output += data.note.mean + '/5 (' + data.note.members + ')'
+			if data.note?.mean? then output += data.note.mean + '/5 (' + data.note.members + ')'
 			output += '</div>'
 			output += '</div>'
 				
@@ -286,7 +286,7 @@ BS =
 			output = '<div class="title">'
 			output += '<div class="fleft200"><a href="" onclick="BS.load(\'showsDisplay\', \'' + @show + '\'); return false;" class="showtitle">' + e.show + '</a></div>'
 			output += '<div class="fright200 aright">'
-			note = Math.floor e.note.mean
+			note = if e.note? then Math.floor e.note.mean else 0
 			for i in [1..note]
 				output += '<img src="../img/star.gif" /> '
 			output += '</div>'
@@ -297,7 +297,7 @@ BS =
 			output += ' <div class="fleft200">'
 			output += '  <span class="num">' + Fx.displayNumber(e.number) + '</span> ' + e.title
 			output += ' </div>'
-			output += ' <div class="fright200 aright">' + e.note.mean + '/5 (' + e.note.members + ')' + '</div>'
+			if e.note?.mean? then output += ' <div class="fright200 aright">' + e.note.mean + '/5 (' + e.note.members + ')' + '</div>'
 			output += ' <div class="clear"></div>'
 			output += '</div>'
 
@@ -373,14 +373,16 @@ BS =
 					if nbrEpisodes > 0
 						output += '</div>'
 					output += '<div class="week"' + hidden + '>'
-					output += '<div class="showtitle">' + w + '</div>'
+					output += '<div class="title">' + w + '</div>'
 			
 				output += '<div class="episode ' + date('D', data[e].date).toLowerCase() + '">'
 				
 				output += '<div url="' + data[e].url + '" season="' + data[e].season + '" episode="' + data[e].episode + '" class="left">'
-				output += '<img src="../img/folder_off.png" /> '
-				output += '<span class="show">' + data[e].show + '</span> '
-				output += '<span class="num">[' + data[e].number + ']</span>'
+				output += '<img src="../img/empty.png" width="11" /> '
+				output += '<span class="num">' + Fx.displayNumber(data[e].number) + '</span> '
+				console.log data[e].url, data[e].season, data[e].episode, data[e].global
+				output += '<a href="#" onclick="BS.load(\'showsEpisode\', \'' + data[e].url + '\', \'' + data[e].season + '\', \'' + data[e].episode + '\', \'' + data[e].global + '\'); return false;" title="' + data[e].show + '" class="epLink">'
+				output += data[e].show + '</a> '
 				output += '</div>'
 				
 				output += '<div class="right">'

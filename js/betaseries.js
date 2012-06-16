@@ -95,7 +95,7 @@ BS = {
         return DB.set('show.' + this.show, data);
       },
       content: function() {
-        var data, genres, i, k, note, output, v, _i, _ref;
+        var data, genres, i, k, note, output, v, _i, _ref, _ref1;
         data = DB.get('show.' + this.show, null);
         if (!data) {
           return Fx.needUpdate();
@@ -103,7 +103,7 @@ BS = {
         output = '<div class="title">';
         output += '<div class="fleft200">' + data.title + '</div>';
         output += '<div class="fright200 aright">';
-        note = Math.floor(data.note.mean);
+        note = data.note != null ? Math.floor(data.note.mean) : 0;
         for (i = _i = 1; 1 <= note ? _i <= note : _i >= note; i = 1 <= note ? ++_i : --_i) {
           output += '<img src="../img/star.gif" /> ';
         }
@@ -124,7 +124,9 @@ BS = {
         }
         output += '</div>';
         output += '<div class="fright200 aright">';
-        output += data.note.mean + '/5 (' + data.note.members + ')';
+        if (((_ref1 = data.note) != null ? _ref1.mean : void 0) != null) {
+          output += data.note.mean + '/5 (' + data.note.members + ')';
+        }
         output += '</div>';
         output += '</div>';
         if (data.banner != null) {
@@ -277,13 +279,13 @@ BS = {
         return DB.set('show.' + this.show + '.episodes', this.episodes);
       },
       content: function() {
-        var dl, e, i, n, nbr_subs, note, output, sub, title, _i;
+        var dl, e, i, n, nbr_subs, note, output, sub, title, _i, _ref;
         e = this.episodes[this.global];
         title = DB.get('options').display_global ? '#' + e.global + ' ' + e.title : e.title;
         output = '<div class="title">';
         output += '<div class="fleft200"><a href="" onclick="BS.load(\'showsDisplay\', \'' + this.show + '\'); return false;" class="showtitle">' + e.show + '</a></div>';
         output += '<div class="fright200 aright">';
-        note = Math.floor(e.note.mean);
+        note = e.note != null ? Math.floor(e.note.mean) : 0;
         for (i = _i = 1; 1 <= note ? _i <= note : _i >= note; i = 1 <= note ? ++_i : --_i) {
           output += '<img src="../img/star.gif" /> ';
         }
@@ -294,7 +296,9 @@ BS = {
         output += ' <div class="fleft200">';
         output += '  <span class="num">' + Fx.displayNumber(e.number) + '</span> ' + e.title;
         output += ' </div>';
-        output += ' <div class="fright200 aright">' + e.note.mean + '/5 (' + e.note.members + ')' + '</div>';
+        if (((_ref = e.note) != null ? _ref.mean : void 0) != null) {
+          output += ' <div class="fright200 aright">' + e.note.mean + '/5 (' + e.note.members + ')' + '</div>';
+        }
         output += ' <div class="clear"></div>';
         output += '</div>';
         output += '<div style="height: 70px; overflow: hidden; margin-top: 10px;"><img src="' + e.screen + '" style="width: 290px; margin-top: -15px;" /></div>';
@@ -371,13 +375,15 @@ BS = {
               output += '</div>';
             }
             output += '<div class="week"' + hidden + '>';
-            output += '<div class="showtitle">' + w + '</div>';
+            output += '<div class="title">' + w + '</div>';
           }
           output += '<div class="episode ' + date('D', data[e].date).toLowerCase() + '">';
           output += '<div url="' + data[e].url + '" season="' + data[e].season + '" episode="' + data[e].episode + '" class="left">';
-          output += '<img src="../img/folder_off.png" /> ';
-          output += '<span class="show">' + data[e].show + '</span> ';
-          output += '<span class="num">[' + data[e].number + ']</span>';
+          output += '<img src="../img/empty.png" width="11" /> ';
+          output += '<span class="num">' + Fx.displayNumber(data[e].number) + '</span> ';
+          console.log(data[e].url, data[e].season, data[e].episode, data[e].global);
+          output += '<a href="#" onclick="BS.load(\'showsEpisode\', \'' + data[e].url + '\', \'' + data[e].season + '\', \'' + data[e].episode + '\', \'' + data[e].global + '\'); return false;" title="' + data[e].show + '" class="epLink">';
+          output += data[e].show + '</a> ';
           output += '</div>';
           output += '<div class="right">';
           output += '<span class="date">' + date('D d F', data[e].date) + '</span>';
