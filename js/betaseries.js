@@ -480,7 +480,7 @@ BS = {
         for (i in data) {
           show = data[i];
           output += '<div class="episode" id="' + show.url + '">';
-          output += show.title;
+          output += '<a href="" onclick="BS.load(\'showsDisplay\', \'' + show.url + '\'); return false;" class="epLink">' + show.title + '</a>';
           output += '</div>';
         }
         return output;

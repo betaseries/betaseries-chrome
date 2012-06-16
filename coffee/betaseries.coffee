@@ -464,7 +464,7 @@ BS =
 			output = ''
 			for i, show of data
 				output += '<div class="episode" id="' + show.url + '">'
-				output += show.title
+				output += '<a href="" onclick="BS.load(\'showsDisplay\', \'' + show.url + '\'); return false;" class="epLink">' + show.title + '</a>'
 				output += '</div>'
 			return output
 			
