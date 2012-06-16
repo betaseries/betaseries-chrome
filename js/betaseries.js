@@ -338,7 +338,7 @@ BS = {
           output += '<div class="title2">' + __('synopsis') + '</div>';
           output += '<div style="text-align: justify; margin-right: 5px;">' + e.description + '</div>';
         }
-        if ((e.subs != null) || e.subs.length === 0) {
+        if ((e.subs != null) && e.subs.length > 0) {
           output += '<div class="title2">' + __('subtitles') + '</div>';
           nbr_subs = 0;
           for (n in e.subs) {

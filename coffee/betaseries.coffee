@@ -324,7 +324,7 @@ BS =
 				output += '<div style="text-align: justify; margin-right: 5px;">' + e.description + '</div>'
 				#output += ' <br /><i>' + date('D d F', e.date) + '</i>'
 			
-			if e.subs? or e.subs.length is 0
+			if e.subs? and e.subs.length > 0
 				output += '<div class="title2">' + __('subtitles') + '</div>'
 				nbr_subs = 0
 				for n of e.subs
