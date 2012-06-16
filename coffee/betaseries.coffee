@@ -319,17 +319,18 @@ BS =
 			if e.screen?
 				output += '<div style="height: 70px; overflow: hidden; margin-top: 10px;"><img src="' + e.screen + '" style="width: 290px; margin-top: -15px;" /></div>'
 
-			output += '<div class="title2">' + __('synopsis') + '</div>'
-			output += '<div style="text-align: justify; margin-right: 5px;">' + e.description + '</div>'
-			#output += ' <br /><i>' + date('D d F', e.date) + '</i>'
+			if e.description?
+				output += '<div class="title2">' + __('synopsis') + '</div>'
+				output += '<div style="text-align: justify; margin-right: 5px;">' + e.description + '</div>'
+				#output += ' <br /><i>' + date('D d F', e.date) + '</i>'
 			
-			output += '<div class="title2">' + __('subtitles') + '</div>'
-			nbr_subs = 0
-			for n of e.subs
-				sub = e.subs[n]
-				output += '[' + sub.quality + '] ' + sub.language + ' <a href="" class="subs" title="' + sub.file + '" link="' + sub.url + '">' + Fx.subLast(sub.file, 20) + '</a> (' + sub.source + ')<br />'
-				nbr_subs++
-			output += __('no_subs') if nbr_subs is 0
+			if e.subs? or e.subs.length is 0
+				output += '<div class="title2">' + __('subtitles') + '</div>'
+				nbr_subs = 0
+				for n of e.subs
+					sub = e.subs[n]
+					output += '[' + sub.quality + '] ' + sub.language + ' <a href="" class="subs" title="' + sub.file + '" link="' + sub.url + '">' + Fx.subLast(sub.file, 20) + '</a> (' + sub.source + ')<br />'
+					nbr_subs++
 			
 			output += '<div class="title2">' + __('actions') + '</div>'
 			

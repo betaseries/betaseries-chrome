@@ -334,17 +334,18 @@ BS = {
         if (e.screen != null) {
           output += '<div style="height: 70px; overflow: hidden; margin-top: 10px;"><img src="' + e.screen + '" style="width: 290px; margin-top: -15px;" /></div>';
         }
-        output += '<div class="title2">' + __('synopsis') + '</div>';
-        output += '<div style="text-align: justify; margin-right: 5px;">' + e.description + '</div>';
-        output += '<div class="title2">' + __('subtitles') + '</div>';
-        nbr_subs = 0;
-        for (n in e.subs) {
-          sub = e.subs[n];
-          output += '[' + sub.quality + '] ' + sub.language + ' <a href="" class="subs" title="' + sub.file + '" link="' + sub.url + '">' + Fx.subLast(sub.file, 20) + '</a> (' + sub.source + ')<br />';
-          nbr_subs++;
+        if (e.description != null) {
+          output += '<div class="title2">' + __('synopsis') + '</div>';
+          output += '<div style="text-align: justify; margin-right: 5px;">' + e.description + '</div>';
         }
-        if (nbr_subs === 0) {
-          output += __('no_subs');
+        if ((e.subs != null) || e.subs.length === 0) {
+          output += '<div class="title2">' + __('subtitles') + '</div>';
+          nbr_subs = 0;
+          for (n in e.subs) {
+            sub = e.subs[n];
+            output += '[' + sub.quality + '] ' + sub.language + ' <a href="" class="subs" title="' + sub.file + '" link="' + sub.url + '">' + Fx.subLast(sub.file, 20) + '</a> (' + sub.source + ')<br />';
+            nbr_subs++;
+          }
         }
         output += '<div class="title2">' + __('actions') + '</div>';
         output += '<a href="#" class="link" onclick="BS.load(\'commentsEpisode\', \'' + e.url + '\', \'' + e.season + '\', \'' + e.episode + '\', \'' + e.global + '\'); return false;">';
