@@ -128,9 +128,10 @@ BS =
 			output = '<div class="title">'
 			output += '<div class="fleft200">' + data.title + '</div>'
 			output += '<div class="fright200 aright">'
-			note = if data.note? then Math.floor data.note.mean else 0
-			for i in [1..note]
-				output += '<img src="../img/star.gif" /> '
+			if data.note?
+				note = Math.floor data.note.mean
+				for i in [1..note]
+					output += '<img src="../img/star.gif" /> '
 			output += '</div>'
 			output += '<div class="clear"></div>'
 			output += '</div>'
@@ -272,13 +273,26 @@ BS =
 		global: global
 		update: (data) ->
 			e = data['0']['episodes']['0']
-			@episodes[@global].comments = e.comments if e.comments?
-			@episodes[@global].description = e.description if e.description?
-			@episodes[@global].note = e.note if e.note?
-			@episodes[@global].screen = e.screen if e.screen?
-			@episodes[@global].subs = e.subs if e.subs?
-			DB.set 'show.' + @show + '.episodes', @episodes
+			eps = if @episodes? then @episodes else {}
+			ep = if @global of eps then eps[@global] else {}
+			ep.comments = e.comments if e.comments?
+			ep.date = e.date if e.date?
+			ep.description = e.description if e.description?
+			ep.downloaded = e.downloaded if e.downloaded?
+			ep.episode = e.episode if e.episode?
+			ep.global = e.global if e.global?
+			ep.number = e.number if e.number?
+			ep.screen = e.screen if e.screen?
+			ep.show = e.show if e.show?
+			ep.subs = e.subs if e.subs?
+			ep.title = e.title if e.title?
+			ep.url = @show
+			eps[@global] = ep
+			DB.set 'show.' + @show + '.episodes', eps
+			@episodes = eps
 		content: ->
+			return Fx.needUpdate() if !@episodes?[@global]?
+			
 			e = @episodes[@global]
 			
 			title = if DB.get('options').display_global then '#' + e.global + ' ' + e.title else e.title
@@ -286,9 +300,10 @@ BS =
 			output = '<div class="title">'
 			output += '<div class="fleft200"><a href="" onclick="BS.load(\'showsDisplay\', \'' + @show + '\'); return false;" class="showtitle">' + e.show + '</a></div>'
 			output += '<div class="fright200 aright">'
-			note = if e.note? then Math.floor e.note.mean else 0
-			for i in [1..note]
-				output += '<img src="../img/star.gif" /> '
+			if e.note?
+				note = Math.floor e.note.mean
+				for i in [1..note]
+					output += '<img src="../img/star.gif" /> '
 			output += '</div>'
 			output += '<div class="clear"></div>'
 			output += '</div>'
@@ -301,7 +316,8 @@ BS =
 			output += ' <div class="clear"></div>'
 			output += '</div>'
 
-			output += '<div style="height: 70px; overflow: hidden; margin-top: 10px;"><img src="' + e.screen + '" style="width: 290px; margin-top: -15px;" /></div>'
+			if e.screen?
+				output += '<div style="height: 70px; overflow: hidden; margin-top: 10px;"><img src="' + e.screen + '" style="width: 290px; margin-top: -15px;" /></div>'
 
 			output += '<div class="title2">' + __('synopsis') + '</div>'
 			output += '<div style="text-align: justify; margin-right: 5px;">' + e.description + '</div>'
@@ -380,7 +396,6 @@ BS =
 				output += '<div url="' + data[e].url + '" season="' + data[e].season + '" episode="' + data[e].episode + '" class="left">'
 				output += '<img src="../img/empty.png" width="11" /> '
 				output += '<span class="num">' + Fx.displayNumber(data[e].number) + '</span> '
-				console.log data[e].url, data[e].season, data[e].episode, data[e].global
 				output += '<a href="#" onclick="BS.load(\'showsEpisode\', \'' + data[e].url + '\', \'' + data[e].season + '\', \'' + data[e].episode + '\', \'' + data[e].global + '\'); return false;" title="' + data[e].show + '" class="epLink">'
 				output += data[e].show + '</a> '
 				output += '</div>'

@@ -22,7 +22,6 @@ ajax = {
       data: "user-agent=" + useragent + "&key=" + this.key + params + token,
       dataType: "json",
       success: function(data) {
-        console.log(data);
         $('#sync').attr('src', '../img/sync.png');
         if (successCallback != null) {
           return successCallback(data);

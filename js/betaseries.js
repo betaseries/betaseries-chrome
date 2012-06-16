@@ -103,9 +103,11 @@ BS = {
         output = '<div class="title">';
         output += '<div class="fleft200">' + data.title + '</div>';
         output += '<div class="fright200 aright">';
-        note = data.note != null ? Math.floor(data.note.mean) : 0;
-        for (i = _i = 1; 1 <= note ? _i <= note : _i >= note; i = 1 <= note ? ++_i : --_i) {
-          output += '<img src="../img/star.gif" /> ';
+        if (data.note != null) {
+          note = Math.floor(data.note.mean);
+          for (i = _i = 1; 1 <= note ? _i <= note : _i >= note; i = 1 <= note ? ++_i : --_i) {
+            output += '<img src="../img/star.gif" /> ';
+          }
         }
         output += '</div>';
         output += '<div class="clear"></div>';
@@ -259,35 +261,63 @@ BS = {
       show: url,
       global: global,
       update: function(data) {
-        var e;
+        var e, ep, eps;
         e = data['0']['episodes']['0'];
+        eps = this.episodes != null ? this.episodes : {};
+        ep = this.global in eps ? eps[this.global] : {};
         if (e.comments != null) {
-          this.episodes[this.global].comments = e.comments;
+          ep.comments = e.comments;
+        }
+        if (e.date != null) {
+          ep.date = e.date;
         }
         if (e.description != null) {
-          this.episodes[this.global].description = e.description;
+          ep.description = e.description;
         }
-        if (e.note != null) {
-          this.episodes[this.global].note = e.note;
+        if (e.downloaded != null) {
+          ep.downloaded = e.downloaded;
+        }
+        if (e.episode != null) {
+          ep.episode = e.episode;
+        }
+        if (e.global != null) {
+          ep.global = e.global;
+        }
+        if (e.number != null) {
+          ep.number = e.number;
         }
         if (e.screen != null) {
-          this.episodes[this.global].screen = e.screen;
+          ep.screen = e.screen;
+        }
+        if (e.show != null) {
+          ep.show = e.show;
         }
         if (e.subs != null) {
-          this.episodes[this.global].subs = e.subs;
+          ep.subs = e.subs;
         }
-        return DB.set('show.' + this.show + '.episodes', this.episodes);
+        if (e.title != null) {
+          ep.title = e.title;
+        }
+        ep.url = this.show;
+        eps[this.global] = ep;
+        DB.set('show.' + this.show + '.episodes', eps);
+        return this.episodes = eps;
       },
       content: function() {
-        var dl, e, i, n, nbr_subs, note, output, sub, title, _i, _ref;
+        var dl, e, i, n, nbr_subs, note, output, sub, title, _i, _ref, _ref1;
+        if (!(((_ref = this.episodes) != null ? _ref[this.global] : void 0) != null)) {
+          return Fx.needUpdate();
+        }
         e = this.episodes[this.global];
         title = DB.get('options').display_global ? '#' + e.global + ' ' + e.title : e.title;
         output = '<div class="title">';
         output += '<div class="fleft200"><a href="" onclick="BS.load(\'showsDisplay\', \'' + this.show + '\'); return false;" class="showtitle">' + e.show + '</a></div>';
         output += '<div class="fright200 aright">';
-        note = e.note != null ? Math.floor(e.note.mean) : 0;
-        for (i = _i = 1; 1 <= note ? _i <= note : _i >= note; i = 1 <= note ? ++_i : --_i) {
-          output += '<img src="../img/star.gif" /> ';
+        if (e.note != null) {
+          note = Math.floor(e.note.mean);
+          for (i = _i = 1; 1 <= note ? _i <= note : _i >= note; i = 1 <= note ? ++_i : --_i) {
+            output += '<img src="../img/star.gif" /> ';
+          }
         }
         output += '</div>';
         output += '<div class="clear"></div>';
@@ -296,12 +326,14 @@ BS = {
         output += ' <div class="fleft200">';
         output += '  <span class="num">' + Fx.displayNumber(e.number) + '</span> ' + e.title;
         output += ' </div>';
-        if (((_ref = e.note) != null ? _ref.mean : void 0) != null) {
+        if (((_ref1 = e.note) != null ? _ref1.mean : void 0) != null) {
           output += ' <div class="fright200 aright">' + e.note.mean + '/5 (' + e.note.members + ')' + '</div>';
         }
         output += ' <div class="clear"></div>';
         output += '</div>';
-        output += '<div style="height: 70px; overflow: hidden; margin-top: 10px;"><img src="' + e.screen + '" style="width: 290px; margin-top: -15px;" /></div>';
+        if (e.screen != null) {
+          output += '<div style="height: 70px; overflow: hidden; margin-top: 10px;"><img src="' + e.screen + '" style="width: 290px; margin-top: -15px;" /></div>';
+        }
         output += '<div class="title2">' + __('synopsis') + '</div>';
         output += '<div style="text-align: justify; margin-right: 5px;">' + e.description + '</div>';
         output += '<div class="title2">' + __('subtitles') + '</div>';
@@ -381,7 +413,6 @@ BS = {
           output += '<div url="' + data[e].url + '" season="' + data[e].season + '" episode="' + data[e].episode + '" class="left">';
           output += '<img src="../img/empty.png" width="11" /> ';
           output += '<span class="num">' + Fx.displayNumber(data[e].number) + '</span> ';
-          console.log(data[e].url, data[e].season, data[e].episode, data[e].global);
           output += '<a href="#" onclick="BS.load(\'showsEpisode\', \'' + data[e].url + '\', \'' + data[e].season + '\', \'' + data[e].episode + '\', \'' + data[e].global + '\'); return false;" title="' + data[e].show + '" class="epLink">';
           output += data[e].show + '</a> ';
           output += '</div>';
