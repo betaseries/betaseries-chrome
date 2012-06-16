@@ -268,7 +268,7 @@ BS = {
         e = this.episodes[this.global];
         title = DB.get('options').display_global ? '#' + e.global + ' ' + e.title : e.title;
         output = "<div>";
-        output += '<div class="showtitle">' + e.show + '</div>';
+        output += '<div class="title2"><a href="" onclick="BS.load(\'showsDisplay\', \'' + this.show + '\'); return false;" class="showtitle">' + e.show + '</a></div>';
         if (e.screen != null) {
           output += '<img src="' + e.screen + '" style="width:100px; float:right; margin:3px;" />';
         }

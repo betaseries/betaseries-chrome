@@ -269,7 +269,7 @@ BS =
 			
 			# wrapper start
 			output = "<div>"
-			output += '<div class="showtitle">' + e.show + '</div>'
+			output += '<div class="title2"><a href="" onclick="BS.load(\'showsDisplay\', \'' + @show + '\'); return false;" class="showtitle">' + e.show + '</a></div>'
 			output += '<img src="' + e.screen + '" style="width:100px; float:right; margin:3px;" />' if e.screen?
 			output += '<span class="num">' + Fx.displayNumber(e.number) + '</span> ' + e.title
 			output += '<br /><br />' + __('release_date') + date('D d F', e.date)
