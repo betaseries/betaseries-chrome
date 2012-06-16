@@ -125,18 +125,34 @@ BS =
 			data = DB.get 'show.' + @show, null
 			return Fx.needUpdate() if !data
 			
-			if data.banner?
-				output = '<img src="' + data.banner + '" width="290" height="70" alt="banner" /><br />'
-			
-			output += '<div class="title2">' + data.title + '</div>'
-			output += __('type')
+			output = '<div class="title">'
+			output += '<div class="fleft200">' + data.title + '</div>'
+			output += '<div class="fright200 aright">'
+			note = Math.floor data.note.mean
+			for i in [1..note]
+				output += '<img src="../img/star.gif" /> '
+			output += '</div>'
+			output += '<div class="clear"></div>'
+			output += '</div>'
+
+			output += '<div>'
+			output += '<div class="fleft200">'
 			genres = []
-			for k,v of data.genres
-				genres.push v
-			output += genres.join(', ') + '<br />'
-			output += __('status') + __(data.status.toLowerCase()) + '<br />' if data.status?
-			output += __('avg_note') + data.note.mean + '/5 (' + data.note.members + ')' if data.note?
-			output += '<div style="height:54px; overflow:hidden">' + __('synopsis') + data.description + '</div>' if data.description?
+			genres.push v for k,v of data.genres
+			output += genres.join(', ') + ' | '
+			output += __(data.status.toLowerCase()) if data.status?
+			output += '</div>'
+			output += '<div class="fright200 aright">'
+			output += data.note.mean + '/5 (' + data.note.members + ')'
+			output += '</div>'
+			output += '</div>'
+				
+			if data.banner?
+				output += '<img src="' + data.banner + '" width="290" height="70" alt="banner" style="margin-top: 10px;" />'
+			
+			if data.description?
+				output += '<div class="title2">' + __('synopsis') + '</div>'
+				output += '<div style="margin-right:5px; text-align:justify;">' + data.description + '</div>'
 			
 			output += '<div class="title2">' + __('actions') + '</div>'
 			output += '<a href="" class="link" onclick="BS.load(\'showsEpisodes\', \'' + data.url + '\'); return false;"><span class="imgSyncNo"></span>Voir les épisodes</a>'
@@ -267,16 +283,29 @@ BS =
 			
 			title = if DB.get('options').display_global then '#' + e.global + ' ' + e.title else e.title
 			
-			# wrapper start
-			output = "<div>"
-			output += '<div class="title2"><a href="" onclick="BS.load(\'showsDisplay\', \'' + @show + '\'); return false;" class="showtitle">' + e.show + '</a></div>'
-			output += '<img src="' + e.screen + '" style="width:100px; float:right; margin:3px;" />' if e.screen?
-			output += '<span class="num">' + Fx.displayNumber(e.number) + '</span> ' + e.title
-			output += '<br /><br />' + __('release_date') + date('D d F', e.date)
-			output += '<br />' + __('avg_note') + "#{e.note.mean} (#{e.note.members})<br />" if e.note?
-			
+			output = '<div class="title">'
+			output += '<div class="fleft200"><a href="" onclick="BS.load(\'showsDisplay\', \'' + @show + '\'); return false;" class="showtitle">' + e.show + '</a></div>'
+			output += '<div class="fright200 aright">'
+			note = Math.floor e.note.mean
+			for i in [1..note]
+				output += '<img src="../img/star.gif" /> '
+			output += '</div>'
+			output += '<div class="clear"></div>'
+			output += '</div>'
+
+			output += '<div>'
+			output += ' <div class="fleft200">'
+			output += '  <span class="num">' + Fx.displayNumber(e.number) + '</span> ' + e.title
+			output += ' </div>'
+			output += ' <div class="fright200 aright">' + e.note.mean + '/5 (' + e.note.members + ')' + '</div>'
+			output += ' <div class="clear"></div>'
+			output += '</div>'
+
+			output += '<div style="height: 70px; overflow: hidden; margin-top: 10px;"><img src="' + e.screen + '" style="width: 290px; margin-top: -15px;" /></div>'
+
 			output += '<div class="title2">' + __('synopsis') + '</div>'
-			output += '<div style="margin-right:5px; text-align:justify;">' + e.description + '</div>'
+			output += '<div style="text-align: justify; margin-right: 5px;">' + e.description + '</div>'
+			#output += ' <br /><i>' + date('D d F', e.date) + '</i>'
 			
 			output += '<div class="title2">' + __('subtitles') + '</div>'
 			nbr_subs = 0
@@ -296,8 +325,6 @@ BS =
 			dl = if e.downloaded then 'mark_as_not_dl' else 'mark_as_dl'
 			output += '<a href="#" class="link downloaded" show="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" onclick="return false;">'
 			output += '<span class="imgSyncOff"></span>' + __(dl) + '</a>'
-			
-			output += '</div>'
 			
 			return output
 	

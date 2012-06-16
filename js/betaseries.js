@@ -95,31 +95,44 @@ BS = {
         return DB.set('show.' + this.show, data);
       },
       content: function() {
-        var data, genres, k, output, v, _ref;
+        var data, genres, i, k, note, output, v, _i, _ref;
         data = DB.get('show.' + this.show, null);
         if (!data) {
           return Fx.needUpdate();
         }
-        if (data.banner != null) {
-          output = '<img src="' + data.banner + '" width="290" height="70" alt="banner" /><br />';
+        output = '<div class="title">';
+        output += '<div class="fleft200">' + data.title + '</div>';
+        output += '<div class="fright200 aright">';
+        note = Math.floor(data.note.mean);
+        for (i = _i = 1; 1 <= note ? _i <= note : _i >= note; i = 1 <= note ? ++_i : --_i) {
+          output += '<img src="../img/star.gif" /> ';
         }
-        output += '<div class="title2">' + data.title + '</div>';
-        output += __('type');
+        output += '</div>';
+        output += '<div class="clear"></div>';
+        output += '</div>';
+        output += '<div>';
+        output += '<div class="fleft200">';
         genres = [];
         _ref = data.genres;
         for (k in _ref) {
           v = _ref[k];
           genres.push(v);
         }
-        output += genres.join(', ') + '<br />';
+        output += genres.join(', ') + ' | ';
         if (data.status != null) {
-          output += __('status') + __(data.status.toLowerCase()) + '<br />';
+          output += __(data.status.toLowerCase());
         }
-        if (data.note != null) {
-          output += __('avg_note') + data.note.mean + '/5 (' + data.note.members + ')';
+        output += '</div>';
+        output += '<div class="fright200 aright">';
+        output += data.note.mean + '/5 (' + data.note.members + ')';
+        output += '</div>';
+        output += '</div>';
+        if (data.banner != null) {
+          output += '<img src="' + data.banner + '" width="290" height="70" alt="banner" style="margin-top: 10px;" />';
         }
         if (data.description != null) {
-          output += '<div style="height:54px; overflow:hidden">' + __('synopsis') + data.description + '</div>';
+          output += '<div class="title2">' + __('synopsis') + '</div>';
+          output += '<div style="margin-right:5px; text-align:justify;">' + data.description + '</div>';
         }
         output += '<div class="title2">' + __('actions') + '</div>';
         output += '<a href="" class="link" onclick="BS.load(\'showsEpisodes\', \'' + data.url + '\'); return false;"><span class="imgSyncNo"></span>Voir les épisodes</a>';
@@ -264,21 +277,29 @@ BS = {
         return DB.set('show.' + this.show + '.episodes', this.episodes);
       },
       content: function() {
-        var dl, e, n, nbr_subs, output, sub, title;
+        var dl, e, i, n, nbr_subs, note, output, sub, title, _i;
         e = this.episodes[this.global];
         title = DB.get('options').display_global ? '#' + e.global + ' ' + e.title : e.title;
-        output = "<div>";
-        output += '<div class="title2"><a href="" onclick="BS.load(\'showsDisplay\', \'' + this.show + '\'); return false;" class="showtitle">' + e.show + '</a></div>';
-        if (e.screen != null) {
-          output += '<img src="' + e.screen + '" style="width:100px; float:right; margin:3px;" />';
+        output = '<div class="title">';
+        output += '<div class="fleft200"><a href="" onclick="BS.load(\'showsDisplay\', \'' + this.show + '\'); return false;" class="showtitle">' + e.show + '</a></div>';
+        output += '<div class="fright200 aright">';
+        note = Math.floor(e.note.mean);
+        for (i = _i = 1; 1 <= note ? _i <= note : _i >= note; i = 1 <= note ? ++_i : --_i) {
+          output += '<img src="../img/star.gif" /> ';
         }
-        output += '<span class="num">' + Fx.displayNumber(e.number) + '</span> ' + e.title;
-        output += '<br /><br />' + __('release_date') + date('D d F', e.date);
-        if (e.note != null) {
-          output += '<br />' + __('avg_note') + ("" + e.note.mean + " (" + e.note.members + ")<br />");
-        }
+        output += '</div>';
+        output += '<div class="clear"></div>';
+        output += '</div>';
+        output += '<div>';
+        output += ' <div class="fleft200">';
+        output += '  <span class="num">' + Fx.displayNumber(e.number) + '</span> ' + e.title;
+        output += ' </div>';
+        output += ' <div class="fright200 aright">' + e.note.mean + '/5 (' + e.note.members + ')' + '</div>';
+        output += ' <div class="clear"></div>';
+        output += '</div>';
+        output += '<div style="height: 70px; overflow: hidden; margin-top: 10px;"><img src="' + e.screen + '" style="width: 290px; margin-top: -15px;" /></div>';
         output += '<div class="title2">' + __('synopsis') + '</div>';
-        output += '<div style="margin-right:5px; text-align:justify;">' + e.description + '</div>';
+        output += '<div style="text-align: justify; margin-right: 5px;">' + e.description + '</div>';
         output += '<div class="title2">' + __('subtitles') + '</div>';
         nbr_subs = 0;
         for (n in e.subs) {
@@ -295,7 +316,6 @@ BS = {
         dl = e.downloaded ? 'mark_as_not_dl' : 'mark_as_dl';
         output += '<a href="#" class="link downloaded" show="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" onclick="return false;">';
         output += '<span class="imgSyncOff"></span>' + __(dl) + '</a>';
-        output += '</div>';
         return output;
       }
     };

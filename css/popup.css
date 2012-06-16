@@ -30,13 +30,17 @@ a.link:hover {color: #000; font-weight: bold;}
 /*Logo*/
 .show {margin-top: 10px;}
 .showtitle {border-bottom: 1px solid #dcdcdc; text-transform: uppercase;}
-.title2 {margin-top: 10px; border-bottom: 1px solid #dcdcdc; text-transform: uppercase;}
 .toggleShow {padding: 0 2px 0 2px;}
-.title {color: #666;}
+.title {margin-top: 10px; border-bottom: 1px solid #dcdcdc; text-transform: uppercase; font-weight: bold;}
+.title2 {margin-top: 10px; border-bottom: 1px solid #dcdcdc; text-transform: uppercase;}
+.tcolor {color: #666;}
 img.archive, img.unarchive{margin-bottom:-1px; height:11px;}
 img.archive:hover,img.unarchive:hover{cursor: pointer;}
 #logoLink, #logoLink:visited {font-variant: small-caps; font-size: 20px; letter-spacing: 2px; margin-right: 2px;}
 #logoLink:hover {text-decoration: underline;}
+.fleft200 {float: left; width: 200px;}
+.fright200 {margin-left: 200px; padding-right: 5px;}
+.aright {text-align: right;}
 
 /*Actions*/
 #logo {float: left; width: 200px;}
