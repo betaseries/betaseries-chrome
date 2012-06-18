@@ -2,15 +2,23 @@ $(document).ready ->
 
 	bgPage = chrome.extension.getBackgroundPage()
 	
-	$('*[title]').live
+	$('*[title], *[smart-title]').live
 		mouseenter: ->
-			title = $(this).attr 'title'
+			title = $(@).attr 'title'
+			if title? 
+				$(@).removeAttr 'title'
+				$(@).attr 'smart-title', title
+			else
+				title = $(@).attr 'smart-title'
 			$('#help').show()
 			$('#help-text').html title
 		mouseleave: ->
 			$('#help').hide()
 			$('#help-text').html ''
-	
+		click: ->
+			$('#help').hide()
+			$('#help-text').html ''
+		
 	## Marquer un ou des épisodes comme vu(s)
 	$('.membersEpisodes .watched').live
 		click: -> 

@@ -4,14 +4,24 @@ var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; 
 $(document).ready(function() {
   var badgeType, bgPage, clean, message, registerAction;
   bgPage = chrome.extension.getBackgroundPage();
-  $('*[title]').live({
+  $('*[title], *[smart-title]').live({
     mouseenter: function() {
       var title;
       title = $(this).attr('title');
+      if (title != null) {
+        $(this).removeAttr('title');
+        $(this).attr('smart-title', title);
+      } else {
+        title = $(this).attr('smart-title');
+      }
       $('#help').show();
       return $('#help-text').html(title);
     },
     mouseleave: function() {
+      $('#help').hide();
+      return $('#help-text').html('');
+    },
+    click: function() {
       $('#help').hide();
       return $('#help-text').html('');
     }
