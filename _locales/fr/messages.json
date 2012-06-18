@@ -25,23 +25,14 @@
 	"april": {
 		"message": "Avr"
 	},
-	"archive": {
-		"message": "Archiver la série"
-	},
-	"archived_shows": {
-		"message": "Séries archivées"
-	},
 	"august": {
 		"message": "Août"
 	},
 	"author": {
 		"message": "Auteur"
 	},
-	"avg_note": {
-		"message": "Note moyenne : "
-	},
 	"back": {
-		"message": "Retour"
+		"message": "Retourner à la vue précédente"
 	},
 	"badge": {
 		"message": "Badge"
@@ -49,20 +40,8 @@
 	"badge_notification_type": {
 		"message": "Type de notification : "
 	},
-	"be_connected": {
-		"message": "Vous devez être connecté afin de pouvoir afficher les données de cette vue."
-	},
-	"blog": {
-		"message": "Blog"
-	},
 	"close": {
-		"message": "Fermer"
-	},
-	"commentsEpisode": {
-		"message": "Commentaires d'un épisode"
-	},
-	"connection": {
-		"message": "Connexion"
+		"message": "Fermer ce pop-up"
 	},
 	"continuing": {
 		"message": "En cours"
@@ -85,11 +64,8 @@
 	"email": {
 		"message": "Email :"
 	},
-	"episodes": {
-		"message": "épisodes"
-	},
 	"episodes_not_dl": {
-		"message": "Episodes non téléchargés"
+		"message": "Episodes non récupérés"
 	},
 	"episodes_not_seen": {
 		"message": "Episodes non vus"
@@ -110,7 +86,7 @@
 		"message": "Extension Chrome pour BetaSeries (www.betaseries.com)"
 	},
 	"extension_page": {
-		"message": "Page de l'extension"
+		"message": "Chrome Web Store"
 	},
 	"facebook": {
 		"message": "facebook"
@@ -136,38 +112,29 @@
 	"github_page": {
 		"message": "Page Github"
 	},
-	"hide_episodes": {
-		"message": "Cacher"
-	},
 	"last_week": {
 		"message": "La semaine dernière"
 	},
 	"login": {
-		"message": "Identifiant"
+		"message": "Login"
 	},
 	"logo": {
-		"message": "Aller sur le site de BetaSeries!"
-	},
-	"logout": {
-		"message": "Déconnexion"
+		"message": "Aller sur BetaSeries.com"
 	},
 	"long_login": {
-		"message": "Login trop long (<24 caractères)."
+		"message": "Login trop long (<24 caractères)"
 	},
 	"march": {
 		"message": "Mars"
 	},
 	"mark_as_dl": {
-		"message": "Marquer comme récupéré"
+		"message": "Marquer comme récupéré..."
 	},
 	"mark_as_not_dl": {
-		"message": "Marquer comme non-récupéré"
+		"message": "Marquer comme non-récupéré..."
 	},
 	"mark_as_seen": {
-		"message": "Marquer comme vu cet épisode!"
-	},
-	"mark_as_seen_pl": {
-		"message": "Marquer comme vu ces épisodes!"
+		"message": "Marquer cet épisode, et les précédents, comme vus"
 	},
 	"max_height": {
 		"message": "Hauteur maximale du popup : "
@@ -181,14 +148,41 @@
 	"members": {
 		"message": "Membres"
 	},
-	"membersEpisodes": {
-		"message": "Episodes non vus"
+	"menu": {
+		"message": "Accéder au menu"
 	},
-	"membersInfos": {
-		"message": "Compte"
+	"menu_blog": {
+		"message": "Le blog"
 	},
-	"membersNotifications": {
-		"message": "Notifications"
+	"menu_logout": {
+		"message": "Déconnexion"
+	},
+	"menu_membersEpisodes": {
+		"message": "Mes épisodes"
+	},
+	"menu_membersInfos": {
+		"message": "Mon compte"
+	},
+	"menu_membersNotifications": {
+		"message": "Mes notifications"
+	},
+	"menu_membersShows": {
+		"message": "Mes séries"
+	},
+	"menu_options": {
+		"message": "Mes options"
+	},
+	"menu_planningMember": {
+		"message": "Mon planning"
+	},
+	"menu_searchMember": {
+		"message": "Chercher un membre"
+	},
+	"menu_searchShow": {
+		"message": "Chercher une série"
+	},
+	"menu_timelineFriends": {
+		"message": "Mes amis"
 	},
 	"minimise": {
 		"message": "Minimiser"
@@ -261,29 +255,29 @@
 	"new": {
 		"message": "NEW!"
 	},
+	"new_version": {
+		"message": "ChromeSeries a été mis à jour"
+	},
 	"no": {
 		"message": "Non"
 	},
 	"no_comments": {
-		"message": "Aucun commentaire pour cet épisode !"
+		"message": "Aucun commentaire pour cet épisode"
+	},
+	"no_data_found": {
+		"message": "Chargement..."
 	},
 	"no_episodes_to_see": {
-		"message": "Aucun épisode à voir !"
+		"message": "Aucun épisode à voir"
 	},
 	"no_members_found": {
-		"message": "Aucun membre correspondant."
+		"message": "Aucun membre correspondant"
 	},
 	"no_notifications": {
-		"message": "Aucune notification !"
+		"message": "Aucune notification"
 	},
 	"no_shows_found": {
-		"message": "Aucune série correspondante."
-	},
-	"no_subs": {
-		"message": "Aucun sous-titre pour cet épisode."
-	},
-	"noConnection": {
-		"message": "Pas de connexion"
+		"message": "Aucune série correspondante"
 	},
 	"november": {
 		"message": "Nov"
@@ -291,29 +285,17 @@
 	"october": {
 		"message": "Oct"
 	},
-	"options": {
-		"message": "Options"
-	},
 	"password": {
 		"message": "Mot de passe"
 	},
 	"password_not_matching": {
-		"message": "Mot de passe invalide."
-	},
-	"planningMember": {
-		"message": "Planning"
+		"message": "Mot de passe invalide"
 	},
 	"progress": {
 		"message": "avancement"
 	},
 	"read_article": {
 		"message": "Lire l'article"
-	},
-	"refresh": {
-		"message": "Actualiser"
-	},
-	"refresh_view": {
-		"message": "Recharger la vue"
 	},
 	"remove_to_friends": {
 		"message": "Enlever $user$ de vos amis", 
@@ -326,9 +308,6 @@
 	"repassword": {
 		"message": "Répéter mot de passe"
 	},
-	"registration": {
-		"message": "Inscription"
-	},
 	"sat": {
 		"message": "Sam"
 	},
@@ -337,9 +316,6 @@
 	},
 	"saved": {
 		"message": "Sauvegardé"
-	},
-	"searchForm": {
-		"message": "Faire une recherche"
 	},
 	"seasons": {
 		"message": "Saisons"
@@ -365,25 +341,22 @@
 		"message": "s'inscrire"
 	},
 	"show_add": {
-		"message": "Ajouter à mes séries"
+		"message": "Ajouter à mes séries..."
 	},
-	"show_added": {
-		"message": "Série ajoutée!"
-	},
-	"show_episodes": {
-		"message": "Voir"
+	"show_archive": {
+		"message": "Archiver la série..."
 	},
 	"show_remove": {
-		"message": "Retirer de mes séries"
+		"message": "Retirer de mes séries..."
 	},
-	"show_removed": {
-		"message": "Série retirée!"
+	"show_unarchive": {
+		"message": "Retirer la série des archives..."
 	},
 	"shows": {
 		"message": "Séries"
 	},
 	"srt_quality": {
-		"message": "Qualité SRT $lang$ : $quality$/5", 
+		"message": "Sous-titre $lang$ (qualité $quality$/5)", 
 		"placeholders":{
 			"lang":{
 				"content":"$1"
@@ -392,9 +365,6 @@
 				"content":"$2"
 			}
 		}
-	},
-	"status": {
-		"message": "Statut : "
 	},
 	"subtitles": {
 		"message": "Sous-titres"
@@ -405,11 +375,62 @@
 	"sun": {
 		"message": "Dim"
 	},
-	"synopsis": {
-		"message": "Synopsis : "
+	"sync": {
+		"message": "Rafraîchir cette vue"
 	},
-	"timelineFriends": {
-		"message": "Evénements"
+	"synopsis": {
+		"message": "Synopsis"
+	},
+	"title_blog": {
+		"message": "Le blog"
+	},
+	"title_commentsEpisode": {
+		"message": "Commentaires d'un épisode"
+	},
+	"title_connection": {
+		"message": "Connexion"
+	},
+	"title_membersEpisodes": {
+		"message": "Mes épisodes"
+	},
+	"title_membersInfos": {
+		"message": "Mon compte"
+	},
+	"title_membersNotifications": {
+		"message": "Mes notifications"
+	},
+	"title_membersShows": {
+		"message": "Mes séries"
+	},
+	"title_menu": {
+		"message": "Menu"
+	},
+	"title_noConnection": {
+		"message": "Pas de connexion"
+	},
+	"title_planningMember": {
+		"message": "Mon planning"
+	},
+	"title_registration": {
+		"message": "Inscription"
+	},
+	"title_searchMember": {
+		"message": "Chercher un membre"
+	},
+	"title_searchShow": {
+		"message": "Chercher une série"
+	},
+	"title_showsDisplay": {
+		"message": "Vue d'une série"
+	},
+	"title_showsEpisode": {
+		"message": "Vue d'un épisode"
+	},
+	"title_showsEpisodes": {
+		"message": "Vue de tous les épisodes"
+	},
+	"title_timelineFriends": {
+		"message": "Mes amis"
 	},
 	"this_week": {
 		"message": "Cette semaine"
@@ -417,17 +438,19 @@
 	"thu": {
 		"message": "Jeu"
 	},
+	"trash": {
+		"message": "Supprimer le cache ($size$)", 
+		"placeholders":{
+			"size":{
+				"content":"$1"
+			}
+		}
+	},
 	"tue": {
 		"message": "Mar"
 	},
-	"type": {
-		"message": "Genre : "
-	},
-	"unarchive": {
-		"message": "Sortir la série des archives"
-	},
 	"version": {
-		"message": "Commenter/noter cette extension!"
+		"message": "Aller sur la page de l'extension"
 	},
 	"vf": {
 		"message": "VF"
@@ -450,7 +473,7 @@
 		}
 	},
 	"wrong_login_or_password": {
-		"message": "Login et/ou password incorrects!"
+		"message": "Identifiants incorrects"
 	},
 	"yes": {
 		"message": "Oui"

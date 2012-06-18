@@ -2,298 +2,320 @@ $(document).ready ->
 
 	bgPage = chrome.extension.getBackgroundPage()
 	
+	$('*[title], *[smart-title]').live
+		mouseenter: ->
+			title = $(@).attr 'title'
+			if title? 
+				$(@).removeAttr 'title'
+				$(@).attr 'smart-title', title
+			else
+				title = $(@).attr 'smart-title'
+			$('#help').show()
+			$('#help-text').html title
+		mouseleave: ->
+			$('#help').hide()
+			$('#help-text').html ''
+		click: ->
+			$('#help').hide()
+			$('#help-text').html ''
+		
 	## Marquer un ou des épisodes comme vu(s)
-	$('.watched').live
+	$('.membersEpisodes .watched').live
 		click: -> 
-			node = $(this).parent().parent()
-			season = node.attr 'season'
-			episode = node.attr 'episode'
-			nodeShow = node.parent()
-			show = nodeShow.attr 'id'
-			params = "&season=" + season + "&episode=" + episode
-			enable_ratings = DB.get 'options.enable_ratings'
+			s = $(this).closest('.show')
+			show = s.attr 'id'
+			e = $(this).closest('.episode')
+			season = e.attr 'season'
+			episode = e.attr 'episode'
+			login = DB.get('session').login
+			enable_ratings = DB.get('options').enable_ratings
 			
-			cleanEpisode = (n) ->
-				# Si il n'y a plus d'épisodes à voir dans la série, on la cache
-				if $(nodeShow).find('.episode').length is 0
-					nodeShow.slideToggle()
-				
-				# On fait apparaitre les suivants
-				$('#' + show + ' .episode:hidden:lt(' + n + ')').removeClass('hidden').slideToggle()
-				
-				# Mise à jour du remain
-				remain = nodeShow.find '.remain'
-				newremain = parseInt(remain.text()) - n
-				remain.text newremain
-				remain.parent().hide() if newremain < 1
-				
-				Fx.updateHeight()
+			# Cache : mise à jour du dernier épisode marqué comme vu
+			es = DB.get 'member.' + login + '.episodes'
+			es[show].start = "" + (parseInt(e.attr 'global') + 1)
 			
 			# On cache les div
-			n = 0
-			next = node.next()
-			while node.hasClass 'episode'
-				# Notation d'un épisode
-				if enable_ratings is 'true'
-					$(node).find('.watched').attr 'src', '../img/plot_orange.gif'
-					$(node).find('.watched').removeClass 'watched'
-					nodeRight = $(node).find '.right'
+			nbr = 0
+			while e.hasClass 'episode'
+				nbr++
+			
+				if enable_ratings
+					# on enlève la possibilité de re-marquer comme vu (alors que c'est en cours)
+					$(e).css 'background-color', '#f5f5f5'
+					$(e).find('.watched').removeClass 'watched'
+					
+					# affichage des étoiles
+					nodeRight = $(e).find '.right'
 					content = ""
 					for i in [1..5]
 						content += '<img src="../img/star_off.gif" width="10" id="star' + i + '" class="star" title="' + i + ' /5" />'
 					
-					content += '<img src="../img/archive.png" width="10" class="close_stars" title="' + __('do_not_rate') + '" />'
+					content += '<img src="../img/close3.png" width="10" class="close_stars" title="' + __('do_not_rate') + '" />'
 					nodeRight.html content
-					# Star HOVER
-					$('.star').on
-						mouseenter: ->
-							$(this).css 'cursor', 'pointer'
-							nodeStar = $(this)
-							while nodeStar.hasClass 'star'
-								nodeStar.attr 'src', '../img/star.gif'
-								nodeStar = nodeStar.prev()
-						mouseleave: ->
-							$(this).css 'cursor', 'auto'
-							nodeStar = $(this)
-							while nodeStar.hasClass 'star'
-								nodeStar.attr 'src', '../img/star_off.gif'
-								nodeStar = nodeStar.prev()
-						click: ->
-							nodeEpisode = $(this).parent().parent()
-							if nodeEpisode.hasClass 'episode'
-								nodeEpisode.slideToggle()
-								nodeEpisode.removeClass 'episode'
-							
-								rate = $(this).attr('id').substring 4
-								params += "&note=" + rate
-								# On marque comme vu EN notant
-								ajax.post "/members/watched/" + show, params, 
-									-> 
-										Fx.toRefresh 'membersEpisodes.all'
-										bgPage.badge.update()
-									->
-										registerAction "/members/watched/" + show, params
-								
-								cleanEpisode 1
-						
-					# Close Stars HOVER
-					$('.close_stars').on
-						mouseenter: ->
-							$(this).css 'cursor', 'pointer'
-							$(this).attr 'src', '../img/archive_on.png'
-						mouseleave: ->
-							$(this).css 'cursor', 'auto'
-							$(this).attr 'src', '../img/archive.png'
-						click: ->
-							nodeEpisode = $(this).parent().parent()
-							if nodeEpisode.hasClass 'episode'
-								nodeEpisode.slideToggle()
-								nodeEpisode.removeClass 'episode'
-								
-								# On marque comme vu SANS noter
-								ajax.post "/members/watched/" + show, params, 
-									->
-										Fx.toRefresh 'membersEpisodes.all'
-										bgPage.badge.update()
-									->
-										registerAction "/members/watched/" + show, params
-								
-								cleanEpisode 1
-							
-				else if enable_ratings is 'false'
-					node.slideToggle()
-					node.removeClass 'episode'
+				else
+					clean e
 				
-				node = node.prev()
-				n++
+				# sélection de l'épisode précédent	
+				e = e.prev()
 			
-			if enable_ratings is 'false'
-				# On marque comme vu SANS noter
-				ajax.post "/members/watched/" + show, params, 
-					->
-						Fx.toRefresh 'membersEpisodes.all'
-						bgPage.badge.update()
-					->
-						registerAction "/members/watched/" + show, params
-				
-				cleanEpisode n
-		
+			# Cache : mise à jour du nbr d'épisodes restants
+			es[show].nbr_total -= nbr
+			if es[show].nbr_total is 0
+				delete es[show]
+			
+			# Requête
+			params = "&season=" + season + "&episode=" + episode
+			ajax.post "/members/watched/" + show, params, 
+				->
+					DB.set 'member.' + login + '.episodes', es
+					Cache.force 'timelineFriends'
+					badge_notification_type = DB.get('options').badge_notification_type
+					bgPage.Badge.update() if badge_notification_type is 'watched'
+				-> 
+					registerAction "/members/watched/" + show, params
+			
 		mouseenter: ->
-			$(this).css 'cursor', 'pointer'
-			$(this).attr 'src', '../img/plot_green.gif'
-			node = $(this).parent().parent().prev()
-			while node.hasClass 'episode'
-				node.find('.watched').attr 'src', '../img/plot_green.gif'
-				node = node.prev()
+			e = $(this).closest('.episode')
+			while e.hasClass 'episode'
+				e.find('.watched').css 'opacity', 1
+				e = e.prev()
 			
 		mouseleave: ->
-			$(this).css 'cursor', 'auto'
-			$(this).attr 'src', '../img/plot_red.gif'
-			node = $(this).parent().parent().prev()
-			while node.hasClass 'episode'
-				node.find('.watched').attr 'src', '../img/plot_red.gif'
-				node = node.prev()
-	
-	## Marquer un épisode comme téléchargé ou pas
-	$('.downloaded').live
-		click: ->
-			view = BS.currentPage.name
+			e = $(this).closest('.episode')
+			while e.hasClass 'episode'
+				e.find('.watched').css 'opacity', 0.5
+				e = e.prev()
+
+	## Marquer un ou des épisodes comme vu(s)
+	$('.showsEpisodes .watched').live
+		click: -> 
+			s = $(this).closest '.show'
+			show = s.attr 'id'
+			start = parseInt s.attr 'start'
 			
-			if view is 'showsEpisodes'
-				img = $('.downloaded img')
-				node = $(this).parent()
-				season = node.attr 'season'
-				episode = node.attr 'episode'
-				show = node.attr 'id'
-			else if view is 'membersEpisodes'
-				img = $(this)
-				node = $(this).parent().parent()
-				season = node.attr 'season'
-				episode = node.attr 'episode'
-				show = node.parent().attr 'id'
+			e = $(this).closest '.episode'
+			newStart = parseInt(e.attr('global')) + 1
+			s.attr 'start', newStart
+			season = e.attr 'season'
+			episode = e.attr 'episode'
+
+			# Cache : mise à jour du dernier épisode marqué comme vu
+			login = DB.get('session').login
+			es = DB.get 'member.' + login + '.episodes'
+			if (not show in es) then es[show] = {}
+			es[show].start = "" + newStart
+			es[show].nbr_total += start - newStart
+			if es[show].nbr_total is 0 then delete es[show]
 			
+			# Mise à jour des plots
+			$('.show').find('.episode').each (i) -> 
+				if $(@).attr('global') <= newStart - 1
+					$(@).find('.watched').attr('src', '../img/tick.png').css('opacity', 0.5)
+				else
+					$(@).find('.watched').attr('src', '../img/empty.png')
+			
+			# Requête
 			params = "&season=" + season + "&episode=" + episode
+			ajax.post "/members/watched/" + show, params, 
+				->
+					DB.set 'member.' + login + '.episodes', es
+					Cache.force 'timelineFriends'
+					badge_notification_type = DB.get('options').badge_notification_type
+					bgPage.Badge.update() if badge_notification_type is 'watched'
+				-> 
+					registerAction "/members/watched/" + show, params
 			
-			# On rend tout de suite visible le changement
-			if img.attr('src') is '../img/folder_delete.png' then img.attr 'src', '../img/folder_add.png'
-			else if img.attr('src') is '../img/folder_add.png' then img.attr 'src', '../img/folder_delete.png'
+		mouseenter: ->
+			e = $(this).closest('.episode')
+			e.find('.watched').attr('src', '../img/arrow_right.png').css('opacity', 1)
 			
-			if view is 'showsEpisodes'
-				dlText = $(this).find('.dlText').text()
-				newDlText = if dlText is __('mark_as_dl') then __('mark_as_not_dl') else __('mark_as_dl')
-				$(this).find('.dlText').text newDlText
-				
+		mouseleave: ->
+			start = parseInt $(this).closest('.show').attr 'start'
+			e = $(this).closest('.episode')
+
+			if (e.attr('global') < start)
+				e.find('.watched').attr('src', '../img/tick.png').css('opacity', 0.5)
+			else
+				e.find('.watched').attr('src', '../img/empty.png')
+		
+	clean = (node) ->
+		show = node.closest('.show')
+		
+		# on fait disparaître la ligne de l'épisode
+		node.slideToggle 'slow', -> $(@).remove()
+
+		# s'il n'y a plus d'épisodes à voir dans la série, on la cache
+		nbr = parseInt($(show).find('.remain').text()) - 1
+		if nbr is 0
+			$(show).slideToggle 'slow', -> $(@).remove()
+		else
+			$(show).find('.remain').text nbr
+
+		# afficher les épisodes cachés
+		nbr_episodes_per_serie = DB.get('options').nbr_episodes_per_serie
+		if nbr + 1 > nbr_episodes_per_serie
+			global = parseInt($(show).find('.episode').last().attr('global')) + 1
+			login = DB.get('session').login
+			showName = $(show).attr 'id'
+			s = DB.get('member.' + login + '.shows')[showName]
+			es = DB.get 'show.' + showName + '.episodes'
+			episode = Content.episode es[global], s
+			$(show).append episode
+
+		Fx.updateHeight()
+		
+		return true
+	
+	# Episode HOVER
+	$('.episode').live
+		mouseenter: ->
+			$(@).find('.watched').attr('src', '../img/arrow_right.png').css('opacity', 0.5)
+		mouseleave: ->
+			start = parseInt $(this).closest('.show').attr 'start'
+			e = $(this).closest('.episode')
+
+			if (e.attr('global') < start)
+				e.find('.watched').attr('src', '../img/tick.png').css('opacity', 0.5)
+			else
+				e.find('.watched').attr('src', '../img/empty.png')
+		
+	# Star HOVER
+	$('.star').live
+		mouseenter: ->
+			nodeStar = $(this)
+			while nodeStar.hasClass 'star'
+				nodeStar.attr 'src', '../img/star.gif'
+				nodeStar = nodeStar.prev()
+		mouseleave: ->
+			nodeStar = $(this)
+			while nodeStar.hasClass 'star'
+				nodeStar.attr 'src', '../img/star_off.gif'
+				nodeStar = nodeStar.prev()
+		click: ->
+			s = $(this).closest('.show')
+			show = s.attr 'id'
+			e = $(this).closest '.episode'
+			clean e
+			
+			# On marque comme vu EN notant
+			season = e.attr 'season'
+			episode = e.attr 'episode'
+			rate = $(this).attr('id').substring 4
+			params = "&season=" + season + "&episode=" + episode + "&note=" + rate
+			ajax.post "/members/note/" + show, params, 
+				-> 
+					Cache.force 'timelineFriends'
+				->
+					registerAction "/members/watched/" + show, params
+		
+	# Close Stars HOVER
+	$('.close_stars').live
+		click: ->
+			e = $(this).closest '.episode'
+			clean e
+	
+	## Marquer un épisode comme récupéré ou pas
+	$('.membersEpisodes .downloaded').live
+		click: ->
+			s = $(this).closest('.show')
+			show = s.attr 'id'
+			e = $(this).closest('.episode')
+			season = e.attr 'season'
+			episode = e.attr 'episode'
+			global = e.attr 'global'
+			
+			# mise à jour du cache
+			es = DB.get 'show.' + show + '.episodes'
+			downloaded = es[global].downloaded
+			es[global].downloaded = !downloaded
+			DB.set 'show.' + show + '.episodes', es
+			
+			# modification de l'icône
+			if downloaded
+				$(this).attr 'src', '../img/folder_off.png'
+			else 
+				$(this).attr 'src', '../img/folder.png'
+			
+			# envoi de la requête
+			params = "&season=" + season + "&episode=" + episode
 			ajax.post "/members/downloaded/" + show, params, 
 				-> 
-					Fx.toRefresh 'membersEpisodes.all'
-					Fx.toRefresh 'showsEpisodes.' + show + '.' + season + '.' + episode
+					badge_notification_type = DB.get('options').badge_notification_type
+					bgPage.Badge.update() if badge_notification_type is 'downloaded'
+				-> registerAction "/members/downloaded/" + show, params
+
+			return false
+
+	## Marquer un épisode comme récupéré ou pas
+	$('.showsEpisode .downloaded').live
+		click: ->
+			show = $(@).attr 'show'
+			season = $(@).attr 'season'
+			episode = $(@).attr 'episode'
+			global = $(@).attr 'global'
+			
+			# mise à jour du cache
+			es = DB.get 'show.' + show + '.episodes'
+			downloaded = es[global].downloaded
+			es[global].downloaded = !downloaded
+			DB.set 'show.' + show + '.episodes', es
+			
+			# modification de l'icône
+			$(@).find('span').toggleClass 'imgSyncOff imgSyncOn'
+			dl = if downloaded then 'mark_as_dl' else 'mark_as_not_dl'
+
+			# envoi de la requête
+			params = "&season=" + season + "&episode=" + episode
+			ajax.post "/members/downloaded/" + show, params, 
+				=>
+					badge_notification_type = DB.get('options').badge_notification_type
+					bgPage.Badge.update() if badge_notification_type is 'downloaded'
+					$(@).html '<span class="imgSyncOff"></span>' + __(dl)
 				-> 
 					registerAction "/members/downloaded/" + show, params
-			
-		mouseenter: -> 
-			$(this).css 'cursor', 'pointer'
-			
-			view = BS.currentPage.name
-			if view is 'showsEpisodes'
-				img = $('.downloaded img')
-			else if view is 'membersEpisodes'
-				img = $(this)
-			
-			if img.attr('src') is '../img/folder_off.png' then img.attr 'src', '../img/folder_add.png'
-			if img.attr('src') is '../img/folder.png' then img.attr 'src', '../img/folder_delete.png'
-		
-		mouseleave: ->
-			$(this).css 'cursor', 'auto'
-			
-			view = BS.currentPage.name
-			if view is 'showsEpisodes'
-				img = $('.downloaded img')
-			else if view is 'membersEpisodes'
-				img = $(this)
-			
-			if img.attr('src') is '../img/folder_add.png' then img.attr 'src', '../img/folder_off.png'
-			if img.attr('src') is '../img/folder_delete.png' then img.attr 'src', '../img/folder.png'
-	
-	## Accéder à la liste des commentaires d'un épisode
-	$('.commentList').live
-		click: ->
-			view = BS.currentPage.name
-			
-			if view is 'showsEpisodes'
-				node = $(this).parent()
-				season = node.attr 'season'
-				episode = node.attr 'episode'
-				show = node.attr 'id'
-				showName = node.find('.showtitle').eq(0).text()
-			else if view is 'membersEpisodes'
-				node = $(this).parent().parent()
-				season = node.attr 'season'
-				episode = node.attr 'episode'
-				show = node.parent().attr 'id'
-				showName = node.parent().find('.showtitle .left2 .showtitle').text()
-			
-			BS.load('commentsEpisode', show, season, episode, showName).refresh()
-	
-		mouseenter: -> $(this).css 'cursor', 'pointer'
-		
-		mouseleave: -> $(this).css 'cursor', 'auto'
-	
-	## Accéder à la fiche d'un épisode
-	$('.num').live
-		click: ->
-			view = BS.currentPage.name
-			
-			if view is 'membersEpisodes'
-				node = $(this).parent().parent()
-				url = node.parent().attr 'id'
-				season = node.attr 'season'
-				episode = node.attr 'episode'
-			
-			if view is 'planningMember'
-				node = $(this).parent()
-				url = node.attr 'url'
-				season = node.attr 'season'
-				episode = node.attr 'episode'
-			
-			BS.load('showsEpisodes', url, season, episode).refresh()
 
-		mouseenter: -> 
-			$(this).css 'cursor', 'pointer'
-			$(this).css 'color', '#900'
-			
-		mouseleave: -> 
-			$(this).css 'cursor', 'auto'
-			$(this).css 'color', '#1a4377'
+			return false
 	
 	## Télécharger les sous-titres d'un épisode
 	$('.subs').live
-		click: ->
+		click: -> 
 			Fx.openTab $(this).attr 'link'
 			return false
-		
-		mouseenter: ->
-			$(this).css 'cursor', 'pointer'
-			quality = $(this).attr 'quality'
-			$(this).attr 'src', '../img/dl_' + quality + '.png'
-		
-		mouseleave: ->
-			$(this).attr 'src', '../img/srt.png'
-			$(this).css 'cursor', 'auto'
 	
 	## Archiver une série
-	$('.archive').live
+	$('#showsArchive').live
 		click: ->
-			show = $(this).parent().parent().parent().attr 'id'
-			
-			# On efface la série tout de suite
-			$('#' + show).slideUp()
+			show = $(@).attr('href').substring 1
+
+			$(@).find('span').toggleClass 'imgSyncOff imgSyncOn'
 			
 			ajax.post "/shows/archive/" + show, "", 
-				->
-					Fx.toRefresh 'membersEpisodes.all'
-					Fx.toRefresh 'membersInfos.' + DB.get 'member.login'
-					bgPage.badge.update()
+				=>
+					Cache.force 'membersEpisodes.all'
+					Cache.force 'membersInfos.' + DB.get('session').login
+					bgPage.Badge.update()
+					$(@).html '<span class="imgSyncOff"></span>' + __('show_unarchive')
+					$(@).attr 'id', 'showsUnarchive'
 				-> registerAction "/shows/archive/" + show, ""
 			
-			Fx.updateHeight()
 			return false
 	
 	## Sortir une série des archives
-	$('.unarchive').live
+	$('#showsUnarchive').live
 		click: ->
-			show = $(this).parent().attr 'id'
+			show = $(this).attr('href').substring 1
 			
-			# On ajoute la série tout de suite
-			$('#' + show).hide()
+			$(this).find('span').toggleClass 'imgSyncOff imgSyncOn'
 			
 			ajax.post "/shows/unarchive/" + show, "", 
-				->
-					Fx.toRefresh 'membersEpisodes.all'
-					Fx.toRefresh 'membersInfos.' + DB.get 'member.login'
-					bgPage.badge.update()
+				=>
+					Cache.force 'membersEpisodes.all'
+					Cache.force 'membersInfos.' + DB.get('session').login
+					bgPage.Badge.update()
+					$(this).html '<span class="imgSyncOff"></span>' + __('show_archive')
+					$(this).attr 'id', 'showsArchive'
 				-> registerAction "/shows/unarchive/" + show, ""
 			
-			Fx.updateHeight()
 			return false
 	
 	## Ajoute à mes séries
@@ -301,15 +323,16 @@ $(document).ready ->
 		click: ->
 			show = $(this).attr('href').substring 1
 			
-			# On ajoute la série tout de suite
-			$('#showsAdd').html __('show_added')
+			$(this).find('span').toggleClass 'imgSyncOff imgSyncOn'
 			
-			ajax.post "/shows/add/" + show, "", 
-				->
-					Fx.toRefresh 'membersEpisodes.all'
-					Fx.toRefresh 'membersInfos.' + DB.get 'member.login'
-					bgPage.badge.update()
-				-> registerAction "/shows/add/" + show, ""
+			ajax.post '/shows/add/' + show, '', 
+				=>
+					Cache.force 'membersEpisodes.all'
+					Cache.force 'membersInfos.' + DB.get('session').login
+					bgPage.Badge.update()
+					$(this).html '<span class="imgSyncOff"></span>' + __('show_remove')
+					$(this).attr 'id', 'showsRemove'
+				-> registerAction "/shows/add/" + show, ''
 			
 			return false
 	
@@ -318,18 +341,55 @@ $(document).ready ->
 		click: ->
 			show = $(this).attr('href').substring 1
 			
-			# On retire la série tout de suite
-			$('#showsRemove').html __('show_removed')
-			
-			ajax.post "/shows/remove/" + show, "", 
-				->
-					Fx.toRefresh 'membersEpisodes.all'
-					Fx.toRefresh 'membersInfos.' + DB.get 'member.login'
-					bgPage.badge.update()
-				-> registerAction "/shows/remove/" + show, ""
+			$(this).find('span').toggleClass 'imgSyncOff imgSyncOn'
+
+			$('#showsArchive').slideUp();
+			$('#showsUnarchive').slideUp();
+
+			ajax.post '/shows/remove/' + show, '', 
+				=>
+					Cache.force 'membersEpisodes.all'
+					Cache.force 'membersInfos.' + DB.get('session').login
+					bgPage.Badge.update()
+					$(this).html '<span class="imgSyncOff"></span>' + __('show_add')
+					$(this).attr 'id', 'showsAdd'
+				-> registerAction "/shows/remove/" + show, ''
 			
 			return false
 	
+	## Ajouter un ami
+	$('#friendsAdd').live
+		click: ->
+			login = $(this).attr('href').substring 1
+			
+			$(this).find('span').toggleClass 'imgSyncOff imgSyncOn'
+			
+			ajax.post "/members/add/" + login, '', 
+				=>
+					Cache.force 'membersInfos.' + DB.get('session').login
+					Cache.force 'membersInfos.' + login
+					Cache.force 'timelineFriends'
+					$(this).html '<span class="imgSyncOff"></span>' + __('remove_to_friends', [login])
+					$(this).attr 'id', 'friendsRemove'
+				-> registerAction "/members/add/" + login, ''
+			return false
+	
+	## Enlever un ami
+	$('#friendsRemove').live
+		click: ->
+			login = $(this).attr('href').substring 1
+			
+			$(this).find('span').toggleClass 'imgSyncOff imgSyncOn'
+			
+			ajax.post "/members/delete/" + login, '', 
+				=>
+					Cache.force 'membersInfos.' + DB.get('session').login
+					Cache.force 'membersInfos.' + login
+					Cache.force 'timelineFriends'
+					$(this).html '<span class="imgSyncOff"></span>' + __('add_to_friends', [login])
+					$(this).attr 'id', 'friendsAdd'
+			return false
+
 	## Se connecter
 	$('#connect').live
 		submit: ->
@@ -343,12 +403,12 @@ $(document).ready ->
 						message('')
 						$('#connect').remove()
 						token = data.root.member.token
-						DB.init()
-						DB.set 'member.login', login
-						DB.set 'member.token', data.root.member.token
+						DB.set 'session', 
+							login: login
+							token: data.root.member.token
 						menu.show()
 						$('#back').hide()
-						BS.load('membersEpisodes').refresh()
+						BS.load('membersEpisodes')
 					else
 						$('#password').attr 'value', ''
 						message '<img src="../img/inaccurate.png" /> ' + __('wrong_login_or_password')
@@ -401,8 +461,32 @@ $(document).ready ->
 			
 			return false
 	
-	## Faire une recherche
-	$('#search0').live
+	## Faire une recherche de membre
+	$('#searchForMember').live
+		submit: ->
+			terms = $('#terms').val()
+			#var inputs = $(this).find('input').attr {disabled: 'disabled'}
+			
+			params = "&login=" + terms
+			ajax.post "/members/search", params, 
+				(data) ->
+					content = '<div class="showtitle">' + __('members') + '</div>'
+					members = data.root.members
+					if Object.keys(members).length > 0
+						for n of members
+							member = members[n]
+							content += '<div class="episode"><a href="#" onclick="BS.load(\'membersInfos\', \'' + member.login + '\'); return false;">' + Fx.subFirst(member.login, 25) + '</a></div>'
+					else
+						content += '<div class="episode">' + __('no_members_found') + '</div>'
+					$('#results').html content
+					Fx.updateHeight()
+				->
+					#inputs.removeAttr 'disabled'
+			
+			return false
+	
+	## Faire une recherche de membre
+	$('#searchForShow').live
 		submit: ->
 			terms = $('#terms').val()
 			#var inputs = $(this).find('input').attr {disabled: 'disabled'}
@@ -415,26 +499,10 @@ $(document).ready ->
 					if Object.keys(shows).length > 0
 						for n of shows
 							show = shows[n]
-							content += '<div class="episode"><a href="#" onclick="BS.load(\'showsDisplay\', \'' + show.url + '\').refresh(); return false;" title="' + show.title + '">' + Fx.subFirst(show.title, 25) + '</a></div>'
+							content += '<div class="episode"><a href="#" onclick="BS.load(\'showsDisplay\', \'' + show.url + '\'); return false;" title="' + show.title + '">' + Fx.subFirst(show.title, 25) + '</a></div>'
 					else
 						content += '<div class="episode">' + __('no_shows_found') + '</div>'
-					$('#shows-results').html content
-					Fx.updateHeight()
-				->
-					#inputs.removeAttr 'disabled'
-			
-			params = "&login=" + terms
-			ajax.post "/members/search", params, 
-				(data) ->
-					content = '<div class="showtitle">' + __('members') + '</div>'
-					members = data.root.members
-					if Object.keys(members).length > 0
-						for n of members
-							member = members[n]
-							content += '<div class="episode"><a href="#" onclick="BS.load(\'membersInfos\', \'' + member.login + '\').refresh(); return false;">' + Fx.subFirst(member.login, 25) + '</a></div>'
-					else
-						content += '<div class="episode">' + __('no_members_found') + '</div>'
-					$('#members-results').html content
+					$('#results').html content
 					Fx.updateHeight()
 				->
 					#inputs.removeAttr 'disabled'
@@ -445,219 +513,92 @@ $(document).ready ->
 	registerAction = (category, params) ->
 		console.log "action: " + category + params
 	
-	## Montrer ou cacher les épisodes en trop
-	$('.toggleEpisodes').live
-		click: ->
-			show = $(this).parent().parent().parent()
-			hiddens = show.find 'div.episode.hidden'
-			
-			# Gestion où la série est minimisée
-			showName = $(show).attr 'id'
-			hidden_shows = JSON.parse DB.get 'hidden_shows'
-			hiddenShow = showName in hidden_shows
-			if hiddenShow
-				$(show).find('.toggleShow').trigger 'click'
-				return false
-			
-			hiddens.slideToggle()
-			
-			extra_episodes = JSON.parse DB.get 'extra_episodes'
-			extraEpisodes = showName in extra_episodes
-			if extraEpisodes
-				$(this).find('.labelRemain').text __('show_episodes')
-				$(this).find('img').attr 'src', '../img/downarrow.gif'
-			else
-				$(this).find('.labelRemain').text __('hide_episodes')
-				$(this).find('img').attr 'src', '../img/uparrow.gif'
-			
-			if !extraEpisodes
-				extra_episodes.push showName
-			else
-				extra_episodes.splice extra_episodes.indexOf showName, 1
-			
-			DB.set 'extra_episodes', JSON.stringify extra_episodes
-					
-			Fx.updateHeight()
-			return false
-	
-		mouseenter: -> 
-			$(this).css 'cursor', 'pointer'
-			$(this).css 'color', '#900'
-		
-		mouseleave: ->
-			$(this).css 'cursor', 'auto'
-			$(this).css 'color', '#000'
-	
-	## Ajouter un ami
-	$('#addfriend').live
-		click: ->
-			login = $(this).attr 'login'
-			ajax.post "/members/add/" + login, '', (data) ->
-				$('#addfriend').text __('remove_to_friends', [login])
-				$('#addfriend').attr 'href', '#removefriend'
-				$('#addfriend').attr 'id', 'removefriend'
-				$('#friendshipimg').attr 'src', '../img/friend_remove.png'
-				Fx.toRefresh 'membersInfos.' + DB.get 'member.login'
-				Fx.toRefresh 'membersInfos.' + login
-				Fx.toRefresh 'timelineFriends'
-			return false
-	
-	## Enlever un ami
-	$('#removefriend').live
-		click: ->
-			login = $(this).attr 'login'
-			ajax.post "/members/delete/" + login, '', (data) ->
-				$('#removefriend').text __('add_to_friends', [login])
-				$('#removefriend').attr 'href', '#addfriend'
-				$('#removefriend').attr 'id', 'addfriend'
-				$('#friendshipimg').attr 'src', '../img/friend_add.png'
-				Fx.toRefresh 'membersInfos.' + DB.get 'member.login'
-				Fx.toRefresh 'membersInfos.' + login
-				Fx.toRefresh 'timelineFriends'
-			return false
-	
 	## Maximiser/minimiser une série*/
 	$('.toggleShow').live
 		click: ->
-			show = $(this).parent().parent().parent()
+			show = $(this).closest('.show')
 			showName = $(show).attr 'id'
-			nbr_episodes_per_serie = JSON.parse DB.get 'options.nbr_episodes_per_serie'
-			hidden_shows = JSON.parse DB.get 'hidden_shows'
-			hiddenShow = showName in hidden_shows
-			extra_episodes = JSON.parse DB.get 'extra_episodes'
-			extraEpisodes = showName in extra_episodes
-			nb_hiddens = $(show).find('div.episode.hidden').length
-			nb_episodes = $(show).find('div.episode').length
-			
-			toggleEpisodes = $(show).find '.toggleEpisodes'		
-			labelRemainText = if hiddenShow then __('hide_episodes') else __('show_episodes')
-			imgSrc = if hiddenShow then '../img/uparrow.gif' else '../img/downarrow.gif'
-			toggleEpisodes.find('.labelRemain').text labelRemainText
-			toggleEpisodes.find('img').attr 'src', imgSrc
-					
-			if extraEpisodes
-				if hiddenShow
-					toggleEpisodes.find('.remain').text nb_hiddens
-				else
-					remain = parseInt toggleEpisodes.find('.remain').text()
-					remain += parseInt nbr_episodes_per_serie
-					toggleEpisodes.find('.remain').text remain
+			login = DB.get('session').login
+			shows = DB.get 'member.' + login + '.shows'
+			hidden = shows[showName].hidden
+			shows[showName].hidden = !hidden
+			DB.set 'member.' + login + '.shows', shows
 				
-				$(show).find('.episode').slideToggle()
-			else
-				if hiddenShow
-					if nb_hiddens is 0
-						toggleEpisodes.hide()
-					else
-						toggleEpisodes.find('.labelRemain').text __('show_episodes')
-						toggleEpisodes.find('.remain').text nb_hiddens
-						toggleEpisodes.find('img').attr 'src', '../img/downarrow.gif'
-				
-				else
-					if nb_hiddens is 0
-						toggleEpisodes.find('.labelRemain').text __('show_episodes')
-						toggleEpisodes.find('.remain').text nb_episodes
-						toggleEpisodes.find('img').attr 'src', '../img/downarrow.gif'
-						toggleEpisodes.find('.remain').text remain
-						toggleEpisodes.show()
-					else
-						remain = parseInt toggleEpisodes.find('.remain').text()
-						remain += parseInt nbr_episodes_per_serie
-						toggleEpisodes.find('.remain').text remain
-				
-				$(show).find('.episode:lt(' + nbr_episodes_per_serie + ')').slideToggle()
+			$(show).find('.episode').slideToggle()
 			
-			
-			if !hiddenShow
-				hidden_shows.push showName
+			if shows[showName].hidden
 				$(this).attr 'src', '../img/arrow_right.gif'
 			else
-				hidden_shows.splice (hidden_shows.indexOf showName), 1
 				$(this).attr 'src', '../img/arrow_down.gif'
 			
-			DB.set 'hidden_shows', JSON.stringify hidden_shows
+			Fx.updateHeight()
+
+	## Maximiser/minimiser une saison*/
+	$('.toggleSeason').live
+		click: ->
+			season = $(this).closest('.season')
+			seasonName = $(season).attr 'id'
+			hidden = $(season).hasClass('hidden')
+			$(season).toggleClass('hidden')
+			$(season).find('.episode').slideToggle()
+			
+			if hidden
+				$(this).attr 'src', '../img/arrow_down.gif'
+			else
+				$(this).attr 'src', '../img/arrow_right.gif'
 			
 			Fx.updateHeight()
 			
-		mouseenter: -> $(this).css 'cursor', 'pointer'
-		
-		mouseleave: -> $(this).css 'cursor', 'auto'
-	
 	## HEADER links
 	$('#logoLink')
 		.click(-> Fx.openTab ajax.site_url, true)
 		.attr 'title', __("logo")
+	
 	$('#versionLink')
 		.click(-> Fx.openTab 'https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true)
 		.attr 'title', __("version")
 	
 	## MENU actions
 	$('#back').click ->
-			historic = JSON.parse DB.get 'historic'
-			if (length = historic.length) >= 2
-				historic.pop()
-				args = historic[length-2].substring(5).split '.'
-				BS.load.apply(BS, args).refresh()
-				DB.set 'historic', JSON.stringify historic
-				$(this).hide() if length is 2
+			Historic.back()
 			return false
 		.attr 'title', __("back")
-	$('#status')
-		.click(-> (BS.refresh(); return false))
-		.attr 'title', __("refresh")
-	$('#options')
-		.click(-> Fx.openTab chrome.extension.getURL "../html/options.html", true)
-		.attr 'title', __("options")
-	$('#logout')
-		.live 'click', -> 
-			ajax.post "/members/destroy", '',
-				->
-					DB.removeAll()
-					DB.init()
-					bgPage.badge.init()
-					BS.load('connection').refresh()
-				->
-					DB.removeAll()
-					DB.init()
-					bgPage.badge.init()
-					BS.load('connection').refresh()
-			return false
-		.attr 'title', __("logout")
+	
+	$('#sync')
+		.click(-> BS.refresh())
+		.attr 'title', __('sync')
+	
+	$('#menu')
+		.click ->
+			if BS.currentView.id is 'menu'
+				Historic.refresh()
+			else
+				BS.load('menu');
+		.attr 'title', __('menu')
+		
 	$('#close')
-		.click(-> (window.close(); return false))
+		.click(-> window.close())
 		.attr 'title', __('close')
 	
-	## MENU sections
-	$('#blog')
-		.live('click', -> (BS.load('blog').refresh(); return false))
-		.attr 'title', __("blog")
-	$('#planning')
-		.live('click', -> (BS.load('planningMember').refresh(); return false))
-		.attr 'title', __("planningMember")
-	$('#episodes')
-		.live('click', -> (BS.load('membersEpisodes').refresh(); return false))
-		.attr 'title', __("membersEpisodes")
-	$('#timeline')
-		.live('click', -> (BS.load('timelineFriends').refresh(); return false))
-		.attr 'title', __("timelineFriends")
-	$('#notifications')
-		.live('click', -> (BS.load('membersNotifications').refresh(); return false))
-		.attr 'title', __("membersNotifications")
-	$('#infos')
-		.live('click', -> (BS.load('membersInfos').refresh(); return false))
-		.attr 'title', __("membersInfos")
-	$('#search')
-		.live('click', -> (BS.load('searchForm').display(); return false))
-		.attr 'title', __("searchForm")
-	
+	$('#trash')
+		.click ->
+			Cache.remove()
+			$(this).hide()
+		
 	## Afficher le message de confirmation
 	message = (content) -> $('#message').html content
 	
 	## INIT
 	DB.init()
+		
+	# Réglage de la hauteur du popup
+	Fx.updateHeight true
+	
+	# Récupération du numéro de version
+	Fx.checkVersion()
+	
 	if bgPage.connected()
-		Fx.cleanCache()
-		badgeType = DB.get 'badge.type', 'membersEpisodes'
-		BS.load(badgeType).refresh()
+		badgeType = DB.get('badge').type
+		BS.load badgeType
 	else
-		BS.load('connection').display()
+		BS.load 'connection'

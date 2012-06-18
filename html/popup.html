@@ -20,48 +20,55 @@
 	<script src="../lib/jquery.js"></script>
 	<script src="../lib/nanoscroller/jquery.nanoscroller.min.js"></script>
 	<script src="../js/database.js"></script>
+	<script src="../js/cache.js"></script>
+	<script src="../js/historic.js"></script>
 	<script src="../js/ajax.js"></script>
 	<script src="../js/betaseries.js"></script>
+	<script src="../js/content.js"></script>
 	<script src="../js/popup.js"></script>
 </head>
 
 <body>
 		
-	<div id="pannel">
+	<div id="header">
 		
 		<div id="logo">
-			<a href="" id="logoLink">ChromeSeries</a><small><a href="" id="versionLink">0.7</a></small>
+			<a href="" id="logoLink">chromeseries</a><small><a href="" id="versionLink"></a></small>
 		</div>
 		<div id="actions">
-			<img src="../img/back.png" id="back" class="action" style="display:none; margin-bottom:-3px;" /> 
-			<img src="../img/sync.gif" id="sync" style="display:none; margin-bottom:-3px;" /> 
-			<img src="../img/plot_orange.gif" id="status" class="action" style="margin-bottom:-3px;" /> 
-			<img src="../img/options.png" id="options" class="action" style="margin-bottom:-3px;" />
-			<img src="../img/logout.gif" id="logout" class="action" style="margin-bottom:-3px;" />
-			<img src="../img/close.gif" id="close" class="action" style="margin-bottom:-3px;" />
+			<img src="../img/back.png" id="back" class="action" style="margin-bottom: -11px; display: none;" />
+			<img src="../img/sync.png" id="sync" class="action" style="margin-bottom: -11px;" />
+			<img src="../img/menu.png" id="menu" class="action" style="margin-bottom: -11px;" />
+			<img src="../img/close2.png" id="close" class="action" style="margin-bottom: -11px;" />
 		</div>
 		
 		<div style="clear:both;"></div>
 		
 		<div id="title"></div>
-		<div id="menu">
-			<img src="../img/blog.png" id="blog" class="action" style="margin-bottom:-3px;" />
-			<img src="../img/planning.png" id="planning" class="action" style="margin-bottom:-3px;" />
-			<img src="../img/episodes.png" id="episodes" class="action" style="margin-bottom:-3px;" />
-			<img src="../img/timeline.png" id="timeline" class="action" style="margin-bottom:-3px;" />
-			<img src="../img/notifications.gif" id="notifications" class="action" style="margin-bottom:-3px;" />
-			<img src="../img/infos.png" id="infos" class="action" style="margin-bottom:-3px;" />
-			<img src="../img/search.png" id="search" class="action" style="margin-bottom:-3px;" />
+		<div id="menu-wrapper">
 		</div>
 		
+		<div style="clear:both;"></div>
 	</div>
 				
-	<div id="message"></div>
+	<div id="message" style="display:none;"></div>
 	
 	<div id="about" class="nano">
 		<div class="content">
 			<div id="page"></div>
 		</div>
+	</div>
+	
+	<div id="footer">
+		<div id="help-wrapper">
+			<img src="../img/help.png" id="help" class="action" style="margin-bottom:-2px; display:none;" />
+			<span id="help-text"></span>
+		</div>
+		<div id="trash-wrapper">
+			<img src="../img/trash.png" id="trash" class="action" style="margin-bottom:-3px; display:none;" />
+		</div>
+	
+		<div style="clear:both;"></div>
 	</div>
 	
 </body>

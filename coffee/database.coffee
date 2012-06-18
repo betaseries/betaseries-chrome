@@ -5,38 +5,37 @@
 DB =
 
 	init: ->
-		# OPTIONS
-		@set 'options.badge_notification_type', 'watched', true
-		@set 'options.dl_srt_language', 'VF', true
-		@set 'options.nbr_episodes_per_serie', 5, true
-		@set 'options.display_global', 'false', true
-		@set 'options.enable_ratings', 'true', true
-		@set 'options.max_height', 200, true
-		
 		# BADGE
-		@set 'badge.value', 0, true
-		@set 'badge.type', 'membersEpisodes', true
+		badge = 
+			value: 0
+			type: 'membersEpisodes'
 		
-		# Historique
-		@set 'historic', '[]', false
+		# OPTIONS
+		options = 
+			nbr_episodes_per_serie: 5
+			badge_notification_type: 'watched'
+			dl_srt_language: 'VF'
+			display_global: false
+			enable_ratings: false
+			max_height: 200
 		
-		# Séries minimisées (vue des épisodes non vus)
-		@set 'hidden_shows', '[]', true
-		
-		# Episodes supplémentaires affichés (vue des épisodes non vus)
-		@set 'extra_episodes', '[]', true
-		
-		# Vues à recharger
-		@set 'views_to_refresh', '[]', true
+		@set 'badge', badge, true
+		@set 'historic', [], false
+		@set 'options', options, true
+		@set 'views', {}, true
+
+		version = @get 'version', null
+		if version is null then @set 'version', Fx.getVersion(), true
 		
 	## Getter - Obtenir la valeur d'un champ de la BD
 	 #
 	 # field			<string>	Chemin + nom du champ
 	 # defaultValue		<object>	Valeur par défaut si champ non trouvé (optionnel)
-	 # parse			<boolean>	Indique si utiliser JSON.parse() ou pas
 	 #
 	get: (field, defaultValue) ->
-		if localStorage[field]? then localStorage[field] else defaultValue
+		if localStorage[field]? and localStorage[field] isnt 'undefined'
+		then JSON.parse localStorage[field] 
+		else defaultValue
 	
 	##
 	 # Setter - Renseigner un champ de le BD
@@ -47,7 +46,7 @@ DB =
 	 #
 	set: (field, value, init) ->
 		if !init or (init and !localStorage[field])
-			localStorage[field] = value
+			localStorage[field] = JSON.stringify value
 	
 	##
 	 # Supprimer un champ de la DB

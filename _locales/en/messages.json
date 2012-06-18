@@ -25,23 +25,14 @@
 	"april": {
 		"message": "Apr"
 	},
-	"archive": {
-		"message": "Archive the TV Show"
-	},
-	"archived_shows": {
-		"message": "Archived TV Shows"
-	},
 	"august": {
 		"message": "Aug"
 	},
 	"author": {
 		"message": "Author"
 	},
-	"avg_note": {
-		"message": "Average rating : "
-	},
 	"back": {
-		"message": "Back"
+		"message": "Back to previous view"
 	},
 	"badge": {
 		"message": "Badge"
@@ -49,20 +40,8 @@
 	"badge_notification_type": {
 		"message": "Notification type : "
 	},
-	"be_connected": {
-		"message": "You have to be logged to show the data from this page."
-	},
-	"blog": {
-		"message": "Blog"
-	},
 	"close": {
-		"message": "Close"
-	},
-	"commentsEpisode": {
-		"message": "Episode's comments"
-	},
-	"connection": {
-		"message": "Connection"
+		"message": "Close this pop-up"
 	},
 	"continuing": {
 		"message": "Continuing"
@@ -85,11 +64,8 @@
 	"email": {
 		"message": "Email :"
 	},
-	"episodes": {
-		"message": "episodes"
-	},
 	"episodes_not_dl": {
-		"message": "Episodes to download"
+		"message": "Episodes to recover"
 	},
 	"episodes_not_seen": {
 		"message": "Episodes to see"
@@ -110,7 +86,7 @@
 		"message": "Chrome Extension for BetaSeries (www.betaseries.com)"
 	},
 	"extension_page": {
-		"message": "Extension's webpage"
+		"message": "Chrome Web Store"
 	},
 	"facebook": {
 		"message": "facebook"
@@ -136,9 +112,6 @@
 	"github_page": {
 		"message": "Github page"
 	},
-	"hide_episodes": {
-		"message": "Hide"
-	},
 	"last_week": {
 		"message": "Last week"
 	},
@@ -146,28 +119,22 @@
 		"message": "Login"
 	},
 	"logo": {
-		"message": "Go to the BetaSeries website !"
-	},
-	"logout": {
-		"message": "Logout"
+		"message": "Go to BetaSeries.com"
 	},
 	"long_login": {
-		"message": "Login too long (<24 caracters)."
+		"message": "Login too long (<24 caracters)"
 	},
 	"march": {
 		"message": "March"
 	},
 	"mark_as_dl": {
-		"message": "Mark as recover"
+		"message": "Mark as recover..."
 	},
 	"mark_as_not_dl": {
-		"message": "Mark as not recover"
+		"message": "Mark as not recover..."
 	},
 	"mark_as_seen": {
-		"message": "Mark as seen"
-	},
-	"mark_as_seen_pl": {
-		"message": "Mark these episodes as seen"
+		"message": "Mark this episode, and previous, as seen"
 	},
 	"max_height": {
 		"message": "Maximum height of the popup : "
@@ -181,14 +148,41 @@
 	"members": {
 		"message": "Members"
 	},
-	"membersEpisodes": {
-		"message": "Episodes not seen"
+	"menu": {
+		"message": "Go to menu"
 	},
-	"membersInfos": {
-		"message": "Account"
+	"menu_blog": {
+		"message": "Blog"
 	},
-	"membersNotifications": {
-		"message": "Notifications"
+	"menu_logout": {
+		"message": "Logout"
+	},
+	"menu_membersEpisodes": {
+		"message": "My episodes"
+	},
+	"menu_membersInfos": {
+		"message": "My account"
+	},
+	"menu_membersNotifications": {
+		"message": "My notifications"
+	},
+	"menu_membersShows": {
+		"message": "My tvshows"
+	},
+	"menu_options": {
+		"message": "My options"
+	},
+	"menu_planningMember": {
+		"message": "Mon planning"
+	},
+	"menu_searchMember": {
+		"message": "Search a member"
+	},
+	"menu_searchShow": {
+		"message": "Search a tvshow"
+	},
+	"menu_timelineFriends": {
+		"message": "My friends"
 	},
 	"minimise": {
 		"message": "Minimise"
@@ -261,29 +255,29 @@
 	"new": {
 		"message": "NEW!"
 	},
+	"new_version": {
+		"message": "ChromeSeries has been updated"
+	},
 	"no": {
 		"message": "No"
 	},
 	"no_comments": {
-		"message": "No comment for this episode !"
+		"message": "No comment for this episode"
+	},
+	"no_data_found": {
+		"message": "Loading..."
 	},
 	"no_episodes_to_see": {
-		"message": "No more episodes !"
+		"message": "No more episodes"
 	},
 	"no_members_found": {
-		"message": "No matching member."
+		"message": "No matching member"
 	},
 	"no_notifications": {
-		"message": "No notification !"
+		"message": "No notification"
 	},
 	"no_shows_found": {
-		"message": "No matching tv shows."
-	},
-	"no_subs": {
-		"message": "No subtitle for this episode."
-	},
-	"noConnection": {
-		"message": "No connection"
+		"message": "No matching tvshows"
 	},
 	"november": {
 		"message": "Nov"
@@ -291,29 +285,17 @@
 	"october": {
 		"message": "Oct"
 	},
-	"options": {
-		"message": "Options"
-	},
 	"password": {
-		"message": "password"
+		"message": "Password"
 	},
 	"password_not_matching": {
-		"message": "Invalid password."
-	},
-	"planningMember": {
-		"message": "Planning"
+		"message": "Invalid password"
 	},
 	"progress": {
 		"message": "progress"
 	},
 	"read_article": {
 		"message": "Read article"
-	},
-	"refresh": {
-		"message": "Refresh"
-	},
-	"refresh_view": {
-		"message": "Refresh page"
 	},
 	"remove_to_friends": {
 		"message": "Remove $user$ to my friends", 
@@ -326,9 +308,6 @@
 	"repassword": {
 		"message": "Repeat password"
 	},
-	"registration": {
-		"message": "Registration"
-	},
 	"sat": {
 		"message": "Sat"
 	},
@@ -338,6 +317,12 @@
 	"saved": {
 		"message": "Saved"
 	},
+	"seasons": {
+		"message": "Seasons"
+	},
+	"season": {
+		"message": "Season"
+	},
 	"see_comments": {
 		"message": "Show comments ($nbr$)", 
 		"placeholders":{
@@ -345,15 +330,6 @@
 				"content":"$1"
 			}
 		}
-	},
-	"searchForm": {
-		"message": "Search"
-	},
-	"seasons": {
-		"message": "Seasons"
-	},
-	"season": {
-		"message": "Season"
 	},
 	"september": {
 		"message": "Sept"
@@ -365,25 +341,22 @@
 		"message": "Registration"
 	},
 	"show_add": {
-		"message": "Add to my tvshows"
+		"message": "Add to my tvshows..."
 	},
-	"show_added": {
-		"message": "Tv Show added !"
-	},
-	"show_episodes": {
-		"message": "View"
+	"show_archive": {
+		"message": "Archive this tvshow..."
 	},
 	"show_remove": {
-		"message": "Remove of my TV Shows"
+		"message": "Remove of my tvshows..."
 	},
-	"show_removed": {
-		"message": "TV Show removed !"
+	"show_unarchive": {
+		"message": "Unarchive this tvshow..."
 	},
 	"shows": {
 		"message": "TV Shows"
 	},
 	"srt_quality": {
-		"message": "Quality SRT $lang$ : $quality$/5", 
+		"message": "$lang$ subtitle ($quality$/5 quality)", 
 		"placeholders":{
 			"lang":{
 				"content":"$1"
@@ -393,9 +366,6 @@
 			}
 		}
 	},
-	"status": {
-		"message": "Status : "
-	},
 	"subtitles": {
 		"message": "Subtitles"
 	},
@@ -403,13 +373,64 @@
 		"message": "Suggestions or bugs"
 	},
 	"sun": {
-		"message": "Sun"
+		"message": "Dim"
+	},
+	"sync": {
+		"message": "Refresh this view"
 	},
 	"synopsis": {
-		"message": "Synopsis : "
+		"message": "Synopsis"
 	},
-	"timelineFriends": {
-		"message": "Events"
+	"title_blog": {
+		"message": "Blog"
+	},
+	"title_commentsEpisode": {
+		"message": "Episode's comments"
+	},
+	"title_connection": {
+		"message": "Connection"
+	},
+	"title_membersEpisodes": {
+		"message": "My episodes"
+	},
+	"title_membersInfos": {
+		"message": "My account"
+	},
+	"title_membersNotifications": {
+		"message": "My notifications"
+	},
+	"title_membersShows": {
+		"message": "My tvshows"
+	},
+	"title_menu": {
+		"message": "Menu"
+	},
+	"title_noConnection": {
+		"message": "No connection"
+	},
+	"title_planningMember": {
+		"message": "My planning"
+	},
+	"title_registration": {
+		"message": "Registration"
+	},
+	"title_searchMember": {
+		"message": "Search a member"
+	},
+	"title_searchShow": {
+		"message": "Search a tvshow"
+	},
+	"title_showsDisplay": {
+		"message": "Tvshow's view"
+	},
+	"title_showsEpisode": {
+		"message": "Episode's view"
+	},
+	"title_showsEpisodes": {
+		"message": "All episodes's view"
+	},
+	"title_timelineFriends": {
+		"message": "My friends"
 	},
 	"this_week": {
 		"message": "This week"
@@ -417,17 +438,19 @@
 	"thu": {
 		"message": "Thu"
 	},
+	"trash": {
+		"message": "Remove cache ($size$)", 
+		"placeholders":{
+			"size":{
+				"content":"$1"
+			}
+		}
+	},
 	"tue": {
 		"message": "Tue"
 	},
-	"type": {
-		"message": "Type : "
-	},
-	"unarchive": {
-		"message": "Unarchive the TV Show"
-	},
 	"version": {
-		"message": "Comment/rate this extension!"
+		"message": "Go to extension's webpage"
 	},
 	"vf": {
 		"message": "VF"
@@ -439,7 +462,7 @@
 		"message": "View 'episodes not seen'"
 	},
 	"wed": {
-		"message": "Wed"
+		"message": "Mer"
 	},
 	"weeks_ago": {
 		"message": "$nbr$ weeks ago", 
@@ -450,7 +473,7 @@
 		}
 	},
 	"wrong_login_or_password": {
-		"message": "Wrong login and/or password !"
+		"message": "Wrong login and/or password"
 	},
 	"yes": {
 		"message": "Yes"
