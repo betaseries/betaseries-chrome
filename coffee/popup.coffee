@@ -50,7 +50,7 @@ $(document).ready ->
 					for i in [1..5]
 						content += '<img src="../img/star_off.gif" width="10" id="star' + i + '" class="star" title="' + i + ' /5" />'
 					
-					content += '<img src="../img/archive.png" width="10" class="close_stars" title="' + __('do_not_rate') + '" />'
+					content += '<img src="../img/close3.png" width="10" class="close_stars" title="' + __('do_not_rate') + '" />'
 					nodeRight.html content
 				else
 					clean e
@@ -318,14 +318,14 @@ $(document).ready ->
 			
 			$(this).find('span').toggleClass 'imgSyncOff imgSyncOn'
 			
-			ajax.post "/shows/add/" + show, "", 
+			ajax.post '/shows/add/' + show, '', 
 				=>
 					Cache.force 'membersEpisodes.all'
 					Cache.force 'membersInfos.' + DB.get('session').login
 					bgPage.Badge.update()
 					$(this).html '<span class="imgSyncOff"></span>' + __('show_remove')
 					$(this).attr 'id', 'showsRemove'
-				-> registerAction "/shows/add/" + show, ""
+				-> registerAction "/shows/add/" + show, ''
 			
 			return false
 	
@@ -339,17 +339,50 @@ $(document).ready ->
 			$('#showsArchive').slideUp();
 			$('#showsUnarchive').slideUp();
 
-			ajax.post "/shows/remove/" + show, "", 
+			ajax.post '/shows/remove/' + show, '', 
 				=>
 					Cache.force 'membersEpisodes.all'
 					Cache.force 'membersInfos.' + DB.get('session').login
 					bgPage.Badge.update()
 					$(this).html '<span class="imgSyncOff"></span>' + __('show_add')
 					$(this).attr 'id', 'showsAdd'
-				-> registerAction "/shows/remove/" + show, ""
+				-> registerAction "/shows/remove/" + show, ''
 			
 			return false
 	
+	## Ajouter un ami
+	$('#friendsAdd').live
+		click: ->
+			login = $(this).attr('href').substring 1
+			
+			$(this).find('span').toggleClass 'imgSyncOff imgSyncOn'
+			
+			ajax.post "/members/add/" + login, '', 
+				=>
+					Cache.force 'membersInfos.' + DB.get('session').login
+					Cache.force 'membersInfos.' + login
+					Cache.force 'timelineFriends'
+					$(this).html '<span class="imgSyncOff"></span>' + __('remove_to_friends', [login])
+					$(this).attr 'id', 'friendsRemove'
+				-> registerAction "/members/add/" + login, ''
+			return false
+	
+	## Enlever un ami
+	$('#friendsRemove').live
+		click: ->
+			login = $(this).attr('href').substring 1
+			
+			$(this).find('span').toggleClass 'imgSyncOff imgSyncOn'
+			
+			ajax.post "/members/delete/" + login, '', 
+				=>
+					Cache.force 'membersInfos.' + DB.get('session').login
+					Cache.force 'membersInfos.' + login
+					Cache.force 'timelineFriends'
+					$(this).html '<span class="imgSyncOff"></span>' + __('add_to_friends', [login])
+					$(this).attr 'id', 'friendsAdd'
+			return false
+
 	## Se connecter
 	$('#connect').live
 		submit: ->
@@ -472,34 +505,6 @@ $(document).ready ->
 	## Enregistrer une action offline
 	registerAction = (category, params) ->
 		console.log "action: " + category + params
-	
-	## Ajouter un ami
-	$('#addfriend').live
-		click: ->
-			login = $(this).attr 'login'
-			ajax.post "/members/add/" + login, '', (data) ->
-				$('#addfriend').text __('remove_to_friends', [login])
-				$('#addfriend').attr 'href', '#removefriend'
-				$('#addfriend').attr 'id', 'removefriend'
-				$('#friendshipimg').attr 'src', '../img/friend_remove.png'
-				Cache.force 'membersInfos.' + DB.get('session').login
-				Cache.force 'membersInfos.' + login
-				Cache.force 'timelineFriends'
-			return false
-	
-	## Enlever un ami
-	$('#removefriend').live
-		click: ->
-			login = $(this).attr 'login'
-			ajax.post "/members/delete/" + login, '', (data) ->
-				$('#removefriend').text __('add_to_friends', [login])
-				$('#removefriend').attr 'href', '#addfriend'
-				$('#removefriend').attr 'id', 'addfriend'
-				$('#friendshipimg').attr 'src', '../img/friend_add.png'
-				Cache.force 'membersInfos.' + DB.get('session').login
-				Cache.force 'membersInfos.' + login
-				Cache.force 'timelineFriends'
-			return false
 	
 	## Maximiser/minimiser une série*/
 	$('.toggleShow').live

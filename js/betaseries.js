@@ -444,8 +444,10 @@ BS = {
       login: login,
       update: function(data) {
         var member;
+        console.log(data);
         member = DB.get('member.' + this.login + '.infos', {});
         member.login = data.login;
+        member.is_in_account = data.is_in_account;
         member.avatar = data.avatar;
         member.stats = data.stats;
         return DB.set('member.' + this.login + '.infos', member);
@@ -464,7 +466,7 @@ BS = {
           };
         }
         output = '';
-        output += '<div class="showtitle">' + data.login + '</div>';
+        output += '<div class="title">' + data.login + '</div>';
         output += '<img src="../img/avatar.png" width="50" id="avatar" style="position:absolute; right:0;" />';
         output += '<div class="episode lun"><img src="../img/infos.png" class="icon"> ' + __('nbr_friends', [data.stats.friends]) + ' </div>';
         output += '<div class="episode lun"><img src="../img/medal.png" class="icon"> ' + __('nbr_badges', [data.stats.badges]) + ' </div>';
@@ -472,12 +474,13 @@ BS = {
         output += '<div class="episode lun"><img src="../img/report.png" class="icon"> ' + __('nbr_seasons', [data.stats.seasons]) + ' </div>';
         output += '<div class="episode lun"><img src="../img/script.png" class="icon"> ' + __('nbr_episodes', [data.stats.episodes]) + ' </div>';
         output += '<div class="episode lun"><img src="../img/location.png" class="icon">' + data.stats.progress + ' <small>(' + __('progress') + ')</small></div>';
+        console.log(data);
         if (data.is_in_account != null) {
-          output += '<div class="showtitle">' + __('actions') + '</div>';
-          if (!data.is_in_account) {
-            output += '<div class="episode"><img src="../img/friend_add.png" id="friendshipimg" style="margin-bottom: -4px;" /> <a href="#" id="addfriend" login="' + data.login + '">' + __('add_to_friends', [data.login]) + '</a></div>';
+          output += '<div class="title2">' + __('actions') + '</div>';
+          if (data.is_in_account) {
+            output += '<a href="#' + data.login + '" id="friendsRemove" class="link">' + '<span class="imgSyncOff"></span>' + __('remove_to_friends', [data.login]) + '</a>';
           } else {
-            output += '<div class="episode"><img src="../img/friend_remove.png" id="friendshipimg" style="margin-bottom: -4px;"  /> <a href="#" id="removefriend" login="' + data.login + '">' + __('remove_to_friends', [data.login]) + '</a></div>';
+            output += '<a href="#' + data.login + '" id="friendsAdd" class="link">' + '<span class="imgSyncOff"></span>' + __('add_to_friends', [data.login]) + '</a>';
           }
         }
         return output;

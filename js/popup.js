@@ -49,7 +49,7 @@ $(document).ready(function() {
           for (i = _i = 1; _i <= 5; i = ++_i) {
             content += '<img src="../img/star_off.gif" width="10" id="star' + i + '" class="star" title="' + i + ' /5" />';
           }
-          content += '<img src="../img/archive.png" width="10" class="close_stars" title="' + __('do_not_rate') + '" />';
+          content += '<img src="../img/close3.png" width="10" class="close_stars" title="' + __('do_not_rate') + '" />';
           nodeRight.html(content);
         } else {
           clean(e);
@@ -326,14 +326,14 @@ $(document).ready(function() {
         _this = this;
       show = $(this).attr('href').substring(1);
       $(this).find('span').toggleClass('imgSyncOff imgSyncOn');
-      ajax.post("/shows/add/" + show, "", function() {
+      ajax.post('/shows/add/' + show, '', function() {
         Cache.force('membersEpisodes.all');
         Cache.force('membersInfos.' + DB.get('session').login);
         bgPage.Badge.update();
         $(_this).html('<span class="imgSyncOff"></span>' + __('show_remove'));
         return $(_this).attr('id', 'showsRemove');
       }, function() {
-        return registerAction("/shows/add/" + show, "");
+        return registerAction("/shows/add/" + show, '');
       });
       return false;
     }
@@ -346,14 +346,48 @@ $(document).ready(function() {
       $(this).find('span').toggleClass('imgSyncOff imgSyncOn');
       $('#showsArchive').slideUp();
       $('#showsUnarchive').slideUp();
-      ajax.post("/shows/remove/" + show, "", function() {
+      ajax.post('/shows/remove/' + show, '', function() {
         Cache.force('membersEpisodes.all');
         Cache.force('membersInfos.' + DB.get('session').login);
         bgPage.Badge.update();
         $(_this).html('<span class="imgSyncOff"></span>' + __('show_add'));
         return $(_this).attr('id', 'showsAdd');
       }, function() {
-        return registerAction("/shows/remove/" + show, "");
+        return registerAction("/shows/remove/" + show, '');
+      });
+      return false;
+    }
+  });
+  $('#friendsAdd').live({
+    click: function() {
+      var login,
+        _this = this;
+      login = $(this).attr('href').substring(1);
+      $(this).find('span').toggleClass('imgSyncOff imgSyncOn');
+      ajax.post("/members/add/" + login, '', function() {
+        Cache.force('membersInfos.' + DB.get('session').login);
+        Cache.force('membersInfos.' + login);
+        Cache.force('timelineFriends');
+        $(_this).html('<span class="imgSyncOff"></span>' + __('remove_to_friends', [login]));
+        return $(_this).attr('id', 'friendsRemove');
+      }, function() {
+        return registerAction("/members/add/" + login, '');
+      });
+      return false;
+    }
+  });
+  $('#friendsRemove').live({
+    click: function() {
+      var login,
+        _this = this;
+      login = $(this).attr('href').substring(1);
+      $(this).find('span').toggleClass('imgSyncOff imgSyncOn');
+      ajax.post("/members/delete/" + login, '', function() {
+        Cache.force('membersInfos.' + DB.get('session').login);
+        Cache.force('membersInfos.' + login);
+        Cache.force('timelineFriends');
+        $(_this).html('<span class="imgSyncOff"></span>' + __('add_to_friends', [login]));
+        return $(_this).attr('id', 'friendsAdd');
       });
       return false;
     }
@@ -489,38 +523,6 @@ $(document).ready(function() {
   registerAction = function(category, params) {
     return console.log("action: " + category + params);
   };
-  $('#addfriend').live({
-    click: function() {
-      var login;
-      login = $(this).attr('login');
-      ajax.post("/members/add/" + login, '', function(data) {
-        $('#addfriend').text(__('remove_to_friends', [login]));
-        $('#addfriend').attr('href', '#removefriend');
-        $('#addfriend').attr('id', 'removefriend');
-        $('#friendshipimg').attr('src', '../img/friend_remove.png');
-        Cache.force('membersInfos.' + DB.get('session').login);
-        Cache.force('membersInfos.' + login);
-        return Cache.force('timelineFriends');
-      });
-      return false;
-    }
-  });
-  $('#removefriend').live({
-    click: function() {
-      var login;
-      login = $(this).attr('login');
-      ajax.post("/members/delete/" + login, '', function(data) {
-        $('#removefriend').text(__('add_to_friends', [login]));
-        $('#removefriend').attr('href', '#addfriend');
-        $('#removefriend').attr('id', 'addfriend');
-        $('#friendshipimg').attr('src', '../img/friend_add.png');
-        Cache.force('membersInfos.' + DB.get('session').login);
-        Cache.force('membersInfos.' + login);
-        return Cache.force('timelineFriends');
-      });
-      return false;
-    }
-  });
   $('.toggleShow').live({
     click: function() {
       var hidden, login, show, showName, shows;
