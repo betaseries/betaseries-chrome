@@ -264,6 +264,9 @@
 	"no_comments": {
 		"message": "No comment for this episode"
 	},
+	"no_data_found": {
+		"message": "Loading..."
+	},
 	"no_episodes_to_see": {
 		"message": "No more episodes"
 	},

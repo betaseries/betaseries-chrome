@@ -138,7 +138,7 @@ Fx = {
     }
   },
   needUpdate: function() {
-    return 'no data found, please update';
+    return __('no_data_found');
   },
   checkVersion: function() {
     var currVersion, newVersion, version;

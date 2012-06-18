@@ -109,7 +109,7 @@ Fx =
 			
 	##
 	needUpdate: ->
-	 	return 'no data found, please update'
+	 	return __('no_data_found')
 	 	
 	##
 	checkVersion: ->

@@ -264,6 +264,9 @@
 	"no_comments": {
 		"message": "Aucun commentaire pour cet épisode"
 	},
+	"no_data_found": {
+		"message": "Chargement..."
+	},
 	"no_episodes_to_see": {
 		"message": "Aucun épisode à voir"
 	},
