@@ -25,20 +25,11 @@
 	"april": {
 		"message": "Avr"
 	},
-	"archive": {
-		"message": "Archiver la série"
-	},
-	"archived_shows": {
-		"message": "Séries archivées"
-	},
 	"august": {
 		"message": "Août"
 	},
 	"author": {
 		"message": "Auteur"
-	},
-	"avg_note": {
-		"message": "Note moyenne : "
 	},
 	"back": {
 		"message": "Retourner à la vue précédente"
@@ -49,14 +40,8 @@
 	"badge_notification_type": {
 		"message": "Type de notification : "
 	},
-	"be_connected": {
-		"message": "Vous devez être connecté afin de pouvoir afficher les données de cette vue"
-	},
 	"close": {
 		"message": "Fermer ce pop-up"
-	},
-	"commentsEpisode": {
-		"message": "Commentaires d'un épisode"
 	},
 	"continuing": {
 		"message": "En cours"
@@ -79,11 +64,8 @@
 	"email": {
 		"message": "Email :"
 	},
-	"episodes": {
-		"message": "épisodes"
-	},
 	"episodes_not_dl": {
-		"message": "Episodes non téléchargés"
+		"message": "Episodes non récupérés"
 	},
 	"episodes_not_seen": {
 		"message": "Episodes non vus"
@@ -104,7 +86,7 @@
 		"message": "Extension Chrome pour BetaSeries (www.betaseries.com)"
 	},
 	"extension_page": {
-		"message": "Aller sur la page de l'extension"
+		"message": "Chrome Web Store"
 	},
 	"facebook": {
 		"message": "facebook"
@@ -130,14 +112,11 @@
 	"github_page": {
 		"message": "Page Github"
 	},
-	"hide_episodes": {
-		"message": "Cacher"
-	},
 	"last_week": {
 		"message": "La semaine dernière"
 	},
 	"login": {
-		"message": "Identifiant"
+		"message": "Login"
 	},
 	"logo": {
 		"message": "Aller sur BetaSeries.com"
@@ -175,9 +154,6 @@
 	"menu_blog": {
 		"message": "Le blog"
 	},
-	"menu_cache": {
-		"message": "Mémoire"
-	},
 	"menu_logout": {
 		"message": "Déconnexion"
 	},
@@ -194,7 +170,7 @@
 		"message": "Mes séries"
 	},
 	"menu_options": {
-		"message": "Options"
+		"message": "Mes options"
 	},
 	"menu_planningMember": {
 		"message": "Mon planning"
@@ -300,9 +276,6 @@
 	"no_shows_found": {
 		"message": "Aucune série correspondante"
 	},
-	"no_subs": {
-		"message": "Aucun sous-titre pour cet épisode"
-	},
 	"november": {
 		"message": "Nov"
 	},
@@ -320,15 +293,6 @@
 	},
 	"read_article": {
 		"message": "Lire l'article"
-	},
-	"refresh": {
-		"message": "Actualiser"
-	},
-	"refresh_view": {
-		"message": "Recharger la vue"
-	},
-	"release_date": {
-		"message": "Date de sortie : "
 	},
 	"remove_to_friends": {
 		"message": "Enlever $user$ de vos amis", 
@@ -376,20 +340,11 @@
 	"show_add": {
 		"message": "Ajouter à mes séries..."
 	},
-	"show_added": {
-		"message": "Série ajoutée"
-	},
 	"show_archive": {
 		"message": "Archiver la série..."
 	},
-	"show_episodes": {
-		"message": "Voir"
-	},
 	"show_remove": {
 		"message": "Retirer de mes séries..."
-	},
-	"show_removed": {
-		"message": "Série retirée"
 	},
 	"show_unarchive": {
 		"message": "Retirer la série des archives..."
@@ -407,9 +362,6 @@
 				"content":"$2"
 			}
 		}
-	},
-	"status": {
-		"message": "Statut : "
 	},
 	"subtitles": {
 		"message": "Sous-titres"
@@ -429,8 +381,8 @@
 	"title_blog": {
 		"message": "Le blog"
 	},
-	"title_cache": {
-		"message": "Mémoire"
+	"title_commentsEpisode": {
+		"message": "Commentaires d'un épisode"
 	},
 	"title_connection": {
 		"message": "Connexion"
@@ -493,12 +445,6 @@
 	},
 	"tue": {
 		"message": "Mar"
-	},
-	"type": {
-		"message": "Genre : "
-	},
-	"unarchive": {
-		"message": "Sortir la série des archives"
 	},
 	"version": {
 		"message": "Aller sur la page de l'extension"
