@@ -69,7 +69,8 @@ $(document).ready ->
 				->
 					DB.set 'member.' + login + '.episodes', es
 					Cache.force 'timelineFriends'
-					bgPage.Badge.updateCache()
+					badge_notification_type = DB.get('options').badge_notification_type
+					bgPage.Badge.update() if badge_notification_type is 'watched'
 				-> 
 					registerAction "/members/watched/" + show, params
 			
@@ -119,7 +120,8 @@ $(document).ready ->
 				->
 					DB.set 'member.' + login + '.episodes', es
 					Cache.force 'timelineFriends'
-					bgPage.Badge.updateCache()
+					badge_notification_type = DB.get('options').badge_notification_type
+					bgPage.Badge.update() if badge_notification_type is 'watched'
 				-> 
 					registerAction "/members/watched/" + show, params
 			
@@ -236,7 +238,10 @@ $(document).ready ->
 			
 			# envoi de la requête
 			params = "&season=" + season + "&episode=" + episode
-			ajax.post "/members/downloaded/" + show, params, null,
+			ajax.post "/members/downloaded/" + show, params, 
+				-> 
+					badge_notification_type = DB.get('options').badge_notification_type
+					bgPage.Badge.update() if badge_notification_type is 'downloaded'
 				-> registerAction "/members/downloaded/" + show, params
 
 			return false
@@ -263,6 +268,8 @@ $(document).ready ->
 			params = "&season=" + season + "&episode=" + episode
 			ajax.post "/members/downloaded/" + show, params, 
 				=>
+					badge_notification_type = DB.get('options').badge_notification_type
+					bgPage.Badge.update() if badge_notification_type is 'downloaded'
 					$(@).html '<span class="imgSyncOff"></span>' + __(dl)
 				-> 
 					registerAction "/members/downloaded/" + show, params

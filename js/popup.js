@@ -62,9 +62,13 @@ $(document).ready(function() {
       }
       params = "&season=" + season + "&episode=" + episode;
       return ajax.post("/members/watched/" + show, params, function() {
+        var badge_notification_type;
         DB.set('member.' + login + '.episodes', es);
         Cache.force('timelineFriends');
-        return bgPage.Badge.updateCache();
+        badge_notification_type = DB.get('options').badge_notification_type;
+        if (badge_notification_type === 'watched') {
+          return bgPage.Badge.update();
+        }
       }, function() {
         return registerAction("/members/watched/" + show, params);
       });
@@ -120,9 +124,13 @@ $(document).ready(function() {
       });
       params = "&season=" + season + "&episode=" + episode;
       return ajax.post("/members/watched/" + show, params, function() {
+        var badge_notification_type;
         DB.set('member.' + login + '.episodes', es);
         Cache.force('timelineFriends');
-        return bgPage.Badge.updateCache();
+        badge_notification_type = DB.get('options').badge_notification_type;
+        if (badge_notification_type === 'watched') {
+          return bgPage.Badge.update();
+        }
       }, function() {
         return registerAction("/members/watched/" + show, params);
       });
@@ -249,7 +257,13 @@ $(document).ready(function() {
         $(this).attr('src', '../img/folder.png');
       }
       params = "&season=" + season + "&episode=" + episode;
-      ajax.post("/members/downloaded/" + show, params, null, function() {
+      ajax.post("/members/downloaded/" + show, params, function() {
+        var badge_notification_type;
+        badge_notification_type = DB.get('options').badge_notification_type;
+        if (badge_notification_type === 'downloaded') {
+          return bgPage.Badge.update();
+        }
+      }, function() {
         return registerAction("/members/downloaded/" + show, params);
       });
       return false;
@@ -271,6 +285,11 @@ $(document).ready(function() {
       dl = downloaded ? 'mark_as_dl' : 'mark_as_not_dl';
       params = "&season=" + season + "&episode=" + episode;
       ajax.post("/members/downloaded/" + show, params, function() {
+        var badge_notification_type;
+        badge_notification_type = DB.get('options').badge_notification_type;
+        if (badge_notification_type === 'downloaded') {
+          bgPage.Badge.update();
+        }
         return $(_this).html('<span class="imgSyncOff"></span>' + __(dl));
       }, function() {
         return registerAction("/members/downloaded/" + show, params);
