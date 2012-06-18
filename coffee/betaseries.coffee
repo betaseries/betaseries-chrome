@@ -90,6 +90,15 @@ BS =
 		# affichage de la vue (cache)
 		document.getElementById('page').innerHTML = ''
 		$('#page').html o.content() if o.content
+
+		# affichage du cache
+		size = Cache.getSize()
+		if size > 0
+			$('#trash')
+				.attr('title', __('trash', Fx.getCacheFormat(size)))
+				.show()
+		else 
+			$('#trash').hide()
 		
 		# Post affichage
 		#if o.after?
@@ -803,48 +812,6 @@ BS =
 						
 			return output
 			
-	#
-	cache: ->
-		id: 'cache'
-		name: 'cache'
-		content: ->
-			output = ''
-			
-			output += '<div class="showtitle">Total</div>'
-			output += '<div class="episode">'
-			output += ' <div class="left">Taille du cache</div>'
-			output += ' <div class="right">' + Fx.getCacheFormat(Fx.getCacheSize())  + '</div>'
-			output += ' <div class="clear"></div>'
-			output += '</div>'
-			
-			privates = [
-				'badge'
-				'historic'
-				'length'
-				'options'
-				'session'
-				'views'
-			]
-			
-			data = []
-			output += '<div class="showtitle">Détail</div>'
-			for i, size of localStorage
-				if !(i in privates) 
-					data.push [i, Fx.getCacheSize(i)]
-			
-			#console.log data
-			data.sort((a, b) ->	b[1] - a[1])
-			#console.log data
-			
-			for d, i in data
-				output += '<div class="episode">'
-				output += ' <div class="left">' + d[0] + '</div>'
-				output += ' <div class="right">' + Fx.getCacheFormat(d[1]) + '</div>'
-				output += ' <div class="clear"></div>'
-				output += '</div>'
-			
-			return output
-			
 	##	
 	menu: ->
 		id: 'menu'
@@ -887,10 +854,6 @@ BS =
 			output += '<a href="" onclick="BS.load(\'blog\'); return false;">'
 			output += '<img src="../img/blog.png" id="blog" class="action" style="margin-bottom:-3px;" />'
 			output += __('menu_blog') + '</a>'
-			
-			output += '<a href="" onclick="BS.load(\'cache\'); return false;">'
-			output += '<img src="../img/cache.png" id="cache" class="action" style="margin-bottom:-3px;" />'
-			output += __('menu_cache') + '</a>'
 			
 			output += '<a href="" onclick="Fx.openTab(chrome.extension.getURL(\'../html/options.html\'), true); return false;">'
 			output += '<img src="../img/options.png" id="options" class="options" style="margin-bottom:-3px;" />'

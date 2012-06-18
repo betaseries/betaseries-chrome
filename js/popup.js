@@ -572,7 +572,7 @@ $(document).ready(function() {
   $('#trash').click(function() {
     Cache.remove();
     return $(this).hide();
-  }).attr('title', __('trash'));
+  });
   message = function(content) {
     return $('#message').html(content);
   };

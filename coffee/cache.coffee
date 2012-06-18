@@ -11,21 +11,17 @@ Cache =
 			views[view].force = true
 			DB.set 'views', views
 	
-	## Supprime une vue de cache (plus subtil que DB.remove)
-	remove: (view) ->
-		views_to_remove = DB.get 'views_to_remove'
-		for viewid, viewclass of views_to_remove
-			if !(viewclass in @views)
-				continue
-			if viewclass is 'commentsEpisode'
-				#commentsEpisode.castle.75
-				#comments.castle.75
-				args = viewid.split '.'
-				DB.remove 'comments.' + args[1] + '.' + args[2]
-				delete views_to_remove[viewid]
-		DB.set 'views_to_remove', views_to_remove
-
-	## Réinitialise le cache si une nouvelle version est détectée
-	removeAll: ->
+	getSize: ->
+		count = 0
+		list = ['options', 'version', 'session', 'badge', 'historic']
 		for i, j of localStorage
-			console.log i
+			if i not in list
+				count += Fx.getCacheSize i
+		return count
+
+	## Réinitialise le cache (sans déconnexion)
+	remove: ->
+		list = ['options', 'version', 'session', 'badge', 'historic']
+		for i, j of localStorage
+			if i not in list
+				DB.remove i

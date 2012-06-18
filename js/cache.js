@@ -11,28 +11,29 @@ Cache = {
       return DB.set('views', views);
     }
   },
-  remove: function(view) {
-    var args, viewclass, viewid, views_to_remove;
-    views_to_remove = DB.get('views_to_remove');
-    for (viewid in views_to_remove) {
-      viewclass = views_to_remove[viewid];
-      if (!(__indexOf.call(this.views, viewclass) >= 0)) {
-        continue;
-      }
-      if (viewclass === 'commentsEpisode') {
-        args = viewid.split('.');
-        DB.remove('comments.' + args[1] + '.' + args[2]);
-        delete views_to_remove[viewid];
+  getSize: function() {
+    var count, i, j, list;
+    count = 0;
+    list = ['options', 'version', 'session', 'badge', 'historic'];
+    for (i in localStorage) {
+      j = localStorage[i];
+      if (__indexOf.call(list, i) < 0) {
+        count += Fx.getCacheSize(i);
       }
     }
-    return DB.set('views_to_remove', views_to_remove);
+    return count;
   },
-  removeAll: function() {
-    var i, j, _results;
+  remove: function() {
+    var i, j, list, _results;
+    list = ['options', 'version', 'session', 'badge', 'historic'];
     _results = [];
     for (i in localStorage) {
       j = localStorage[i];
-      _results.push(console.log(i));
+      if (__indexOf.call(list, i) < 0) {
+        _results.push(DB.remove(i));
+      } else {
+        _results.push(void 0);
+      }
     }
     return _results;
   }

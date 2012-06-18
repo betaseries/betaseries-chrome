@@ -564,7 +564,6 @@ $(document).ready ->
 		.click ->
 			Cache.remove()
 			$(this).hide()
-		.attr 'title', __('trash')
 		
 	## Afficher le message de confirmation
 	message = (content) -> $('#message').html content
