@@ -526,6 +526,11 @@ BS = {
         for (i in data) {
           show = data[i];
           output += '<div class="episode" id="' + show.url + '">';
+          if (show.archive === '1') {
+            output += '<img src="../img/folder_off.png" class="icon-3" /> ';
+          } else {
+            output += '<img src="../img/folder.png" class="icon-3" /> ';
+          }
           output += '<a href="" onclick="BS.load(\'showsDisplay\', \'' + show.url + '\'); return false;" class="epLink">' + show.title + '</a>';
           output += '</div>';
         }
@@ -750,7 +755,7 @@ BS = {
           new_date = date('D d F', data[n].date);
           if (new_date !== time) {
             time = new_date;
-            output += '<div class="showtitle">' + time + '</div>';
+            output += '<div class="title">' + time + '</div>';
           }
           output += '<div class="event ' + date('D', data[n].date).toLowerCase() + '">';
           output += '<b>' + date('H:i', data[n].date) + '</b> ';
