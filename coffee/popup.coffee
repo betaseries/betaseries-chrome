@@ -470,12 +470,12 @@ $(document).ready ->
 			params = "&login=" + terms
 			ajax.post "/members/search", params, 
 				(data) ->
-					content = '<div class="showtitle">' + __('members') + '</div>'
+					content = '<div class="title">' + __('members') + '</div>'
 					members = data.root.members
 					if Object.keys(members).length > 0
 						for n of members
 							member = members[n]
-							content += '<div class="episode"><a href="#" onclick="BS.load(\'membersInfos\', \'' + member.login + '\'); return false;">' + Fx.subFirst(member.login, 25) + '</a></div>'
+							content += '<div class="episode"><a href="#" onclick="BS.load(\'membersInfos\', \'' + member.login + '\'); return false;" class="epLink">' + Fx.subFirst(member.login, 25) + '</a></div>'
 					else
 						content += '<div class="episode">' + __('no_members_found') + '</div>'
 					$('#results').html content
@@ -494,12 +494,12 @@ $(document).ready ->
 			params = "&title=" + terms
 			ajax.post "/shows/search", params, 
 				(data) ->
-					content = '<div class="showtitle">' + __('shows') + '</div>'
+					content = '<div class="title">' + __('shows') + '</div>'
 					shows = data.root.shows
 					if Object.keys(shows).length > 0
 						for n of shows
 							show = shows[n]
-							content += '<div class="episode"><a href="#" onclick="BS.load(\'showsDisplay\', \'' + show.url + '\'); return false;" title="' + show.title + '">' + Fx.subFirst(show.title, 25) + '</a></div>'
+							content += '<div class="episode"><a href="#" onclick="BS.load(\'showsDisplay\', \'' + show.url + '\'); return false;" title="' + show.title + '" class="epLink">' + Fx.subFirst(show.title, 25) + '</a></div>'
 					else
 						content += '<div class="episode">' + __('no_shows_found') + '</div>'
 					$('#results').html content

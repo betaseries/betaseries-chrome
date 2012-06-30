@@ -500,12 +500,12 @@ $(document).ready(function() {
       params = "&login=" + terms;
       ajax.post("/members/search", params, function(data) {
         var content, member, members, n;
-        content = '<div class="showtitle">' + __('members') + '</div>';
+        content = '<div class="title">' + __('members') + '</div>';
         members = data.root.members;
         if (Object.keys(members).length > 0) {
           for (n in members) {
             member = members[n];
-            content += '<div class="episode"><a href="#" onclick="BS.load(\'membersInfos\', \'' + member.login + '\'); return false;">' + Fx.subFirst(member.login, 25) + '</a></div>';
+            content += '<div class="episode"><a href="#" onclick="BS.load(\'membersInfos\', \'' + member.login + '\'); return false;" class="epLink">' + Fx.subFirst(member.login, 25) + '</a></div>';
           }
         } else {
           content += '<div class="episode">' + __('no_members_found') + '</div>';
@@ -523,12 +523,12 @@ $(document).ready(function() {
       params = "&title=" + terms;
       ajax.post("/shows/search", params, function(data) {
         var content, n, show, shows;
-        content = '<div class="showtitle">' + __('shows') + '</div>';
+        content = '<div class="title">' + __('shows') + '</div>';
         shows = data.root.shows;
         if (Object.keys(shows).length > 0) {
           for (n in shows) {
             show = shows[n];
-            content += '<div class="episode"><a href="#" onclick="BS.load(\'showsDisplay\', \'' + show.url + '\'); return false;" title="' + show.title + '">' + Fx.subFirst(show.title, 25) + '</a></div>';
+            content += '<div class="episode"><a href="#" onclick="BS.load(\'showsDisplay\', \'' + show.url + '\'); return false;" title="' + show.title + '" class="epLink">' + Fx.subFirst(show.title, 25) + '</a></div>';
           }
         } else {
           content += '<div class="episode">' + __('no_shows_found') + '</div>';
