@@ -10,7 +10,7 @@ Content = {
     output += '<div class="showtitle">';
     output += '<div class="left">';
     output += '<img src="' + visibleIcon + '" class="toggleShow" title="' + titleIcon + '" />';
-    output += '<a href="" onclick="BS.load(\'showsDisplay\', \'' + s.url + '\'); return false;" class="showtitle">' + s.title + '</a>';
+    output += '<a href="" url="' + s.url + '" class="showtitle display_show">' + s.title + '</a>';
     output += ' <span class="remain remain-right">' + nbrEpisodesTotal + ' </span>';
     output += '</div>';
     output += '<div class="right"></div>';

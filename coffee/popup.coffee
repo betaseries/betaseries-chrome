@@ -166,6 +166,14 @@ $(document).ready ->
 		
 		return true
 	
+	# Ouvrir la fiche d'une série
+	$('#page')
+		.on 'click', '.membersEpisodes .display_show', ->
+			event.preventDefault()
+			url = $(@).attr 'url'
+			console.log '2.' + url
+			BS.load 'showsDisplay', url
+
 	# Episode HOVER
 	$('.episode').live
 		mouseenter: ->

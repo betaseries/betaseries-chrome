@@ -178,6 +178,13 @@ $(document).ready(function() {
     Fx.updateHeight();
     return true;
   };
+  $('#page').on('click', '.membersEpisodes .display_show', function() {
+    var url;
+    event.preventDefault();
+    url = $(this).attr('url');
+    console.log('2.' + url);
+    return BS.load('showsDisplay', url);
+  });
   $('.episode').live({
     mouseenter: function() {
       return $(this).find('.watched').attr('src', '../img/arrow_right.png').css('opacity', 0.5);
