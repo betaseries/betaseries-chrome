@@ -1,4 +1,5 @@
 {
+	"manifest_version": 2,
 	"name": "ChromeSeries",
 	"version": "0.8.1",
 	"description": "__MSG_extDesc__",
@@ -6,13 +7,15 @@
 	"browser_action": {
 		"default_title": "ChromeSeries",
 		"default_icon": "img/favicon.png",
-		"popup": "html/popup.html"
+		"default_popup": "html/popup.html"
 	},
 	"options_page": "html/options.html",
 	"icons": {
 		"128": "img/icon_128.png"
 	},
-	"background_page": "html/background.html",
+	"background": {
+		"page": "html/background.html"
+	},
 	"permissions": [
 		"https://api.betaseries.com/*",
 		"https://www.betaseries.com/blog/*"
