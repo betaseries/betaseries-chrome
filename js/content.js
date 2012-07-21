@@ -49,7 +49,7 @@ Content = {
     output += '<div class="left">';
     output += '<img src="../img/empty.png" class="watched action icon-4" title="' + texte2 + '" /> ';
     output += '<span class="num">' + Fx.displayNumber(e.number) + '</span> ';
-    output += '<a href="#" onclick="BS.load(\'showsEpisode\', \'' + e.url + '\', \'' + e.season + '\', \'' + e.episode + '\', \'' + e.global + '\'); return false;" title="' + title + '" class="epLink">';
+    output += '<a href="" url="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" title="' + title + '" class="epLink display_episode">';
     output += Fx.subFirst(title, 20) + '</a>';
     if (newShow) {
       output += ' <span class="new">' + __('new') + '</span>';

@@ -171,8 +171,17 @@ $(document).ready ->
 		.on 'click', '.membersEpisodes .display_show', ->
 			event.preventDefault()
 			url = $(@).attr 'url'
-			console.log '2.' + url
 			BS.load 'showsDisplay', url
+
+	# Ouvrir la fiche d'un épisode
+	$('#page')
+		.on 'click', '.membersEpisodes .display_episode', ->
+			event.preventDefault()
+			url = $(@).attr 'url'
+			season = $(@).attr 'season'
+			episode = $(@).attr 'episode'
+			global = $(@).attr 'global'
+			BS.load 'showsEpisode', url, season, episode, global
 
 	# Episode HOVER
 	$('.episode').live

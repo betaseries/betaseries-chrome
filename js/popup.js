@@ -182,8 +182,16 @@ $(document).ready(function() {
     var url;
     event.preventDefault();
     url = $(this).attr('url');
-    console.log('2.' + url);
     return BS.load('showsDisplay', url);
+  });
+  $('#page').on('click', '.membersEpisodes .display_episode', function() {
+    var episode, global, season, url;
+    event.preventDefault();
+    url = $(this).attr('url');
+    season = $(this).attr('season');
+    episode = $(this).attr('episode');
+    global = $(this).attr('global');
+    return BS.load('showsEpisode', url, season, episode, global);
   });
   $('.episode').live({
     mouseenter: function() {
