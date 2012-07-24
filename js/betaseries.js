@@ -144,7 +144,7 @@ BS = {
           output += '<div style="margin-right:5px; text-align:justify;">' + data.description + '</div>';
         }
         output += '<div class="title2">' + __('actions') + '</div>';
-        output += '<a href="" class="link" onclick="BS.load(\'showsEpisodes\', \'' + data.url + '\'); return false;"><span class="imgSyncNo"></span>Voir les épisodes</a>';
+        output += '<a href="" class="link display_episodes" url="' + data.url + '"><span class="imgSyncNo"></span>Voir les épisodes</a>';
         if (data.is_in_account && data.archive) {
           output += '<a href="#' + data.url + '" id="showsUnarchive" class="link">' + '<span class="imgSyncOff"></span>' + __('show_unarchive') + '</a>';
         } else if (data.is_in_account && !data.archive) {
@@ -316,7 +316,7 @@ BS = {
         e = this.episodes[this.global];
         title = DB.get('options').display_global ? '#' + e.global + ' ' + e.title : e.title;
         output = '<div class="title">';
-        output += '<div class="fleft200"><a href="" onclick="BS.load(\'showsDisplay\', \'' + this.show + '\'); return false;" class="showtitle">' + e.show + '</a></div>';
+        output += '<div class="fleft200"><a href="" url="' + this.show + '" class="showtitle display_show">' + e.show + '</a></div>';
         output += '<div class="fright200 aright">';
         if (e.note != null) {
           note = Math.floor(e.note.mean);
@@ -353,10 +353,10 @@ BS = {
           }
         }
         output += '<div class="title2">' + __('actions') + '</div>';
-        output += '<a href="#" class="link" onclick="BS.load(\'commentsEpisode\', \'' + e.url + '\', \'' + e.season + '\', \'' + e.episode + '\', \'' + e.global + '\'); return false;">';
+        output += '<a href="" url="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" class="link display_comments">';
         output += '<span class="imgSyncNo"></span>' + __('see_comments', e.comments) + '</a>';
         dl = e.downloaded ? 'mark_as_not_dl' : 'mark_as_dl';
-        output += '<a href="#" class="link downloaded" show="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" onclick="return false;">';
+        output += '<a href="" show="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" class="link downloaded">';
         output += '<span class="imgSyncOff"></span>' + __(dl) + '</a>';
         return output;
       }
@@ -419,7 +419,7 @@ BS = {
           output += '<div url="' + data[e].url + '" season="' + data[e].season + '" episode="' + data[e].episode + '" class="left">';
           output += '<img src="../img/empty.png" width="11" /> ';
           output += '<span class="num">' + Fx.displayNumber(data[e].number) + '</span> ';
-          output += '<a href="#" onclick="BS.load(\'showsEpisode\', \'' + data[e].url + '\', \'' + data[e].season + '\', \'' + data[e].episode + '\', \'' + data[e].global + '\'); return false;" title="' + data[e].show + '" class="epLink">';
+          output += '<a href="" url="' + data[e].url + '" season="' + data[e].season + '" episode="' + data[e].episode + '" global="' + data[e].global + '" title="' + data[e].show + '" class="epLink display_episode">';
           output += data[e].show + '</a> ';
           output += '</div>';
           output += '<div class="right">';
@@ -531,7 +531,7 @@ BS = {
           } else {
             output += '<img src="../img/folder.png" class="icon-3" /> ';
           }
-          output += '<a href="" onclick="BS.load(\'showsDisplay\', \'' + show.url + '\'); return false;" class="epLink">' + show.title + '</a>';
+          output += '<a href="" url="' + show.url + '" class="epLink display_show">' + show.title + '</a>';
           output += '</div>';
         }
         return output;
@@ -779,7 +779,7 @@ BS = {
         output += '<tr><td>' + __('password') + '</td><td><input type="password" name="password" id="password" /></td></tr>';
         output += '</table>';
         output += '<div class="valid"><input type="submit" value="' + __('sign_in') + '"> ou ';
-        output += '	<a href="#" onclick="BS.load(\'registration\'); return false;">' + __('sign_up') + '</a></div>';
+        output += '	<a href="" class="display_registration">' + __('sign_up') + '</a></div>';
         output += '</form>';
         return output;
       }
@@ -800,7 +800,7 @@ BS = {
         output += '<tr><td>' + __('email') + '</td><td><input type="text" name="mail" id="mail" /></td></tr>';
         output += '</table>';
         output += '<div class="valid"><input type="submit" value="' + __('sign_up') + '"> ou ';
-        output += '	<a href="#" onclick="BS.load(\'connection\'); return false;">' + __('sign_in') + '</a></div>';
+        output += '	<a href="#" class="display_connection">' + __('sign_in') + '</a></div>';
         output += '</form>';
         return output;
       }
@@ -886,7 +886,7 @@ BS = {
           }
           output += '<div class="showtitle">' + title;
           output += '</div>';
-          link = '<a href="#" onclick="Fx.openTab(\'' + article.link + '\');">(' + __('read_article') + ')</a>';
+          link = '<a href="#" link="' + article.link + '" class="display_postblog">(' + __('read_article') + ')</a>';
           output += '<div>' + article.description.replace(/<a(.*)a>/, link) + '</div>';
           output += '<div style="height:11px;"></div>';
         }

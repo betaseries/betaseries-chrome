@@ -167,38 +167,56 @@ $(document).ready ->
 		return true
 	
 	# Ouvrir la fiche d'une série
-	$('#page')
-		.on 'click', '.display_show', ->
-			event.preventDefault()
-			url = $(@).attr 'url'
-			BS.load 'showsDisplay', url
+	$('#page').on 'click', '.display_show', ->
+		event.preventDefault()
+		url = $(@).attr 'url'
+		BS.load 'showsDisplay', url
 
 	# Ouvrir la fiche d'un épisode
-	$('#page')
-		.on 'click', '.display_episode', ->
-			event.preventDefault()
-			url = $(@).attr 'url'
-			season = $(@).attr 'season'
-			episode = $(@).attr 'episode'
-			global = $(@).attr 'global'
-			BS.load 'showsEpisode', url, season, episode, global
+	$('#page').on 'click', '.display_episode', ->
+		event.preventDefault()
+		url = $(@).attr 'url'
+		season = $(@).attr 'season'
+		episode = $(@).attr 'episode'
+		global = $(@).attr 'global'
+		BS.load 'showsEpisode', url, season, episode, global
+
+	# Ouvrir la fiche des épisodes d'une série
+	$('#page').on 'click', '.display_episodes', ->
+		event.preventDefault()
+		url = $(@).attr 'url'
+		BS.load 'showsEpisodes', url
 
 	# Ouvrir la fiche d'un épisode
-	$('#page')
-		.on 'click', '.display_comments', ->
-			event.preventDefault()
-			url = $(@).attr 'url'
-			season = $(@).attr 'season'
-			episode = $(@).attr 'episode'
-			global = $(@).attr 'global'
-			BS.load 'commentsEpisode', url, season, episode, global
+	$('#page').on 'click', '.display_comments', ->
+		event.preventDefault()
+		url = $(@).attr 'url'
+		season = $(@).attr 'season'
+		episode = $(@).attr 'episode'
+		global = $(@).attr 'global'
+		BS.load 'commentsEpisode', url, season, episode, global
 
 	# Ouvrir la fiche d'un membre
-	$('#page')
-		.on 'click', '.display_member', ->
-			event.preventDefault()
-			login = $(@).attr 'login'
-			BS.load 'membersInfos', login
+	$('#page').on 'click', '.display_member', ->
+		event.preventDefault()
+		login = $(@).attr 'login'
+		BS.load 'membersInfos', login
+
+	# Ouvrir le formulaire d'inscription
+	$('#page').on 'click', '.display_registration', ->
+		event.preventDefault()
+		BS.load 'registration'
+
+	# Ouvrir le formulaire de connexion
+	$('#page').on 'click', '.display_connection', ->
+		event.preventDefault()
+		BS.load 'connection'
+
+	# Ouvrir l'article du blog
+	$('#page').on 'click', '.display_postblog', ->
+		event.preventDefault()
+		link = $(@).attr 'link'
+		Fx.openTab link, true
 
 	# Episode HOVER
 	$('.episode').live
@@ -249,67 +267,65 @@ $(document).ready ->
 			clean e
 	
 	## Marquer un épisode comme récupéré ou pas
-	$('.membersEpisodes .downloaded').live
-		click: ->
-			s = $(this).closest('.show')
-			show = s.attr 'id'
-			e = $(this).closest('.episode')
-			season = e.attr 'season'
-			episode = e.attr 'episode'
-			global = e.attr 'global'
-			
-			# mise à jour du cache
-			es = DB.get 'show.' + show + '.episodes'
-			downloaded = es[global].downloaded
-			es[global].downloaded = !downloaded
-			DB.set 'show.' + show + '.episodes', es
-			
-			# modification de l'icône
-			if downloaded
-				$(this).attr 'src', '../img/folder_off.png'
-			else 
-				$(this).attr 'src', '../img/folder.png'
-			
-			# envoi de la requête
-			params = "&season=" + season + "&episode=" + episode
-			ajax.post "/members/downloaded/" + show, params, 
-				-> 
-					badge_notification_type = DB.get('options').badge_notification_type
-					bgPage.Badge.update() if badge_notification_type is 'downloaded'
-				-> registerAction "/members/downloaded/" + show, params
-
-			return false
+	$('#page').on 'click', '.membersEpisodes .downloaded', ->
+		event.preventDefault()
+		
+		s = $(this).closest('.show')
+		show = s.attr 'id'
+		e = $(this).closest('.episode')
+		season = e.attr 'season'
+		episode = e.attr 'episode'
+		global = e.attr 'global'
+		
+		# mise à jour du cache
+		es = DB.get 'show.' + show + '.episodes'
+		downloaded = es[global].downloaded
+		es[global].downloaded = !downloaded
+		DB.set 'show.' + show + '.episodes', es
+		
+		# modification de l'icône
+		if downloaded
+			$(this).attr 'src', '../img/folder_off.png'
+		else 
+			$(this).attr 'src', '../img/folder.png'
+		
+		# envoi de la requête
+		params = "&season=" + season + "&episode=" + episode
+		ajax.post "/members/downloaded/" + show, params, 
+			-> 
+				badge_notification_type = DB.get('options').badge_notification_type
+				bgPage.Badge.update() if badge_notification_type is 'downloaded'
+			-> registerAction "/members/downloaded/" + show, params
 
 	## Marquer un épisode comme récupéré ou pas
-	$('.showsEpisode .downloaded').live
-		click: ->
-			show = $(@).attr 'show'
-			season = $(@).attr 'season'
-			episode = $(@).attr 'episode'
-			global = $(@).attr 'global'
-			
-			# mise à jour du cache
-			es = DB.get 'show.' + show + '.episodes'
-			downloaded = es[global].downloaded
-			es[global].downloaded = !downloaded
-			DB.set 'show.' + show + '.episodes', es
-			
-			# modification de l'icône
-			$(@).find('span').toggleClass 'imgSyncOff imgSyncOn'
-			dl = if downloaded then 'mark_as_dl' else 'mark_as_not_dl'
+	$('#page').on 'click', '.showsEpisode .downloaded', ->
+		event.preventDefault()
+		
+		show = $(@).attr 'show'
+		season = $(@).attr 'season'
+		episode = $(@).attr 'episode'
+		global = $(@).attr 'global'
+		
+		# mise à jour du cache
+		es = DB.get 'show.' + show + '.episodes'
+		downloaded = es[global].downloaded
+		es[global].downloaded = !downloaded
+		DB.set 'show.' + show + '.episodes', es
+		
+		# modification de l'icône
+		$(@).find('span').toggleClass 'imgSyncOff imgSyncOn'
+		dl = if downloaded then 'mark_as_dl' else 'mark_as_not_dl'
 
-			# envoi de la requête
-			params = "&season=" + season + "&episode=" + episode
-			ajax.post "/members/downloaded/" + show, params, 
-				=>
-					badge_notification_type = DB.get('options').badge_notification_type
-					bgPage.Badge.update() if badge_notification_type is 'downloaded'
-					$(@).html '<span class="imgSyncOff"></span>' + __(dl)
-				-> 
-					registerAction "/members/downloaded/" + show, params
+		# envoi de la requête
+		params = "&season=" + season + "&episode=" + episode
+		ajax.post "/members/downloaded/" + show, params, 
+			=>
+				badge_notification_type = DB.get('options').badge_notification_type
+				bgPage.Badge.update() if badge_notification_type is 'downloaded'
+				$(@).html '<span class="imgSyncOff"></span>' + __(dl)
+			-> 
+				registerAction "/members/downloaded/" + show, params
 
-			return false
-	
 	## Télécharger les sous-titres d'un épisode
 	$('.subs').live
 		click: -> 

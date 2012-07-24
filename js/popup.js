@@ -193,6 +193,12 @@ $(document).ready(function() {
     global = $(this).attr('global');
     return BS.load('showsEpisode', url, season, episode, global);
   });
+  $('#page').on('click', '.display_episodes', function() {
+    var url;
+    event.preventDefault();
+    url = $(this).attr('url');
+    return BS.load('showsEpisodes', url);
+  });
   $('#page').on('click', '.display_comments', function() {
     var episode, global, season, url;
     event.preventDefault();
@@ -207,6 +213,20 @@ $(document).ready(function() {
     event.preventDefault();
     login = $(this).attr('login');
     return BS.load('membersInfos', login);
+  });
+  $('#page').on('click', '.display_registration', function() {
+    event.preventDefault();
+    return BS.load('registration');
+  });
+  $('#page').on('click', '.display_connection', function() {
+    event.preventDefault();
+    return BS.load('connection');
+  });
+  $('#page').on('click', '.display_postblog', function() {
+    var link;
+    event.preventDefault();
+    link = $(this).attr('link');
+    return Fx.openTab(link, true);
   });
   $('.episode').live({
     mouseenter: function() {
@@ -268,64 +288,60 @@ $(document).ready(function() {
       return clean(e);
     }
   });
-  $('.membersEpisodes .downloaded').live({
-    click: function() {
-      var downloaded, e, episode, es, global, params, s, season, show;
-      s = $(this).closest('.show');
-      show = s.attr('id');
-      e = $(this).closest('.episode');
-      season = e.attr('season');
-      episode = e.attr('episode');
-      global = e.attr('global');
-      es = DB.get('show.' + show + '.episodes');
-      downloaded = es[global].downloaded;
-      es[global].downloaded = !downloaded;
-      DB.set('show.' + show + '.episodes', es);
-      if (downloaded) {
-        $(this).attr('src', '../img/folder_off.png');
-      } else {
-        $(this).attr('src', '../img/folder.png');
+  $('#page').on('click', '.membersEpisodes .downloaded', function() {
+    var downloaded, e, episode, es, global, params, s, season, show;
+    event.preventDefault();
+    s = $(this).closest('.show');
+    show = s.attr('id');
+    e = $(this).closest('.episode');
+    season = e.attr('season');
+    episode = e.attr('episode');
+    global = e.attr('global');
+    es = DB.get('show.' + show + '.episodes');
+    downloaded = es[global].downloaded;
+    es[global].downloaded = !downloaded;
+    DB.set('show.' + show + '.episodes', es);
+    if (downloaded) {
+      $(this).attr('src', '../img/folder_off.png');
+    } else {
+      $(this).attr('src', '../img/folder.png');
+    }
+    params = "&season=" + season + "&episode=" + episode;
+    return ajax.post("/members/downloaded/" + show, params, function() {
+      var badge_notification_type;
+      badge_notification_type = DB.get('options').badge_notification_type;
+      if (badge_notification_type === 'downloaded') {
+        return bgPage.Badge.update();
       }
-      params = "&season=" + season + "&episode=" + episode;
-      ajax.post("/members/downloaded/" + show, params, function() {
-        var badge_notification_type;
-        badge_notification_type = DB.get('options').badge_notification_type;
-        if (badge_notification_type === 'downloaded') {
-          return bgPage.Badge.update();
-        }
-      }, function() {
-        return registerAction("/members/downloaded/" + show, params);
-      });
-      return false;
-    }
+    }, function() {
+      return registerAction("/members/downloaded/" + show, params);
+    });
   });
-  $('.showsEpisode .downloaded').live({
-    click: function() {
-      var dl, downloaded, episode, es, global, params, season, show,
-        _this = this;
-      show = $(this).attr('show');
-      season = $(this).attr('season');
-      episode = $(this).attr('episode');
-      global = $(this).attr('global');
-      es = DB.get('show.' + show + '.episodes');
-      downloaded = es[global].downloaded;
-      es[global].downloaded = !downloaded;
-      DB.set('show.' + show + '.episodes', es);
-      $(this).find('span').toggleClass('imgSyncOff imgSyncOn');
-      dl = downloaded ? 'mark_as_dl' : 'mark_as_not_dl';
-      params = "&season=" + season + "&episode=" + episode;
-      ajax.post("/members/downloaded/" + show, params, function() {
-        var badge_notification_type;
-        badge_notification_type = DB.get('options').badge_notification_type;
-        if (badge_notification_type === 'downloaded') {
-          bgPage.Badge.update();
-        }
-        return $(_this).html('<span class="imgSyncOff"></span>' + __(dl));
-      }, function() {
-        return registerAction("/members/downloaded/" + show, params);
-      });
-      return false;
-    }
+  $('#page').on('click', '.showsEpisode .downloaded', function() {
+    var dl, downloaded, episode, es, global, params, season, show,
+      _this = this;
+    event.preventDefault();
+    show = $(this).attr('show');
+    season = $(this).attr('season');
+    episode = $(this).attr('episode');
+    global = $(this).attr('global');
+    es = DB.get('show.' + show + '.episodes');
+    downloaded = es[global].downloaded;
+    es[global].downloaded = !downloaded;
+    DB.set('show.' + show + '.episodes', es);
+    $(this).find('span').toggleClass('imgSyncOff imgSyncOn');
+    dl = downloaded ? 'mark_as_dl' : 'mark_as_not_dl';
+    params = "&season=" + season + "&episode=" + episode;
+    return ajax.post("/members/downloaded/" + show, params, function() {
+      var badge_notification_type;
+      badge_notification_type = DB.get('options').badge_notification_type;
+      if (badge_notification_type === 'downloaded') {
+        bgPage.Badge.update();
+      }
+      return $(_this).html('<span class="imgSyncOff"></span>' + __(dl));
+    }, function() {
+      return registerAction("/members/downloaded/" + show, params);
+    });
   });
   $('.subs').live({
     click: function() {
