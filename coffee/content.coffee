@@ -168,7 +168,7 @@ Content =
 		output += '<div class="left">'
 		output += '<img src="../img/' + plot + '.png" class="watched action icon-4" title="' + texte2 + '" /> '
 		output += '<span class="num">' + Fx.displayNumber(e.number) + '</span> '
-		output += '<a href="#" onclick="BS.load(\'showsEpisode\', \'' + e.url + '\', \'' + e.season + '\', \'' + e.episode + '\', \'' + e.global + '\'); return false;" title="' + title + '" class="epLink">'
+		output += '<a href="#" url="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" title="' + title + '" class="epLink display_episode">'
 		output += Fx.subFirst(title, 20) + '</a>'
 		if newShow 
 			output += ' <span class="new">' + __('new') + '</span>'
@@ -204,7 +204,7 @@ Content =
 		output += '<div class="right">'
 		empty = '<img src="../img/empty.png" alt="hidden" /> '
 		if e.comments > 0
-			output += '<a href="#" onclick="BS.load(\'commentsEpisode\', \'' + e.url + '\', \'' + e.season + '\', \'' + e.episode + '\', \'' + e.global + '\'); return false;" title="' + __('nbr_comments', [e.comments]) + '" class="invisible">'
+			output += '<a href="#" url="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" title="' + __('nbr_comments', [e.comments]) + '" class="invisible display_comments">'
 			output += '<img src="../img/comments.png" class="comments action" /> '
 			output += '</a>'
 		else 
