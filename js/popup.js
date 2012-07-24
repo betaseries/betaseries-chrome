@@ -607,6 +607,18 @@ $(document).ready(function() {
   $('#versionLink').click(function() {
     return Fx.openTab('https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true);
   }).attr('title', __("version"));
+  $('#page').on('click', '.menu a', function() {
+    var id;
+    event.preventDefault();
+    id = $(this).attr('id').substring(5);
+    if (id === 'options') {
+      return Fx.openTab(chrome.extension.getURL('../html/options.html'), true);
+    } else if (id === 'logout') {
+      return BS.logout();
+    } else {
+      return BS.load(id);
+    }
+  });
   $('#back').click(function() {
     Historic.back();
     return false;

@@ -586,6 +586,16 @@ $(document).ready ->
 		.attr 'title', __("version")
 	
 	## MENU actions
+	$('#page').on 'click', '.menu a', ->
+		event.preventDefault()
+		id = $(@).attr('id').substring 5
+		if (id is 'options')
+			Fx.openTab chrome.extension.getURL('../html/options.html'), true
+		else if (id is 'logout')
+			BS.logout()
+		else
+			BS.load id
+
 	$('#back').click ->
 			Historic.back()
 			return false
