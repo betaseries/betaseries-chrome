@@ -178,13 +178,13 @@ $(document).ready(function() {
     Fx.updateHeight();
     return true;
   };
-  $('#page').on('click', '.membersEpisodes .display_show', function() {
+  $('#page').on('click', '.display_show', function() {
     var url;
     event.preventDefault();
     url = $(this).attr('url');
     return BS.load('showsDisplay', url);
   });
-  $('#page').on('click', '.membersEpisodes .display_episode', function() {
+  $('#page').on('click', '.display_episode', function() {
     var episode, global, season, url;
     event.preventDefault();
     url = $(this).attr('url');
@@ -193,7 +193,7 @@ $(document).ready(function() {
     global = $(this).attr('global');
     return BS.load('showsEpisode', url, season, episode, global);
   });
-  $('#page').on('click', '.membersEpisodes .display_comments', function() {
+  $('#page').on('click', '.display_comments', function() {
     var episode, global, season, url;
     event.preventDefault();
     url = $(this).attr('url');
@@ -201,6 +201,12 @@ $(document).ready(function() {
     episode = $(this).attr('episode');
     global = $(this).attr('global');
     return BS.load('commentsEpisode', url, season, episode, global);
+  });
+  $('#page').on('click', '.display_member', function() {
+    var login;
+    event.preventDefault();
+    login = $(this).attr('login');
+    return BS.load('membersInfos', login);
   });
   $('.episode').live({
     mouseenter: function() {
@@ -529,7 +535,7 @@ $(document).ready(function() {
         if (Object.keys(members).length > 0) {
           for (n in members) {
             member = members[n];
-            content += '<div class="episode"><a href="#" onclick="BS.load(\'membersInfos\', \'' + member.login + '\'); return false;" class="epLink">' + Fx.subFirst(member.login, 25) + '</a></div>';
+            content += '<div class="episode"><a href="#" login="' + member.login + '" class="epLink display_member">' + Fx.subFirst(member.login, 25) + '</a></div>';
           }
         } else {
           content += '<div class="episode">' + __('no_members_found') + '</div>';
@@ -552,7 +558,7 @@ $(document).ready(function() {
         if (Object.keys(shows).length > 0) {
           for (n in shows) {
             show = shows[n];
-            content += '<div class="episode"><a href="#" onclick="BS.load(\'showsDisplay\', \'' + show.url + '\'); return false;" title="' + show.title + '" class="epLink">' + Fx.subFirst(show.title, 25) + '</a></div>';
+            content += '<div class="episode"><a href="" url="' + show.url + '" title="' + show.title + '" class="epLink display_show">' + Fx.subFirst(show.title, 25) + '</a></div>';
           }
         } else {
           content += '<div class="episode">' + __('no_shows_found') + '</div>';

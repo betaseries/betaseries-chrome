@@ -168,14 +168,14 @@ $(document).ready ->
 	
 	# Ouvrir la fiche d'une série
 	$('#page')
-		.on 'click', '.membersEpisodes .display_show', ->
+		.on 'click', '.display_show', ->
 			event.preventDefault()
 			url = $(@).attr 'url'
 			BS.load 'showsDisplay', url
 
 	# Ouvrir la fiche d'un épisode
 	$('#page')
-		.on 'click', '.membersEpisodes .display_episode', ->
+		.on 'click', '.display_episode', ->
 			event.preventDefault()
 			url = $(@).attr 'url'
 			season = $(@).attr 'season'
@@ -185,13 +185,20 @@ $(document).ready ->
 
 	# Ouvrir la fiche d'un épisode
 	$('#page')
-		.on 'click', '.membersEpisodes .display_comments', ->
+		.on 'click', '.display_comments', ->
 			event.preventDefault()
 			url = $(@).attr 'url'
 			season = $(@).attr 'season'
 			episode = $(@).attr 'episode'
 			global = $(@).attr 'global'
 			BS.load 'commentsEpisode', url, season, episode, global
+
+	# Ouvrir la fiche d'un membre
+	$('#page')
+		.on 'click', '.display_member', ->
+			event.preventDefault()
+			login = $(@).attr 'login'
+			BS.load 'membersInfos', login
 
 	# Episode HOVER
 	$('.episode').live
@@ -502,7 +509,7 @@ $(document).ready ->
 					if Object.keys(members).length > 0
 						for n of members
 							member = members[n]
-							content += '<div class="episode"><a href="#" onclick="BS.load(\'membersInfos\', \'' + member.login + '\'); return false;" class="epLink">' + Fx.subFirst(member.login, 25) + '</a></div>'
+							content += '<div class="episode"><a href="#" login="' + member.login + '" class="epLink display_member">' + Fx.subFirst(member.login, 25) + '</a></div>'
 					else
 						content += '<div class="episode">' + __('no_members_found') + '</div>'
 					$('#results').html content
@@ -526,7 +533,7 @@ $(document).ready ->
 					if Object.keys(shows).length > 0
 						for n of shows
 							show = shows[n]
-							content += '<div class="episode"><a href="#" onclick="BS.load(\'showsDisplay\', \'' + show.url + '\'); return false;" title="' + show.title + '" class="epLink">' + Fx.subFirst(show.title, 25) + '</a></div>'
+							content += '<div class="episode"><a href="" url="' + show.url + '" title="' + show.title + '" class="epLink display_show">' + Fx.subFirst(show.title, 25) + '</a></div>'
 					else
 						content += '<div class="episode">' + __('no_shows_found') + '</div>'
 					$('#results').html content
