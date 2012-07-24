@@ -29,7 +29,6 @@ Dernière version
 * Meilleure gestion de l'ajout/retrait d'une série/ami
 * Ajout de la vue de tous les épisodes d'une série
 * Possibilité de revenir à un ancien épisode vu
-* Déconnexion forcée lorsqu'une nouvelle mise à jour est détectée
 
 Liens
 -----

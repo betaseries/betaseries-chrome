@@ -147,7 +147,7 @@ Fx = {
     newVersion = version !== currVersion;
     $('#versionLink').text(Fx.getVersion());
     if (newVersion) {
-      BS.load('logout');
+      DB.set('version', currVersion);
       return $('#message').html(__('new_version')).show();
     }
   }
