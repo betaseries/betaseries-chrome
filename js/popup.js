@@ -288,7 +288,7 @@ $(document).ready(function() {
       return clean(e);
     }
   });
-  $('#page').on('click', '.membersEpisodes .downloaded', function() {
+  $('#page').on('click', '.membersEpisodes .downloaded, .showsEpisodes .downloaded', function() {
     var downloaded, e, episode, es, global, params, s, season, show;
     event.preventDefault();
     s = $(this).closest('.show');

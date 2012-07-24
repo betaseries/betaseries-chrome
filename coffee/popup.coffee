@@ -267,7 +267,7 @@ $(document).ready ->
 			clean e
 	
 	## Marquer un épisode comme récupéré ou pas
-	$('#page').on 'click', '.membersEpisodes .downloaded', ->
+	$('#page').on 'click', '.membersEpisodes .downloaded, .showsEpisodes .downloaded', ->
 		event.preventDefault()
 		
 		s = $(this).closest('.show')
