@@ -36,7 +36,7 @@ Content = {
     return output;
   },
   episode: function(e, s) {
-    var date_0, dlSrtLanguage, empty, hidden, imgDownloaded, jours, lang, nbSubs, newShow, output, quality, sub, subs, texte2, texte3, time, title, url;
+    var date_0, dlSrtLanguage, empty, hidden, imgDownloaded, jours, lang, nbSubs, newShow, output, quality, stitle, sub, subs, texte2, texte3, time, title, url;
     output = '';
     time = Math.floor(new Date().getTime() / 1000);
     jours = Math.floor(time / (24 * 3600));
@@ -45,11 +45,12 @@ Content = {
     hidden = s.hidden ? ' hidden' : '';
     output += '<div class="episode e' + e.global + newShow + hidden + '" number="' + e.number + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '">';
     title = DB.get('options').display_global ? '#' + e.global + ' ' + e.title : e.title;
+    stitle = title + ' (' + date('D d F', e.date) + ')';
     texte2 = __('mark_as_seen');
     output += '<div class="left">';
     output += '<img src="../img/empty.png" class="watched action icon-4" title="' + texte2 + '" /> ';
     output += '<span class="num">' + Fx.displayNumber(e.number) + '</span> ';
-    output += '<a href="" url="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" title="' + title + '" class="epLink display_episode">';
+    output += '<a href="" url="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" title="' + stitle + '" class="epLink display_episode">';
     output += Fx.subFirst(title, 20) + '</a>';
     if (newShow) {
       output += ' <span class="new">' + __('new') + '</span>';
@@ -102,7 +103,7 @@ Content = {
     return output;
   },
   episode2: function(e, hidden, start) {
-    var date_0, dlSrtLanguage, empty, imgDownloaded, jours, lang, nbSubs, newShow, output, plot, quality, sub, subs, texte2, texte3, time, title, url;
+    var date_0, dlSrtLanguage, empty, imgDownloaded, jours, lang, nbSubs, newShow, output, plot, quality, stitle, sub, subs, texte2, texte3, time, title, url;
     output = '';
     time = Math.floor(new Date().getTime() / 1000);
     jours = Math.floor(time / (24 * 3600));
@@ -111,12 +112,13 @@ Content = {
     hidden = hidden ? ' hidden' : '';
     output += '<div class="episode e' + e.global + newShow + hidden + '" number="' + e.number + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '">';
     title = DB.get('options').display_global ? '#' + e.global + ' ' + e.title : e.title;
+    stitle = title + ' (' + date('D d F', e.date) + ')';
     texte2 = __('mark_as_seen');
     plot = parseInt(e.global) < start ? 'tick' : 'empty';
     output += '<div class="left">';
     output += '<img src="../img/' + plot + '.png" class="watched action icon-4" title="' + texte2 + '" /> ';
     output += '<span class="num">' + Fx.displayNumber(e.number) + '</span> ';
-    output += '<a href="#" url="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" title="' + title + '" class="epLink display_episode">';
+    output += '<a href="#" url="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" title="' + stitle + '" class="epLink display_episode">';
     output += Fx.subFirst(title, 20) + '</a>';
     if (newShow) {
       output += ' <span class="new">' + __('new') + '</span>';

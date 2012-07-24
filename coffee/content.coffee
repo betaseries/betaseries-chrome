@@ -82,11 +82,12 @@ Content =
 			
 		# Titre de l'épisode
 		title = if DB.get('options').display_global then '#' + e.global + ' ' + e.title else e.title
+		stitle = title + ' (' + date('D d F', e.date) + ')'
 		texte2 = __('mark_as_seen')
 		output += '<div class="left">'
 		output += '<img src="../img/empty.png" class="watched action icon-4" title="' + texte2 + '" /> '
 		output += '<span class="num">' + Fx.displayNumber(e.number) + '</span> '
-		output += '<a href="" url="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" title="' + title + '" class="epLink display_episode">'
+		output += '<a href="" url="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" title="' + stitle + '" class="epLink display_episode">'
 		output += Fx.subFirst(title, 20) + '</a>'
 		if newShow 
 			output += ' <span class="new">' + __('new') + '</span>'
@@ -163,12 +164,13 @@ Content =
 			
 		# Titre de l'épisode
 		title = if DB.get('options').display_global then '#' + e.global + ' ' + e.title else e.title
+		stitle = title + ' (' + date('D d F', e.date) + ')'
 		texte2 = __('mark_as_seen')
 		plot = if parseInt(e.global) < start then 'tick' else 'empty'
 		output += '<div class="left">'
 		output += '<img src="../img/' + plot + '.png" class="watched action icon-4" title="' + texte2 + '" /> '
 		output += '<span class="num">' + Fx.displayNumber(e.number) + '</span> '
-		output += '<a href="#" url="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" title="' + title + '" class="epLink display_episode">'
+		output += '<a href="#" url="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" title="' + stitle + '" class="epLink display_episode">'
 		output += Fx.subFirst(title, 20) + '</a>'
 		if newShow 
 			output += ' <span class="new">' + __('new') + '</span>'
