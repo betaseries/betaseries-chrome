@@ -183,6 +183,16 @@ $(document).ready ->
 			global = $(@).attr 'global'
 			BS.load 'showsEpisode', url, season, episode, global
 
+	# Ouvrir la fiche d'un épisode
+	$('#page')
+		.on 'click', '.membersEpisodes .display_comments', ->
+			event.preventDefault()
+			url = $(@).attr 'url'
+			season = $(@).attr 'season'
+			episode = $(@).attr 'episode'
+			global = $(@).attr 'global'
+			BS.load 'commentsEpisode', url, season, episode, global
+
 	# Episode HOVER
 	$('.episode').live
 		mouseenter: ->

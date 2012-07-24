@@ -193,6 +193,15 @@ $(document).ready(function() {
     global = $(this).attr('global');
     return BS.load('showsEpisode', url, season, episode, global);
   });
+  $('#page').on('click', '.membersEpisodes .display_comments', function() {
+    var episode, global, season, url;
+    event.preventDefault();
+    url = $(this).attr('url');
+    season = $(this).attr('season');
+    episode = $(this).attr('episode');
+    global = $(this).attr('global');
+    return BS.load('commentsEpisode', url, season, episode, global);
+  });
   $('.episode').live({
     mouseenter: function() {
       return $(this).find('.watched').attr('src', '../img/arrow_right.png').css('opacity', 0.5);
