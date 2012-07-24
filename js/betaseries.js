@@ -63,18 +63,12 @@ BS = {
     }
   },
   display: function() {
-    var o, size;
+    var o;
     o = this.currentView;
     Historic.save();
     document.getElementById('page').innerHTML = '';
     if (o.content) {
       $('#page').html(o.content());
-    }
-    size = Cache.getSize();
-    if (size > 0) {
-      $('#trash').attr('title', __('trash', Fx.getCacheFormat(size))).show();
-    } else {
-      $('#trash').hide();
     }
     $('#title').text(__('title_' + o.name));
     $('#page').removeClass().addClass(o.name);

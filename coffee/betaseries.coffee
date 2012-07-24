@@ -92,13 +92,13 @@ BS =
 		$('#page').html o.content() if o.content
 
 		# affichage du cache
-		size = Cache.getSize()
-		if size > 0
-			$('#trash')
-				.attr('title', __('trash', Fx.getCacheFormat(size)))
-				.show()
-		else 
-			$('#trash').hide()
+		#size = Cache.getSize()
+		#if size > 0
+		#	$('#trash')
+		#		.attr('title', __('trash', Fx.getCacheFormat(size)))
+		#		.show()
+		#else 
+		#	$('#trash').hide()
 		
 		# Post affichage
 		#if o.after?
