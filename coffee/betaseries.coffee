@@ -850,7 +850,7 @@ BS =
 			output += '<img src="../img/notifications.png" />'
 			output += __('menu_membersNotifications') + '</a>'
 			
-			output += '<a href="" onclick="menu-searchShow">'
+			output += '<a href="" id="menu-searchShow">'
 			output += '<img src="../img/search.png" />'
 			output += __('menu_searchShow') + '</a>'
 			
