@@ -719,6 +719,11 @@ BS = {
           output += '</div>';
           i++;
         }
+        output += '<div class="postComment">';
+        output += '<textarea name="comment" placeholder="Votre commentaire.."></textarea>';
+        output += '<input type="submit" name="submit" value="Poster">';
+        output += '<div class="clear"></div>\
+					   </div>';
         if (i === 1) {
           output += __('no_comments');
         }

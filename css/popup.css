@@ -24,6 +24,10 @@ a.invisible:hover {text-decoration: none;}
 #header {padding-bottom: 3px; border-bottom: 1px solid #bbb;}
 #about {margin: 3px 0 3px 0;}
 
+/*Form*/
+.postComment textarea {width: 98%; height: 40px; outline: none; resize: none; margin-top: 6px;}
+.postComment input[type=submit] {float: right; width: 80px; margin-right: 5px;}
+
 /*Help*/
 #footer {height: 18px; padding-top: 3px; border-top: 1px solid #BBB; padding-left: 10px;}
 #help-wrapper {float: left;}

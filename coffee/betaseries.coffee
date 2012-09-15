@@ -679,6 +679,12 @@ BS =
 				output += data[n].text
 				output += '</div>'
 				i++
+
+			output += '<div class="postComment">'
+			output += 	'<textarea name="comment" placeholder="Votre commentaire.."></textarea>'
+			output += 	'<input type="submit" name="submit" value="Poster">'
+			output += 	'<div class="clear"></div>
+					   </div>'
 			
 			output += __('no_comments') if i is 1
 			return output
