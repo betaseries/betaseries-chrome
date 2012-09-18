@@ -601,7 +601,7 @@ $(document).ready(function() {
           params += '&in_reply_to=' + in_reply_to;
         }
         ajax.post("/comments/post/episode", params, function(data) {
-          var day, hour, login, num, output, time;
+          var day, hour, login, num, output, showtitle, time;
           $('#postComment textarea').val('');
           $('#postComment input[id=inReplyTo]').val(0);
           $('#postComment input[type=submit]').val('Poster');
@@ -611,9 +611,10 @@ $(document).ready(function() {
           hour = date('H:i');
           login = DB.get('session').login;
           num = $('.event').size() + 1;
+          showtitle = time === $('.showtitle').last().text() ? '' : '<div class="showtitle">' + time + '</div>';
           output = '\
 							<div class="newComment" style="display:none;">\
-								<div class="showtitle">' + time + '</div>\
+								' + showtitle + '\
 								<div class="event ' + day + '">\
 									<b>' + hour + '</b> \
 									<span class="login">' + login + '</span> \

@@ -585,9 +585,10 @@ $(document).ready ->
 						hour = date('H:i')
 						login = DB.get('session').login
 						num = $('.event').size() + 1
+						showtitle = if time is $('.showtitle').last().text() then '' else '<div class="showtitle">' + time + '</div>' 
 						output = '
 							<div class="newComment" style="display:none;">
-								<div class="showtitle">' + time + '</div>
+								' + showtitle + '
 								<div class="event ' + day + '">
 									<b>' + hour + '</b> 
 									<span class="login">' + login + '</span> 
