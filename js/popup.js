@@ -596,24 +596,24 @@ $(document).ready(function() {
       if (text !== '') {
         $('#postComment input[type=submit]').val('Patientez..');
         $('#postComment input[type=submit]').prop('disabled', true);
-        params = '&show=' + show + '&season=' + season + '&episode=' + episode + '&text=' + text;
+        params = '&show=' + show + '&season=' + season + '&episode=' + episode;
         if (in_reply_to !== '0') {
           params += '&in_reply_to=' + in_reply_to;
         }
         ajax.post("/comments/post/episode", params, function(data) {
-          var date, day, hour, login, num, output;
+          var day, hour, login, num, output, time;
           $('#postComment textarea').val('');
           $('#postComment input[id=inReplyTo]').val(0);
           $('#postComment input[type=submit]').val('Poster');
           $('#postComment input[type=submit]').prop('disabled', false);
-          date = date('D d F');
+          time = date('D d F');
           day = date('D').toLowerCase();
           hour = date('H:i');
           login = DB.get('session').login;
           num = $('.event').size() + 1;
           output = '\
 							<div class="newComment" style="display:none;">\
-								<div class="showtitle">' + date + '</div>\
+								<div class="showtitle">' + time + '</div>\
 								<div class="event ' + day + '">\
 									<b>' + hour + '</b> \
 									<span class="login">' + login + '</span> \

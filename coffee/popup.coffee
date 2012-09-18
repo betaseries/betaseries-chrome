@@ -572,7 +572,7 @@ $(document).ready ->
 				$('#postComment input[type=submit]').val 'Patientez..'
 				$('#postComment input[type=submit]').prop 'disabled', true
 
-				params = '&show=' + show + '&season=' + season + '&episode=' + episode + '&text=' + text
+				params = '&show=' + show + '&season=' + season + '&episode=' + episode #+ '&text=' + text
 				params += '&in_reply_to=' + in_reply_to if in_reply_to isnt '0'
 				ajax.post "/comments/post/episode", params, 
 					(data) ->
@@ -580,14 +580,14 @@ $(document).ready ->
 						$('#postComment input[id=inReplyTo]').val(0)
 						$('#postComment input[type=submit]').val 'Poster'
 						$('#postComment input[type=submit]').prop 'disabled', false
-						date = date('D d F')
+						time = date('D d F')
 						day = date('D').toLowerCase()
 						hour = date('H:i')
 						login = DB.get('session').login
 						num = $('.event').size() + 1
 						output = '
 							<div class="newComment" style="display:none;">
-								<div class="showtitle">' + date + '</div>
+								<div class="showtitle">' + time + '</div>
 								<div class="event ' + day + '">
 									<b>' + hour + '</b> 
 									<span class="login">' + login + '</span> 
