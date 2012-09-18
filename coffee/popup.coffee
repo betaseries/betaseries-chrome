@@ -558,6 +558,32 @@ $(document).ready ->
 					#inputs.removeAttr 'disabled'
 			
 			return false
+
+	## Poster un commentaire (série)
+	$('#postComment').live
+		submit: ->
+			show = $('#postComment input[id=show]').val()
+			season = $('#postComment input[id=season]').val()
+			episode = $('#postComment input[id=episode]').val()
+			text = $('#postComment textarea').val()
+			in_reply_to = $('#postComment input[id=inReplyTo]').val()
+
+			if text isnt ''
+				$('#postComment input[type=submit]').val 'Patientez..'
+				$('#postComment input[type=submit]').prop 'disabled', true
+
+				params = '&show=' + show + '&season=' + season + '&episode=' + episode + '&text=' + text
+				params += '&in_reply_to=' + in_reply_to if in_reply_to isnt '0'
+				ajax.post "/comments/post/episode", params, 
+					(data) ->
+						$('#postComment textarea').val('')
+						$('#postComment input[id=inReplyTo]').val(0)
+						$('#postComment input[type=submit]').val 'Poster'
+						$('#postComment input[type=submit]').prop 'disabled', false
+					->
+						#inputs.removeAttr 'disabled'
+
+			return false
 	
 	## Enregistrer une action offline
 	registerAction = (category, params) ->

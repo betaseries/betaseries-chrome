@@ -585,6 +585,31 @@ $(document).ready(function() {
       return false;
     }
   });
+  $('#postComment').live({
+    submit: function() {
+      var episode, in_reply_to, params, season, show, text;
+      show = $('#postComment input[id=show]').val();
+      season = $('#postComment input[id=season]').val();
+      episode = $('#postComment input[id=episode]').val();
+      text = $('#postComment textarea').val();
+      in_reply_to = $('#postComment input[id=inReplyTo]').val();
+      if (text !== '') {
+        $('#postComment input[type=submit]').val('Patientez..');
+        $('#postComment input[type=submit]').prop('disabled', true);
+        params = '&show=' + show + '&season=' + season + '&episode=' + episode + '&text=' + text;
+        if (in_reply_to !== '0') {
+          params += '&in_reply_to=' + in_reply_to;
+        }
+        ajax.post("/comments/post/episode", params, function(data) {
+          $('#postComment textarea').val('');
+          $('#postComment input[id=inReplyTo]').val(0);
+          $('#postComment input[type=submit]').val('Poster');
+          return $('#postComment input[type=submit]').prop('disabled', false);
+        }, function() {});
+      }
+      return false;
+    }
+  });
   registerAction = function(category, params) {
     return console.log("action: " + category + params);
   };

@@ -680,6 +680,8 @@ BS = {
       params: '&season=' + season + '&episode=' + episode,
       root: 'comments',
       show: url,
+      season: season,
+      episode: episode,
       global: global,
       update: function(data) {
         var comment, comments, i, nbrComments;
@@ -720,8 +722,14 @@ BS = {
           i++;
         }
         output += '<div class="postComment">';
+        output += '<form method="post" id="postComment">';
+        output += '<input type="hidden" id="show" value="' + this.show + '" />';
+        output += '<input type="hidden" id="season" value="' + this.season + '" />';
+        output += '<input type="hidden" id="episode" value="' + this.episode + '" />';
+        output += '<input type="hidden" id="inReplyTo" value="0" />';
         output += '<textarea name="comment" placeholder="Votre commentaire.."></textarea>';
         output += '<input type="submit" name="submit" value="Poster">';
+        output += '</form>';
         output += '<div class="clear"></div>\
 					   </div>';
         if (i === 1) {

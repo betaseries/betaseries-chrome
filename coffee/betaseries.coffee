@@ -641,6 +641,8 @@ BS =
 		params: '&season=' + season + '&episode=' + episode
 		root: 'comments'
 		show: url
+		season: season
+		episode: episode
 		global: global
 		update: (data) ->
 			comments = DB.get 'show.' + @show + '.' + @global + '.comments', {}
@@ -681,8 +683,14 @@ BS =
 				i++
 
 			output += '<div class="postComment">'
-			output += 	'<textarea name="comment" placeholder="Votre commentaire.."></textarea>'
-			output += 	'<input type="submit" name="submit" value="Poster">'
+			output += 	'<form method="post" id="postComment">'
+			output += 		'<input type="hidden" id="show" value="' + @show + '" />'
+			output += 		'<input type="hidden" id="season" value="' + @season + '" />'
+			output += 		'<input type="hidden" id="episode" value="' + @episode + '" />'
+			output += 		'<input type="hidden" id="inReplyTo" value="0" />'
+			output += 		'<textarea name="comment" placeholder="Votre commentaire.."></textarea>'
+			output += 		'<input type="submit" name="submit" value="Poster">'
+			output += 	'</form>'
 			output += 	'<div class="clear"></div>
 					   </div>'
 			
