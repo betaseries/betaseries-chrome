@@ -601,10 +601,29 @@ $(document).ready(function() {
           params += '&in_reply_to=' + in_reply_to;
         }
         ajax.post("/comments/post/episode", params, function(data) {
+          var date, day, hour, login, num, output;
           $('#postComment textarea').val('');
           $('#postComment input[id=inReplyTo]').val(0);
           $('#postComment input[type=submit]').val('Poster');
-          return $('#postComment input[type=submit]').prop('disabled', false);
+          $('#postComment input[type=submit]').prop('disabled', false);
+          date = date('D d F');
+          day = date('D').toLowerCase();
+          hour = date('H:i');
+          login = DB.get('session').login;
+          num = $('.event').size() + 1;
+          output = '\
+							<div class="newComment" style="display:none;">\
+								<div class="showtitle">' + date + '</div>\
+								<div class="event ' + day + '">\
+									<b>' + hour + '</b> \
+									<span class="login">' + login + '</span> \
+									<small>#' + num + '</small>\
+									<br>\
+									' + text + '\
+								</div>\
+							</div>';
+          $('.postComment').before(output);
+          return $('.newComment').slideDown('slow');
         }, function() {});
       }
       return false;

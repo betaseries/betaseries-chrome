@@ -580,6 +580,24 @@ $(document).ready ->
 						$('#postComment input[id=inReplyTo]').val(0)
 						$('#postComment input[type=submit]').val 'Poster'
 						$('#postComment input[type=submit]').prop 'disabled', false
+						date = date('D d F')
+						day = date('D').toLowerCase()
+						hour = date('H:i')
+						login = DB.get('session').login
+						num = $('.event').size() + 1
+						output = '
+							<div class="newComment" style="display:none;">
+								<div class="showtitle">' + date + '</div>
+								<div class="event ' + day + '">
+									<b>' + hour + '</b> 
+									<span class="login">' + login + '</span> 
+									<small>#' + num + '</small>
+									<br>
+									' + text + '
+								</div>
+							</div>'
+						$('.postComment').before output
+						$('.newComment').slideDown('slow')
 					->
 						#inputs.removeAttr 'disabled'
 
