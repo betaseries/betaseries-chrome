@@ -602,6 +602,7 @@ $(document).ready(function() {
         }
         ajax.post("/comments/post/episode", params, function(data) {
           var day, hour, login, num, output, showtitle, time;
+          console.log(data);
           $('#postComment textarea').val('');
           $('#postComment input[id=inReplyTo]').val(0);
           $('#postComment input[type=submit]').val('Poster');
@@ -613,17 +614,19 @@ $(document).ready(function() {
           login = DB.get('session').login;
           num = $('.event').size() + 1;
           showtitle = time === $('.showtitle').last().text() ? '' : '<div class="showtitle">' + time + '</div>';
-          output = '\
-							<div class="newComment" style="display:none;">\
-								' + showtitle + '\
-								<div class="event ' + day + '">\
-									<b>' + hour + '</b> \
-									<span class="login">' + login + '</span> \
-									<small>#' + num + '</small>\
-									<br>\
-									' + text + '\
-								</div>\
-							</div>';
+          output = '<div class="newComment" style="display:none;">';
+          output += showtitle;
+          output += '<div class="event ' + day + '">';
+          output += '<b>' + hour + '</b> ';
+          output += '<span class="login">' + login + '</span> ';
+          output += '<small>#' + num + '</small> ';
+          if (in_reply_to !== '0') {
+            output += '<small>en réponse à #' + in_reply_to + '</small> ';
+          }
+          output += '<a href="" id="addInReplyTo" commentId="' + num + '">répondre</a><br />';
+          output += text;
+          output += '</div>';
+          output += '</div>';
           $('.postComment').before(output);
           return $('.newComment').slideDown('slow');
         }, function() {});

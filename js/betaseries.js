@@ -716,7 +716,11 @@ BS = {
           output += '<div class="event ' + date('D', data[n].date).toLowerCase() + '">';
           output += '<b>' + date('H:i', data[n].date) + '</b> ';
           output += '<span class="login">' + data[n].login + '</span> ';
-          output += '<small>#' + i + '</small> <a href="" id="addInReplyTo" commentId="' + i + '">répondre</a><br />';
+          output += '<small>#' + data[n].inner_id + '</small> ';
+          if (data[n].in_reply_to !== '0') {
+            output += '<small>en réponse à #' + data[n].in_reply_to + '</small> ';
+          }
+          output += '<a href="" id="addInReplyTo" commentId="' + data[n].inner_id + '">répondre</a><br />';
           output += data[n].text;
           output += '</div>';
           i++;

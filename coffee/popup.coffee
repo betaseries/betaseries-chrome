@@ -576,6 +576,7 @@ $(document).ready ->
 				params += '&in_reply_to=' + in_reply_to if in_reply_to isnt '0'
 				ajax.post "/comments/post/episode", params, 
 					(data) ->
+						console.log data
 						$('#postComment textarea').val ''
 						$('#postComment input[id=inReplyTo]').val 0
 						$('#postComment input[type=submit]').val 'Poster'
@@ -587,17 +588,19 @@ $(document).ready ->
 						login = DB.get('session').login
 						num = $('.event').size() + 1
 						showtitle = if time is $('.showtitle').last().text() then '' else '<div class="showtitle">' + time + '</div>' 
-						output = '
-							<div class="newComment" style="display:none;">
-								' + showtitle + '
-								<div class="event ' + day + '">
-									<b>' + hour + '</b> 
-									<span class="login">' + login + '</span> 
-									<small>#' + num + '</small>
-									<br>
-									' + text + '
-								</div>
-							</div>'
+						
+						output = '<div class="newComment" style="display:none;">'
+						output += 	showtitle
+						output += 	'<div class="event ' + day + '">'
+						output += 		'<b>' + hour + '</b> '
+						output += 		'<span class="login">' + login + '</span> '
+						output += 		'<small>#' + num + '</small> '
+						output += 		'<small>en réponse à #' + in_reply_to + '</small> ' if in_reply_to isnt '0'
+						output += 		'<a href="" id="addInReplyTo" commentId="' + num + '">répondre</a><br />'
+						output += 		text
+						output += 	'</div>'
+						output += '</div>'
+
 						$('.postComment').before output
 						$('.newComment').slideDown('slow')
 					->
