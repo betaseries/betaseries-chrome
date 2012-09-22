@@ -606,6 +606,7 @@ $(document).ready(function() {
           $('#postComment input[id=inReplyTo]').val(0);
           $('#postComment input[type=submit]').val('Poster');
           $('#postComment input[type=submit]').prop('disabled', false);
+          $('#postComment #inReplyToText').hide();
           time = date('D d F');
           day = date('D').toLowerCase();
           hour = date('H:i');
@@ -627,6 +628,23 @@ $(document).ready(function() {
           return $('.newComment').slideDown('slow');
         }, function() {});
       }
+      return false;
+    }
+  });
+  $('#addInReplyTo').live({
+    click: function() {
+      var commentId;
+      commentId = $(this).attr('commentId');
+      $('#postComment input[id=inReplyTo]').val(commentId);
+      $('#postComment #inReplyToText').show();
+      $('#postComment #inReplyToId').text(commentId);
+      return false;
+    }
+  });
+  $('#removeInReplyTo').live({
+    click: function() {
+      $('#postComment input[id=inReplyTo]').val(0);
+      $('#postComment #inReplyToText').hide();
       return false;
     }
   });

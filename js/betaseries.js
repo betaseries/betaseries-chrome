@@ -716,7 +716,7 @@ BS = {
           output += '<div class="event ' + date('D', data[n].date).toLowerCase() + '">';
           output += '<b>' + date('H:i', data[n].date) + '</b> ';
           output += '<span class="login">' + data[n].login + '</span> ';
-          output += '<small>#' + i + '</small><br />';
+          output += '<small>#' + i + '</small> <a href="" id="addInReplyTo" commentId="' + i + '">répondre</a><br />';
           output += data[n].text;
           output += '</div>';
           i++;
@@ -729,6 +729,8 @@ BS = {
         output += '<input type="hidden" id="inReplyTo" value="0" />';
         output += '<textarea name="comment" placeholder="Votre commentaire.."></textarea>';
         output += '<input type="submit" name="submit" value="Poster">';
+        output += '<div id="inReplyToText" style="display:none;">En réponse à #<span id="inReplyToId"></span> ';
+        output += '(<a href="" id="removeInReplyTo">enlever</a>)</div>';
         output += '</form>';
         output += '<div class="clear"></div>\
 					   </div>';

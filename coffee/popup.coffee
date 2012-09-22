@@ -576,10 +576,11 @@ $(document).ready ->
 				params += '&in_reply_to=' + in_reply_to if in_reply_to isnt '0'
 				ajax.post "/comments/post/episode", params, 
 					(data) ->
-						$('#postComment textarea').val('')
-						$('#postComment input[id=inReplyTo]').val(0)
+						$('#postComment textarea').val ''
+						$('#postComment input[id=inReplyTo]').val 0
 						$('#postComment input[type=submit]').val 'Poster'
 						$('#postComment input[type=submit]').prop 'disabled', false
+						$('#postComment #inReplyToText').hide()
 						time = date('D d F')
 						day = date('D').toLowerCase()
 						hour = date('H:i')
@@ -602,6 +603,22 @@ $(document).ready ->
 					->
 						#inputs.removeAttr 'disabled'
 
+			return false
+
+	## Ajouter un destinataire au commentaire
+	$('#addInReplyTo').live
+		click: ->
+			commentId = $(this).attr('commentId');
+			$('#postComment input[id=inReplyTo]').val commentId
+			$('#postComment #inReplyToText').show()
+			$('#postComment #inReplyToId').text commentId
+			return false
+
+	## Retirer le destinataire d'un commentaire
+	$('#removeInReplyTo').live
+		click: ->
+			$('#postComment input[id=inReplyTo]').val 0
+			$('#postComment #inReplyToText').hide()
 			return false
 	
 	## Enregistrer une action offline
