@@ -602,7 +602,6 @@ $(document).ready(function() {
         }
         ajax.post("/comments/post/episode", params, function(data) {
           var day, hour, login, num, output, showtitle, time;
-          console.log(data);
           $('#postComment textarea').val('');
           $('#postComment input[id=inReplyTo]').val(0);
           $('#postComment input[type=submit]').val('Poster');

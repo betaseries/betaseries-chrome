@@ -576,7 +576,6 @@ $(document).ready ->
 				params += '&in_reply_to=' + in_reply_to if in_reply_to isnt '0'
 				ajax.post "/comments/post/episode", params, 
 					(data) ->
-						console.log data
 						$('#postComment textarea').val ''
 						$('#postComment input[id=inReplyTo]').val 0
 						$('#postComment input[type=submit]').val 'Poster'
@@ -586,7 +585,7 @@ $(document).ready ->
 						day = date('D').toLowerCase()
 						hour = date('H:i')
 						login = DB.get('session').login
-						num = $('.event').size() + 1
+						num = $('.event').size() + 1 ## TODO @see ticket #90
 						showtitle = if time is $('.showtitle').last().text() then '' else '<div class="showtitle">' + time + '</div>' 
 						
 						output = '<div class="newComment" style="display:none;">'
