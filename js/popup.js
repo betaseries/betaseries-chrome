@@ -596,7 +596,7 @@ $(document).ready(function() {
       if (text !== '') {
         $('#postComment input[type=submit]').val('Patientez..');
         $('#postComment input[type=submit]').prop('disabled', true);
-        params = '&show=' + show + '&season=' + season + '&episode=' + episode;
+        params = '&show=' + show + '&season=' + season + '&episode=' + episode + '&text=' + text;
         if (in_reply_to !== '0') {
           params += '&in_reply_to=' + in_reply_to;
         }

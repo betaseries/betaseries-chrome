@@ -572,7 +572,7 @@ $(document).ready ->
 				$('#postComment input[type=submit]').val 'Patientez..'
 				$('#postComment input[type=submit]').prop 'disabled', true
 
-				params = '&show=' + show + '&season=' + season + '&episode=' + episode #+ '&text=' + text
+				params = '&show=' + show + '&season=' + season + '&episode=' + episode + '&text=' + text
 				params += '&in_reply_to=' + in_reply_to if in_reply_to isnt '0'
 				ajax.post "/comments/post/episode", params, 
 					(data) ->
