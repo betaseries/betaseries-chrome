@@ -112,6 +112,9 @@ Fx = {
     if (n < 2) {
       color = 'red';
     }
+    if (n === 0) {
+      n = '';
+    }
     res = '<span class="note ' + color + '">' + n + '</span>';
     return res;
   },

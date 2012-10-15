@@ -85,6 +85,7 @@ Fx =
 		color = 'green'
 		color = 'orange' if n < 4
 		color = 'red' if n < 2 
+		n = '' if n is 0
 		res = '<span class="note ' + color + '">' + n + '</span>'
 		return res
 
