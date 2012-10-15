@@ -102,6 +102,19 @@ Fx = {
     res += number[5];
     return res;
   },
+  displayNote: function(note) {
+    var color, n, res;
+    n = Math.round(note * 10) / 10;
+    color = 'green';
+    if (n < 4) {
+      color = 'orange';
+    }
+    if (n < 2) {
+      color = 'red';
+    }
+    res = '<span class="note ' + color + '">' + n + '</span>';
+    return res;
+  },
   splitNumber: function(number) {
     var episode, season;
     season = '';

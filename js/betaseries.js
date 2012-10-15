@@ -438,7 +438,6 @@ BS = {
       login: login,
       update: function(data) {
         var member;
-        console.log(data);
         member = DB.get('member.' + this.login + '.infos', {});
         member.login = data.login;
         member.is_in_account = data.is_in_account;
@@ -468,7 +467,6 @@ BS = {
         output += '<div class="episode lun"><img src="../img/report.png" class="icon"> ' + __('nbr_seasons', [data.stats.seasons]) + ' </div>';
         output += '<div class="episode lun"><img src="../img/script.png" class="icon"> ' + __('nbr_episodes', [data.stats.episodes]) + ' </div>';
         output += '<div class="episode lun"><img src="../img/location.png" class="icon">' + data.stats.progress + ' <small>(' + __('progress') + ')</small></div>';
-        console.log(data);
         if (data.is_in_account != null) {
           output += '<div class="title2">' + __('actions') + '</div>';
           if (data.is_in_account) {
@@ -570,7 +568,8 @@ BS = {
             title: e.title,
             show: e.show,
             url: e.url,
-            subs: e.subs
+            subs: e.subs,
+            note: e.note.mean
           };
           DB.set('show.' + e.url + '.episodes', showEpisodes);
           if (e.url in memberEpisodes) {
@@ -610,6 +609,7 @@ BS = {
           global = j.start;
           while (global in showEpisodes && global - j.start < nbr_episodes_per_serie) {
             e = showEpisodes[global];
+            console.log(e);
             today = Math.floor(new Date().getTime() / 1000);
             global++;
             if (e.date <= today) {

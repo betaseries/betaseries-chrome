@@ -80,6 +80,15 @@ Fx =
 		return res
 
 	##
+	displayNote: (note) ->
+		n = Math.round(note * 10) / 10
+		color = 'green'
+		color = 'orange' if n < 4
+		color = 'red' if n < 2 
+		res = '<span class="note ' + color + '">' + n + '</span>'
+		return res
+
+	##
 	splitNumber: (number) ->
 		season = ''
 		season += number[1] if number[1] isnt '0'

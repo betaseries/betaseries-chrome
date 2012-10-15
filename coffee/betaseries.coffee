@@ -429,7 +429,6 @@ BS =
 		root: 'member'
 		login: login
 		update: (data) ->
-			console.log data
 			member = DB.get 'member.' + @login + '.infos', {}
 			member.login = data.login
 			member.is_in_account = data.is_in_account
@@ -456,7 +455,6 @@ BS =
 			output += '<div class="episode lun"><img src="../img/script.png" class="icon"> ' + __('nbr_episodes', [data.stats.episodes]) + ' </div>'
 			output += '<div class="episode lun"><img src="../img/location.png" class="icon">' + data.stats.progress + ' <small>(' + __('progress') + ')</small></div>'
 			
-			console.log data
 			if data.is_in_account?
 				output += '<div class="title2">' + __('actions') + '</div>'
 				if data.is_in_account
@@ -541,6 +539,7 @@ BS =
 					show: e.show
 					url: e.url
 					subs: e.subs
+					note: e.note.mean
 				DB.set 'show.' + e.url + '.episodes', showEpisodes
 				
 				# cache des épisodes déjà vus
@@ -582,6 +581,7 @@ BS =
 				global = j.start
 				while (global of showEpisodes and global - j.start < nbr_episodes_per_serie)
 					e = showEpisodes[global]
+					console.log e
 					today = Math.floor new Date().getTime() / 1000
 					global++
 					output += Content.episode(e, s) if e.date <= today
