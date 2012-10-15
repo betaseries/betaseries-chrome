@@ -609,7 +609,6 @@ BS = {
           global = j.start;
           while (global in showEpisodes && global - j.start < nbr_episodes_per_serie) {
             e = showEpisodes[global];
-            console.log(e);
             today = Math.floor(new Date().getTime() / 1000);
             global++;
             if (e.date <= today) {

@@ -581,7 +581,6 @@ BS =
 				global = j.start
 				while (global of showEpisodes and global - j.start < nbr_episodes_per_serie)
 					e = showEpisodes[global]
-					console.log e
 					today = Math.floor new Date().getTime() / 1000
 					global++
 					output += Content.episode(e, s) if e.date <= today
