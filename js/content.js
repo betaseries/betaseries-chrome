@@ -36,12 +36,14 @@ Content = {
     return output;
   },
   episode: function(e, s) {
-    var date_0, dlSrtLanguage, empty, hidden, imgDownloaded, jours, lang, nbSubs, newShow, output, quality, stitle, sub, subs, texte2, texte3, time, title, url;
+    var dlSrtLanguage, empty, hidden, imgDownloaded, lang, nbSubs, newShow, output, quality, stitle, sub, subs, texte2, texte3, time, title, url;
     output = '';
     time = Math.floor(new Date().getTime() / 1000);
-    jours = Math.floor(time / (24 * 3600));
-    date_0 = (24 * 3600) * jours - 2 * 3600;
-    newShow = e.date >= date_0 ? ' new' : '';
+    if (time - e.date < 0) {
+      return '';
+    } else {
+      newShow = time - e.date < 24 * 3600 ? ' new' : '';
+    }
     hidden = s.hidden ? ' hidden' : '';
     output += '<div class="episode e' + e.global + newShow + hidden + '" number="' + e.number + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '">';
     title = DB.get('options').display_global ? '#' + e.global + ' ' + e.title : e.title;

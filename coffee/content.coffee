@@ -72,10 +72,11 @@ Content =
 		output = ''
 		
 		# Nouvel épisode
-		time = Math.floor new Date().getTime() / 1000
-		jours = Math.floor time / (24 * 3600)
-		date_0 = (24*3600)* jours - 2*3600
-		newShow = if e.date >= date_0 then ' new' else ''
+		time = Math.floor (new Date().getTime() / 1000)
+		if (time - e.date < 0) 
+			return ''
+		else
+			newShow = if (time - e.date < 24 * 3600) then ' new' else ''
 		hidden = if s.hidden then ' hidden' else ''
 		
 		output += '<div class="episode e' + e.global + newShow + hidden + '" number="' + e.number + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '">'
