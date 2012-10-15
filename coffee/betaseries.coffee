@@ -514,6 +514,11 @@ BS =
 			memberEpisodes = {}
 				
 			for d, e of data
+				
+				# si l'épisode n'est pas encore diffusé, ne pas le prendre
+				time = Math.floor (new Date().getTime() / 1000)
+				continue if (time - e.date < 24 * 3600) 
+				
 				# cache des infos de la *série*
 				if e.url of shows
 					# cas où on enlève une série des archives depuis le site
@@ -568,7 +573,7 @@ BS =
 			for i, j of data
 				# récupération des infos sur la *série*
 				s = shows[i]
-				
+
 				# SHOW
 				output += '<div id="' + i + '" class="show">'
 				

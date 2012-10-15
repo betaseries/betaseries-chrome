@@ -541,11 +541,15 @@ BS = {
       root: 'episodes',
       login: DB.get('session').login,
       update: function(data) {
-        var d, e, memberEpisodes, showEpisodes, shows, today;
+        var d, e, memberEpisodes, showEpisodes, shows, time, today;
         shows = DB.get('member.' + this.login + '.shows', {});
         memberEpisodes = {};
         for (d in data) {
           e = data[d];
+          time = Math.floor(new Date().getTime() / 1000);
+          if (time - e.date < 24 * 3600) {
+            continue;
+          }
           if (e.url in shows) {
             shows[e.url].archive = false;
           } else {
