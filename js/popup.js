@@ -611,7 +611,7 @@ $(document).ready(function() {
           day = date('D').toLowerCase();
           hour = date('H:i');
           login = DB.get('session').login;
-          num = $('.event').size() + 1;
+          num = data.comment.id;
           showtitle = time === $('.showtitle').last().text() ? '' : '<div class="showtitle">' + time + '</div>';
           output = '<div class="newComment" style="display:none;">';
           output += showtitle;

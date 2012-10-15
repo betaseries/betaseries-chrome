@@ -585,7 +585,7 @@ $(document).ready ->
 						day = date('D').toLowerCase()
 						hour = date('H:i')
 						login = DB.get('session').login
-						num = $('.event').size() + 1 ## TODO @see ticket #90
+						num = data.comment.id
 						showtitle = if time is $('.showtitle').last().text() then '' else '<div class="showtitle">' + time + '</div>' 
 						
 						output = '<div class="newComment" style="display:none;">'
