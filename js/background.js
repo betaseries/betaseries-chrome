@@ -82,10 +82,8 @@ Badge = {
     }
   },
   autoUpdate: function() {
-    if (connected()) {
-      this.update();
-      return setTimeout(this.update, 1000 * 3600);
-    }
+    this.update();
+    return setTimeout(this.update, 1000 * 3600);
   }
 };
 

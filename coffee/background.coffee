@@ -68,9 +68,8 @@ Badge =
 	## Lance la mise à jour automatique du badge
 	 # Mise à jour toutes les heures
 	autoUpdate: ->
-		if connected()
-			@update()
-			setTimeout @update, 1000 * 3600
+		@update()
+		setTimeout @update, 1000 * 3600
 
 ## Retourne vrai si l'utilisateur est connecté, faux sinon
 connected = -> DB.get('session', null)?
