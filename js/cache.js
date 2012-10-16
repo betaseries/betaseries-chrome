@@ -24,17 +24,18 @@ Cache = {
     return count;
   },
   remove: function() {
-    var i, j, list, _results;
-    list = ['options', 'version', 'session', 'badge', 'historic'];
-    _results = [];
+    var i, j, todelete, _i, _len;
+    todelete = [];
     for (i in localStorage) {
       j = localStorage[i];
-      if (__indexOf.call(list, i) < 0) {
-        _results.push(DB.remove(i));
-      } else {
-        _results.push(void 0);
+      if (i.indexOf('badge') !== 0 && i.indexOf('historic') !== 0 && i.indexOf('member' + DB.get('session').login + '.notifs') !== 0 && i.indexOf('options') !== 0 && i.indexOf('session') !== 0 && i.indexOf('version') !== 0) {
+        todelete.push(i);
       }
     }
-    return _results;
+    for (_i = 0, _len = todelete.length; _i < _len; _i++) {
+      i = todelete[_i];
+      DB.remove(i);
+    }
+    return true;
   }
 };

@@ -30,7 +30,7 @@ BS = {
     if (o.update != null) {
       $('#sync').show();
       time = (new Date().getDate()) + '.' + (new Date().getFullYear());
-      views = DB.get('views');
+      views = DB.get('views', {});
       outdated = views[o.id] != null ? views[o.id].time !== time : true;
       force = views[o.id] != null ? views[o.id].force : true;
       if (outdated || force) {
@@ -49,7 +49,7 @@ BS = {
         var cache, time, views;
         cache = data.root[o.root];
         time = (new Date().getDate()) + '.' + (new Date().getFullYear());
-        views = DB.get('views');
+        views = DB.get('views', {});
         views[o.id] = {
           time: time,
           force: false

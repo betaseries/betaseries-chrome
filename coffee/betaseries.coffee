@@ -35,7 +35,7 @@ BS =
 			# heure actuelle à la seconde près
 			time = (new Date().getDate()) + '.' + (new Date().getFullYear())
 			
-			views = DB.get 'views'
+			views = DB.get 'views', {}
 			outdated = if views[o.id]? then views[o.id].time isnt time else true
 			force = if views[o.id]? then views[o.id].force else true
 			
@@ -62,7 +62,7 @@ BS =
 					
 					# infos de la vue
 					time = (new Date().getDate()) + '.' + (new Date().getFullYear())
-					views = DB.get 'views'
+					views = DB.get 'views', {}
 					views[o.id] = 
 						time: time
 						force: false
