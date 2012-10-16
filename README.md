@@ -29,13 +29,12 @@
 
 ## Dernière version
 
-### Version 0.8.2
+### Version 0.9.1
 
-* Mise à jour du code de l'extension en conformité avec les nouvelles règles de la version 2 du manifest
-* Ajout de la date dans le hover des épisodes (vues des épisodes non vus)
-* Le titre de la série est tronqué s'il est trop long (vue des épisodes non vus)
-* La mise à jour de l'extension ne force plus la déconnexion
-* Retrait de la possibilité de supprimer le cache utilisé par l'extension
+* Ajout de la note moyenne à côté de l'épisode dans la vue des épisodes non vus avec un code couleur
+* Les nouveaux épisodes apparaissent dans les épisodes non vus le lendemain de leur diffusion
+* Nouveau système de mise à jour du badge (qui ne redirige plus vers la vue des notifications)
+* Suppression du cache accumulé depuis une semaine si une connexion a été détectée
 
 ## Liens
 
