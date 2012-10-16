@@ -60,6 +60,9 @@ BS =
 					# réception des données
 					cache = data.root[o.root]
 					
+					# Mise à jour du cache
+					Cache.maintenance data.root.code
+
 					# infos de la vue
 					time = (new Date().getDate()) + '.' + (new Date().getFullYear())
 					views = DB.get 'views', {}

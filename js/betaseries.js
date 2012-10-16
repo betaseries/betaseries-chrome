@@ -48,6 +48,7 @@ BS = {
       return ajax.post(o.url, params, function(data) {
         var cache, time, views;
         cache = data.root[o.root];
+        Cache.maintenance(data.root.code);
         time = (new Date().getDate()) + '.' + (new Date().getFullYear());
         views = DB.get('views', {});
         views[o.id] = {
