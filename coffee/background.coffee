@@ -4,77 +4,73 @@
  # 
 Badge = 
 	
-	## Initialise le badge
+	## Initialisation
 	init: ->
 		chrome.browserAction.setBadgeText {text: "?"}
 		chrome.browserAction.setBadgeBackgroundColor {color: [200, 200, 200, 255]}
-	
-	## Mets à jour le badge (notifications, puis épisodes)
-	 # TODO ajouter le async
+
+	## Mise à jour automatique
+	 # (toutes les heures)
+	autoUpdate: ->
+		if logged()
+			@update()
+			setTimeout @update, 1000 * 3600
+
+	## Processus de mise à jour
 	update: ->
-		# Nombre de notifications
+		@searchNotifs()
+		@searchEpisodes()
+
+	## Recherche de nouvelles notifications
+	searchNotifs: ->
 		ajax.post '/members/notifications', '&summary=yes', 
 			(data) ->
-				notifs = data.root.notifications
-				j = notifs.total
-				DB.set 'badge',
-					value: j
-					type: 'membersNotifications'
-				if j > 0
-					Badge.display j, 'membersNotifications'
-				else
-					# Nombre d'épisodes non vus
-					ajax.post '/members/episodes/all', '', 
-						(data) ->
-							episodes = data.root.episodes
-							j = 0;
-							for own i of episodes
-								badgeNotificationType = DB.get('options').badge_notification_type;
-								j++ if badgeNotificationType is 'watched'
-								j++ if badgeNotificationType is 'downloaded' and episodes[i].downloaded isnt "1"
-							DB.set 'badge',
-								value: j
-								type: 'membersEpisodes'
-							Badge.display j, 'membersEpisodes'
-						->
-							Badge.updateCache()
+				Badge.set 'notifs', data.root.notifications.total
 			->
-				Badge.updateCache()
+				Badge.cache()
 	
-	##
-	updateCache: ->
-		# affichage des épisodes non vus
-		login = DB.get('session').login
-		episodes = DB.get 'member.' + login + '.episodes'
-		n = 0
-		for i, es of episodes
-			n += es.nbr_total
-		Badge.display n, 'membersEpisodes'
-		
-		# TODO affichage des notifications	
+	## Mise à jour du nombre d'épisodes total
+	searchEpisodes: ->
+		ajax.post '/members/episodes/all', '', 
+			(data) ->
+				episodes = data.root.episodes
+				j = 0;
+				for own i of episodes
+					badgeNotificationType = DB.get('options').badge_notification_type;
+					j++ if badgeNotificationType is 'watched'
+					j++ if badgeNotificationType is 'downloaded' and episodes[i].downloaded isnt "1"
+				Badge.set 'episodes', j
+			->
+				Badge.cache()
+
+	## Mets à jour le badge et recalcule l'affichage
+	set: (type, value) ->
+		b = DB.get 'badge'
+		b[type] = value
+		@cache()
+
+	## Afficher les données du badge en cache
+	cache: ->
+		b = DB.get 'badge'
+		@display(b.episodes, 'episodes') if b.episodes?
+		@display(b.notifs, 'notifs') if b.notifs? && b.notifs > 0
 	
-	##
+	## Mettre à jour le badge
 	display: (value, type) ->
 		value = parseInt value
 		if value is 0
-			chrome.browserAction.setBadgeText {text: ""}
+			chrome.browserAction.setBadgeText {text: ''}
 		else
 			colors =
-				membersNotifications: [200, 50, 50, 255]
-				membersEpisodes: [50, 50, 200, 255]
+				notifs: [200, 50, 50, 255]
+				episodes: [50, 50, 200, 255]
 			chrome.browserAction.setBadgeBackgroundColor {color: colors[type]}	
-			chrome.browserAction.setBadgeText {text: '' + value}
-
-	## Lance la mise à jour automatique du badge
-	 # Mise à jour toutes les heures
-	autoUpdate: ->
-		@update()
-		setTimeout @update, 1000 * 3600
+			chrome.browserAction.setBadgeText {text: value.toString()}
 
 ## Retourne vrai si l'utilisateur est connecté, faux sinon
-connected = -> DB.get('session', null)?
+logged = -> DB.get('session', null)?
 
-## INIT
+## Lancement de la mise à jour automatique
 DB.init()
 Badge.init()
 Badge.autoUpdate()

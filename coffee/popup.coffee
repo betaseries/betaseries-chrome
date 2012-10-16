@@ -721,8 +721,7 @@ $(document).ready ->
 	# Récupération du numéro de version
 	Fx.checkVersion()
 	
-	if bgPage.connected()
-		badgeType = DB.get('badge').type
-		BS.load badgeType
+	if bgPage.logged()
+		BS.load 'membersEpisodes'
 	else
 		BS.load 'connection'

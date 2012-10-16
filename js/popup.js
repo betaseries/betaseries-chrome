@@ -2,7 +2,7 @@
 var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 $(document).ready(function() {
-  var badgeType, bgPage, clean, message, registerAction;
+  var bgPage, clean, message, registerAction;
   bgPage = chrome.extension.getBackgroundPage();
   $('*[title], *[smart-title]').live({
     mouseenter: function() {
@@ -733,9 +733,8 @@ $(document).ready(function() {
   DB.init();
   Fx.updateHeight(true);
   Fx.checkVersion();
-  if (bgPage.connected()) {
-    badgeType = DB.get('badge').type;
-    return BS.load(badgeType);
+  if (bgPage.logged()) {
+    return BS.load('membersEpisodes');
   } else {
     return BS.load('connection');
   }

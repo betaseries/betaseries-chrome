@@ -541,9 +541,10 @@ BS = {
       root: 'episodes',
       login: DB.get('session').login,
       update: function(data) {
-        var d, e, memberEpisodes, showEpisodes, shows, time, today;
+        var d, e, j, memberEpisodes, showEpisodes, shows, time, today;
         shows = DB.get('member.' + this.login + '.shows', {});
         memberEpisodes = {};
+        j = 0;
         for (d in data) {
           e = data[d];
           time = Math.floor(new Date().getTime() / 1000);
@@ -587,10 +588,11 @@ BS = {
               nbr_total: 1
             };
           }
+          j++;
         }
         DB.set('member.' + this.login + '.shows', shows);
         DB.set('member.' + this.login + '.episodes', memberEpisodes);
-        return bgPage.Badge.updateCache();
+        return bgPage.Badge.set('episodes', j);
       },
       content: function() {
         var data, e, global, i, j, nbr_episodes_per_serie, output, s, showEpisodes, shows, today;
@@ -667,7 +669,7 @@ BS = {
           output += '</div>';
           nbrNotifications++;
         }
-        bgPage.Badge.update();
+        bgPage.Badge.set('notifs', 0);
         if (nbrNotifications === 0) {
           output += __('no_notifications');
         }

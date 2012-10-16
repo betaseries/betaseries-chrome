@@ -512,7 +512,8 @@ BS =
 		update: (data) ->
 			shows = DB.get 'member.' + @login + '.shows', {}
 			memberEpisodes = {}
-				
+			
+			j = 0	
 			for d, e of data
 				
 				# si l'épisode n'est pas encore diffusé, ne pas le prendre
@@ -555,10 +556,12 @@ BS =
 					memberEpisodes[e.url] = 
 						start: e.global
 						nbr_total: 1
+
+				j++
 			
 			DB.set 'member.' + @login + '.shows', shows
 			DB.set 'member.' + @login + '.episodes', memberEpisodes
-			bgPage.Badge.updateCache()
+			bgPage.Badge.set 'episodes', j
 		content: ->
 			# récupération des épisodes non vus (cache)
 			data = DB.get 'member.' + @login + '.episodes', null
@@ -633,7 +636,7 @@ BS =
 				output += '</div>'
 				nbrNotifications++	
 			
-			bgPage.Badge.update()
+			bgPage.Badge.set 'notifs', 0
 			output += __('no_notifications') if nbrNotifications is 0
 			return output
 	
