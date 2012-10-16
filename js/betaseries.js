@@ -545,10 +545,10 @@ BS = {
         var d, e, j, memberEpisodes, showEpisodes, shows, time, today;
         shows = DB.get('member.' + this.login + '.shows', {});
         memberEpisodes = {};
+        time = Math.floor(new Date().getTime() / 1000);
         j = 0;
         for (d in data) {
           e = data[d];
-          time = Math.floor(new Date().getTime() / 1000);
           if (time - e.date < 24 * 3600) {
             continue;
           }

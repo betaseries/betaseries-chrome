@@ -31,14 +31,21 @@ Badge =
 	
 	## Mise à jour du nombre d'épisodes total
 	searchEpisodes: ->
+		console.log 'hete'
 		ajax.post '/members/episodes/all', '', 
 			(data) ->
 				episodes = data.root.episodes
+				time = Math.floor (new Date().getTime() / 1000)
 				j = 0;
 				for own i of episodes
+
+					# si l'épisode n'est pas encore diffusé, ne pas le prendre
+					continue if (time - episodes[i].date < 24 * 3600) 
+
 					badgeNotificationType = DB.get('options').badge_notification_type;
 					j++ if badgeNotificationType is 'watched'
 					j++ if badgeNotificationType is 'downloaded' and episodes[i].downloaded isnt "1"
+
 				Badge.set 'episodes', j
 			->
 				Badge.cache()
@@ -47,6 +54,7 @@ Badge =
 	set: (type, value) ->
 		b = DB.get 'badge'
 		b[type] = value
+		DB.set 'badge', b
 		@cache()
 
 	## Afficher les données du badge en cache

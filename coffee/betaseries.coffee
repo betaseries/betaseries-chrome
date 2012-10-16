@@ -515,12 +515,12 @@ BS =
 		update: (data) ->
 			shows = DB.get 'member.' + @login + '.shows', {}
 			memberEpisodes = {}
+			time = Math.floor (new Date().getTime() / 1000)
 			
 			j = 0	
 			for d, e of data
 				
 				# si l'épisode n'est pas encore diffusé, ne pas le prendre
-				time = Math.floor (new Date().getTime() / 1000)
 				continue if (time - e.date < 24 * 3600) 
 				
 				# cache des infos de la *série*

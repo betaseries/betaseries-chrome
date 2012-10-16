@@ -29,12 +29,17 @@ Badge = {
     });
   },
   searchEpisodes: function() {
+    console.log('hete');
     return ajax.post('/members/episodes/all', '', function(data) {
-      var badgeNotificationType, episodes, i, j;
+      var badgeNotificationType, episodes, i, j, time;
       episodes = data.root.episodes;
+      time = Math.floor(new Date().getTime() / 1000);
       j = 0;
       for (i in episodes) {
         if (!__hasProp.call(episodes, i)) continue;
+        if (time - episodes[i].date < 24 * 3600) {
+          continue;
+        }
         badgeNotificationType = DB.get('options').badge_notification_type;
         if (badgeNotificationType === 'watched') {
           j++;
@@ -52,6 +57,7 @@ Badge = {
     var b;
     b = DB.get('badge');
     b[type] = value;
+    DB.set('badge', b);
     return this.cache();
   },
   cache: function() {
