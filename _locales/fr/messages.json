@@ -279,6 +279,9 @@
 	"no_shows_found": {
 		"message": "Aucune série correspondante"
 	},
+	"notifs": {
+		"message": "Voir les notifications"
+	},
 	"november": {
 		"message": "Nov"
 	},

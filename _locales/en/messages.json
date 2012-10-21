@@ -279,6 +279,9 @@
 	"no_shows_found": {
 		"message": "No matching tvshows"
 	},
+	"notifs": {
+		"message": "See notifications"
+	},
 	"november": {
 		"message": "Nov"
 	},
