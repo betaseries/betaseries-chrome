@@ -29,12 +29,11 @@
 
 ## Dernière version
 
-### Version 0.9.1
+### Version 0.9.3
 
-* Ajout de la note moyenne à côté de l'épisode dans la vue des épisodes non vus avec un code couleur
-* Les nouveaux épisodes apparaissent dans les épisodes non vus le lendemain de leur diffusion
-* Nouveau système de mise à jour du badge (qui ne redirige plus vers la vue des notifications)
-* Suppression du cache accumulé depuis une semaine si une connexion a été détectée
+* Nouveau système de notifications (ajout d'une icône dédiée en haut à droite dans la pop-up)
+* Suppression du cache tous les jours au lieu de toutes les semaines
+* Nouvelle icône pour le menu
 
 ## Liens
 
