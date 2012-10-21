@@ -948,7 +948,7 @@ BS = {
         output += '<img src="../img/infos.png" style="margin-right: 9px;" />';
         output += __('menu_membersInfos') + '</a>';
         output += '<a href="" id="menu-membersNotifications">';
-        output += '<img src="../img/notifications.png" />';
+        output += '<img src="../img/notifications2.png" />';
         output += __('menu_membersNotifications') + '</a>';
         output += '<a href="" id="menu-searchShow">';
         output += '<img src="../img/search.png" />';
