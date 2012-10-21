@@ -27,7 +27,7 @@ Cache = {
     var cache, time;
     time = Math.floor(new Date().getTime() / 1000);
     cache = DB.get('cache', time);
-    if (time - cache > 7 * 24 * 3600) {
+    if (time - cache > 1 * 24 * 3600) {
       this.remove();
       return message('<img src="../img/inaccurate.png" /> Le cache de l\'extension a été vidé.');
     }
