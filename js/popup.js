@@ -713,6 +713,10 @@ $(document).ready(function() {
   $('#sync').click(function() {
     return BS.refresh();
   }).attr('title', __('sync'));
+  $('#notifications').click(function() {
+    BS.load('membersNotifications');
+    return false;
+  }).attr('title', __('notifs'));
   $('#menu').click(function() {
     if (BS.currentView.id === 'menu') {
       return Historic.refresh();
@@ -720,13 +724,6 @@ $(document).ready(function() {
       return BS.load('menu');
     }
   }).attr('title', __('menu'));
-  $('#close').click(function() {
-    return window.close();
-  }).attr('title', __('close'));
-  $('#trash').click(function() {
-    Cache.remove();
-    return $(this).hide();
-  });
   message = function(content) {
     return $('#message').html(content);
   };

@@ -64,12 +64,16 @@ BS = {
     }
   },
   display: function() {
-    var o;
+    var nbr, o;
     o = this.currentView;
     Historic.save();
     document.getElementById('page').innerHTML = '';
     if (o.content) {
       $('#page').html(o.content());
+    }
+    nbr = Fx.checkNotifications();
+    if (nbr > 0) {
+      $('.notif').html(nbr).show();
     }
     $('#title').text(__('title_' + o.name));
     $('#page').removeClass().addClass(o.name);
@@ -644,11 +648,14 @@ BS = {
       url: '/members/notifications',
       root: 'notifications',
       login: DB.get('session').login,
-      update: function(tab1) {
-        var notifications, tab2;
-        tab2 = DB.get('member.' + this.login + '.notifs', {});
-        notifications = Fx.concat(tab1, tab2);
-        return DB.set('member.' + this.login + '.notifs', notifications);
+      update: function(data) {
+        var n, new_notifs, old_notifs;
+        old_notifs = DB.get('member.' + this.login + '.notifs', []);
+        new_notifs = Fx.formatNotifications(data);
+        n = Fx.concatNotifications(old_notifs, new_notifs);
+        n = Fx.sortNotifications(n);
+        DB.set('member.' + this.login + '.notifs', n);
+        return bgPage.Badge.set('notifs', 0);
       },
       content: function() {
         var data, n, nbrNotifications, new_date, output, time;
@@ -666,11 +673,16 @@ BS = {
             output += '<div class="showtitle">' + time + '</div>';
           }
           output += '<div class="event ' + date('D', data[n].date).toLowerCase() + '">';
+          if (!data[n].seen) {
+            output += '<span class="new">' + __('new') + '</span> ';
+          }
           output += data[n].html;
           output += '</div>';
+          data[n].seen = true;
           nbrNotifications++;
         }
-        bgPage.Badge.set('notifs', 0);
+        DB.set('member.' + this.login + '.notifs', data);
+        $('.notif').html(nbr).show();
         if (nbrNotifications === 0) {
           output += __('no_notifications');
         }

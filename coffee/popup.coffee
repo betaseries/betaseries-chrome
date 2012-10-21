@@ -691,6 +691,11 @@ $(document).ready ->
 	$('#sync')
 		.click(-> BS.refresh())
 		.attr 'title', __('sync')
+
+	$('#notifications').click ->
+			BS.load 'membersNotifications'
+			return false
+		.attr 'title', __('notifs')
 	
 	$('#menu')
 		.click ->
@@ -699,15 +704,6 @@ $(document).ready ->
 			else
 				BS.load('menu');
 		.attr 'title', __('menu')
-		
-	$('#close')
-		.click(-> window.close())
-		.attr 'title', __('close')
-	
-	$('#trash')
-		.click ->
-			Cache.remove()
-			$(this).hide()
 		
 	## Afficher le message de confirmation
 	message = (content) -> $('#message').html content

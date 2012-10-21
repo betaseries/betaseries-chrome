@@ -116,3 +116,24 @@ div.clear {clear: both;}
 .menu a, .menu a:visited {display: block; text-decoration: none; color: #333; text-transform: uppercase;}
 .menu a:hover {background-color: #f5f5f5;}
 .menu img {margin: 5px 5px -3px 5px;}
+
+/* MENU actions*/
+#actions .action {position: relative; display: inline-block;}
+#actions .action:hover {cursor: pointer;}
+#actions .action img {margin-bottom: -11px;}
+#actions .action .notif {
+	position: absolute;
+	top: 0;
+	right: -2px;
+	font-size: 8px;
+	color: #fff;
+	background-color: #F03D25;
+	border: 1px solid #D83722;
+	border-bottom: 1px solid #C0311E;
+	border-top: 1px solid #E23923;
+	border-radius: 2px;
+	box-shadow: 0 1px 0 #999;
+	padding: 0 1px;
+	display: none;
+}
+

@@ -22,14 +22,21 @@ Badge = {
     return this.searchEpisodes();
   },
   searchNotifs: function() {
-    return ajax.post('/members/notifications', '&summary=yes', function(data) {
-      return Badge.set('notifs', data.root.notifications.total);
+    return ajax.post('/members/notifications', '', function(data) {
+      var login, n, nbr, new_notifs, old_notifs;
+      login = DB.get('session').login;
+      old_notifs = DB.get('member.' + login + '.notifs', []);
+      new_notifs = Fx.formatNotifications(data.root.notifications);
+      n = Fx.concatNotifications(old_notifs, new_notifs);
+      n = Fx.sortNotifications(n);
+      DB.set('member.' + login + '.notifs', n);
+      nbr = Fx.checkNotifications();
+      return Badge.set('notifs', nbr);
     }, function() {
       return Badge.cache();
     });
   },
   searchEpisodes: function() {
-    console.log('hete');
     return ajax.post('/members/episodes/all', '', function(data) {
       var badgeNotificationType, episodes, i, j, time;
       episodes = data.root.episodes;

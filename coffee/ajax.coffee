@@ -15,7 +15,7 @@ ajax =
 		member = DB.get 'session', {}
 		token = if member.token is null then '' else "&token=" + member.token
 		useragent = "chromeseries-" + Fx.getVersion()
-		$('#sync').attr 'src', '../img/sync.gif'
+		$('#sync img').attr 'src', '../img/sync.gif'
 		$.ajax
 			type: "POST"
 			url: @url_api + category + ".json"
@@ -23,8 +23,8 @@ ajax =
 			dataType: "json"
 			success: (data) ->
 				#console.log data
-				$('#sync').attr 'src', '../img/sync.png'
+				$('#sync img').attr 'src', '../img/sync.png'
 				successCallback data if successCallback?
 			error: ->
-				$('#sync').attr 'src', '../img/sync.png'
+				$('#sync img').attr 'src', '../img/sync.png'
 				errorCallback() if errorCallback?

@@ -23,15 +23,21 @@ Badge =
 
 	## Recherche de nouvelles notifications
 	searchNotifs: ->
-		ajax.post '/members/notifications', '&summary=yes', 
+		ajax.post '/members/notifications', '', 
 			(data) ->
-				Badge.set 'notifs', data.root.notifications.total
+				login = DB.get('session').login
+				old_notifs = DB.get 'member.' + login + '.notifs', []
+				new_notifs = Fx.formatNotifications data.root.notifications
+				n = Fx.concatNotifications old_notifs, new_notifs
+				n = Fx.sortNotifications n
+				DB.set 'member.' + login + '.notifs', n
+				nbr = Fx.checkNotifications()
+				Badge.set 'notifs', nbr
 			->
 				Badge.cache()
 	
 	## Mise à jour du nombre d'épisodes total
 	searchEpisodes: ->
-		console.log 'hete'
 		ajax.post '/members/episodes/all', '', 
 			(data) ->
 				episodes = data.root.episodes

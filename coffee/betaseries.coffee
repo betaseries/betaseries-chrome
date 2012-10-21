@@ -94,14 +94,9 @@ BS =
 		document.getElementById('page').innerHTML = ''
 		$('#page').html o.content() if o.content
 
-		# affichage du cache
-		#size = Cache.getSize()
-		#if size > 0
-		#	$('#trash')
-		#		.attr('title', __('trash', Fx.getCacheFormat(size)))
-		#		.show()
-		#else 
-		#	$('#trash').hide()
+		# mise à jour des notifications
+		nbr = Fx.checkNotifications()
+		$('.notif').html(nbr).show() if nbr > 0
 		
 		# Post affichage
 		#if o.after?
@@ -617,10 +612,13 @@ BS =
 		url: '/members/notifications'
 		root: 'notifications'
 		login: DB.get('session').login
-		update: (tab1) ->
-			tab2 = DB.get 'member.' + @login + '.notifs', {}
-			notifications = Fx.concat tab1, tab2
-			DB.set 'member.' + @login + '.notifs', notifications
+		update: (data) ->
+			old_notifs = DB.get 'member.' + @login + '.notifs', []
+			new_notifs = Fx.formatNotifications data
+			n = Fx.concatNotifications old_notifs, new_notifs
+			n = Fx.sortNotifications n
+			DB.set 'member.' + @login + '.notifs', n
+			bgPage.Badge.set 'notifs', 0
 		content: ->
 			output = ''
 			nbrNotifications = 0
@@ -635,11 +633,16 @@ BS =
 					time = new_date
 					output += '<div class="showtitle">' + time + '</div>'
 				output += '<div class="event ' + date('D', data[n].date).toLowerCase() + '">'
+				output += '<span class="new">' + __('new') + '</span> ' if !data[n].seen
 				output += data[n].html
 				output += '</div>'
+				data[n].seen = true
 				nbrNotifications++	
+
+			# on marque les notifications comme lus
+			DB.set 'member.' + @login + '.notifs', data
+			$('.notif').html(nbr).show()
 			
-			bgPage.Badge.set 'notifs', 0
 			output += __('no_notifications') if nbrNotifications is 0
 			return output
 	

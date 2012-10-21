@@ -18,21 +18,49 @@ Fx = {
     });
     return false;
   },
-  concat: function() {
-    var i, j, k, l, n, ret;
-    ret = {};
-    n = 0;
-    for (i in arguments) {
-      j = arguments[i];
-      for (k in j) {
-        l = j[k];
-        if (n < 20) {
-          ret[n] = l;
-          n++;
-        }
+  concatNotifications: function(old_notifs, new_notifs) {
+    var res;
+    res = old_notifs.concat(new_notifs);
+    res = res.slice(0, 20);
+    return res;
+  },
+  formatNotifications: function(notifs) {
+    var i, j, res;
+    res = [];
+    for (i in notifs) {
+      j = notifs[i];
+      if (j.type === 'episode') {
+        j.date += 34 * 3600;
+      }
+      j.seen = false;
+      res.push(j);
+    }
+    return res;
+  },
+  sortNotifications: function(notifs) {
+    return notifs.sort(function(a, b) {
+      if (a.date < b.date) {
+        return -1;
+      }
+      if (a.date > b.date) {
+        return 1;
+      }
+      return 0;
+    });
+  },
+  checkNotifications: function() {
+    var i, login, nbr, notifs, time, _i, _len;
+    login = DB.get('session').login;
+    notifs = DB.get('member.' + login + '.notifs', []);
+    time = Math.floor(new Date().getTime() / 1000);
+    nbr = 0;
+    for (_i = 0, _len = notifs.length; _i < _len; _i++) {
+      i = notifs[_i];
+      if (time > i.date && !i.seen) {
+        nbr++;
       }
     }
-    return ret;
+    return nbr;
   },
   subFirst: function(str, nbr) {
     var strLength, strSub;
@@ -157,14 +185,18 @@ Fx = {
     return __('no_data_found');
   },
   checkVersion: function() {
-    var currVersion, newVersion, version;
+    var currVersion, newVersion, session, version;
     version = DB.get('version', 0);
     currVersion = Fx.getVersion();
     newVersion = version !== currVersion;
     $('#versionLink').text(Fx.getVersion());
     if (newVersion) {
       DB.set('version', currVersion);
-      return $('#message').html(__('new_version')).show();
+      $('#message').html(__('new_version')).show();
+      session = DB.get('session', null);
+      if (session) {
+        return DB.remove('member.' + session.login + '.notifs');
+      }
     }
   }
 };

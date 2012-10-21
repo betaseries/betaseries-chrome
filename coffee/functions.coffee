@@ -11,16 +11,44 @@ Fx =
 		chrome.tabs.create {"url": url, "active": active}
 		return false
 	
-	## Concaténer plusieurs objets (notifications page)
-	concat: ->
-		ret = {}
-		n = 0
-		for i, j of arguments
-			for k, l of j
-				if n < 20
-					ret[n] = l
-					n++
-		return ret;
+	## Concaténe les nouvelles notifications avec les anciennes
+	# et ne garde que les 20 premières
+	concatNotifications: (old_notifs, new_notifs) ->
+		res = old_notifs.concat new_notifs
+		res = res.slice 0, 20
+		return res
+
+	## Opération suppl. quand on récupère les notifications
+	# - Si type == episode, décalage de 24h
+	# - Ajout de seen = false
+	formatNotifications: (notifs) ->
+		res = []
+		for i, j of notifs
+			if j.type is 'episode'
+				j.date += 34*3600
+			j.seen = false
+			res.push j
+		return res
+
+	## Trie les notifications par date décroissante
+	sortNotifications: (notifs) ->
+		notifs.sort (a, b) ->
+			if a.date < b.date
+				return -1
+			if a.date > b.date
+				return 1
+			return 0
+
+	## Retourne le nbre de notifications non vues
+	checkNotifications: ->
+		login = DB.get('session').login
+		notifs = DB.get 'member.' + login + '.notifs', []
+		time = Math.floor (new Date().getTime() / 1000)
+		nbr = 0
+		for i in notifs
+			if time > i.date && !i.seen
+				nbr++
+		return nbr
 	
 	##
 	subFirst: (str, nbr) ->
@@ -130,4 +158,8 @@ Fx =
 		if (newVersion) 
 			DB.set 'version', currVersion
 			$('#message').html(__('new_version')).show()
+			# ONLY FOR 0.9.3
+			session = DB.get 'session', null
+			if session
+				DB.remove('member.' + session.login + '.notifs')
 		
