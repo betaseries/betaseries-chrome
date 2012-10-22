@@ -29,11 +29,10 @@
 
 ## Dernière version
 
-### Version 0.9.3
+### Version 0.9.4
 
-* Nouveau système de notifications (ajout d'une icône dédiée en haut à droite dans la pop-up)
-* Suppression du cache tous les jours au lieu de toutes les semaines
-* Nouvelle icône pour le menu
+* Ajout d'une nouvelle option : voir/cacher la note moyenne des épisodes
+* Correction d'un bug qui empêchait de récupérer les notifications
 
 ## Liens
 
