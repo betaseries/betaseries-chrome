@@ -641,7 +641,7 @@ BS =
 
 			# on marque les notifications comme lus
 			DB.set 'member.' + @login + '.notifs', data
-			$('.notif').html(nbr).show()
+			$('.notif').html(0).hide()
 			
 			output += __('no_notifications') if nbrNotifications is 0
 			return output

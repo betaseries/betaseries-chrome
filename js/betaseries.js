@@ -682,7 +682,7 @@ BS = {
           nbrNotifications++;
         }
         DB.set('member.' + this.login + '.notifs', data);
-        $('.notif').html(nbr).show();
+        $('.notif').html(0).hide();
         if (nbrNotifications === 0) {
           output += __('no_notifications');
         }
