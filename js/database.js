@@ -14,7 +14,8 @@ DB = {
       dl_srt_language: 'VF',
       display_global: false,
       enable_ratings: false,
-      max_height: 200
+      max_height: 200,
+      display_mean_note: true
     };
     this.set('badge', badge, true);
     this.set('historic', [], false);

@@ -18,6 +18,7 @@ DB =
 			display_global: false
 			enable_ratings: false
 			max_height: 200
+			display_mean_note: true
 		
 		@set 'badge', badge, true
 		@set 'historic', [], false

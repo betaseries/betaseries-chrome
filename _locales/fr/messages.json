@@ -53,10 +53,13 @@
 		"message": "Déc"
 	},
 	"display_global": {
-		"message": "Afficher le numéro global d'un épisode : "
+		"message": "Afficher le numéro global des épisodes : "
+	},
+	"display_mean_note": {
+		"message": "Afficher la note moyenne des épisodes : "
 	},
 	"dl_srt_language": {
-		"message": "Langage des sous-titres d'un épisode : "
+		"message": "Langage des sous-titres des épisodes : "
 	},
 	"do_not_rate": {
 		"message": "Ne pas noter"

@@ -18,6 +18,7 @@ $(document).ready ->
 	$('#display_global').text __("display_global")
 	$('#enable_ratings').text __("enable_ratings")
 	$('#max_height').text __("max_height")
+	$('#display_mean_note').text __("display_mean_note")
 	$('#title_author').text __('author')
 	$('#title_contributors').text __('contributors')
 	$('#title_ext_page').text __('extension_page')
@@ -31,6 +32,7 @@ $(document).ready ->
 	$('select[name=display_global]').val DB.get('options').display_global + ""
 	$('select[name=enable_ratings]').val DB.get('options').enable_ratings + ""
 	$('input[name=max_height]').attr 'value', DB.get('options').max_height
+	$('select[name=display_mean_note]').val DB.get('options').display_mean_note + ""
 	$('option[value=watched]').text __('episodes_not_seen')
 	$('option[value=downloaded]').text __('episodes_not_dl')
 	$('option[value=VO]').text __('vo')
@@ -47,6 +49,7 @@ $(document).ready ->
 			display_global: $('select[name=display_global] :selected').val() is 'true'
 			enable_ratings: $('select[name=enable_ratings] :selected').val() is 'true'
 			max_height: parseInt $('input[name=max_height]').attr 'value'
+			display_mean_note: $('select[name=display_mean_note] :selected').val() is 'true'
 		DB.set 'options', options
 		bgPage.Badge.update()
 		$(this).html __('saved')
