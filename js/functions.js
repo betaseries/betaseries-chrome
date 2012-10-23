@@ -195,7 +195,7 @@ Fx = {
       $('#message').html(__('new_version')).show();
       session = DB.get('session', null);
       if (session) {
-        return DB.remove('member.' + session.login + '.notifs');
+        return BS.logout();
       }
     }
   }

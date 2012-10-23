@@ -37,6 +37,14 @@ h1 {
 	font-weight:bold;
 }
 
+#sections {font-family: Courier; margin-left: 10px;}
+
+#sections span {display:block; margin-bottom: 5px;}
+
+#sections span img {margin-bottom: -3px;}
+
+#sections span img:hover {cursor: move}
+
 #save_options {
 	padding:3px 6px;
 	-moz-border-radius:4px;

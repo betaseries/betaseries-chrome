@@ -930,41 +930,18 @@ BS = {
       id: 'menu',
       name: 'menu',
       content: function() {
-        var output;
+        var menu_order, output, style, _i, _len;
         output = '';
-        output += '<a href="" id="menu-timelineFriends">';
-        output += '<img src="../img/timeline.png" />';
-        output += __('menu_timelineFriends') + '</a>';
-        output += '<a href="" id="menu-planningMember">';
-        output += '<img src="../img/planning.png" />';
-        output += __('menu_planningMember') + '</a>';
-        output += '<a href="" id="menu-membersEpisodes">';
-        output += '<img src="../img/episodes.png" />';
-        output += __('menu_membersEpisodes') + '</a>';
-        output += '<a href="" id="menu-membersShows">';
-        output += '<img src="../img/episodes.png" />';
-        output += __('menu_membersShows') + '</a>';
-        output += '<a href="" id="menu-membersInfos">';
-        output += '<img src="../img/infos.png" style="margin-right: 9px;" />';
-        output += __('menu_membersInfos') + '</a>';
-        output += '<a href="" id="menu-membersNotifications">';
-        output += '<img src="../img/notifications2.png" />';
-        output += __('menu_membersNotifications') + '</a>';
-        output += '<a href="" id="menu-searchShow">';
-        output += '<img src="../img/search.png" />';
-        output += __('menu_searchShow') + '</a>';
-        output += '<a href="" id="menu-searchMember">';
-        output += '<img src="../img/search.png" />';
-        output += __('menu_searchMember') + '</a>';
-        output += '<a href="" id="menu-blog">';
-        output += '<img src="../img/blog.png" />';
-        output += __('menu_blog') + '</a>';
-        output += '<a href="" id="menu-options">';
-        output += '<img src="../img/options.png" />';
-        output += __('menu_options') + '</a>';
-        output += '<a href="" id="menu-logout">';
-        output += '<img src="../img/close.png" />';
-        output += __('menu_logout') + '</a>';
+        menu_order = DB.get('options').menu_order;
+        for (_i = 0, _len = menu_order.length; _i < _len; _i++) {
+          menu = menu_order[_i];
+          if (menu.img_style != null) {
+            style = 'style="' + menu.img_style + '" ';
+          }
+          output += '<a href="" id="menu-' + menu.name + '">';
+          output += '<img src="' + menu.img_path + '" ' + style + '/>';
+          output += __('menu_' + menu.name) + '</a>';
+        }
         return output;
       }
     };

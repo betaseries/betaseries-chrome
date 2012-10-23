@@ -158,8 +158,8 @@ Fx =
 		if (newVersion) 
 			DB.set 'version', currVersion
 			$('#message').html(__('new_version')).show()
-			# ONLY FOR 0.9.3
+			# Déconnexion forcée
 			session = DB.get 'session', null
 			if session
-				DB.remove('member.' + session.login + '.notifs')
+				BS.logout()
 		

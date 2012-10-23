@@ -291,6 +291,9 @@
 	"october": {
 		"message": "Oct"
 	},
+	"order_sections": {
+		"message": "Choisir et ranger les sections : "
+	},
 	"password": {
 		"message": "Mot de passe"
 	},
@@ -437,6 +440,9 @@
 	},
 	"title_timelineFriends": {
 		"message": "Mes amis"
+	},
+	"title_view_menu": {
+		"message": "Vue 'menu'"
 	},
 	"this_week": {
 		"message": "Cette semaine"
