@@ -19,6 +19,7 @@ $(document).ready ->
 	$('#enable_ratings').text __("enable_ratings")
 	$('#max_height').text __("max_height")
 	$('#display_mean_note').text __("display_mean_note")
+	$('#display_copy_episode').text __("display_copy_episode")
 	$('#title_view_menu').text __("title_view_menu")
 	$('#order_sections').text __("order_sections")
 	$('#title_author').text __('author')
@@ -35,6 +36,7 @@ $(document).ready ->
 	$('select[name=enable_ratings]').val DB.get('options').enable_ratings + ""
 	$('input[name=max_height]').attr 'value', DB.get('options').max_height
 	$('select[name=display_mean_note]').val DB.get('options').display_mean_note + ""
+	$('select[name=display_copy_episode]').val DB.get('options').display_copy_episode + ""
 	menu_order = DB.get('options').menu_order
 	for menu in menu_order
 		selected = if menu.visible then 'checked="checked" ' else ''
@@ -73,6 +75,7 @@ $(document).ready ->
 			enable_ratings: $('select[name=enable_ratings] :selected').val() is 'true'
 			max_height: parseInt $('input[name=max_height]').attr 'value'
 			display_mean_note: $('select[name=display_mean_note] :selected').val() is 'true'
+			display_copy_episode: $('select[name=display_copy_episode] :selected').val() is 'true'
 			menu_order: menu_order
 		DB.set 'options', options
 		bgPage.Badge.update()

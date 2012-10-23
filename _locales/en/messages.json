@@ -58,6 +58,9 @@
 	"display_mean_note": {
 		"message": "Show the average rating of episodes : "
 	},
+	"display_copy_episode": {
+		"message": "Show icon to copy formatted episodes name : "
+	},
 	"dl_srt_language": {
 		"message": "Language of the episode subtitles : "
 	},
