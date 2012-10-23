@@ -29,10 +29,13 @@
 
 ## Dernière version
 
-### Version 0.9.4
+### Version 0.9.5
 
-* Ajout d'une nouvelle option : voir/cacher la note moyenne des épisodes
-* Correction d'un bug qui empêchait de récupérer les notifications
+* Ajout d'une icône pour copier un nom d'épisode formatté (ticket #26)
+* Nouvelle option : possibilité de voir ou afficher cette nouvelle icone
+* Nouvelle option : possibilité de choisir et ranger les sections du menu
+* Les messages disparaissent au bout d'un certain temps (2min)
+* Déconnexion forcée pour cette mise à jour
 
 ## Liens
 
