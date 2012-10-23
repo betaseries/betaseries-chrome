@@ -20,17 +20,17 @@ DB =
 			max_height: 200
 			display_mean_note: true
 			menu_order: [
-				{name: 'timelineFriends', 		img_path: '../img/timeline.png'											}, 
-				{name: 'planningMember', 		img_path: '../img/planning.png'											}, 
-				{name: 'membersEpisodes', 		img_path: '../img/episodes.png'											}, 
-				{name: 'membersShows', 			img_path: '../img/episodes.png'											}, 
-				{name: 'membersInfos', 			img_path: '../img/infos.png', 			img_style: 'margin-right: 9px;'	}, 
-				{name: 'membersNotifications', 	img_path: '../img/notifications2.png'									}, 
-				{name: 'searchShow', 			img_path: '../img/search.png'											}, 
-				{name: 'searchMember', 			img_path: '../img/search.png'											}, 
-				{name: 'blog', 					img_path: '../img/blog.png'												}, 
-				{name: 'options', 				img_path: '../img/options.png'											}, 
-				{name: 'logout', 				img_path: '../img/close.png'											},
+				{name: 'timelineFriends', 		img_path: '../img/timeline.png',								visible: true}, 
+				{name: 'planningMember', 		img_path: '../img/planning.png',								visible: true}, 
+				{name: 'membersEpisodes', 		img_path: '../img/episodes.png',								visible: true}, 
+				{name: 'membersShows', 			img_path: '../img/episodes.png',								visible: true}, 
+				{name: 'membersInfos', 			img_path: '../img/infos.png', img_style: 'margin-right: 9px;', 	visible: true}, 
+				{name: 'membersNotifications', 	img_path: '../img/notifications2.png',							visible: true}, 
+				{name: 'searchShow', 			img_path: '../img/search.png',									visible: true}, 
+				{name: 'searchMember', 			img_path: '../img/search.png',									visible: true}, 
+				{name: 'blog', 					img_path: '../img/blog.png',									visible: true}, 
+				{name: 'options', 				img_path: '../img/options.png',									visible: true}, 
+				{name: 'logout', 				img_path: '../img/close.png',									visible: true},
 			]
 
 		@set 'badge', badge, true

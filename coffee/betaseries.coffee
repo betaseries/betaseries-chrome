@@ -860,6 +860,7 @@ BS =
 			menu_order = DB.get('options').menu_order
 				
 			for menu in menu_order
+				continue if !menu.visible
 				style = 'style="' + menu.img_style + '" ' if menu.img_style?
 				output += '<a href="" id="menu-' + menu.name + '">'
 				output += '<img src="' + menu.img_path + '" ' + style + '/>'

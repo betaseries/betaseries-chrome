@@ -19,38 +19,49 @@ DB = {
       menu_order: [
         {
           name: 'timelineFriends',
-          img_path: '../img/timeline.png'
+          img_path: '../img/timeline.png',
+          visible: true
         }, {
           name: 'planningMember',
-          img_path: '../img/planning.png'
+          img_path: '../img/planning.png',
+          visible: true
         }, {
           name: 'membersEpisodes',
-          img_path: '../img/episodes.png'
+          img_path: '../img/episodes.png',
+          visible: true
         }, {
           name: 'membersShows',
-          img_path: '../img/episodes.png'
+          img_path: '../img/episodes.png',
+          visible: true
         }, {
           name: 'membersInfos',
           img_path: '../img/infos.png',
-          img_style: 'margin-right: 9px;'
+          img_style: 'margin-right: 9px;',
+          visible: true
         }, {
           name: 'membersNotifications',
-          img_path: '../img/notifications2.png'
+          img_path: '../img/notifications2.png',
+          visible: true
         }, {
           name: 'searchShow',
-          img_path: '../img/search.png'
+          img_path: '../img/search.png',
+          visible: true
         }, {
           name: 'searchMember',
-          img_path: '../img/search.png'
+          img_path: '../img/search.png',
+          visible: true
         }, {
           name: 'blog',
-          img_path: '../img/blog.png'
+          img_path: '../img/blog.png',
+          visible: true
         }, {
           name: 'options',
-          img_path: '../img/options.png'
+          img_path: '../img/options.png',
+          visible: true
         }, {
           name: 'logout',
-          img_path: '../img/close.png'
+          img_path: '../img/close.png',
+          visible: true
         }
       ]
     };

@@ -935,6 +935,9 @@ BS = {
         menu_order = DB.get('options').menu_order;
         for (_i = 0, _len = menu_order.length; _i < _len; _i++) {
           menu = menu_order[_i];
+          if (!menu.visible) {
+            continue;
+          }
           if (menu.img_style != null) {
             style = 'style="' + menu.img_style + '" ';
           }

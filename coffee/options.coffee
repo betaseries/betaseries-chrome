@@ -37,7 +37,8 @@ $(document).ready ->
 	$('select[name=display_mean_note]').val DB.get('options').display_mean_note + ""
 	menu_order = DB.get('options').menu_order
 	for menu in menu_order
-		$('#sections').append '<span id="' + menu.name + '"><img src="../img/grippy.png" /> ' + __('menu_' + menu.name) + '</span>'
+		selected = if menu.visible then 'checked="checked" ' else ''
+		$('#sections').append '<span id="' + menu.name + '">' + '<input type="checkbox" ' + selected + '/>' + '<img src="../img/grippy.png" /> ' + __('menu_' + menu.name) + '</span>'
 	$('option[value=watched]').text __('episodes_not_seen')
 	$('option[value=downloaded]').text __('episodes_not_dl')
 	$('option[value=VO]').text __('vo')
@@ -55,6 +56,9 @@ $(document).ready ->
 	$('#sections img').removeAttr 'style'
 	
 	$('#save_options').click ->
+		for i in menu_order
+			visible = $('#sections #' + i.name).find('input').is(':checked')
+			i.visible = visible
 		menu_order.sort (a, b) ->
 			if $('#sections #' + a.name).index() < $('#sections #' + b.name).index()
 				return -1
