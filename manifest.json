@@ -18,6 +18,7 @@
 	},
 	"permissions": [
 		"https://api.betaseries.com/*",
-		"https://www.betaseries.com/blog/*"
+		"https://www.betaseries.com/blog/*",
+		"clipboardWrite"
 	]
 }

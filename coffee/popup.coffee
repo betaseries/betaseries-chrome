@@ -166,6 +166,16 @@ $(document).ready ->
 		
 		return true
 	
+	# Copier le contenu du titre du lien
+	$('#page').on 'click', '.copy_episode', ->
+		event.preventDefault()
+		sanbox = $(@).find('textarea')
+		sanbox.show()
+		sanbox.select()
+		document.execCommand('copy')
+		sanbox.hide()
+		#$(@).focus()
+
 	# Ouvrir la fiche d'une série
 	$('#page').on 'click', '.display_show', ->
 		event.preventDefault()

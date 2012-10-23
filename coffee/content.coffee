@@ -85,6 +85,10 @@ Content =
 		output += '<div class="left">'
 		output += '<img src="../img/empty.png" class="watched action icon-4" title="' + texte2 + '" /> '
 		output += Fx.displayNote(e.note) if DB.get('options').display_mean_note
+		output += '<a href="" title="' + title + '" class="invisible copy_episode">'
+		output += '<textarea style="display:none;">' + s.title + ' ' + e.number + '</textarea>'
+		output += '<img src="../img/link.png" class="copy" />'
+		output += '</a>'
 		output += '<span class="num">' + Fx.displayNumber(e.number) + '</span> '
 		output += '<a href="" url="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" title="' + stitle + '" class="epLink display_episode">'
 		output += Fx.subFirst(title, 19) + '</a>'

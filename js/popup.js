@@ -178,6 +178,15 @@ $(document).ready(function() {
     Fx.updateHeight();
     return true;
   };
+  $('#page').on('click', '.copy_episode', function() {
+    var sanbox;
+    event.preventDefault();
+    sanbox = $(this).find('textarea');
+    sanbox.show();
+    sanbox.select();
+    document.execCommand('copy');
+    return sanbox.hide();
+  });
   $('#page').on('click', '.display_show', function() {
     var url;
     event.preventDefault();
