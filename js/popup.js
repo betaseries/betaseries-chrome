@@ -185,7 +185,9 @@ $(document).ready(function() {
     sanbox.show();
     sanbox.select();
     document.execCommand('copy');
-    return sanbox.hide();
+    sanbox.hide();
+    message(__('copied_to_clipboard'));
+    return $(this).focus();
   });
   $('#page').on('click', '.display_show', function() {
     var url;
@@ -734,7 +736,10 @@ $(document).ready(function() {
     }
   }).attr('title', __('menu'));
   message = function(content) {
-    return $('#message').html(content);
+    $('#message').fadeIn().html(content);
+    return setTimeout((function() {
+      return $('#message').fadeOut();
+    }), 2000);
   };
   DB.init();
   Fx.updateHeight(true);

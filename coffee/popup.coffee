@@ -174,7 +174,8 @@ $(document).ready ->
 		sanbox.select()
 		document.execCommand('copy')
 		sanbox.hide()
-		#$(@).focus()
+		message __('copied_to_clipboard')
+		$(@).focus()
 
 	# Ouvrir la fiche d'une série
 	$('#page').on 'click', '.display_show', ->
@@ -716,7 +717,9 @@ $(document).ready ->
 		.attr 'title', __('menu')
 		
 	## Afficher le message de confirmation
-	message = (content) -> $('#message').html content
+	message = (content) -> 
+		$('#message').fadeIn().html content
+		setTimeout (-> $('#message').fadeOut()), 2000
 	
 	## INIT
 	DB.init()

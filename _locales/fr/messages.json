@@ -49,6 +49,9 @@
 	"contributors": {
 		"message": "Contributeurs"
 	},
+	"copied_to_clipboard": {
+		"message": "Copié dans le presse-papier !"
+	},
 	"december": {
 		"message": "Déc"
 	},

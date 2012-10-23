@@ -49,6 +49,9 @@
 	"contributors": {
 		"message": "Contributors"
 	},
+	"copied_to_clipboard": {
+		"message": "Copied to the clipboard !"
+	},
 	"december": {
 		"message": "Dec"
 	},
