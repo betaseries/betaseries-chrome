@@ -159,7 +159,5 @@ Fx =
 			DB.set 'version', currVersion
 			$('#message').html(__('new_version')).show()
 			# Déconnexion forcée
-			session = DB.get 'session', null
-			if session
-				BS.logout()
+			BS.logout()
 		

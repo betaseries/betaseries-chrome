@@ -185,7 +185,7 @@ Fx = {
     return __('no_data_found');
   },
   checkVersion: function() {
-    var currVersion, newVersion, session, version;
+    var currVersion, newVersion, version;
     version = DB.get('version', 0);
     currVersion = Fx.getVersion();
     newVersion = version !== currVersion;
@@ -193,10 +193,7 @@ Fx = {
     if (newVersion) {
       DB.set('version', currVersion);
       $('#message').html(__('new_version')).show();
-      session = DB.get('session', null);
-      if (session) {
-        return BS.logout();
-      }
+      return BS.logout();
     }
   }
 };
