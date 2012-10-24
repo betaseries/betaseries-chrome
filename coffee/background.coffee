@@ -8,6 +8,7 @@ Badge =
 	init: ->
 		chrome.browserAction.setBadgeText {text: "?"}
 		chrome.browserAction.setBadgeBackgroundColor {color: [200, 200, 200, 255]}
+		return true
 
 	## Mise à jour automatique
 	 # (toutes les heures)
@@ -15,11 +16,14 @@ Badge =
 		if logged()
 			@update()
 			setTimeout @update, 1000 * 3600
+			return true
 
 	## Processus de mise à jour
 	update: ->
+		return if !logged()
 		@searchNotifs()
 		@searchEpisodes()
+		return true
 
 	## Recherche de nouvelles notifications
 	searchNotifs: ->
@@ -35,6 +39,7 @@ Badge =
 				Badge.set 'notifs', nbr
 			->
 				Badge.cache()
+		return true
 	
 	## Mise à jour du nombre d'épisodes total
 	searchEpisodes: ->
@@ -55,6 +60,7 @@ Badge =
 				Badge.set 'episodes', j
 			->
 				Badge.cache()
+		return true
 
 	## Mets à jour le badge et recalcule l'affichage
 	set: (type, value) ->
@@ -62,12 +68,14 @@ Badge =
 		b[type] = value
 		DB.set 'badge', b
 		@cache()
+		return true
 
 	## Afficher les données du badge en cache
 	cache: ->
 		b = DB.get 'badge'
 		@display(b.episodes, 'episodes') if b.episodes?
 		@display(b.notifs, 'notifs') if b.notifs? && b.notifs > 0
+		return true
 	
 	## Mettre à jour le badge
 	display: (value, type) ->
@@ -80,6 +88,7 @@ Badge =
 				episodes: [50, 50, 200, 255]
 			chrome.browserAction.setBadgeBackgroundColor {color: colors[type]}	
 			chrome.browserAction.setBadgeText {text: value.toString()}
+		return true
 
 ## Retourne vrai si l'utilisateur est connecté, faux sinon
 logged = -> DB.get('session', null)?

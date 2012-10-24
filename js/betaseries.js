@@ -66,14 +66,18 @@ BS = {
   display: function() {
     var nbr, o;
     o = this.currentView;
-    Historic.save();
+    if (bgPage.logged()) {
+      Historic.save();
+    }
     document.getElementById('page').innerHTML = '';
     if (o.content) {
       $('#page').html(o.content());
     }
-    nbr = Fx.checkNotifications();
-    if (nbr > 0) {
-      $('.notif').html(nbr).show();
+    if (bgPage.logged()) {
+      nbr = Fx.checkNotifications();
+      if (nbr > 0) {
+        $('.notif').html(nbr).show();
+      }
     }
     $('#title').text(__('title_' + o.name));
     $('#page').removeClass().addClass(o.name);

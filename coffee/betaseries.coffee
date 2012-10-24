@@ -88,15 +88,17 @@ BS =
 		o = @currentView
 		
 		# mise à jour de l'historique
-		Historic.save()
+		if bgPage.logged()
+			Historic.save()
 		
 		# affichage de la vue (cache)
 		document.getElementById('page').innerHTML = ''
 		$('#page').html o.content() if o.content
 
 		# mise à jour des notifications
-		nbr = Fx.checkNotifications()
-		$('.notif').html(nbr).show() if nbr > 0
+		if bgPage.logged()
+			nbr = Fx.checkNotifications()
+			$('.notif').html(nbr).show() if nbr > 0
 		
 		# Post affichage
 		#if o.after?

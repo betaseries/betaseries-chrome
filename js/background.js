@@ -7,22 +7,28 @@ Badge = {
     chrome.browserAction.setBadgeText({
       text: "?"
     });
-    return chrome.browserAction.setBadgeBackgroundColor({
+    chrome.browserAction.setBadgeBackgroundColor({
       color: [200, 200, 200, 255]
     });
+    return true;
   },
   autoUpdate: function() {
     if (logged()) {
       this.update();
-      return setTimeout(this.update, 1000 * 3600);
+      setTimeout(this.update, 1000 * 3600);
+      return true;
     }
   },
   update: function() {
+    if (!logged()) {
+      return;
+    }
     this.searchNotifs();
-    return this.searchEpisodes();
+    this.searchEpisodes();
+    return true;
   },
   searchNotifs: function() {
-    return ajax.post('/members/notifications', '', function(data) {
+    ajax.post('/members/notifications', '', function(data) {
       var login, n, nbr, new_notifs, old_notifs;
       login = DB.get('session').login;
       old_notifs = DB.get('member.' + login + '.notifs', []);
@@ -35,9 +41,10 @@ Badge = {
     }, function() {
       return Badge.cache();
     });
+    return true;
   },
   searchEpisodes: function() {
-    return ajax.post('/members/episodes/all', '', function(data) {
+    ajax.post('/members/episodes/all', '', function(data) {
       var badgeNotificationType, episodes, i, j, time;
       episodes = data.root.episodes;
       time = Math.floor(new Date().getTime() / 1000);
@@ -59,13 +66,15 @@ Badge = {
     }, function() {
       return Badge.cache();
     });
+    return true;
   },
   set: function(type, value) {
     var b;
     b = DB.get('badge');
     b[type] = value;
     DB.set('badge', b);
-    return this.cache();
+    this.cache();
+    return true;
   },
   cache: function() {
     var b;
@@ -74,14 +83,15 @@ Badge = {
       this.display(b.episodes, 'episodes');
     }
     if ((b.notifs != null) && b.notifs > 0) {
-      return this.display(b.notifs, 'notifs');
+      this.display(b.notifs, 'notifs');
     }
+    return true;
   },
   display: function(value, type) {
     var colors;
     value = parseInt(value);
     if (value === 0) {
-      return chrome.browserAction.setBadgeText({
+      chrome.browserAction.setBadgeText({
         text: ''
       });
     } else {
@@ -92,10 +102,11 @@ Badge = {
       chrome.browserAction.setBadgeBackgroundColor({
         color: colors[type]
       });
-      return chrome.browserAction.setBadgeText({
+      chrome.browserAction.setBadgeText({
         text: value.toString()
       });
     }
+    return true;
   }
 };
 
