@@ -278,7 +278,7 @@ $(document).ready ->
 			clean e
 	
 	## Marquer un épisode comme récupéré ou pas
-	$('#page').on 'click', '.membersEpisodes .downloaded, .showsEpisodes .downloaded', ->
+	$('#page.membersEpisodes .downloaded').live 'click', ->
 		event.preventDefault()
 		
 		s = $(this).closest('.show')
@@ -309,7 +309,7 @@ $(document).ready ->
 			-> registerAction "/members/downloaded/" + show, params
 
 	## Marquer un épisode comme récupéré ou pas
-	$('#page').on 'click', '.showsEpisode .downloaded', ->
+	$('#page.showsEpisode .downloaded').live 'click', ->
 		event.preventDefault()
 		
 		show = $(@).attr 'show'
@@ -331,6 +331,7 @@ $(document).ready ->
 		params = "&season=" + season + "&episode=" + episode
 		ajax.post "/members/downloaded/" + show, params, 
 			=>
+				Cache.force 'membersEpisodes.all'
 				badge_notification_type = DB.get('options').badge_notification_type
 				bgPage.Badge.update() if badge_notification_type is 'downloaded'
 				$(@).html '<span class="imgSyncOff"></span>' + __(dl)
@@ -684,7 +685,7 @@ $(document).ready ->
 		.attr 'title', __("version")
 	
 	## MENU actions
-	$('#page').on 'click', '.menu a', ->
+	$('#page.menu a').live 'click', ->
 		event.preventDefault()
 		id = $(@).attr('id').substring 5
 		if (id is 'options')

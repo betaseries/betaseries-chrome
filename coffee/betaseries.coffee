@@ -866,8 +866,9 @@ BS =
 				
 			for m in menu_order
 				continue if !m.visible
+				style = ''
 				style = 'style="' + m.img_style + '" ' if m.img_style?
-				output += '<a href="" id="menu-' + m.name + '">'
+				output += '<a href="" id="menu-' + m.name + '" class="menulink">'
 				output += '<img src="' + m.img_path + '" ' + style + '/>'
 				output += __('menu_' + m.name) + '</a>'
 			

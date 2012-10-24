@@ -946,10 +946,11 @@ BS = {
           if (!m.visible) {
             continue;
           }
+          style = '';
           if (m.img_style != null) {
             style = 'style="' + m.img_style + '" ';
           }
-          output += '<a href="" id="menu-' + m.name + '">';
+          output += '<a href="" id="menu-' + m.name + '" class="menulink">';
           output += '<img src="' + m.img_path + '" ' + style + '/>';
           output += __('menu_' + m.name) + '</a>';
         }

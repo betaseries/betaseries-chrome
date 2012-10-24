@@ -299,7 +299,7 @@ $(document).ready(function() {
       return clean(e);
     }
   });
-  $('#page').on('click', '.membersEpisodes .downloaded, .showsEpisodes .downloaded', function() {
+  $('#page.membersEpisodes .downloaded').live('click', function() {
     var downloaded, e, episode, es, global, params, s, season, show;
     event.preventDefault();
     s = $(this).closest('.show');
@@ -328,7 +328,7 @@ $(document).ready(function() {
       return registerAction("/members/downloaded/" + show, params);
     });
   });
-  $('#page').on('click', '.showsEpisode .downloaded', function() {
+  $('#page.showsEpisode .downloaded').live('click', function() {
     var dl, downloaded, episode, es, global, params, season, show,
       _this = this;
     event.preventDefault();
@@ -345,6 +345,7 @@ $(document).ready(function() {
     params = "&season=" + season + "&episode=" + episode;
     return ajax.post("/members/downloaded/" + show, params, function() {
       var badge_notification_type;
+      Cache.force('membersEpisodes.all');
       badge_notification_type = DB.get('options').badge_notification_type;
       if (badge_notification_type === 'downloaded') {
         bgPage.Badge.update();
@@ -705,7 +706,7 @@ $(document).ready(function() {
   $('#versionLink').click(function() {
     return Fx.openTab('https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true);
   }).attr('title', __("version"));
-  $('#page').on('click', '.menu a', function() {
+  $('#page.menu a').live('click', function() {
     var id;
     event.preventDefault();
     id = $(this).attr('id').substring(5);
