@@ -938,20 +938,20 @@ BS = {
       id: 'menu',
       name: 'menu',
       content: function() {
-        var menu_order, output, style, _i, _len;
+        var m, menu_order, output, style, _i, _len;
         output = '';
         menu_order = DB.get('options').menu_order;
         for (_i = 0, _len = menu_order.length; _i < _len; _i++) {
-          menu = menu_order[_i];
-          if (!menu.visible) {
+          m = menu_order[_i];
+          if (!m.visible) {
             continue;
           }
-          if (menu.img_style != null) {
-            style = 'style="' + menu.img_style + '" ';
+          if (m.img_style != null) {
+            style = 'style="' + m.img_style + '" ';
           }
-          output += '<a href="" id="menu-' + menu.name + '">';
-          output += '<img src="' + menu.img_path + '" ' + style + '/>';
-          output += __('menu_' + menu.name) + '</a>';
+          output += '<a href="" id="menu-' + m.name + '">';
+          output += '<img src="' + m.img_path + '" ' + style + '/>';
+          output += __('menu_' + m.name) + '</a>';
         }
         return output;
       }
