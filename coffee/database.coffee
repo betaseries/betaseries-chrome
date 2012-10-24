@@ -20,6 +20,7 @@ DB =
 			max_height: 200
 			display_mean_note: true
 			display_copy_episode: false
+			display_notifications_icon: true
 			menu_order: [
 				{name: 'timelineFriends', 		img_path: '../img/timeline.png',								visible: true}, 
 				{name: 'planningMember', 		img_path: '../img/planning.png',								visible: true}, 

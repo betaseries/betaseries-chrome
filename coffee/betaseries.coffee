@@ -97,8 +97,11 @@ BS =
 
 		# mise à jour des notifications
 		if bgPage.logged()
-			nbr = Fx.checkNotifications()
-			$('.notif').html(nbr).show() if nbr > 0
+			if DB.get('options').display_notifications_icon
+				nbr = Fx.checkNotifications()
+				$('.notif').html(nbr).show() if nbr > 0
+			else
+				$('#notifications').hide()	
 		
 		# Post affichage
 		#if o.after?

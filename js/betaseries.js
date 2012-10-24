@@ -74,9 +74,13 @@ BS = {
       $('#page').html(o.content());
     }
     if (bgPage.logged()) {
-      nbr = Fx.checkNotifications();
-      if (nbr > 0) {
-        $('.notif').html(nbr).show();
+      if (DB.get('options').display_notifications_icon) {
+        nbr = Fx.checkNotifications();
+        if (nbr > 0) {
+          $('.notif').html(nbr).show();
+        }
+      } else {
+        $('#notifications').hide();
       }
     }
     $('#title').text(__('title_' + o.name));
