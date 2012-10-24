@@ -461,7 +461,7 @@ $(document).ready ->
 			ajax.post "/members/auth", params, 
 				(data) ->
 					if data.root.member?
-						message('')
+						$('#message').slideUp()
 						$('#connect').remove()
 						token = data.root.member.token
 						DB.set 'session', 
@@ -718,8 +718,15 @@ $(document).ready ->
 		
 	## Afficher le message de confirmation
 	message = (content) -> 
-		$('#message').fadeIn().html content
-		setTimeout (-> $('#message').fadeOut()), 2000
+		$('#message .content').html content
+		$('#message').slideDown()
+		$('#message').animate({backgroundColor: '#FAFA97'}, 500)
+		$('#message').animate({backgroundColor: '#F6FADA'}, 500)
+
+	# Ouvrir la fiche d'une série
+	$('#message').on 'click', '.close', ->
+		event.preventDefault()
+		$('#message').slideUp()
 	
 	## INIT
 	DB.init()

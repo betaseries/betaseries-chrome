@@ -480,7 +480,7 @@ $(document).ready(function() {
       ajax.post("/members/auth", params, function(data) {
         var token;
         if (data.root.member != null) {
-          message('');
+          $('#message').slideUp();
           $('#connect').remove();
           token = data.root.member.token;
           DB.set('session', {
@@ -736,11 +736,19 @@ $(document).ready(function() {
     }
   }).attr('title', __('menu'));
   message = function(content) {
-    $('#message').fadeIn().html(content);
-    return setTimeout((function() {
-      return $('#message').fadeOut();
-    }), 2000);
+    $('#message .content').html(content);
+    $('#message').slideDown();
+    $('#message').animate({
+      backgroundColor: '#FAFA97'
+    }, 500);
+    return $('#message').animate({
+      backgroundColor: '#F6FADA'
+    }, 500);
   };
+  $('#message').on('click', '.close', function() {
+    event.preventDefault();
+    return $('#message').slideUp();
+  });
   DB.init();
   Fx.updateHeight(true);
   Fx.checkVersion();
