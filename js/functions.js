@@ -132,7 +132,7 @@ Fx = {
   },
   displayNote: function(note) {
     var color, n, res;
-    n = Math.round(note * 10) / 10;
+    n = note ? Math.round(note * 10) / 10 : 0;
     color = 'green';
     if (n < 4) {
       color = 'orange';

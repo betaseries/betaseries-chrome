@@ -109,7 +109,7 @@ Fx =
 
 	##
 	displayNote: (note) ->
-		n = Math.round(note * 10) / 10
+		n = if note then Math.round(note * 10) / 10 else 0
 		color = 'green'
 		color = 'orange' if n < 4
 		color = 'red' if n < 2 
