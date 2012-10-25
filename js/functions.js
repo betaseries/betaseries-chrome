@@ -193,7 +193,9 @@ Fx = {
     if (newVersion) {
       DB.set('version', currVersion);
       $('#message').html(__('new_version')).show();
-      return BS.logout();
+      if (version <= '0.9.5') {
+        return BS.logout();
+      }
     }
   }
 };
