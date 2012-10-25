@@ -21,7 +21,7 @@ Badge =
 	## Processus de mise à jour
 	update: ->
 		return if !logged()
-		@searchNotifs()
+		@searchNotifs() if DB.get('options').display_notifications_icon
 		@searchEpisodes()
 		return true
 

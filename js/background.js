@@ -23,7 +23,9 @@ Badge = {
     if (!logged()) {
       return;
     }
-    this.searchNotifs();
+    if (DB.get('options').display_notifications_icon) {
+      this.searchNotifs();
+    }
     this.searchEpisodes();
     return true;
   },

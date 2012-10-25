@@ -65,7 +65,7 @@
 		"message": "Afficher la note moyenne des épisodes : "
 	},
 	"display_notifications_icon": {
-		"message": "Afficher l'icône des notifications : "
+		"message": "Activer les notifications : "
 	},
 	"dl_srt_language": {
 		"message": "Langage des sous-titres des épisodes : "
