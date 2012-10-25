@@ -632,14 +632,15 @@ BS =
 			data = DB.get 'member.' + @login + '.notifs', null
 			return Fx.needUpdate() if !data
 			
-			for n of data
-				new_date = date('D d F', data[n].date)
+			for n in data
+				continue if time < n.date
+				new_date = date('D d F', n.date)
 				if new_date isnt time
 					time = new_date
 					output += '<div class="showtitle">' + time + '</div>'
-				output += '<div class="event ' + date('D', data[n].date).toLowerCase() + '">'
-				output += '<span class="new">' + __('new') + '</span> ' if !data[n].seen
-				output += data[n].html
+				output += '<div class="event ' + date('D', n.date).toLowerCase() + '">'
+				output += '<span class="new">' + __('new') + '</span> ' if !n.seen
+				output += n.html
 				output += '</div>'
 				data[n].seen = true
 				nbrNotifications++	

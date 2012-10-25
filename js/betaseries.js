@@ -666,7 +666,7 @@ BS = {
         return bgPage.Badge.set('notifs', 0);
       },
       content: function() {
-        var data, n, nbrNotifications, new_date, output, time;
+        var data, n, nbrNotifications, new_date, output, time, _i, _len;
         output = '';
         nbrNotifications = 0;
         time = '';
@@ -674,17 +674,21 @@ BS = {
         if (!data) {
           return Fx.needUpdate();
         }
-        for (n in data) {
-          new_date = date('D d F', data[n].date);
+        for (_i = 0, _len = data.length; _i < _len; _i++) {
+          n = data[_i];
+          if (time < n.date) {
+            continue;
+          }
+          new_date = date('D d F', n.date);
           if (new_date !== time) {
             time = new_date;
             output += '<div class="showtitle">' + time + '</div>';
           }
-          output += '<div class="event ' + date('D', data[n].date).toLowerCase() + '">';
-          if (!data[n].seen) {
+          output += '<div class="event ' + date('D', n.date).toLowerCase() + '">';
+          if (!n.seen) {
             output += '<span class="new">' + __('new') + '</span> ';
           }
-          output += data[n].html;
+          output += n.html;
           output += '</div>';
           data[n].seen = true;
           nbrNotifications++;
