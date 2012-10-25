@@ -14,12 +14,12 @@ ajax =
 		params ?= ''
 		member = DB.get 'session', {}
 		token = if member.token is null then '' else "&token=" + member.token
-		useragent = "chromeseries-" + Fx.getVersion()
 		$('#sync img').attr 'src', '../img/sync.gif'
+		
 		$.ajax
 			type: "POST"
 			url: @url_api + category + ".json"
-			data: "user-agent=" + useragent + "&key=" + @key + params + token
+			data: "key=" + @key + params + token
 			dataType: "json"
 			success: (data) ->
 				#console.log data
@@ -28,3 +28,19 @@ ajax =
 			error: ->
 				$('#sync img').attr 'src', '../img/sync.png'
 				errorCallback() if errorCallback?
+
+requestFilter = urls: [ "<all_urls>" ]
+
+extraInfoSpec = ['requestHeaders']
+  
+handler = (details) ->
+	headers = details.requestHeaders
+	blockingResponse = {}
+	for i, j of headers
+		if headers[i].name is 'User-Agent'
+			headers[i].value = 'chromeseries-' + Fx.getVersion()
+			break
+	blockingResponse.requestHeaders = headers
+	return blockingResponse
+
+chrome.webRequest.onBeforeSendHeaders.addListener handler, requestFilter, extraInfoSpec
