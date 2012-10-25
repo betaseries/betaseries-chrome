@@ -29,13 +29,13 @@
 
 ## Dernière version
 
-### Version 0.9.5
+### Version 0.9.6
 
-* Ajout d'une icône pour copier un nom d'épisode formatté (ticket #26)
-* Nouvelle option : possibilité de voir ou afficher cette nouvelle icone
-* Nouvelle option : possibilité de choisir et ranger les sections du menu
-* Les messages disparaissent au bout d'un certain temps (2min)
-* Déconnexion forcée pour cette mise à jour
+* Correction de l'affichage de la section "mes notifications" (ticket #28)
+* Nouveau style pour les messages + possibilité de les fermer (il ne disparaissent plus au bout d'un certain temps)
+* Ajout d'une nouvelle option : activer les notifications et afficher l'icône des notifications (ticket 29)
+* Déconnexion forcée pour ceux ayant une version inférieure ou égale à 0.9.5
+* Divers correctifs (voir le log des commits)
 
 ## Liens
 
