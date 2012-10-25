@@ -59,13 +59,13 @@
 		"message": "Show the global number of episodes : "
 	},
 	"display_copy_episode": {
-		"message": "Show icon to copy formatted episodes name : "
+		"message": "Show icon to copy in clipboard episodes title as '%Show% SXXEYY' :  "
 	},
 	"display_mean_note": {
 		"message": "Show the average rating of episodes : "
 	},
 	"display_notifications_icon": {
-		"message": "Enable notifications : "
+		"message": "Enable notifications automatic update and show notifications icon : "
 	},
 	"dl_srt_language": {
 		"message": "Language of the episode subtitles : "

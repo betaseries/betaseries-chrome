@@ -59,13 +59,13 @@
 		"message": "Afficher le numéro global des épisodes : "
 	},
 	"display_copy_episode": {
-		"message": "Afficher l'icône pour copier le formatage des épisodes : "
+		"message": "Afficher l'icône pour copier dans le presse-papier le titre des épisodes dans le format '%Serie% SXXEYY' : "
 	},
 	"display_mean_note": {
 		"message": "Afficher la note moyenne des épisodes : "
 	},
 	"display_notifications_icon": {
-		"message": "Activer les notifications : "
+		"message": "Activer la récupération automatique des notifications et afficher l'icône des notifications : "
 	},
 	"dl_srt_language": {
 		"message": "Langage des sous-titres des épisodes : "
