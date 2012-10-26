@@ -627,17 +627,18 @@ BS =
 		content: ->
 			output = ''
 			nbrNotifications = 0
-			time = ''
+			currDate = ''
 			
 			data = DB.get 'member.' + @login + '.notifs', null
 			return Fx.needUpdate() if !data
 			
+			time = Math.floor (new Date().getTime() / 1000)
 			for n in data
 				continue if time < n.date
-				new_date = date('D d F', n.date)
-				if new_date isnt time
-					time = new_date
-					output += '<div class="showtitle">' + time + '</div>'
+				newDate = date('D d F', n.date)
+				if newDate isnt currDate
+					currDate = newDate
+					output += '<div class="showtitle">' + currDate + '</div>'
 				output += '<div class="event ' + date('D', n.date).toLowerCase() + '">'
 				output += '<span class="new">' + __('new') + '</span> ' if !n.seen
 				output += n.html

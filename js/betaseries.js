@@ -666,23 +666,24 @@ BS = {
         return bgPage.Badge.set('notifs', 0);
       },
       content: function() {
-        var data, n, nbrNotifications, new_date, output, time, _i, _len;
+        var currDate, data, n, nbrNotifications, newDate, output, time, _i, _len;
         output = '';
         nbrNotifications = 0;
-        time = '';
+        currDate = '';
         data = DB.get('member.' + this.login + '.notifs', null);
         if (!data) {
           return Fx.needUpdate();
         }
+        time = Math.floor(new Date().getTime() / 1000);
         for (_i = 0, _len = data.length; _i < _len; _i++) {
           n = data[_i];
           if (time < n.date) {
             continue;
           }
-          new_date = date('D d F', n.date);
-          if (new_date !== time) {
-            time = new_date;
-            output += '<div class="showtitle">' + time + '</div>';
+          newDate = date('D d F', n.date);
+          if (newDate !== currDate) {
+            currDate = newDate;
+            output += '<div class="showtitle">' + currDate + '</div>';
           }
           output += '<div class="event ' + date('D', n.date).toLowerCase() + '">';
           if (!n.seen) {
