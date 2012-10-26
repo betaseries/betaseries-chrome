@@ -61,14 +61,14 @@ Content =
 		return output
 	
 	##
-	 # Génère un bloc *épisode* (vue membersEpisodes)
+	 # Génère un bloc *épisode* (vue membersEpisodes & showsEpisodes)
 	 #
 	 # @param	object		Informations d'un *épisode*
 	 # @param	object		Informations d'une *série*
 	 # @param	integer		Position de l'épisode
 	 # @return 	string		Bloc *épisode*
 	 #	
-	episode: (e, s) ->
+	episode: (e, hidden, start) ->
 		output = ''
 		
 		## INIT ---------------------------------------
@@ -76,8 +76,9 @@ Content =
 		# Préparation variables
 		time = Math.floor (new Date().getTime() / 1000)
 		newShow = if (time - e.date < 2 * 24 * 3600) then ' new' else ''
-		hidden = if s.hidden then ' hidden' else ''
-
+		hidden = if hidden then ' hidden' else ''
+		plot = if (start && parseInt(e.global) < start) then 'tick' else 'empty'
+		
 		# Titre de l'épisode
 		tag = if DB.get('options').display_global then '#' + e.global else Fx.displayNumber(e.number)
 		stitle = tag + ' ' + title + ' (' + date('D d F', e.date) + ')'
@@ -120,7 +121,7 @@ Content =
 
 		# Action 'mark as watched'
 		output += '<div class="td wrapper-watched">'
-		output += '<img src="../img/empty.png" class="watched action icon-4" title="' + texte2 + '" /> '
+		output += '<img src="../img/' + plot + '.png" class="watched action icon-4" title="' + texte2 + '" /> '
 		output += '</div>'
 
 		# Note moyenne de l'épisode
@@ -175,89 +176,6 @@ Content =
 		output += '</div>'
 
 		# Fermeture
-		output += '</div>'
-		
-		return output
-
-	##
-	 # Génère un bloc *épisode* (vue showsEpisodes)
-	 #
-	 # @param	object		Informations d'un *épisode*
-	 # @param	object		Informations d'une *série*
-	 # @param	integer		Position de l'épisode
-	 # @return 	string		Bloc *épisode*
-	 #	
-	episode2: (e, hidden, start) ->
-		output = ''
-		
-		# Nouvel épisode
-		time = Math.floor new Date().getTime() / 1000
-		jours = Math.floor time / (24 * 3600)
-		date_0 = (24*3600)* jours - 2*3600
-		newShow = if e.date >= date_0 then ' new' else ''
-		hidden = if hidden then ' hidden' else ''
-		
-		output += '<div class="episode e' + e.global + newShow + hidden + '" number="' + e.number + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '">'
-			
-		# Titre de l'épisode
-		title = if DB.get('options').display_global then '#' + e.global + ' ' + e.title else e.title
-		stitle = title + ' (' + date('D d F', e.date) + ')'
-		texte2 = __('mark_as_seen')
-		plot = if parseInt(e.global) < start then 'tick' else 'empty'
-		output += '<div class="left">'
-		output += '<img src="../img/' + plot + '.png" class="watched action icon-4" title="' + texte2 + '" /> '
-		output += '<span class="num">' + Fx.displayNumber(e.number) + '</span> '
-		output += '<a href="#" url="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" title="' + stitle + '" class="epLink display_episode">'
-		output += Fx.subFirst(title, 20) + '</a>'
-		if newShow 
-			output += ' <span class="new">' + __('new') + '</span>'
-		output += '</div>'
-				
-		# Actions
-		subs = e.subs
-		nbSubs = 0
-		url = ""
-		quality = -1
-		lang = ""
-		for sub of subs
-			dlSrtLanguage = DB.get('options').dl_srt_language
-			if (dlSrtLanguage is "VF" or dlSrtLanguage is 'ALL') and subs[sub]['language'] is "VF" and subs[sub]['quality'] > quality
-				quality = subs[sub]['quality']
-				url = subs[sub]['url']
-				lang = subs[sub]['language']
-				nbSubs++
-			if (dlSrtLanguage is "VO" or dlSrtLanguage is 'ALL') and subs[sub]['language'] is "VO" and subs[sub]['quality'] > quality
-				quality = subs[sub]['quality']
-				url = subs[sub]['url']
-				lang = subs[sub]['language']
-				nbSubs++
-		
-		quality = Math.floor (quality + 1) / 2
-		if e.downloaded
-			imgDownloaded = "folder"
-			texte3 = __('mark_as_not_dl')
-		else
-			imgDownloaded = "folder_off"
-			texte3 = __('mark_as_dl')
-		
-		output += '<div class="right">'
-		empty = '<img src="../img/empty.png" alt="hidden" /> '
-		if e.comments > 0
-			output += '<a href="" url="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" title="' + __('nbr_comments', [e.comments]) + '" class="invisible display_comments">'
-			output += '<img src="../img/comments.png" class="comments action" /> '
-			output += '</a>'
-		else 
-			output += empty
-		
-		output += '	<img src="../img/' + imgDownloaded + '.png" class="downloaded action" title="' + texte3 + '" /> '
-		
-		if nbSubs > 0
-			output += '<img src="../img/page_white_text.png" class="subs action" link="' + url + '" quality="' + quality + '" title="' + __('srt_quality', [lang, quality]) + '" /> '
-		output += '</div>'
-			
-		# Clear
-		output += '<div class="clear"></div>'
-			
 		output += '</div>'
 		
 		return output

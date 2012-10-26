@@ -268,7 +268,7 @@ BS =
 				
 				# construction des blocs *episode*
 				
-				output += Content.episode2 e, hidden, start
+				output += Content.episode e, hidden, start
 			
 			output += '</div></div>'
 			
@@ -598,7 +598,7 @@ BS =
 					e = showEpisodes[global]
 					today = Math.floor new Date().getTime() / 1000
 					global++
-					output += Content.episode(e, s) if e.date <= today
+					output += Content.episode(e, s.hidden) if e.date <= today
 				
 				output += '</div>'
 			
