@@ -19,7 +19,13 @@ Fx = {
     return false;
   },
   concatNotifications: function(old_notifs, new_notifs) {
-    var res;
+    var i, j, res;
+    for (i in new_notifs) {
+      j = new_notifs[i];
+      if (j.type === 'episode') {
+        delete new_notifs[i];
+      }
+    }
     res = old_notifs.concat(new_notifs);
     res = res.slice(0, 20);
     return res;
@@ -29,9 +35,6 @@ Fx = {
     res = [];
     for (i in notifs) {
       j = notifs[i];
-      if (j.type === 'episode') {
-        j.date += 34 * 3600;
-      }
       j.seen = false;
       res.push(j);
     }

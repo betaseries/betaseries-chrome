@@ -23,10 +23,10 @@ Badge = {
     if (!logged()) {
       return;
     }
+    this.searchEpisodes();
     if (DB.get('options').display_notifications_icon) {
       this.searchNotifs();
     }
-    this.searchEpisodes();
     return true;
   },
   searchNotifs: function() {
@@ -41,32 +41,40 @@ Badge = {
       nbr = Fx.checkNotifications();
       return Badge.set('notifs', nbr);
     }, function() {
-      return Badge.cache();
+      return Badge.display();
     });
     return true;
   },
   searchEpisodes: function() {
     ajax.post('/members/episodes/all', '', function(data) {
-      var badgeNotificationType, episodes, i, j, time;
+      var downloaded_episodes, episodes, i, last_checked, new_episodes, time, total_episodes;
       episodes = data.root.episodes;
       time = Math.floor(new Date().getTime() / 1000);
-      j = 0;
+      last_checked = DB.get('new_episodes_checked', null);
+      DB.set('new_episodes_checked', date('Y.m.d'));
+      total_episodes = 0;
+      downloaded_episodes = 0;
+      new_episodes = 0;
       for (i in episodes) {
         if (!__hasProp.call(episodes, i)) continue;
         if (time - episodes[i].date < 24 * 3600) {
           continue;
         }
-        badgeNotificationType = DB.get('options').badge_notification_type;
-        if (badgeNotificationType === 'watched') {
-          j++;
+        if ((time - episodes[i].date < 2 * 24 * 3600) && (!last_checked || last_checked < date('Y.m.d'))) {
+          new_episodes++;
         }
-        if (badgeNotificationType === 'downloaded' && episodes[i].downloaded !== "1") {
-          j++;
+        if (episodes[i].downloaded !== "1") {
+          downloaded_episodes++;
         }
+        total_episodes++;
       }
-      return Badge.set('episodes', j);
+      Badge.set('total_episodes', total_episodes);
+      Badge.set('downloaded_episodes', downloaded_episodes);
+      if (!last_checked || last_checked < date('Y.m.d')) {
+        return Badge.set('new_episodes', new_episodes);
+      }
     }, function() {
-      return Badge.cache();
+      return Badge.display();
     });
     return true;
   },
@@ -75,39 +83,49 @@ Badge = {
     b = DB.get('badge');
     b[type] = value;
     DB.set('badge', b);
-    this.cache();
+    this.display();
     return true;
   },
-  cache: function() {
-    var b;
+  display: function() {
+    var b, badgeNotificationType, options;
+    options = DB.get('options');
+    badgeNotificationType = options.badge_notification_type;
     b = DB.get('badge');
-    if (b.episodes != null) {
-      this.display(b.episodes, 'episodes');
+    if ((b.total_episodes != null) && parseInt(b.total_episodes) > 0 && badgeNotificationType === 'watched') {
+      this.render('total_episodes', b.total_episodes);
     }
-    if ((b.notifs != null) && b.notifs > 0) {
-      this.display(b.notifs, 'notifs');
+    if ((b.downloaded_episodes != null) && parseInt(b.downloaded_episodes) > 0 && badgeNotificationType === 'downloaded') {
+      this.render('downloaded_episodes', b.downloaded_episodes);
+    }
+    if ((b.new_episodes != null) && parseInt(b.new_episodes) > 0) {
+      this.render('new_episodes', b.new_episodes);
+    }
+    if ((b.new_notifications != null) && parseInt(b.new_notifications) > 0 && options.display_notifications_icon) {
+      this.render('new_notifications', b.new_notifications);
     }
     return true;
   },
-  display: function(value, type) {
-    var colors;
-    value = parseInt(value);
-    if (value === 0) {
-      chrome.browserAction.setBadgeText({
-        text: ''
-      });
-    } else {
-      colors = {
-        notifs: [200, 50, 50, 255],
-        episodes: [50, 50, 200, 255]
-      };
-      chrome.browserAction.setBadgeBackgroundColor({
-        color: colors[type]
-      });
-      chrome.browserAction.setBadgeText({
-        text: value.toString()
-      });
+  render: function(type, value) {
+    var bgColor;
+    switch (type) {
+      case 'total_episodes':
+        bgColor = [50, 50, 200, 255];
+        break;
+      case 'downloaded_episodes':
+        bgColor = [50, 50, 200, 255];
+        break;
+      case 'new_episodes':
+        bgColor = [50, 200, 50, 255];
+        break;
+      case 'new_notifications':
+        bgColor = [200, 50, 50, 255];
     }
+    chrome.browserAction.setBadgeBackgroundColor({
+      color: bgColor
+    });
+    chrome.browserAction.setBadgeText({
+      text: value.toString()
+    });
     return true;
   }
 };

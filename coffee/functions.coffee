@@ -14,7 +14,13 @@ Fx =
 	## Concaténe les nouvelles notifications avec les anciennes
 	# et ne garde que les 20 premières
 	concatNotifications: (old_notifs, new_notifs) ->
+		# suppression de tous les notifications de type "épisode"
+		for i, j of new_notifs
+			if j.type is 'episode'
+				delete new_notifs[i]
+		# Concaténation avec les anciens
 		res = old_notifs.concat new_notifs
+		# On ne garde que les 20 premiers
 		res = res.slice 0, 20
 		return res
 
@@ -24,8 +30,6 @@ Fx =
 	formatNotifications: (notifs) ->
 		res = []
 		for i, j of notifs
-			if j.type is 'episode'
-				j.date += 34*3600
 			j.seen = false
 			res.push j
 		return res

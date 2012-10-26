@@ -21,8 +21,8 @@ Badge =
 	## Processus de mise à jour
 	update: ->
 		return if !logged()
-		@searchNotifs() if DB.get('options').display_notifications_icon
 		@searchEpisodes()
+		@searchNotifs() if DB.get('options').display_notifications_icon
 		return true
 
 	## Recherche de nouvelles notifications
@@ -38,7 +38,7 @@ Badge =
 				nbr = Fx.checkNotifications()
 				Badge.set 'notifs', nbr
 			->
-				Badge.cache()
+				Badge.display()
 		return true
 	
 	## Mise à jour du nombre d'épisodes total
@@ -47,19 +47,30 @@ Badge =
 			(data) ->
 				episodes = data.root.episodes
 				time = Math.floor (new Date().getTime() / 1000)
-				j = 0;
+				last_checked = DB.get 'new_episodes_checked', null
+				DB.set 'new_episodes_checked', date('Y.m.d')
+				
+				total_episodes = 0
+				downloaded_episodes = 0
+				new_episodes = 0
+				
 				for own i of episodes
 
 					# si l'épisode n'est pas encore diffusé, ne pas le prendre
 					continue if (time - episodes[i].date < 24 * 3600) 
 
-					badgeNotificationType = DB.get('options').badge_notification_type;
-					j++ if badgeNotificationType is 'watched'
-					j++ if badgeNotificationType is 'downloaded' and episodes[i].downloaded isnt "1"
+					if (time - episodes[i].date < 2 * 24 * 3600) && (!last_checked || last_checked < date('Y.m.d'))
+						new_episodes++
+					if episodes[i].downloaded isnt "1"
+						downloaded_episodes++
 
-				Badge.set 'episodes', j
+					total_episodes++
+
+				Badge.set 'total_episodes', total_episodes
+				Badge.set 'downloaded_episodes', downloaded_episodes
+				Badge.set 'new_episodes', new_episodes if (!last_checked || last_checked < date('Y.m.d'))
 			->
-				Badge.cache()
+				Badge.display()
 		return true
 
 	## Mets à jour le badge et recalcule l'affichage
@@ -67,27 +78,38 @@ Badge =
 		b = DB.get 'badge'
 		b[type] = value
 		DB.set 'badge', b
-		@cache()
+		@display()
 		return true
 
 	## Afficher les données du badge en cache
-	cache: ->
+	display: ->
+		options = DB.get('options')
+		badgeNotificationType = options.badge_notification_type;
 		b = DB.get 'badge'
-		@display(b.episodes, 'episodes') if b.episodes?
-		@display(b.notifs, 'notifs') if b.notifs? && b.notifs > 0
+		if b.total_episodes? && parseInt(b.total_episodes) > 0 && badgeNotificationType is 'watched'
+			@render('total_episodes', b.total_episodes)
+		if b.downloaded_episodes? && parseInt(b.downloaded_episodes) > 0 && badgeNotificationType is 'downloaded'
+			@render('downloaded_episodes', b.downloaded_episodes)
+		if b.new_episodes? && parseInt(b.new_episodes) > 0
+			@render('new_episodes', b.new_episodes) 
+		if b.new_notifications? && parseInt(b.new_notifications) > 0 && options.display_notifications_icon
+			@render('new_notifications', b.new_notifications)
 		return true
 	
 	## Mettre à jour le badge
-	display: (value, type) ->
-		value = parseInt value
-		if value is 0
-			chrome.browserAction.setBadgeText {text: ''}
-		else
-			colors =
-				notifs: [200, 50, 50, 255]
-				episodes: [50, 50, 200, 255]
-			chrome.browserAction.setBadgeBackgroundColor {color: colors[type]}	
-			chrome.browserAction.setBadgeText {text: value.toString()}
+	render: (type, value) ->
+		switch type
+			when 'total_episodes'
+				bgColor = [50, 50, 200, 255]
+			when 'downloaded_episodes'
+				bgColor = [50, 50, 200, 255]
+			when 'new_episodes'
+				bgColor = [50, 200, 50, 255]
+			when 'new_notifications'
+				bgColor = [200, 50, 50, 255]
+		
+		chrome.browserAction.setBadgeBackgroundColor {color: bgColor}	
+		chrome.browserAction.setBadgeText {text: value.toString()}
 		return true
 
 ## Retourne vrai si l'utilisateur est connecté, faux sinon

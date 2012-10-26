@@ -564,7 +564,7 @@ BS =
 			
 			DB.set 'member.' + @login + '.shows', shows
 			DB.set 'member.' + @login + '.episodes', memberEpisodes
-			bgPage.Badge.set 'episodes', j
+			bgPage.Badge.set 'total_episodes', j
 		content: ->
 			# récupération des épisodes non vus (cache)
 			data = DB.get 'member.' + @login + '.episodes', null
@@ -572,6 +572,10 @@ BS =
 			
 			shows = DB.get 'member.' + @login + '.shows', null
 			return Fx.needUpdate() if !shows
+
+			# Mise à jour des notifications new_episodes
+			bgPage.Badge.set 'new_episodes', 0
+			DB.set 'new_episodes_checked', date('Y.m.d')
 				
 			# SHOWS
 			output = '<div id="shows">'

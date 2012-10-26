@@ -605,7 +605,7 @@ BS = {
         }
         DB.set('member.' + this.login + '.shows', shows);
         DB.set('member.' + this.login + '.episodes', memberEpisodes);
-        return bgPage.Badge.set('episodes', j);
+        return bgPage.Badge.set('total_episodes', j);
       },
       content: function() {
         var data, e, global, i, j, nbr_episodes_per_serie, output, s, showEpisodes, shows, today;
@@ -617,6 +617,8 @@ BS = {
         if (!shows) {
           return Fx.needUpdate();
         }
+        bgPage.Badge.set('new_episodes', 0);
+        DB.set('new_episodes_checked', date('Y.m.d'));
         output = '<div id="shows">';
         for (i in data) {
           j = data[i];
