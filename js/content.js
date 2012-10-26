@@ -36,33 +36,14 @@ Content = {
     return output;
   },
   episode: function(e, s) {
-    var dlSrtLanguage, empty, hidden, imgDownloaded, lang, nbSubs, newShow, output, quality, stitle, sub, subs, texte2, texte3, time, title, url;
+    var dlSrtLanguage, hidden, imgDownloaded, lang, nbSubs, newShow, output, quality, stitle, sub, subs, tag, texte2, texte3, time, titleWidth, url;
     output = '';
     time = Math.floor(new Date().getTime() / 1000);
     newShow = time - e.date < 2 * 24 * 3600 ? ' new' : '';
     hidden = s.hidden ? ' hidden' : '';
-    output += '<div class="episode e' + e.global + newShow + hidden + '" number="' + e.number + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '">';
-    title = DB.get('options').display_global ? '#' + e.global + ' ' + e.title : e.title;
-    stitle = title + ' (' + date('D d F', e.date) + ')';
+    tag = DB.get('options').display_global ? '#' + e.global : Fx.displayNumber(e.number);
+    stitle = tag + ' ' + title + ' (' + date('D d F', e.date) + ')';
     texte2 = __('mark_as_seen');
-    output += '<div class="left">';
-    output += '<img src="../img/empty.png" class="watched action icon-4" title="' + texte2 + '" /> ';
-    if (DB.get('options').display_mean_note) {
-      output += Fx.displayNote(e.note);
-    }
-    if (DB.get('options').display_copy_episode) {
-      output += '<a href="" title="' + title + '" class="invisible copy_episode">';
-      output += '<textarea style="display:none;">' + s.title + ' ' + e.number + '</textarea>';
-      output += '<img src="../img/link.png" class="copy" />';
-      output += '</a>';
-    }
-    output += '<span class="num">' + Fx.displayNumber(e.number) + '</span> ';
-    output += '<a href="" url="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" title="' + stitle + '" class="epLink display_episode">';
-    output += Fx.subFirst(title, 19) + '</a>';
-    if (newShow) {
-      output += ' <span class="new">' + __('new') + '</span>';
-    }
-    output += '</div>';
     subs = e.subs;
     nbSubs = 0;
     url = "";
@@ -91,21 +72,59 @@ Content = {
       imgDownloaded = "folder_off";
       texte3 = __('mark_as_dl');
     }
-    output += '<div class="right">';
-    empty = '<img src="../img/empty.png" alt="hidden" /> ';
-    if (e.comments > 0) {
-      output += '<a href="" url="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" title="' + __('nbr_comments', [e.comments]) + '" class="invisible display_comments">';
-      output += '<img src="../img/comments.png" class="comments action" /> ';
-      output += '</a>';
-    } else {
-      output += empty;
+    titleWidth = 140;
+    if (!DB.get('options').display_mean_note) {
+      titleWidth += 26;
     }
-    output += '	<img src="../img/' + imgDownloaded + '.png" class="downloaded action" title="' + texte3 + '" /> ';
-    if (nbSubs > 0) {
-      output += '<img src="../img/page_white_text.png" class="subs action" link="' + url + '" quality="' + quality + '" title="' + __('srt_quality', [lang, quality]) + '" /> ';
+    if (!DB.get('options').display_copy_episode) {
+      titleWidth += 20;
+    }
+    output += '<div class="episode e' + e.global + newShow + hidden + '" number="' + e.number + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '">';
+    output += '<div class="td wrapper-watched">';
+    output += '<img src="../img/empty.png" class="watched action icon-4" title="' + texte2 + '" /> ';
+    output += '</div>';
+    if (DB.get('options').display_mean_note) {
+      output += '<div class="td wrapper-mean-note">';
+      output += Fx.displayNote(e.note);
+      output += '</div>';
+    }
+    if (DB.get('options').display_copy_episode) {
+      output += '<div class="td wrapper-copy-clipboard">';
+      output += '<a href="" title="' + title + '" class="invisible copy_episode">';
+      output += '<textarea style="display:none;">' + s.title + ' ' + e.number + '</textarea>';
+      output += '<img src="../img/link.png" class="copy" />';
+      output += '</a>';
+      output += '</div>';
+    }
+    output += '<div class="td wrapper-title" style="width: ' + titleWidth + 'px">';
+    output += '<span class="num">' + tag + '</span> ';
+    output += '<a href="" url="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" title="' + stitle + '" class="epLink display_episode">';
+    output += e.title + '</a>';
+    output += '</div>';
+    output += '<div class="td wrapper-new">';
+    if (newShow) {
+      output += '<span class="new">' + __('new') + '</span>';
     }
     output += '</div>';
-    output += '<div class="clear"></div>';
+    output += '<div class="td wrapper-comments">';
+    if (e.comments > 0) {
+      output += '<a href="" url="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" title="' + __('nbr_comments', [e.comments]) + '" class="invisible display_comments">';
+      output += '<img src="../img/comments.png" class="comments action" />';
+      output += '</a>';
+    } else {
+      output += '<img src="../img/empty.png" alt="hidden" />';
+    }
+    output += '</div>';
+    output += '<div class="td wrapper-recover">';
+    output += '<img src="../img/' + imgDownloaded + '.png" class="downloaded action" title="' + texte3 + '" />';
+    output += '</div>';
+    output += '<div class="td wrapper-subtitles">';
+    if (nbSubs > 0) {
+      output += '<img src="../img/page_white_text.png" class="subs action" link="' + url + '" quality="' + quality + '" title="' + __('srt_quality', [lang, quality]) + '" />';
+    } else {
+      output += '<img src="../img/empty.png" alt="hidden" />';
+    }
+    output += '</div>';
     output += '</div>';
     return output;
   },

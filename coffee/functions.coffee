@@ -104,9 +104,10 @@ Fx =
 	
 	##
 	displayNumber: (number) ->
-		res = '#'
+		res = ''
 		res += number[1] if number[1] isnt '0'
 		res += number[2]
+		res += 'x'
 		res += number[4]
 		res += number[5]
 		return res

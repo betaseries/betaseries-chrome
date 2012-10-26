@@ -124,11 +124,12 @@ Fx = {
   },
   displayNumber: function(number) {
     var res;
-    res = '#';
+    res = '';
     if (number[1] !== '0') {
       res += number[1];
     }
     res += number[2];
+    res += 'x';
     res += number[4];
     res += number[5];
     return res;
