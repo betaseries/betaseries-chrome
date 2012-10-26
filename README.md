@@ -29,13 +29,11 @@
 
 ## Dernière version
 
-### Version 0.9.6
+### Version 0.9.7
 
-* Correction de l'affichage de la section "mes notifications" (ticket #28)
-* Nouveau style pour les messages + possibilité de les fermer (il ne disparaissent plus au bout d'un certain temps)
-* Ajout d'une nouvelle option : activer les notifications et afficher l'icône des notifications (ticket 29)
-* Déconnexion forcée pour ceux ayant une version inférieure ou égale à 0.9.5
-* Divers correctifs (voir le log des commits)
+* Ajout d'une nouvelle notification : nouveaux épisodes du jour (badge mauve)
+* Amélioration de l'affichage de la section "Mes épisodes"
+* Correction de l'affichage de la section "Mes notifications"
 
 ## Liens
 
