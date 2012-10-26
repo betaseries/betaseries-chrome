@@ -90,10 +90,10 @@ Badge =
 			@render('total_episodes', b.total_episodes)
 		if b.downloaded_episodes? && parseInt(b.downloaded_episodes) > 0 && badgeNotificationType is 'downloaded'
 			@render('downloaded_episodes', b.downloaded_episodes)
-		if b.new_episodes? && parseInt(b.new_episodes) > 0
-			@render('new_episodes', b.new_episodes) 
 		if b.new_notifications? && parseInt(b.new_notifications) > 0
 			@render('new_notifications', b.new_notifications)
+		if b.new_episodes? && parseInt(b.new_episodes) > 0
+			@render('new_episodes', b.new_episodes) 
 		return true
 	
 	## Mettre à jour le badge
@@ -104,9 +104,9 @@ Badge =
 			when 'downloaded_episodes'
 				bgColor = [50, 200, 50, 255]
 			when 'new_episodes'
-				bgColor = [204, 153, 255, 255]
-			when 'new_notifications'
 				bgColor = [200, 50, 50, 255]
+			when 'new_notifications'
+				bgColor = [50, 200, 50, 255]
 		
 		chrome.browserAction.setBadgeBackgroundColor {color: bgColor}	
 		chrome.browserAction.setBadgeText {text: value.toString()}

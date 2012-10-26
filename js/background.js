@@ -97,11 +97,11 @@ Badge = {
     if ((b.downloaded_episodes != null) && parseInt(b.downloaded_episodes) > 0 && badgeNotificationType === 'downloaded') {
       this.render('downloaded_episodes', b.downloaded_episodes);
     }
-    if ((b.new_episodes != null) && parseInt(b.new_episodes) > 0) {
-      this.render('new_episodes', b.new_episodes);
-    }
     if ((b.new_notifications != null) && parseInt(b.new_notifications) > 0) {
       this.render('new_notifications', b.new_notifications);
+    }
+    if ((b.new_episodes != null) && parseInt(b.new_episodes) > 0) {
+      this.render('new_episodes', b.new_episodes);
     }
     return true;
   },
@@ -115,10 +115,10 @@ Badge = {
         bgColor = [50, 200, 50, 255];
         break;
       case 'new_episodes':
-        bgColor = [204, 153, 255, 255];
+        bgColor = [200, 50, 50, 255];
         break;
       case 'new_notifications':
-        bgColor = [200, 50, 50, 255];
+        bgColor = [50, 200, 50, 255];
     }
     chrome.browserAction.setBadgeBackgroundColor({
       color: bgColor
