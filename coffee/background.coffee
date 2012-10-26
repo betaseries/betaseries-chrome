@@ -92,7 +92,7 @@ Badge =
 			@render('downloaded_episodes', b.downloaded_episodes)
 		if b.new_episodes? && parseInt(b.new_episodes) > 0
 			@render('new_episodes', b.new_episodes) 
-		if b.new_notifications? && parseInt(b.new_notifications) > 0 && options.display_notifications_icon
+		if b.new_notifications? && parseInt(b.new_notifications) > 0
 			@render('new_notifications', b.new_notifications)
 		return true
 	
@@ -102,9 +102,9 @@ Badge =
 			when 'total_episodes'
 				bgColor = [50, 50, 200, 255]
 			when 'downloaded_episodes'
-				bgColor = [50, 50, 200, 255]
-			when 'new_episodes'
 				bgColor = [50, 200, 50, 255]
+			when 'new_episodes'
+				bgColor = [204, 153, 255, 255]
 			when 'new_notifications'
 				bgColor = [200, 50, 50, 255]
 		

@@ -100,7 +100,7 @@ Badge = {
     if ((b.new_episodes != null) && parseInt(b.new_episodes) > 0) {
       this.render('new_episodes', b.new_episodes);
     }
-    if ((b.new_notifications != null) && parseInt(b.new_notifications) > 0 && options.display_notifications_icon) {
+    if ((b.new_notifications != null) && parseInt(b.new_notifications) > 0) {
       this.render('new_notifications', b.new_notifications);
     }
     return true;
@@ -112,10 +112,10 @@ Badge = {
         bgColor = [50, 50, 200, 255];
         break;
       case 'downloaded_episodes':
-        bgColor = [50, 50, 200, 255];
+        bgColor = [50, 200, 50, 255];
         break;
       case 'new_episodes':
-        bgColor = [50, 200, 50, 255];
+        bgColor = [204, 153, 255, 255];
         break;
       case 'new_notifications':
         bgColor = [200, 50, 50, 255];
