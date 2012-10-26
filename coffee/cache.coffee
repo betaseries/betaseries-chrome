@@ -32,7 +32,7 @@ Cache =
 		todelete = []
 		for i, j of localStorage
 		
-			if i.indexOf('badge') isnt 0 && i.indexOf('historic') isnt 0 && i.indexOf('member' + DB.get('session').login + '.notifs') isnt 0 && i.indexOf('options') isnt 0 && i.indexOf('session') isnt 0 && i.indexOf('version') isnt 0
+			if i.indexOf('badge') isnt 0 && i.indexOf('historic') isnt 0 && i.indexOf('member' + DB.get('session').login + '.notifs') isnt 0 && i.indexOf('options') isnt 0 && i.indexOf('session') isnt 0 && i.indexOf('version') isnt 0 && i.indexOf('new_episodes_checked') isnt 0
 				todelete.push i
 
 		for i in todelete
