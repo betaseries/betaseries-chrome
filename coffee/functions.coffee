@@ -14,24 +14,19 @@ Fx =
 	## Concaténe les nouvelles notifications avec les anciennes
 	# et ne garde que les 20 premières
 	concatNotifications: (old_notifs, new_notifs) ->
-		# suppression de tous les notifications de type "épisode"
-		for i, j of new_notifs
-			if j.type is 'episode'
-				delete new_notifs[i]
-		# Concaténation avec les anciens
 		res = old_notifs.concat new_notifs
-		# On ne garde que les 20 premiers
 		res = res.slice 0, 20
 		return res
 
 	## Opération suppl. quand on récupère les notifications
-	# - Si type == episode, décalage de 24h
+	# - Si type == episode, suppression
 	# - Ajout de seen = false
 	formatNotifications: (notifs) ->
 		res = []
 		for i, j of notifs
-			j.seen = false
-			res.push j
+			if j.type isnt 'episode'
+				j.seen = false
+				res.push j
 		return res
 
 	## Trie les notifications par date décroissante

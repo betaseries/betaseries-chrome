@@ -94,14 +94,6 @@ BS =
 		# affichage de la vue (cache)
 		document.getElementById('page').innerHTML = ''
 		$('#page').html o.content() if o.content
-
-		# mise à jour des notifications
-		if bgPage.logged()
-			if DB.get('options').display_notifications_icon
-				nbr = Fx.checkNotifications()
-				$('.notif').html(nbr).show() if nbr > 0
-			else
-				$('#notifications').hide()	
 		
 		# Post affichage
 		#if o.after?
@@ -572,6 +564,14 @@ BS =
 			
 			shows = DB.get 'member.' + @login + '.shows', null
 			return Fx.needUpdate() if !shows
+
+			# mise à jour des notifications
+			if bgPage.logged()
+				if DB.get('options').display_notifications_icon
+					nbr = Fx.checkNotifications()
+					$('.notif').html(nbr).show() if nbr > 0
+				else
+					$('#notifications').hide()	
 
 			# Mise à jour des notifications new_episodes
 			bgPage.Badge.set 'new_episodes', 0

@@ -64,7 +64,7 @@ BS = {
     }
   },
   display: function() {
-    var nbr, o;
+    var o;
     o = this.currentView;
     if (bgPage.logged()) {
       Historic.save();
@@ -72,16 +72,6 @@ BS = {
     document.getElementById('page').innerHTML = '';
     if (o.content) {
       $('#page').html(o.content());
-    }
-    if (bgPage.logged()) {
-      if (DB.get('options').display_notifications_icon) {
-        nbr = Fx.checkNotifications();
-        if (nbr > 0) {
-          $('.notif').html(nbr).show();
-        }
-      } else {
-        $('#notifications').hide();
-      }
     }
     $('#title').text(__('title_' + o.name));
     $('#page').removeClass().addClass(o.name);
@@ -608,7 +598,7 @@ BS = {
         return bgPage.Badge.set('total_episodes', j);
       },
       content: function() {
-        var data, e, global, i, j, nbr_episodes_per_serie, output, s, showEpisodes, shows, today;
+        var data, e, global, i, j, nbr, nbr_episodes_per_serie, output, s, showEpisodes, shows, today;
         data = DB.get('member.' + this.login + '.episodes', null);
         if (!data) {
           return Fx.needUpdate();
@@ -616,6 +606,16 @@ BS = {
         shows = DB.get('member.' + this.login + '.shows', null);
         if (!shows) {
           return Fx.needUpdate();
+        }
+        if (bgPage.logged()) {
+          if (DB.get('options').display_notifications_icon) {
+            nbr = Fx.checkNotifications();
+            if (nbr > 0) {
+              $('.notif').html(nbr).show();
+            }
+          } else {
+            $('#notifications').hide();
+          }
         }
         bgPage.Badge.set('new_episodes', 0);
         DB.set('new_episodes_checked', date('Y.m.d'));
