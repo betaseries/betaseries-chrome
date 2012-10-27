@@ -25,7 +25,7 @@ a.invisible:hover {text-decoration: none;}
 #about {margin: 3px 0 3px 0;}
 
 /*Form*/
-.postComment textarea {width: 98%; height: 40px; outline: none; resize: none; margin-top: 6px;}
+.postComment textarea {width: 283px; height: 40px; outline: none; resize: none; margin-top: 6px;}
 .postComment input[type=submit] {float: right; width: 80px; margin-right: 5px;}
 
 /*Help*/
