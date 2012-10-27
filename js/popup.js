@@ -2,7 +2,7 @@
 var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 $(document).ready(function() {
-  var bgPage, clean, message, registerAction;
+  var bgPage, clean, highlight, message, registerAction;
   bgPage = chrome.extension.getBackgroundPage();
   $('*[title], *[smart-title]').live({
     mouseenter: function() {
@@ -736,11 +736,16 @@ $(document).ready(function() {
   message = function(content) {
     $('#message .content').html(content);
     $('#message').slideDown();
-    $('#message').animate({
+    return highlight($('#message'));
+  };
+  highlight = function(selector) {
+    var bgColor;
+    bgColor = selector.css('background-color');
+    selector.animate({
       backgroundColor: '#FAFA97'
     }, 500);
-    return $('#message').animate({
-      backgroundColor: '#F6FADA'
+    return selector.animate({
+      backgroundColor: bgColor
     }, 500);
   };
   $('#message').on('click', '.close', function() {

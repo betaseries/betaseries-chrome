@@ -718,8 +718,12 @@ $(document).ready ->
 	message = (content) -> 
 		$('#message .content').html content
 		$('#message').slideDown()
-		$('#message').animate({backgroundColor: '#FAFA97'}, 500)
-		$('#message').animate({backgroundColor: '#F6FADA'}, 500)
+		highlight $('#message')
+
+	highlight = (selector) ->
+		bgColor = selector.css('background-color')
+		selector.animate({backgroundColor: '#FAFA97'}, 500)
+		selector.animate({backgroundColor: bgColor}, 500)
 
 	# Ouvrir la fiche d'une série
 	$('#message').on 'click', '.close', ->

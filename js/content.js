@@ -128,9 +128,9 @@ Content = {
     output += '</div>';
     output += '<div class="td wrapper-rate">';
     for (i = _i = 1; _i <= 5; i = ++_i) {
-      output += '<img src="../img/star_off.gif" width="10" id="star' + i + '" class="star" title="' + i + ' /5" />';
+      output += '<img src="../img/star_off.gif" width="10" id="star' + i + '" class="star action" title="' + i + ' /5" />';
     }
-    output += '<img src="../img/close3.png" width="10" class="close_stars" title="' + __('do_not_rate') + '" />';
+    output += '<img src="../img/close3.png" width="10" class="close_stars action" title="' + __('do_not_rate') + '" />';
     output += '</div>';
     output += '</div>';
     return output;
