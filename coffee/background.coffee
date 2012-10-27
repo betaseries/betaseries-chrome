@@ -86,19 +86,31 @@ Badge =
 		options = DB.get('options')
 		badgeNotificationType = options.badge_notification_type
 		b = DB.get 'badge'
+		if !logged()
+			@render 'not_logged', '?'
+			return true
+		nbr = 0
 		if b.total_episodes? && parseInt(b.total_episodes) > 0 && badgeNotificationType is 'watched'
+			nbr += parseInt(b.total_episodes)
 			@render('total_episodes', b.total_episodes)
 		if b.downloaded_episodes? && parseInt(b.downloaded_episodes) > 0 && badgeNotificationType is 'downloaded'
+			nbr += parseInt(b.downloaded_episodes)
 			@render('downloaded_episodes', b.downloaded_episodes)
 		if b.new_notifications? && parseInt(b.new_notifications) > 0
+			nbr += parseInt(b.new_notifications)
 			@render('new_notifications', b.new_notifications)
 		if b.new_episodes? && parseInt(b.new_episodes) > 0
-			@render('new_episodes', b.new_episodes) 
+			nbr += parseInt(b.new_episodes)
+			@render('new_episodes', b.new_episodes)
+		if nbr is 0
+			@render('empty', '')
 		return true
 	
 	## Mettre à jour le badge
 	render: (type, value) ->
 		switch type
+			when 'not_logged'
+				bgColor = [200, 200, 200, 255]
 			when 'total_episodes'
 				bgColor = [50, 50, 200, 255]
 			when 'downloaded_episodes'
@@ -107,6 +119,8 @@ Badge =
 				bgColor = [200, 50, 50, 255]
 			when 'new_notifications'
 				bgColor = [50, 200, 50, 255]
+			when 'empty'
+				bgColor = [200, 200, 200, 255]
 		
 		chrome.browserAction.setBadgeBackgroundColor {color: bgColor}	
 		chrome.browserAction.setBadgeText {text: value.toString()}

@@ -87,27 +87,42 @@ Badge = {
     return true;
   },
   display: function() {
-    var b, badgeNotificationType, options;
+    var b, badgeNotificationType, nbr, options;
     options = DB.get('options');
     badgeNotificationType = options.badge_notification_type;
     b = DB.get('badge');
+    if (!logged()) {
+      this.render('not_logged', '?');
+      return true;
+    }
+    nbr = 0;
     if ((b.total_episodes != null) && parseInt(b.total_episodes) > 0 && badgeNotificationType === 'watched') {
+      nbr += parseInt(b.total_episodes);
       this.render('total_episodes', b.total_episodes);
     }
     if ((b.downloaded_episodes != null) && parseInt(b.downloaded_episodes) > 0 && badgeNotificationType === 'downloaded') {
+      nbr += parseInt(b.downloaded_episodes);
       this.render('downloaded_episodes', b.downloaded_episodes);
     }
     if ((b.new_notifications != null) && parseInt(b.new_notifications) > 0) {
+      nbr += parseInt(b.new_notifications);
       this.render('new_notifications', b.new_notifications);
     }
     if ((b.new_episodes != null) && parseInt(b.new_episodes) > 0) {
+      nbr += parseInt(b.new_episodes);
       this.render('new_episodes', b.new_episodes);
+    }
+    if (nbr === 0) {
+      this.render('empty', '');
     }
     return true;
   },
   render: function(type, value) {
     var bgColor;
     switch (type) {
+      case 'not_logged':
+        bgColor = [200, 200, 200, 255];
+        break;
       case 'total_episodes':
         bgColor = [50, 50, 200, 255];
         break;
@@ -119,6 +134,9 @@ Badge = {
         break;
       case 'new_notifications':
         bgColor = [50, 200, 50, 255];
+        break;
+      case 'empty':
+        bgColor = [200, 200, 200, 255];
     }
     chrome.browserAction.setBadgeBackgroundColor({
       color: bgColor
