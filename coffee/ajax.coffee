@@ -29,7 +29,7 @@ ajax =
 				$('#sync img').attr 'src', '../img/sync.png'
 				errorCallback() if errorCallback?
 
-###requestFilter = urls: ["https://api.betaseries.com/*"]
+requestFilter = urls: ["https://api.betaseries.com/*"]
 
 extraInfoSpec = ['requestHeaders', 'blocking']
   
@@ -38,9 +38,9 @@ handler = (details) ->
 	blockingResponse = {}
 	for i, j of headers
 		if headers[i].name.toLowerCase() is 'user-agent'
-			headers[i].value = 'Aaaaui'
+			headers[i].value = 'chromeseries' + Fx.getVersion()
 			break
 	blockingResponse.requestHeaders = headers
 	return blockingResponse
 
-chrome.webRequest.onBeforeSendHeaders.addListener handler, requestFilter, extraInfoSpec###
+chrome.webRequest.onBeforeSendHeaders.addListener handler, requestFilter, extraInfoSpec
