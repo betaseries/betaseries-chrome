@@ -29,7 +29,7 @@ $(document).ready ->
 			episode = e.attr 'episode'
 			login = DB.get('session').login
 			enable_ratings = DB.get('options').enable_ratings
-			
+
 			# Cache : mise à jour du dernier épisode marqué comme vu
 			es = DB.get 'member.' + login + '.episodes'
 			es[show].start = "" + (parseInt(e.attr 'global') + 1)
@@ -45,13 +45,10 @@ $(document).ready ->
 					$(e).find('.watched').removeClass 'watched'
 					
 					# affichage des étoiles
-					nodeRight = $(e).find '.right'
-					content = ""
-					for i in [1..5]
-						content += '<img src="../img/star_off.gif" width="10" id="star' + i + '" class="star" title="' + i + ' /5" />'
-					
-					content += '<img src="../img/close3.png" width="10" class="close_stars" title="' + __('do_not_rate') + '" />'
-					nodeRight.html content
+					$(e).find('.wrapper-comments').hide()
+					$(e).find('.wrapper-recover').hide()
+					$(e).find('.wrapper-subtitles').hide()
+					$(e).find('.wrapper-rate').css 'display', 'inline-block'
 				else
 					clean e
 				

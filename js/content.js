@@ -36,7 +36,7 @@ Content = {
     return output;
   },
   episode: function(e, hidden, start) {
-    var dlSrtLanguage, imgDownloaded, lang, nbSubs, newShow, output, plot, quality, stitle, sub, subs, tag, texte2, texte3, time, titleWidth, url;
+    var dlSrtLanguage, i, imgDownloaded, lang, nbSubs, newShow, output, plot, quality, stitle, sub, subs, tag, texte2, texte3, time, titleWidth, url, _i;
     output = '';
     time = Math.floor(new Date().getTime() / 1000);
     newShow = time - e.date < 2 * 24 * 3600 ? ' new' : '';
@@ -125,6 +125,12 @@ Content = {
     } else {
       output += '<img src="../img/empty.png" alt="hidden" />';
     }
+    output += '</div>';
+    output += '<div class="td wrapper-rate">';
+    for (i = _i = 1; _i <= 5; i = ++_i) {
+      output += '<img src="../img/star_off.gif" width="10" id="star' + i + '" class="star" title="' + i + ' /5" />';
+    }
+    output += '<img src="../img/close3.png" width="10" class="close_stars" title="' + __('do_not_rate') + '" />';
     output += '</div>';
     output += '</div>';
     return output;

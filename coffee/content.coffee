@@ -175,6 +175,13 @@ Content =
 			output += '<img src="../img/empty.png" alt="hidden" />'
 		output += '</div>'
 
+		# Action 'rate this episode'
+		output += '<div class="td wrapper-rate">'
+		for i in [1..5]
+			output += '<img src="../img/star_off.gif" width="10" id="star' + i + '" class="star" title="' + i + ' /5" />'
+		output += '<img src="../img/close3.png" width="10" class="close_stars" title="' + __('do_not_rate') + '" />'
+		output += '</div>'
+
 		# Fermeture
 		output += '</div>'
 		

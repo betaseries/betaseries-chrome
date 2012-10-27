@@ -28,7 +28,7 @@ $(document).ready(function() {
   });
   $('.membersEpisodes .watched').live({
     click: function() {
-      var content, e, enable_ratings, episode, es, i, login, nbr, nodeRight, params, s, season, show, _i;
+      var e, enable_ratings, episode, es, login, nbr, params, s, season, show;
       s = $(this).closest('.show');
       show = s.attr('id');
       e = $(this).closest('.episode');
@@ -44,13 +44,10 @@ $(document).ready(function() {
         if (enable_ratings) {
           $(e).css('background-color', '#f5f5f5');
           $(e).find('.watched').removeClass('watched');
-          nodeRight = $(e).find('.right');
-          content = "";
-          for (i = _i = 1; _i <= 5; i = ++_i) {
-            content += '<img src="../img/star_off.gif" width="10" id="star' + i + '" class="star" title="' + i + ' /5" />';
-          }
-          content += '<img src="../img/close3.png" width="10" class="close_stars" title="' + __('do_not_rate') + '" />';
-          nodeRight.html(content);
+          $(e).find('.wrapper-comments').hide();
+          $(e).find('.wrapper-recover').hide();
+          $(e).find('.wrapper-subtitles').hide();
+          $(e).find('.wrapper-rate').css('display', 'inline-block');
         } else {
           clean(e);
         }
