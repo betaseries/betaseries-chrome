@@ -68,7 +68,7 @@ Content =
 	 # @param	integer		Position de l'épisode
 	 # @return 	string		Bloc *épisode*
 	 #	
-	episode: (e, hidden, start) ->
+	episode: (e, showTitle, hidden, start) ->
 		output = ''
 		
 		## INIT ---------------------------------------
@@ -81,7 +81,7 @@ Content =
 		
 		# Titre de l'épisode
 		tag = if DB.get('options').display_global then '#' + e.global else Fx.displayNumber(e.number)
-		stitle = tag + ' ' + title + ' (' + date('D d F', e.date) + ')'
+		stitle = tag + ' ' + e.title + ' (' + date('D d F', e.date) + ')'
 		texte2 = __('mark_as_seen')
 
 		subs = e.subs
@@ -134,7 +134,7 @@ Content =
 		if DB.get('options').display_copy_episode
 			output += '<div class="td wrapper-copy-clipboard">'
 			output += '<a href="" title="' + title + '" class="invisible copy_episode">'
-			output += '<textarea style="display:none;">' + s.title + ' ' + e.number + '</textarea>'
+			output += '<textarea style="display:none;">' + showTitle + ' ' + e.number + '</textarea>'
 			output += '<img src="../img/link.png" class="copy" />'
 			output += '</a>'
 			output += '</div>'

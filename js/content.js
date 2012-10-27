@@ -35,7 +35,7 @@ Content = {
     output += '</div>';
     return output;
   },
-  episode: function(e, hidden, start) {
+  episode: function(e, showTitle, hidden, start) {
     var dlSrtLanguage, i, imgDownloaded, lang, nbSubs, newShow, output, plot, quality, stitle, sub, subs, tag, texte2, texte3, time, titleWidth, url, _i;
     output = '';
     time = Math.floor(new Date().getTime() / 1000);
@@ -43,7 +43,7 @@ Content = {
     hidden = hidden ? ' hidden' : '';
     plot = start && parseInt(e.global) < start ? 'tick' : 'empty';
     tag = DB.get('options').display_global ? '#' + e.global : Fx.displayNumber(e.number);
-    stitle = tag + ' ' + title + ' (' + date('D d F', e.date) + ')';
+    stitle = tag + ' ' + e.title + ' (' + date('D d F', e.date) + ')';
     texte2 = __('mark_as_seen');
     subs = e.subs;
     nbSubs = 0;
@@ -92,7 +92,7 @@ Content = {
     if (DB.get('options').display_copy_episode) {
       output += '<div class="td wrapper-copy-clipboard">';
       output += '<a href="" title="' + title + '" class="invisible copy_episode">';
-      output += '<textarea style="display:none;">' + s.title + ' ' + e.number + '</textarea>';
+      output += '<textarea style="display:none;">' + showTitle + ' ' + e.number + '</textarea>';
       output += '<img src="../img/link.png" class="copy" />';
       output += '</a>';
       output += '</div>';

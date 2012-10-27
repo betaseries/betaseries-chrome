@@ -245,7 +245,7 @@ BS = {
             output += Content.season(e.season, seasons[e.season], hidden);
             season = e.season;
           }
-          output += Content.episode(e, hidden, start);
+          output += Content.episode(e, s.title, hidden, start);
         }
         output += '</div></div>';
         return output;
@@ -633,7 +633,7 @@ BS = {
             today = Math.floor(new Date().getTime() / 1000);
             global++;
             if (e.date <= today) {
-              output += Content.episode(e, s.hidden);
+              output += Content.episode(e, s.title, s.hidden);
             }
           }
           output += '</div>';
