@@ -135,7 +135,7 @@ Content =
 			output += '<div class="td wrapper-copy-clipboard">'
 			output += '<a href="" title="' + title + '" class="invisible copy_episode">'
 			output += '<textarea style="display:none;">' + showTitle + ' ' + e.number + '</textarea>'
-			output += '<img src="../img/link.png" class="copy" />'
+			output += '<img src="../img/link.png" class="copy action" />'
 			output += '</a>'
 			output += '</div>'
 		
