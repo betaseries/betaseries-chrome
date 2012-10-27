@@ -4,12 +4,7 @@ var Badge, logged,
 
 Badge = {
   init: function() {
-    chrome.browserAction.setBadgeText({
-      text: "?"
-    });
-    chrome.browserAction.setBadgeBackgroundColor({
-      color: [200, 200, 200, 255]
-    });
+    this.display();
     return true;
   },
   autoUpdate: function() {

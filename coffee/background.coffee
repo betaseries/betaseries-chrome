@@ -6,8 +6,7 @@ Badge =
 	
 	## Initialisation
 	init: ->
-		chrome.browserAction.setBadgeText {text: "?"}
-		chrome.browserAction.setBadgeBackgroundColor {color: [200, 200, 200, 255]}
+		@display()
 		return true
 
 	## Mise à jour automatique
