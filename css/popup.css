@@ -140,10 +140,10 @@ div#message img.close:hover {cursor: pointer; opacity: 1.0;}
 	right: -2px;
 	font-size: 8px;
 	color: #fff;
-	background-color: #F03D25;
-	border: 1px solid #D83722;
-	border-bottom: 1px solid #C0311E;
-	border-top: 1px solid #E23923;
+	background-color: #32C832;
+	border: 1px solid #2C852C;
+	border-bottom: 1px solid #2C852C;
+	border-top: 1px solid #2C852C;
 	border-radius: 2px;
 	box-shadow: 0 1px 0 #999;
 	padding: 0 1px;
