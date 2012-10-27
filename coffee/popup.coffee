@@ -67,7 +67,9 @@ $(document).ready ->
 					DB.set 'member.' + login + '.episodes', es
 					Cache.force 'timelineFriends'
 					badge_notification_type = DB.get('options').badge_notification_type
-					bgPage.Badge.update() if badge_notification_type is 'watched'
+					if badge_notification_type is 'watched'
+						total_episodes = DB.get('badge').total_episodes
+						bgPage.Badge.set 'total_episodes', total_episodes - nbr
 				-> 
 					registerAction "/members/watched/" + show, params
 			
@@ -118,7 +120,8 @@ $(document).ready ->
 					DB.set 'member.' + login + '.episodes', es
 					Cache.force 'timelineFriends'
 					badge_notification_type = DB.get('options').badge_notification_type
-					bgPage.Badge.update() if badge_notification_type is 'watched'
+					if badge_notification_type is 'watched'
+						bgPage.Badge.searchEpisodes()
 				-> 
 					registerAction "/members/watched/" + show, params
 			
@@ -302,7 +305,13 @@ $(document).ready ->
 		ajax.post "/members/downloaded/" + show, params, 
 			-> 
 				badge_notification_type = DB.get('options').badge_notification_type
-				bgPage.Badge.update() if badge_notification_type is 'downloaded'
+				if badge_notification_type is 'downloaded'
+					downloaded_episodes = DB.get('badge').downloaded_episodes
+					if es[global].downloaded
+						downloaded_episodes--
+					else
+						downloaded_episodes++
+					bgPage.Badge.set 'downloaded_episodes', downloaded_episodes
 			-> registerAction "/members/downloaded/" + show, params
 
 	## Marquer un épisode comme récupéré ou pas
@@ -330,7 +339,8 @@ $(document).ready ->
 			=>
 				Cache.force 'membersEpisodes.all'
 				badge_notification_type = DB.get('options').badge_notification_type
-				bgPage.Badge.update() if badge_notification_type is 'downloaded'
+				if badge_notification_type is 'downloaded'
+					bgPage.Badge.searchEpisodes()
 				$(@).html '<span class="imgSyncOff"></span>' + __(dl)
 			-> 
 				registerAction "/members/downloaded/" + show, params
@@ -352,7 +362,7 @@ $(document).ready ->
 				=>
 					Cache.force 'membersEpisodes.all'
 					Cache.force 'membersInfos.' + DB.get('session').login
-					bgPage.Badge.update()
+					bgPage.Badge.searchEpisodes()
 					$(@).html '<span class="imgSyncOff"></span>' + __('show_unarchive')
 					$(@).attr 'id', 'showsUnarchive'
 				-> registerAction "/shows/archive/" + show, ""
@@ -370,7 +380,7 @@ $(document).ready ->
 				=>
 					Cache.force 'membersEpisodes.all'
 					Cache.force 'membersInfos.' + DB.get('session').login
-					bgPage.Badge.update()
+					bgPage.Badge.searchEpisodes()
 					$(this).html '<span class="imgSyncOff"></span>' + __('show_archive')
 					$(this).attr 'id', 'showsArchive'
 				-> registerAction "/shows/unarchive/" + show, ""
@@ -388,7 +398,7 @@ $(document).ready ->
 				=>
 					Cache.force 'membersEpisodes.all'
 					Cache.force 'membersInfos.' + DB.get('session').login
-					bgPage.Badge.update()
+					bgPage.Badge.searchEpisodes()
 					$(this).html '<span class="imgSyncOff"></span>' + __('show_remove')
 					$(this).attr 'id', 'showsRemove'
 				-> registerAction "/shows/add/" + show, ''
@@ -409,7 +419,7 @@ $(document).ready ->
 				=>
 					Cache.force 'membersEpisodes.all'
 					Cache.force 'membersInfos.' + DB.get('session').login
-					bgPage.Badge.update()
+					bgPage.Badge.searchEpisodes()
 					$(this).html '<span class="imgSyncOff"></span>' + __('show_add')
 					$(this).attr 'id', 'showsAdd'
 				-> registerAction "/shows/remove/" + show, ''

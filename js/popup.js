@@ -59,12 +59,13 @@ $(document).ready(function() {
       }
       params = "&season=" + season + "&episode=" + episode;
       return ajax.post("/members/watched/" + show, params, function() {
-        var badge_notification_type;
+        var badge_notification_type, total_episodes;
         DB.set('member.' + login + '.episodes', es);
         Cache.force('timelineFriends');
         badge_notification_type = DB.get('options').badge_notification_type;
         if (badge_notification_type === 'watched') {
-          return bgPage.Badge.update();
+          total_episodes = DB.get('badge').total_episodes;
+          return bgPage.Badge.set('total_episodes', total_episodes - nbr);
         }
       }, function() {
         return registerAction("/members/watched/" + show, params);
@@ -126,7 +127,7 @@ $(document).ready(function() {
         Cache.force('timelineFriends');
         badge_notification_type = DB.get('options').badge_notification_type;
         if (badge_notification_type === 'watched') {
-          return bgPage.Badge.update();
+          return bgPage.Badge.searchEpisodes();
         }
       }, function() {
         return registerAction("/members/watched/" + show, params);
@@ -316,10 +317,16 @@ $(document).ready(function() {
     }
     params = "&season=" + season + "&episode=" + episode;
     return ajax.post("/members/downloaded/" + show, params, function() {
-      var badge_notification_type;
+      var badge_notification_type, downloaded_episodes;
       badge_notification_type = DB.get('options').badge_notification_type;
       if (badge_notification_type === 'downloaded') {
-        return bgPage.Badge.update();
+        downloaded_episodes = DB.get('badge').downloaded_episodes;
+        if (es[global].downloaded) {
+          downloaded_episodes--;
+        } else {
+          downloaded_episodes++;
+        }
+        return bgPage.Badge.set('downloaded_episodes', downloaded_episodes);
       }
     }, function() {
       return registerAction("/members/downloaded/" + show, params);
@@ -345,7 +352,7 @@ $(document).ready(function() {
       Cache.force('membersEpisodes.all');
       badge_notification_type = DB.get('options').badge_notification_type;
       if (badge_notification_type === 'downloaded') {
-        bgPage.Badge.update();
+        bgPage.Badge.searchEpisodes();
       }
       return $(_this).html('<span class="imgSyncOff"></span>' + __(dl));
     }, function() {
@@ -367,7 +374,7 @@ $(document).ready(function() {
       ajax.post("/shows/archive/" + show, "", function() {
         Cache.force('membersEpisodes.all');
         Cache.force('membersInfos.' + DB.get('session').login);
-        bgPage.Badge.update();
+        bgPage.Badge.searchEpisodes();
         $(_this).html('<span class="imgSyncOff"></span>' + __('show_unarchive'));
         return $(_this).attr('id', 'showsUnarchive');
       }, function() {
@@ -385,7 +392,7 @@ $(document).ready(function() {
       ajax.post("/shows/unarchive/" + show, "", function() {
         Cache.force('membersEpisodes.all');
         Cache.force('membersInfos.' + DB.get('session').login);
-        bgPage.Badge.update();
+        bgPage.Badge.searchEpisodes();
         $(_this).html('<span class="imgSyncOff"></span>' + __('show_archive'));
         return $(_this).attr('id', 'showsArchive');
       }, function() {
@@ -403,7 +410,7 @@ $(document).ready(function() {
       ajax.post('/shows/add/' + show, '', function() {
         Cache.force('membersEpisodes.all');
         Cache.force('membersInfos.' + DB.get('session').login);
-        bgPage.Badge.update();
+        bgPage.Badge.searchEpisodes();
         $(_this).html('<span class="imgSyncOff"></span>' + __('show_remove'));
         return $(_this).attr('id', 'showsRemove');
       }, function() {
@@ -423,7 +430,7 @@ $(document).ready(function() {
       ajax.post('/shows/remove/' + show, '', function() {
         Cache.force('membersEpisodes.all');
         Cache.force('membersInfos.' + DB.get('session').login);
-        bgPage.Badge.update();
+        bgPage.Badge.searchEpisodes();
         $(_this).html('<span class="imgSyncOff"></span>' + __('show_add'));
         return $(_this).attr('id', 'showsAdd');
       }, function() {

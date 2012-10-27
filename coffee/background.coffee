@@ -84,7 +84,7 @@ Badge =
 	## Afficher les données du badge en cache
 	display: ->
 		options = DB.get('options')
-		badgeNotificationType = options.badge_notification_type;
+		badgeNotificationType = options.badge_notification_type
 		b = DB.get 'badge'
 		if b.total_episodes? && parseInt(b.total_episodes) > 0 && badgeNotificationType is 'watched'
 			@render('total_episodes', b.total_episodes)
