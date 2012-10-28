@@ -374,10 +374,9 @@ BS = {
         return DB.set('member.' + this.login + '.planning', data);
       },
       content: function() {
-        var MAX_WEEKS, actualWeek, data, diffWeek, e, hidden, nbrEpisodes, output, plot, today, todayWeek, w, week;
+        var actualWeek, data, diffWeek, e, hidden, nbrEpisodes, output, plot, titleIcon, today, todayWeek, visibleIcon, w, week;
         output = '';
         week = 100;
-        MAX_WEEKS = 2;
         nbrEpisodes = 0;
         data = DB.get('member.' + this.login + '.planning', null);
         if (!data) {
@@ -389,30 +388,38 @@ BS = {
           actualWeek = parseFloat(date('W', data[e].date));
           diffWeek = actualWeek - todayWeek;
           plot = data[e].date < today ? "orange" : "red";
+          if (diffWeek < -2 || diffWeek > 2) {
+            continue;
+          }
           if (actualWeek !== week) {
             week = actualWeek;
-            hidden = "";
             if (diffWeek < -1) {
               w = __('weeks_ago', [Math.abs(diffWeek)]);
+              hidden = true;
             } else if (diffWeek === -1) {
               w = __('last_week');
+              hidden = true;
             } else if (diffWeek === 0) {
               w = __('this_week');
+              hidden = false;
             } else if (diffWeek === 1) {
               w = __('next_week');
             } else if (diffWeek > 1) {
               w = __('next_weeks', [diffWeek]);
-            }
-            if (diffWeek < -2 || diffWeek > 2) {
-              hidden = ' style="display:none"';
+              hidden = false;
             }
             if (nbrEpisodes > 0) {
               output += '</div>';
             }
-            output += '<div class="week"' + hidden + '>';
-            output += '<div class="title">' + w + '</div>';
+            visibleIcon = hidden ? '../img/arrow_right.gif' : '../img/arrow_down.gif';
+            titleIcon = hidden ? __('maximise') : __('minimise');
+            hidden = hidden ? ' hidden' : '';
+            output += '<div class="week' + hidden + '">';
+            output += '<div class="title"> ';
+            output += '<img src="' + visibleIcon + '" class="toggleWeek" title="' + titleIcon + '" />';
+            output += w + '</div>';
           }
-          output += '<div class="episode ' + date('D', data[e].date).toLowerCase() + '">';
+          output += '<div class="episode ' + date('D', data[e].date).toLowerCase() + hidden + '">';
           output += '<div url="' + data[e].url + '" season="' + data[e].season + '" episode="' + data[e].episode + '" class="left">';
           output += '<img src="../img/empty.png" width="11" /> ';
           output += '<span class="num">' + Fx.displayNumber(data[e].number) + '</span> ';

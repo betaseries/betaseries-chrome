@@ -364,7 +364,6 @@ BS =
 		content: ->	
 			output = ''
 			week = 100
-			MAX_WEEKS = 2
 			nbrEpisodes = 0
 			
 			data = DB.get 'member.' + @login + '.planning', null
@@ -376,27 +375,35 @@ BS =
 				actualWeek = parseFloat date('W', data[e].date)
 				diffWeek = actualWeek - todayWeek
 				plot = if data[e].date < today then "orange" else "red"
+				if diffWeek < -2 or diffWeek > 2
+					continue
 				if actualWeek isnt week
 					week = actualWeek
-					hidden = ""
 					if diffWeek < -1 
 						w = __('weeks_ago', [Math.abs diffWeek])
+						hidden = true
 					else if diffWeek is -1
 						w = __('last_week')
+						hidden = true
 					else if diffWeek is 0
 						w = __('this_week')
+						hidden = false
 					else if diffWeek is 1
 						w = __('next_week')
 					else if diffWeek > 1
 						w = __('next_weeks', [diffWeek])
-					if diffWeek < -2 or diffWeek > 2
-						hidden = ' style="display:none"'
+						hidden = false
 					if nbrEpisodes > 0
 						output += '</div>'
-					output += '<div class="week"' + hidden + '>'
-					output += '<div class="title">' + w + '</div>'
+					visibleIcon = if hidden then '../img/arrow_right.gif' else '../img/arrow_down.gif'
+					titleIcon = if hidden then __('maximise') else __('minimise')
+					hidden = if hidden then ' hidden' else ''
+					output += '<div class="week' + hidden + '">'
+					output += '<div class="title"> ' 
+					output += '<img src="' + visibleIcon + '" class="toggleWeek" title="' + titleIcon + '" />'
+					output += w + '</div>'
 			
-				output += '<div class="episode ' + date('D', data[e].date).toLowerCase() + '">'
+				output += '<div class="episode ' + date('D', data[e].date).toLowerCase() + hidden + '">'
 				
 				output += '<div url="' + data[e].url + '" season="' + data[e].season + '" episode="' + data[e].episode + '" class="left">'
 				output += '<img src="../img/empty.png" width="11" /> '
