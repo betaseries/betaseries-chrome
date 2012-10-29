@@ -29,11 +29,14 @@
 
 ## Dernière version
 
-### Version 0.9.7
+### Version 0.9.9
 
-* Ajout d'une nouvelle notification : nouveaux épisodes du jour (badge mauve)
-* Amélioration de l'affichage de la section "Mes épisodes"
-* Correction de l'affichage de la section "Mes notifications"
+* Ajout d'une nouvelle option : marquer les notifications de type 'épisode' comme vu (ticket #28)
+* Plus besoin de forcer la déconnexion quand une nouvelle option sera ajoutée à partir de maintenant
+* Possibilité de minimiser/maximiser les semaines dans la section planning (ticket #30)
+* Amélioration de l'affichage de la section planning (ticket #31)
+* Correction du badge quand il ne reste plus d'épisodes
+* Diminution des requêtes faites au serveur
 
 ## Liens
 
