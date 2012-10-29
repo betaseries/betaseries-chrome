@@ -374,7 +374,7 @@ BS =
 				todayWeek = parseFloat date('W', today)
 				actualWeek = parseFloat date('W', data[e].date)
 				diffWeek = actualWeek - todayWeek
-				plot = if data[e].date < today then "orange" else "red"
+				plot = if data[e].date < today then "tick" else "empty"
 				if diffWeek < -2 or diffWeek > 2
 					continue
 				if actualWeek isnt week
@@ -405,14 +405,17 @@ BS =
 			
 				output += '<div class="episode ' + date('D', data[e].date).toLowerCase() + hidden + '">'
 				
-				output += '<div url="' + data[e].url + '" season="' + data[e].season + '" episode="' + data[e].episode + '" class="left">'
-				output += '<img src="../img/empty.png" width="11" /> '
+				output += '<div class="td wrapper-seen">'
+				output += '<img src="../img/' + plot + '.png" width="11" />'
+				output += '</div>'
+
+				output += '<div class="td wrapper-title" style="width: 186px;">'
 				output += '<span class="num">' + Fx.displayNumber(data[e].number) + '</span> '
 				output += '<a href="" url="' + data[e].url + '" season="' + data[e].season + '" episode="' + data[e].episode + '" global="' + data[e].global + '" title="' + data[e].show + '" class="epLink display_episode">'
-				output += data[e].show + '</a> '
+				output += data[e].show + '</a>'
 				output += '</div>'
 				
-				output += '<div class="right">'
+				output += '<div class="td wrapper-date">'
 				output += '<span class="date">' + date('D d F', data[e].date) + '</span>'
 				output += '</div>'
 				
