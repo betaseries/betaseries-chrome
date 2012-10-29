@@ -61,6 +61,22 @@ Fx = {
     }
     return nbr;
   },
+  verifyOptions: function(opt) {
+    var i, j, options, res;
+    options = DB.get('options');
+    res = [];
+    for (i in options) {
+      j = options[i];
+      res.push(i);
+    }
+    for (i in opt) {
+      j = opt[i];
+      if (!(i in options)) {
+        options[i] = opt[i];
+      }
+    }
+    return DB.set('options', options);
+  },
   subFirst: function(str, nbr) {
     var strLength, strSub;
     strLength = str.length;

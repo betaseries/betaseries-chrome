@@ -41,6 +41,8 @@ DB =
 		@set 'options', options, true
 		@set 'views', {}, true
 
+		Fx.verifyOptions options
+		
 		version = @get 'version', null
 		if version is null then @set 'version', Fx.getVersion(), true
 		

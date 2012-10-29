@@ -48,6 +48,17 @@ Fx =
 			if time > i.date && !i.seen
 				nbr++
 		return nbr
+
+	## Repère les options non définies et les initialise
+	verifyOptions: (opt) ->
+		options = DB.get('options')
+		res = []
+		for i, j of options
+			res.push i
+		for i, j of opt
+			if !(i of options)
+				options[i] = opt[i]
+		DB.set 'options', options
 	
 	##
 	subFirst: (str, nbr) ->

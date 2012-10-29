@@ -72,6 +72,7 @@ DB = {
     this.set('historic', [], false);
     this.set('options', options, true);
     this.set('views', {}, true);
+    Fx.verifyOptions(options);
     version = this.get('version', null);
     if (version === null) {
       return this.set('version', Fx.getVersion(), true);
