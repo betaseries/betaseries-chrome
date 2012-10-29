@@ -148,6 +148,9 @@
 	"mark_as_seen": {
 		"message": "Mark this episode, and previous, as seen"
 	},
+	"mark_notifs_episode_as_seen": {
+		"message": "Mark notifications of type 'episode' as read"
+	},
 	"max_height": {
 		"message": "Maximum height of the popup : "
 	},

@@ -24,9 +24,9 @@ Fx =
 	formatNotifications: (notifs) ->
 		res = []
 		for i, j of notifs
-			if j.type isnt 'episode'
-				j.seen = false
-				res.push j
+			if j.type is 'episode' && DB.get('options').mark_notifs_episode_as_seen
+				j.seen = true
+			res.push j
 		return res
 
 	## Trie les notifications par date décroissante
