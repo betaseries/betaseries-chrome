@@ -179,24 +179,6 @@ Fx = {
       episode: episode
     };
   },
-  getCacheSize: function(key) {
-    var size;
-    if (key != null) {
-      size = Math.floor(JSON.stringify(localStorage[key]).length);
-    } else {
-      size = Math.floor(JSON.stringify(localStorage).length);
-    }
-    return size;
-  },
-  getCacheFormat: function(size) {
-    if (size < 1000) {
-      return size + ' o';
-    } else if (size < 1000 * 1000) {
-      return (Math.floor(size / 100) / 10) + ' Ko';
-    } else {
-      return (Math.floor(size / 1000) / 1000) + ' Mo';
-    }
-  },
   needUpdate: function() {
     return __('no_data_found');
   },

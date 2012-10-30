@@ -85,9 +85,19 @@ DB = {
       return defaultValue;
     }
   },
+  getAll: function() {
+    return localStorage;
+  },
   set: function(field, value, init) {
     if (!init || (init && !localStorage[field])) {
       return localStorage[field] = JSON.stringify(value);
+    }
+  },
+  size: function(key) {
+    if (key != null) {
+      return Math.floor(JSON.stringify(localStorage[key]).length);
+    } else {
+      return Math.floor(JSON.stringify(localStorage).length);
     }
   },
   remove: function(field) {

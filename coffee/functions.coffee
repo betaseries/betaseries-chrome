@@ -138,23 +138,6 @@ Fx =
 		episode += number[5]
 		season: season
 		episode: episode
-		
-	##
-	getCacheSize: (key) ->
-		if key?
-			size = Math.floor JSON.stringify(localStorage[key]).length
-		else
-			size = Math.floor JSON.stringify(localStorage).length
-		return size	
-	
-	##
-	getCacheFormat: (size) ->
-		if size < 1000
-			return size + ' o'
-		else if size < 1000*1000
-			return (Math.floor(size /100) /10) + ' Ko'
-		else
-			return (Math.floor(size /1000) /1000) + ' Mo'
 			
 	##
 	needUpdate: ->

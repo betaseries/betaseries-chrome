@@ -12,13 +12,14 @@ Cache = {
     }
   },
   getSize: function() {
-    var count, i, j, list;
+    var count, i, j, list, storage;
     count = 0;
     list = ['options', 'version', 'session', 'badge', 'historic'];
-    for (i in localStorage) {
-      j = localStorage[i];
+    storage = DB.getAll();
+    for (i in storage) {
+      j = storage[i];
       if (__indexOf.call(list, i) < 0) {
-        count += Fx.getCacheSize(i);
+        count += DB.size(i);
       }
     }
     return count;
@@ -33,10 +34,11 @@ Cache = {
     }
   },
   remove: function() {
-    var i, j, todelete, _i, _len;
+    var i, j, storage, todelete, _i, _len;
     todelete = [];
-    for (i in localStorage) {
-      j = localStorage[i];
+    storage = DB.getAll();
+    for (i in storage) {
+      j = storage[i];
       if (i.indexOf('badge') !== 0 && i.indexOf('historic') !== 0 && i.indexOf('member' + DB.get('session').login + '.notifs') !== 0 && i.indexOf('options') !== 0 && i.indexOf('session') !== 0 && i.indexOf('version') !== 0 && i.indexOf('new_episodes_checked') !== 0) {
         todelete.push(i);
       }

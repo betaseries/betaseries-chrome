@@ -14,9 +14,10 @@ Cache =
 	getSize: ->
 		count = 0
 		list = ['options', 'version', 'session', 'badge', 'historic']
-		for i, j of localStorage
+		storage = DB.getAll()
+		for i, j of storage
 			if i not in list
-				count += Fx.getCacheSize i
+				count += DB.size i
 		return count
 
 	## Exécute la maintenance qui consiste à vider le cache
@@ -30,7 +31,8 @@ Cache =
 	## Réinitialise le cache (sans déconnexion)
 	remove: ->
 		todelete = []
-		for i, j of localStorage
+		storage = DB.getAll()
+		for i, j of storage
 		
 			if i.indexOf('badge') isnt 0 && i.indexOf('historic') isnt 0 && i.indexOf('member' + DB.get('session').login + '.notifs') isnt 0 && i.indexOf('options') isnt 0 && i.indexOf('session') isnt 0 && i.indexOf('version') isnt 0 && i.indexOf('new_episodes_checked') isnt 0
 				todelete.push i
