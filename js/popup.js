@@ -200,7 +200,7 @@ $(document).ready(function() {
     season = $(this).attr('season');
     episode = $(this).attr('episode');
     global = $(this).attr('global');
-    return BS.load('showsEpisode', url, season, episode, global);
+    return BS.load('Episode', url, season, episode, global);
   });
   $('#page').on('click', '.display_episodes', function() {
     var url;

@@ -190,7 +190,7 @@ $(document).ready ->
 		season = $(@).attr 'season'
 		episode = $(@).attr 'episode'
 		global = $(@).attr 'global'
-		BS.load 'showsEpisode', url, season, episode, global
+		BS.load 'Episode', url, season, episode, global
 
 	# Ouvrir la fiche des épisodes d'une série
 	$('#page').on 'click', '.display_episodes', ->
