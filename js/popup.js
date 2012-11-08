@@ -751,7 +751,7 @@ $(document).ready(function() {
     if (BS.currentView.id === 'menu') {
       return Historic.refresh();
     } else {
-      return BS.load('menu');
+      return BS.load("Menu");
     }
   }).attr('title', __('menu'));
   message = function(content) {
@@ -776,9 +776,10 @@ $(document).ready(function() {
   DB.init();
   Fx.updateHeight(true);
   Fx.checkVersion();
+  window.BS = new Controller;
   if (bgPage.logged()) {
-    return BS.load('membersEpisodes');
+    return BS.load("MyEpisodes");
   } else {
-    return BS.load('connection');
+    return BS.load("Connection");
   }
 });

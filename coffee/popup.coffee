@@ -735,7 +735,7 @@ $(document).ready ->
 			if BS.currentView.id is 'menu'
 				Historic.refresh()
 			else
-				BS.load('menu');
+				BS.load "Menu"
 		.attr 'title', __('menu')
 		
 	## Afficher le message de confirmation
@@ -762,8 +762,11 @@ $(document).ready ->
 	
 	# Récupération du numéro de version
 	Fx.checkVersion()
-	
+
+	# Controller
+	window.BS = new Controller
+
 	if bgPage.logged()
-		BS.load 'membersEpisodes'
+		BS.load "MyEpisodes"
 	else
-		BS.load 'connection'
+		BS.load "Connection"
