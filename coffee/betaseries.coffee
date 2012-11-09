@@ -9,6 +9,17 @@ class Controller
 	# Objet "vue" courant
 	currentView: null
 
+	# Démarrer l'affichage du popup
+	start: ->
+		# init localStorage
+		DB.init()
+			
+		# Récupération du numéro de version
+		Fx.checkVersion()
+
+		# Page d'accueil
+		if bgPage.logged() then BS.load("MyEpisodes") else BS.load("Connection")
+
 	# Lancer l'affichage d'une vue
 	load: (view, params...) ->
 		# infos de la vue
@@ -783,37 +794,40 @@ class View_EpisodeComments extends View
 		output += __('no_comments') if i is 1
 		return output
 	
-	#
-	'''timelineFriends: ->
-		id: 'timelineFriends'
-		name: 'timelineFriends'
-		url: '/timeline/friends'
-		params: '&number=10'
-		root: 'timeline'
-		login: DB.get('session').login
-		update: (data) ->
-			DB.set 'member.' + @login + '.timeline', data
-		content: ->
-			output = ''
-			time = ''
+# Vue: MemberTimeline
+class View_MemberTimeline extends View
+
+	id: 'MemberTimeline'
+	name: 'MemberTimeline'
+	url: '/timeline/friends'
+	params: '&number=10'
+	root: 'timeline'
+	login: DB.get('session').login
+	
+	update: (data) ->
+		DB.set 'member.' + @login + '.timeline', data
+	
+	content: ->
+		output = ''
+		time = ''
+		
+		data = DB.get 'member.' + @login + '.timeline', null
+		return Fx.needUpdate() if !data
+		
+		for n of data
+			new_date = date('D d F', data[n].date)
+			if new_date isnt time
+				time = new_date
+				output += '<div class="title">' + time + '</div>'
 			
-			data = DB.get 'member.' + @login + '.timeline', null
-			return Fx.needUpdate() if !data
-			
-			for n of data
-				new_date = date('D d F', data[n].date)
-				if new_date isnt time
-					time = new_date
-					output += '<div class="title">' + time + '</div>'
-				
-				output += '<div class="event ' + date('D', data[n].date).toLowerCase() + '">'
-				output += '<b>' + date('H:i', data[n].date) + '</b> '
-				output += '<span class="login">' + data[n].login + '</span> ' + data[n].html
-				output += '</div>'
-			return output
+			output += '<div class="event ' + date('D', data[n].date).toLowerCase() + '">'
+			output += '<b>' + date('H:i', data[n].date) + '</b> '
+			output += '<span class="login">' + data[n].login + '</span> ' + data[n].html
+			output += '</div>'
+		return output
 	
 	#
-	connection: ->
+	'''connection: ->
 		id: 'connection'
 		name: 'connection'
 		content: ->

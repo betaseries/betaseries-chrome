@@ -666,7 +666,7 @@ $(document).ready ->
 			
 			Fx.updateHeight()
 
-	## Maximiser/minimiser une saison*/
+	## Action: maximiser/minimiser une saison
 	$('.toggleSeason').live
 		click: ->
 			season = $(@).closest('.season')
@@ -681,7 +681,7 @@ $(document).ready ->
 			
 			Fx.updateHeight()
 
-	## Maximiser/minimiser une semaine (planning)*/
+	## Action: maximiser/minimiser une semaine (planning)
 	$('.toggleWeek').live
 		click: ->
 			week = $(@).closest('.week')
@@ -696,16 +696,17 @@ $(document).ready ->
 			
 			Fx.updateHeight()
 			
-	## HEADER links
+	# Action: aller sur le site de BetaSeries
 	$('#logoLink')
 		.click(-> Fx.openTab ajax.site_url, true)
 		.attr 'title', __("logo")
 	
+	# Action: aller sur la page du ChromeWebStore
 	$('#versionLink')
 		.click(-> Fx.openTab 'https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true)
 		.attr 'title', __("version")
 	
-	## MENU actions
+	## Actions: liens du menu
 	$('.Menu a').live 'click', ->
 		event.preventDefault()
 		id = $(@).attr('id').substring 5
@@ -716,20 +717,24 @@ $(document).ready ->
 		else
 			BS.load id
 
+	# Action: revenir en arrière
 	$('#back').click ->
 			Historic.back()
 			return false
 		.attr 'title', __("back")
 	
+	# Action: Rafraîchir une vue
 	$('#sync')
 		.click(-> BS.refresh())
 		.attr 'title', __('sync')
 
+	# Action: Aller à "Mes notifications"
 	$('#notifications').click ->
 			BS.load 'MemberNotifications'
 			return false
 		.attr 'title', __('notifs')
 	
+	# Action: Afficher/quitter le menu
 	$('#menu')
 		.click ->
 			if BS.currentView.id is 'menu'
@@ -738,35 +743,23 @@ $(document).ready ->
 				BS.load "Menu"
 		.attr 'title', __('menu')
 		
-	## Afficher le message de confirmation
+	## Fonction: afficher un message
 	message = (content) -> 
 		$('#message .content').html content
 		$('#message').slideDown()
 		highlight $('#message')
 
+	# Fonction: surligner un div
 	highlight = (selector) ->
 		bgColor = selector.css('background-color')
 		selector.animate({backgroundColor: '#FAFA97'}, 500)
 		selector.animate({backgroundColor: bgColor}, 500)
 
-	# Ouvrir la fiche d'une série
+	# Action: Fermer l'encart message
 	$('#message').on 'click', '.close', ->
 		event.preventDefault()
-		$('#message').slideUp()
-	
-	## INIT
-	DB.init()
-		
-	# Réglage de la hauteur du popup
-	Fx.updateHeight true
-	
-	# Récupération du numéro de version
-	Fx.checkVersion()
+		$('#message').slideUp()	
 
-	# Controller
+	# START
 	window.BS = new Controller
-
-	if bgPage.logged()
-		BS.load "MyEpisodes"
-	else
-		BS.load "Connection"
+	BS.start()

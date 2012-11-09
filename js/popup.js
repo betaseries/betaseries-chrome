@@ -773,13 +773,6 @@ $(document).ready(function() {
     event.preventDefault();
     return $('#message').slideUp();
   });
-  DB.init();
-  Fx.updateHeight(true);
-  Fx.checkVersion();
   window.BS = new Controller;
-  if (bgPage.logged()) {
-    return BS.load("MyEpisodes");
-  } else {
-    return BS.load("Connection");
-  }
+  return BS.start();
 });
