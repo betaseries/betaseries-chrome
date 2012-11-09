@@ -5,6 +5,7 @@ var Cache,
 Cache = {
   force: function(view) {
     var views;
+    view = view.toLowerCase();
     views = DB.get('views', {});
     if (views[view] != null) {
       views[view].force = true;

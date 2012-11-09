@@ -65,7 +65,7 @@ $(document).ready ->
 			ajax.post "/members/watched/" + show, params, 
 				->
 					DB.set 'member.' + login + '.episodes', es
-					Cache.force 'timelineFriends'
+					Cache.force 'MemberTimeline'
 					badge_notification_type = DB.get('options').badge_notification_type
 					if badge_notification_type is 'watched'
 						total_episodes = DB.get('badge').total_episodes
@@ -118,7 +118,7 @@ $(document).ready ->
 			ajax.post "/members/watched/" + show, params, 
 				->
 					DB.set 'member.' + login + '.episodes', es
-					Cache.force 'timelineFriends'
+					Cache.force 'MemberTimeline'
 					badge_notification_type = DB.get('options').badge_notification_type
 					if badge_notification_type is 'watched'
 						bgPage.Badge.searchEpisodes()
@@ -267,7 +267,7 @@ $(document).ready ->
 			params = "&season=" + season + "&episode=" + episode + "&note=" + rate
 			ajax.post "/members/note/" + show, params, 
 				-> 
-					Cache.force 'timelineFriends'
+					Cache.force 'MemberTimeline'
 				->
 					registerAction "/members/watched/" + show, params
 		
@@ -337,7 +337,7 @@ $(document).ready ->
 		params = "&season=" + season + "&episode=" + episode
 		ajax.post "/members/downloaded/" + show, params, 
 			=>
-				Cache.force 'membersEpisodes.all'
+				Cache.force 'MyEpisodes.all'
 				badge_notification_type = DB.get('options').badge_notification_type
 				if badge_notification_type is 'downloaded'
 					bgPage.Badge.searchEpisodes()
@@ -360,8 +360,8 @@ $(document).ready ->
 			
 			ajax.post "/shows/archive/" + show, "", 
 				=>
-					Cache.force 'membersEpisodes.all'
-					Cache.force 'membersInfos.' + DB.get('session').login
+					Cache.force 'MyEpisodes.all'
+					Cache.force 'Member.' + DB.get('session').login
 					bgPage.Badge.searchEpisodes()
 					$(@).html '<span class="imgSyncOff"></span>' + __('show_unarchive')
 					$(@).attr 'id', 'showsUnarchive'
@@ -378,8 +378,8 @@ $(document).ready ->
 			
 			ajax.post "/shows/unarchive/" + show, "", 
 				=>
-					Cache.force 'membersEpisodes.all'
-					Cache.force 'membersInfos.' + DB.get('session').login
+					Cache.force 'MyEpisodes.all'
+					Cache.force 'Member.' + DB.get('session').login
 					bgPage.Badge.searchEpisodes()
 					$(this).html '<span class="imgSyncOff"></span>' + __('show_archive')
 					$(this).attr 'id', 'showsArchive'
@@ -396,8 +396,8 @@ $(document).ready ->
 			
 			ajax.post '/shows/add/' + show, '', 
 				=>
-					Cache.force 'membersEpisodes.all'
-					Cache.force 'membersInfos.' + DB.get('session').login
+					Cache.force 'MyEpisodes.all'
+					Cache.force 'Member.' + DB.get('session').login
 					bgPage.Badge.searchEpisodes()
 					$(this).html '<span class="imgSyncOff"></span>' + __('show_remove')
 					$(this).attr 'id', 'showsRemove'
@@ -417,8 +417,8 @@ $(document).ready ->
 
 			ajax.post '/shows/remove/' + show, '', 
 				=>
-					Cache.force 'membersEpisodes.all'
-					Cache.force 'membersInfos.' + DB.get('session').login
+					Cache.force 'MyEpisodes.all'
+					Cache.force 'Member.' + DB.get('session').login
 					bgPage.Badge.searchEpisodes()
 					$(this).html '<span class="imgSyncOff"></span>' + __('show_add')
 					$(this).attr 'id', 'showsAdd'
@@ -435,9 +435,9 @@ $(document).ready ->
 			
 			ajax.post "/members/add/" + login, '', 
 				=>
-					Cache.force 'membersInfos.' + DB.get('session').login
-					Cache.force 'membersInfos.' + login
-					Cache.force 'timelineFriends'
+					Cache.force 'MyEpisodes.' + DB.get('session').login
+					Cache.force 'Member.' + login
+					Cache.force 'MemberTimeline'
 					$(this).html '<span class="imgSyncOff"></span>' + __('remove_to_friends', [login])
 					$(this).attr 'id', 'friendsRemove'
 				-> registerAction "/members/add/" + login, ''
@@ -452,9 +452,9 @@ $(document).ready ->
 			
 			ajax.post "/members/delete/" + login, '', 
 				=>
-					Cache.force 'membersInfos.' + DB.get('session').login
-					Cache.force 'membersInfos.' + login
-					Cache.force 'timelineFriends'
+					Cache.force 'Member.' + DB.get('session').login
+					Cache.force 'Member.' + login
+					Cache.force 'MemberTimeline'
 					$(this).html '<span class="imgSyncOff"></span>' + __('add_to_friends', [login])
 					$(this).attr 'id', 'friendsAdd'
 			return false

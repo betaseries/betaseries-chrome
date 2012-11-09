@@ -6,6 +6,7 @@ Cache =
 
 	## force à mettre à jour le cache de la vue
 	force: (view) ->
+		view = view.toLowerCase()
 		views = DB.get 'views', {}
 		if views[view]?
 			views[view].force = true

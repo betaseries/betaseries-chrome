@@ -61,7 +61,7 @@ $(document).ready(function() {
       return ajax.post("/members/watched/" + show, params, function() {
         var badge_notification_type, total_episodes;
         DB.set('member.' + login + '.episodes', es);
-        Cache.force('timelineFriends');
+        Cache.force('MemberTimeline');
         badge_notification_type = DB.get('options').badge_notification_type;
         if (badge_notification_type === 'watched') {
           total_episodes = DB.get('badge').total_episodes;
@@ -124,7 +124,7 @@ $(document).ready(function() {
       return ajax.post("/members/watched/" + show, params, function() {
         var badge_notification_type;
         DB.set('member.' + login + '.episodes', es);
-        Cache.force('timelineFriends');
+        Cache.force('MemberTimeline');
         badge_notification_type = DB.get('options').badge_notification_type;
         if (badge_notification_type === 'watched') {
           return bgPage.Badge.searchEpisodes();
@@ -284,7 +284,7 @@ $(document).ready(function() {
       rate = $(this).attr('id').substring(4);
       params = "&season=" + season + "&episode=" + episode + "&note=" + rate;
       return ajax.post("/members/note/" + show, params, function() {
-        return Cache.force('timelineFriends');
+        return Cache.force('MemberTimeline');
       }, function() {
         return registerAction("/members/watched/" + show, params);
       });
@@ -349,7 +349,7 @@ $(document).ready(function() {
     params = "&season=" + season + "&episode=" + episode;
     return ajax.post("/members/downloaded/" + show, params, function() {
       var badge_notification_type;
-      Cache.force('membersEpisodes.all');
+      Cache.force('MyEpisodes.all');
       badge_notification_type = DB.get('options').badge_notification_type;
       if (badge_notification_type === 'downloaded') {
         bgPage.Badge.searchEpisodes();
@@ -372,8 +372,8 @@ $(document).ready(function() {
       show = $(this).attr('href').substring(1);
       $(this).find('span').toggleClass('imgSyncOff imgSyncOn');
       ajax.post("/shows/archive/" + show, "", function() {
-        Cache.force('membersEpisodes.all');
-        Cache.force('membersInfos.' + DB.get('session').login);
+        Cache.force('MyEpisodes.all');
+        Cache.force('Member.' + DB.get('session').login);
         bgPage.Badge.searchEpisodes();
         $(_this).html('<span class="imgSyncOff"></span>' + __('show_unarchive'));
         return $(_this).attr('id', 'showsUnarchive');
@@ -390,8 +390,8 @@ $(document).ready(function() {
       show = $(this).attr('href').substring(1);
       $(this).find('span').toggleClass('imgSyncOff imgSyncOn');
       ajax.post("/shows/unarchive/" + show, "", function() {
-        Cache.force('membersEpisodes.all');
-        Cache.force('membersInfos.' + DB.get('session').login);
+        Cache.force('MyEpisodes.all');
+        Cache.force('Member.' + DB.get('session').login);
         bgPage.Badge.searchEpisodes();
         $(_this).html('<span class="imgSyncOff"></span>' + __('show_archive'));
         return $(_this).attr('id', 'showsArchive');
@@ -408,8 +408,8 @@ $(document).ready(function() {
       show = $(this).attr('href').substring(1);
       $(this).find('span').toggleClass('imgSyncOff imgSyncOn');
       ajax.post('/shows/add/' + show, '', function() {
-        Cache.force('membersEpisodes.all');
-        Cache.force('membersInfos.' + DB.get('session').login);
+        Cache.force('MyEpisodes.all');
+        Cache.force('Member.' + DB.get('session').login);
         bgPage.Badge.searchEpisodes();
         $(_this).html('<span class="imgSyncOff"></span>' + __('show_remove'));
         return $(_this).attr('id', 'showsRemove');
@@ -428,8 +428,8 @@ $(document).ready(function() {
       $('#showsArchive').slideUp();
       $('#showsUnarchive').slideUp();
       ajax.post('/shows/remove/' + show, '', function() {
-        Cache.force('membersEpisodes.all');
-        Cache.force('membersInfos.' + DB.get('session').login);
+        Cache.force('MyEpisodes.all');
+        Cache.force('Member.' + DB.get('session').login);
         bgPage.Badge.searchEpisodes();
         $(_this).html('<span class="imgSyncOff"></span>' + __('show_add'));
         return $(_this).attr('id', 'showsAdd');
@@ -446,9 +446,9 @@ $(document).ready(function() {
       login = $(this).attr('href').substring(1);
       $(this).find('span').toggleClass('imgSyncOff imgSyncOn');
       ajax.post("/members/add/" + login, '', function() {
-        Cache.force('membersInfos.' + DB.get('session').login);
-        Cache.force('membersInfos.' + login);
-        Cache.force('timelineFriends');
+        Cache.force('MyEpisodes.' + DB.get('session').login);
+        Cache.force('Member.' + login);
+        Cache.force('MemberTimeline');
         $(_this).html('<span class="imgSyncOff"></span>' + __('remove_to_friends', [login]));
         return $(_this).attr('id', 'friendsRemove');
       }, function() {
@@ -464,9 +464,9 @@ $(document).ready(function() {
       login = $(this).attr('href').substring(1);
       $(this).find('span').toggleClass('imgSyncOff imgSyncOn');
       ajax.post("/members/delete/" + login, '', function() {
-        Cache.force('membersInfos.' + DB.get('session').login);
-        Cache.force('membersInfos.' + login);
-        Cache.force('timelineFriends');
+        Cache.force('Member.' + DB.get('session').login);
+        Cache.force('Member.' + login);
+        Cache.force('MemberTimeline');
         $(_this).html('<span class="imgSyncOff"></span>' + __('add_to_friends', [login]));
         return $(_this).attr('id', 'friendsAdd');
       });
