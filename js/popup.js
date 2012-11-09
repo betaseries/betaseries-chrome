@@ -215,7 +215,7 @@ $(document).ready(function() {
     season = $(this).attr('season');
     episode = $(this).attr('episode');
     global = $(this).attr('global');
-    return BS.load('commentsEpisode', url, season, episode, global);
+    return BS.load('EpisodeComments', url, season, episode, global);
   });
   $('#page').on('click', '.display_member', function() {
     var login;

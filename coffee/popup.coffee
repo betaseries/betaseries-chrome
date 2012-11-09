@@ -205,7 +205,7 @@ $(document).ready ->
 		season = $(@).attr 'season'
 		episode = $(@).attr 'episode'
 		global = $(@).attr 'global'
-		BS.load 'commentsEpisode', url, season, episode, global
+		BS.load 'EpisodeComments', url, season, episode, global
 
 	# Ouvrir la fiche d'un membre
 	$('#page').on 'click', '.display_member', ->

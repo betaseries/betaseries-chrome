@@ -531,6 +531,7 @@ class View_MyEpisodes extends View
 	name: 'membersEpisodes',
 	root: 'episodes'
 	login: DB.get('session').login
+	
 	update: (data) ->
 		shows = DB.get 'member.' + @login + '.shows', {}
 		memberEpisodes = {}
@@ -584,6 +585,7 @@ class View_MyEpisodes extends View
 		DB.set 'member.' + @login + '.shows', shows
 		DB.set 'member.' + @login + '.episodes', memberEpisodes
 		bgPage.Badge.set 'total_episodes', j
+	
 	content: ->
 		# récupération des épisodes non vus (cache)
 		data = DB.get 'member.' + @login + '.episodes', null
@@ -682,78 +684,83 @@ class View_MyEpisodes extends View
 			$('.notif').html(0).hide()
 			
 			output += __('no_notifications') if nbrNotifications is 0
-			return output
+			return output'''
 	
-	## Section "commentaires d'un épisode"
-	commentsEpisode: (url, season, episode, global) ->
-		id: 'commentsEpisode.' + url + '.' + season + '.' + episode + '.' + global
-		name: 'commentsEpisode'
-		url: '/comments/episode/' + url
-		params: '&season=' + season + '&episode=' + episode
-		root: 'comments'
-		show: url
-		season: season
-		episode: episode
-		global: global
-		update: (data) ->
-			comments = DB.get 'show.' + @show + '.' + @global + '.comments', {}
-			
-			# récupération de commentaires en cache
-			nbrComments = comments.length
-			
-			# mise à jour du cache
-			for i, comment of data
-				if i < nbrComments
-					continue
-				else
-					comments[i] = comment
-			
-			# mise à jour du cache
-			DB.set 'show.' + @show + '.' + @global + '.comments', comments
-		content: ->
-			i = 1
-			time = ''
-			show = ''
-			output = '<div class="showtitle">' + show + '</div>';
-			
-			data = DB.get 'show.' + @show + '.' + @global + '.comments', null
-			return Fx.needUpdate() if !data
-			
-			for n of data
-				new_date = date('D d F', data[n].date)
-				if new_date isnt time
-					time = new_date
-					output += '<div class="showtitle">' + time + '</div>'
-				
-				output += '<div class="event ' + date('D', data[n].date).toLowerCase() + '">'
-				output += '<b>' + date('H:i', data[n].date) + '</b> '
-				output += '<span class="login">' + data[n].login + '</span> '
-				output += '<small>#' + data[n].inner_id + '</small> '
-				output += '<small>en réponse à #' + data[n].in_reply_to + '</small> ' if data[n].in_reply_to isnt '0'
-				output += '<a href="" id="addInReplyTo" commentId="' + data[n].inner_id + '">répondre</a><br />'
-				output += data[n].text
-				output += '</div>'
-				i++
+# Vue: EpisodeComments
+class View_EpisodeComments extends View
 
-			output += '<div class="postComment">'
-			output += 	'<form method="post" id="postComment">'
-			output += 		'<input type="hidden" id="show" value="' + @show + '" />'
-			output += 		'<input type="hidden" id="season" value="' + @season + '" />'
-			output += 		'<input type="hidden" id="episode" value="' + @episode + '" />'
-			output += 		'<input type="hidden" id="inReplyTo" value="0" />'
-			output += 		'<textarea name="comment" placeholder="Votre commentaire.."></textarea>'
-			output += 		'<input type="submit" name="submit" value="Poster">'
-			output += 		'<div id="inReplyToText" style="display:none;">En réponse à #<span id="inReplyToId"></span> '
-			output += 			'(<a href="" id="removeInReplyTo">enlever</a>)</div>'
-			output += 	'</form>'
-			output += 	'<div class="clear"></div>
-					   </div>'
+	init: (url, season, episode, global) =>
+		@id = 'EpisodeComments.' + url + '.' + season + '.' + episode + '.' + global
+		@url = '/comments/episode/' + url
+		@params = '&season=' + season + '&episode=' + episode
+		@show = url
+		@season = season
+		@episode = episode
+		@global = global
+	
+	name: 'EpisodeComments'
+	root: 'comments'
+	
+	update: (data) ->
+		comments = DB.get 'show.' + @show + '.' + @global + '.comments', {}
+		
+		# récupération de commentaires en cache
+		nbrComments = comments.length
+		
+		# mise à jour du cache
+		for i, comment of data
+			if i < nbrComments
+				continue
+			else
+				comments[i] = comment
+		
+		# mise à jour du cache
+		DB.set 'show.' + @show + '.' + @global + '.comments', comments
+	
+	content: ->
+		i = 1
+		time = ''
+		show = ''
+		output = '<div class="showtitle">' + show + '</div>';
+		
+		data = DB.get 'show.' + @show + '.' + @global + '.comments', null
+		return Fx.needUpdate() if !data
+		
+		for n of data
+			new_date = date('D d F', data[n].date)
+			if new_date isnt time
+				time = new_date
+				output += '<div class="showtitle">' + time + '</div>'
 			
-			output += __('no_comments') if i is 1
-			return output
+			output += '<div class="event ' + date('D', data[n].date).toLowerCase() + '">'
+			output += '<b>' + date('H:i', data[n].date) + '</b> '
+			output += '<span class="login">' + data[n].login + '</span> '
+			output += '<small>#' + data[n].inner_id + '</small> '
+			output += '<small>en réponse à #' + data[n].in_reply_to + '</small> ' if data[n].in_reply_to isnt '0'
+			output += '<a href="" id="addInReplyTo" commentId="' + data[n].inner_id + '">répondre</a><br />'
+			output += data[n].text
+			output += '</div>'
+			i++
+
+		output += '<div class="postComment">'
+		output += 	'<form method="post" id="postComment">'
+		output += 		'<input type="hidden" id="show" value="' + @show + '" />'
+		output += 		'<input type="hidden" id="season" value="' + @season + '" />'
+		output += 		'<input type="hidden" id="episode" value="' + @episode + '" />'
+		output += 		'<input type="hidden" id="inReplyTo" value="0" />'
+		output += 		'<textarea name="comment" placeholder="Votre commentaire.."></textarea>'
+		output += 		'<input type="submit" name="submit" value="Poster">'
+		output += 		'<div id="inReplyToText" style="display:none;">En réponse à #<span id="inReplyToId"></span> '
+		output += 			'(<a href="" id="removeInReplyTo">enlever</a>)</div>'
+		output += 	'</form>'
+		output += 	'<div class="clear"></div>
+				   </div>'
+		
+		output += __('no_comments') if i is 1
+		return output
 	
 	#
-	timelineFriends: ->
+	'''timelineFriends: ->
 		id: 'timelineFriends'
 		name: 'timelineFriends'
 		url: '/timeline/friends'
