@@ -744,7 +744,7 @@ $(document).ready(function() {
     return BS.refresh();
   }).attr('title', __('sync'));
   $('#notifications').click(function() {
-    BS.load('membersNotifications');
+    BS.load('MemberNotifications');
     return false;
   }).attr('title', __('notifs'));
   $('#menu').click(function() {

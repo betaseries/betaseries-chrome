@@ -649,7 +649,7 @@ $(document).ready ->
 	## Maximiser/minimiser une série*/
 	$('.toggleShow').live
 		click: ->
-			show = $(this).closest('.show')
+			show = $(@).closest('.show')
 			showName = $(show).attr 'id'
 			login = DB.get('session').login
 			shows = DB.get 'member.' + login + '.shows'
@@ -660,39 +660,39 @@ $(document).ready ->
 			$(show).find('.episode').slideToggle()
 			
 			if shows[showName].hidden
-				$(this).attr 'src', '../img/arrow_right.gif'
+				$(@).attr 'src', '../img/arrow_right.gif'
 			else
-				$(this).attr 'src', '../img/arrow_down.gif'
+				$(@).attr 'src', '../img/arrow_down.gif'
 			
 			Fx.updateHeight()
 
 	## Maximiser/minimiser une saison*/
 	$('.toggleSeason').live
 		click: ->
-			season = $(this).closest('.season')
+			season = $(@).closest('.season')
 			hidden = $(season).hasClass('hidden')
 			$(season).toggleClass('hidden')
 			$(season).find('.episode').slideToggle()
 			
 			if hidden
-				$(this).attr 'src', '../img/arrow_down.gif'
+				$(@).attr 'src', '../img/arrow_down.gif'
 			else
-				$(this).attr 'src', '../img/arrow_right.gif'
+				$(@).attr 'src', '../img/arrow_right.gif'
 			
 			Fx.updateHeight()
 
 	## Maximiser/minimiser une semaine (planning)*/
 	$('.toggleWeek').live
 		click: ->
-			week = $(this).closest('.week')
+			week = $(@).closest('.week')
 			hidden = $(week).hasClass('hidden')
 			$(week).toggleClass('hidden')
 			$(week).find('.episode').slideToggle()
 			
 			if hidden
-				$(this).attr 'src', '../img/arrow_down.gif'
+				$(@).attr 'src', '../img/arrow_down.gif'
 			else
-				$(this).attr 'src', '../img/arrow_right.gif'
+				$(@).attr 'src', '../img/arrow_right.gif'
 			
 			Fx.updateHeight()
 			
@@ -726,7 +726,7 @@ $(document).ready ->
 		.attr 'title', __('sync')
 
 	$('#notifications').click ->
-			BS.load 'membersNotifications'
+			BS.load 'MemberNotifications'
 			return false
 		.attr 'title', __('notifs')
 	
