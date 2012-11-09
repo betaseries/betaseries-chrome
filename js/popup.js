@@ -733,7 +733,6 @@ $(document).ready(function() {
     } else if (id === 'logout') {
       return BS.logout();
     } else {
-      console.log(id);
       return BS.load(id);
     }
   });

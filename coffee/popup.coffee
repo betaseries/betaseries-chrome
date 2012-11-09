@@ -714,7 +714,6 @@ $(document).ready ->
 		else if (id is 'logout')
 			BS.logout()
 		else
-			console.log id
 			BS.load id
 
 	$('#back').click ->

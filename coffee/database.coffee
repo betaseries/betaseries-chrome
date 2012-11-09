@@ -27,7 +27,7 @@ DB =
 				{name: 'MemberTimeline', 		img_path: '../img/timeline.png',								visible: true}, 
 				{name: 'MemberPlanning', 		img_path: '../img/planning.png',								visible: true}, 
 				{name: 'MyEpisodes', 			img_path: '../img/episodes.png',								visible: true}, 
-				{name: 'MyShows', 				img_path: '../img/episodes.png',								visible: true}, 
+				{name: 'MemberShows', 			img_path: '../img/episodes.png',								visible: true}, 
 				{name: 'Member', 				img_path: '../img/infos.png', img_style: 'margin-right: 9px;', 	visible: true}, 
 				{name: 'MemberNotifications', 	img_path: '../img/notifications2.png',							visible: true}, 
 				{name: 'ShowSearch', 			img_path: '../img/search.png',									visible: true}, 

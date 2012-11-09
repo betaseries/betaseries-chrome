@@ -33,7 +33,7 @@ DB = {
           img_path: '../img/episodes.png',
           visible: true
         }, {
-          name: 'MyShows',
+          name: 'MemberShows',
           img_path: '../img/episodes.png',
           visible: true
         }, {
