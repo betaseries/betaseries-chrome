@@ -20,7 +20,7 @@ $(document).ready ->
 			$('#help-text').html ''
 		
 	## Marquer un ou des épisodes comme vu(s)
-	$('.membersEpisodes .watched').live
+	$('.MyEpisodes .watched').live
 		click: -> 
 			s = $(this).closest('.show')
 			show = s.attr 'id'
@@ -86,7 +86,7 @@ $(document).ready ->
 				e = e.prev()
 
 	## Marquer un ou des épisodes comme vu(s)
-	$('.showsEpisodes .watched').live
+	$('.ShowEpisodes .watched').live
 		click: -> 
 			s = $(this).closest '.show'
 			show = s.attr 'id'
@@ -278,7 +278,7 @@ $(document).ready ->
 			clean e
 	
 	## Marquer un épisode comme récupéré ou pas
-	$('#page.membersEpisodes .downloaded').live 'click', ->
+	$('.MyEpisodes .downloaded').live 'click', ->
 		event.preventDefault()
 		
 		s = $(this).closest('.show')
@@ -315,7 +315,7 @@ $(document).ready ->
 			-> registerAction "/members/downloaded/" + show, params
 
 	## Marquer un épisode comme récupéré ou pas
-	$('#page.showsEpisode .downloaded').live 'click', ->
+	$('.ShowEpisodes .downloaded').live 'click', ->
 		event.preventDefault()
 		
 		show = $(@).attr 'show'
@@ -706,7 +706,7 @@ $(document).ready ->
 		.attr 'title', __("version")
 	
 	## MENU actions
-	$('#page.menu a').live 'click', ->
+	$('.Menu a').live 'click', ->
 		event.preventDefault()
 		id = $(@).attr('id').substring 5
 		if (id is 'options')
@@ -714,6 +714,7 @@ $(document).ready ->
 		else if (id is 'logout')
 			BS.logout()
 		else
+			console.log id
 			BS.load id
 
 	$('#back').click ->

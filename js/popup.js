@@ -26,7 +26,7 @@ $(document).ready(function() {
       return $('#help-text').html('');
     }
   });
-  $('.membersEpisodes .watched').live({
+  $('.MyEpisodes .watched').live({
     click: function() {
       var e, enable_ratings, episode, es, login, nbr, params, s, season, show;
       s = $(this).closest('.show');
@@ -92,7 +92,7 @@ $(document).ready(function() {
       return _results;
     }
   });
-  $('.showsEpisodes .watched').live({
+  $('.ShowEpisodes .watched').live({
     click: function() {
       var e, episode, es, login, newStart, params, s, season, show, start, _ref;
       s = $(this).closest('.show');
@@ -297,7 +297,7 @@ $(document).ready(function() {
       return clean(e);
     }
   });
-  $('#page.membersEpisodes .downloaded').live('click', function() {
+  $('.MyEpisodes .downloaded').live('click', function() {
     var downloaded, e, episode, es, global, params, s, season, show;
     event.preventDefault();
     s = $(this).closest('.show');
@@ -332,7 +332,7 @@ $(document).ready(function() {
       return registerAction("/members/downloaded/" + show, params);
     });
   });
-  $('#page.showsEpisode .downloaded').live('click', function() {
+  $('.ShowEpisodes .downloaded').live('click', function() {
     var dl, downloaded, episode, es, global, params, season, show,
       _this = this;
     event.preventDefault();
@@ -724,7 +724,7 @@ $(document).ready(function() {
   $('#versionLink').click(function() {
     return Fx.openTab('https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true);
   }).attr('title', __("version"));
-  $('#page.menu a').live('click', function() {
+  $('.Menu a').live('click', function() {
     var id;
     event.preventDefault();
     id = $(this).attr('id').substring(5);
@@ -733,6 +733,7 @@ $(document).ready(function() {
     } else if (id === 'logout') {
       return BS.logout();
     } else {
+      console.log(id);
       return BS.load(id);
     }
   });

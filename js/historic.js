@@ -15,7 +15,7 @@ Historic = {
     var blackpages, historic, length, view;
     historic = DB.get('historic');
     length = historic.length;
-    blackpages = ['connection', 'registration', 'menu'];
+    blackpages = ['Connection', 'Registration', 'Menu'];
     view = BS.currentView.id;
     if (historic[length - 1] !== view && !(__indexOf.call(blackpages, view) >= 0)) {
       historic.push(view);

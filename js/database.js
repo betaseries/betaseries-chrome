@@ -21,48 +21,48 @@ DB = {
       mark_notifs_episode_as_seen: true,
       menu_order: [
         {
-          name: 'timelineFriends',
+          name: 'MemberTimeline',
           img_path: '../img/timeline.png',
           visible: true
         }, {
-          name: 'planningMember',
+          name: 'MemberPlanning',
           img_path: '../img/planning.png',
           visible: true
         }, {
-          name: 'membersEpisodes',
+          name: 'MyEpisodes',
           img_path: '../img/episodes.png',
           visible: true
         }, {
-          name: 'membersShows',
+          name: 'MyShows',
           img_path: '../img/episodes.png',
           visible: true
         }, {
-          name: 'membersInfos',
+          name: 'Member',
           img_path: '../img/infos.png',
           img_style: 'margin-right: 9px;',
           visible: true
         }, {
-          name: 'membersNotifications',
+          name: 'MemberNotifications',
           img_path: '../img/notifications2.png',
           visible: true
         }, {
-          name: 'searchShow',
+          name: 'ShowSearch',
           img_path: '../img/search.png',
           visible: true
         }, {
-          name: 'searchMember',
+          name: 'MemberSearch',
           img_path: '../img/search.png',
           visible: true
         }, {
-          name: 'blog',
+          name: 'Blog',
           img_path: '../img/blog.png',
           visible: true
         }, {
-          name: 'options',
+          name: 'Options',
           img_path: '../img/options.png',
           visible: true
         }, {
-          name: 'logout',
+          name: 'Logout',
           img_path: '../img/close.png',
           visible: true
         }

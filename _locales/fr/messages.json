@@ -166,37 +166,37 @@
 	"menu": {
 		"message": "Accéder au menu"
 	},
-	"menu_blog": {
+	"menu_Blog": {
 		"message": "Le blog"
 	},
-	"menu_logout": {
+	"menu_Logout": {
 		"message": "Déconnexion"
 	},
-	"menu_membersEpisodes": {
+	"menu_MyEpisodes": {
 		"message": "Mes épisodes"
 	},
-	"menu_membersInfos": {
+	"menu_Member": {
 		"message": "Mon compte"
 	},
-	"menu_membersNotifications": {
+	"menu_MemberNotifications": {
 		"message": "Mes notifications"
 	},
-	"menu_membersShows": {
+	"menu_MemberShows": {
 		"message": "Mes séries"
 	},
-	"menu_options": {
+	"menu_Options": {
 		"message": "Mes options"
 	},
-	"menu_planningMember": {
+	"menu_MemberPlanning": {
 		"message": "Mon planning"
 	},
-	"menu_searchMember": {
+	"menu_MemberSearch": {
 		"message": "Chercher un membre"
 	},
-	"menu_searchShow": {
+	"menu_ShowSearch": {
 		"message": "Chercher une série"
 	},
-	"menu_timelineFriends": {
+	"menu_MemberTimeline": {
 		"message": "Mes amis"
 	},
 	"minimise": {

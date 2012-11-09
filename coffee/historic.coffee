@@ -15,7 +15,7 @@ Historic =
 	save: ->
 		historic = DB.get 'historic'
 		length = historic.length
-		blackpages = ['connection', 'registration', 'menu']
+		blackpages = ['Connection', 'Registration', 'Menu']
 		view = BS.currentView.id
 		if historic[length-1] isnt view and !(view in blackpages)
 			historic.push view
