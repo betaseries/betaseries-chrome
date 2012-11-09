@@ -206,7 +206,7 @@ $(document).ready(function() {
     var url;
     event.preventDefault();
     url = $(this).attr('url');
-    return BS.load('showsEpisodes', url);
+    return BS.load('ShowEpisodes', url);
   });
   $('#page').on('click', '.display_comments', function() {
     var episode, global, season, url;
