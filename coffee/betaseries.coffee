@@ -826,70 +826,65 @@ class View_MemberTimeline extends View
 			output += '</div>'
 		return output
 	
-	#
-	'''connection: ->
-		id: 'connection'
-		name: 'connection'
-		content: ->
-			menu.hide()
-			output = '<div style="height:10px;"></div>';
-			output += '<form id="connect">'
-			output += '<table><tr><td>' + __('login') + '</td><td><input type="text" name="login" id="login" /></td></tr>'
-			output += '<tr><td>' + __('password') + '</td><td><input type="password" name="password" id="password" /></td></tr>'
-			output += '</table>'
-			output += '<div class="valid"><input type="submit" value="' + __('sign_in') + '"> ou '
-			output += '	<a href="" class="display_registration">' + __('sign_up') + '</a></div>'
-			output += '</form>'
-			return output
+# Vue: Connection
+class View_Connection extends View
+	
+	id: 'Connection'
+	name: 'Connection'
+	
+	content: ->
+		menu.hide()
+		output = '<div style="height:10px;"></div>';
+		output += '<form id="connect">'
+		output += '<table><tr><td>' + __('login') + '</td><td><input type="text" name="login" id="login" /></td></tr>'
+		output += '<tr><td>' + __('password') + '</td><td><input type="password" name="password" id="password" /></td></tr>'
+		output += '</table>'
+		output += '<div class="valid"><input type="submit" value="' + __('sign_in') + '"> ou '
+		output += '	<a href="" class="display_registration">' + __('sign_up') + '</a></div>'
+		output += '</form>'
+		return output
+
+# Vue: Registration
+class View_Registration extends View
+	
+	id: 'Registration'
+	name: 'Registration'
+	
+	content: ->
+		menu.hide()
+		output = '<div style="height:10px;"></div>';
+		output += '<form id="register">'
+		output += '<table><tr><td>' + __('login') + '</td><td><input type="text" name="login" id="login" /></td></tr>'
+		output += '<tr><td>' + __('password') + '</td><td><input type="password" name="password" id="password" /></td></tr>'
+		output += '<tr><td>' + __('repassword') + '</td><td><input type="password" name="repassword" id="repassword" /></td></tr>'
+		output += '<tr><td>' + __('email') + '</td><td><input type="text" name="mail" id="mail" /></td></tr>'
+		output += '</table>'
+		output += '<div class="valid"><input type="submit" value="' + __('sign_up') + '"> ou '
+		output += '	<a href="#" class="display_connection">' + __('sign_in') + '</a></div>'
+		output += '</form>'
+		return output
+
+# Vue: ShowSearch
+class View_Search extends View
+	
+	id: 'Search'
+	name: 'Search'
+	
+	content: ->
+		output = '<div style="height:10px;"></div>';
+		output += '<form id="search">'
+		output += '<input type="text" name="terms" id="terms" /> '
+		output += '<input type="submit" value="chercher" />'
+		output += '</form>'
+		output += '<div id="suggests_shows"></div>'
+		output += '<div id="suggests_members"></div>'
+		output += '<div id="results_shows"></div>'
+		output += '<div id="results_members"></div>'
+		setTimeout (() -> $('#terms').focus()), 100
+		return output
 	
 	#
-	registration: ->
-		id: 'registration'
-		name: 'registration'
-		content: ->
-			menu.hide()
-			output = '<div style="height:10px;"></div>';
-			output += '<form id="register">'
-			output += '<table><tr><td>' + __('login') + '</td><td><input type="text" name="login" id="login" /></td></tr>'
-			output += '<tr><td>' + __('password') + '</td><td><input type="password" name="password" id="password" /></td></tr>'
-			output += '<tr><td>' + __('repassword') + '</td><td><input type="password" name="repassword" id="repassword" /></td></tr>'
-			output += '<tr><td>' + __('email') + '</td><td><input type="text" name="mail" id="mail" /></td></tr>'
-			output += '</table>'
-			output += '<div class="valid"><input type="submit" value="' + __('sign_up') + '"> ou '
-			output += '	<a href="#" class="display_connection">' + __('sign_in') + '</a></div>'
-			output += '</form>'
-			return output
-	
-	#
-	searchShow: ->
-		id: 'searchShow'
-		name: 'searchShow'
-		content: ->
-			output = '<div style="height:10px;"></div>';
-			output += '<form id="searchForShow">'
-			output += '<input type="text" name="terms" id="terms" /> '
-			output += '<input type="submit" value="chercher" />'
-			output += '</form>'
-			output += '<div id="results"></div>'
-			setTimeout (() -> $('#terms').focus()), 100
-			return output
-			
-	#
-	searchMember: ->
-		id: 'searchMember'
-		name: 'searchMember'
-		content: ->
-			output = '<div style="height:10px;"></div>';
-			output += '<form id="searchForMember">'
-			output += '<input type="text" name="terms" id="terms" /> '
-			output += '<input type="submit" value="chercher" />'
-			output += '</form>'
-			output += '<div id="results"></div>'
-			setTimeout (() -> $('#terms').focus()), 100
-			return output
-	
-	#
-	blog: ->
+	'''blog: ->
 		id: 'blog'
 		name: 'blog'
 		update: ->

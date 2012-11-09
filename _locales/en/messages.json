@@ -172,32 +172,29 @@
 	"menu_Logout": {
 		"message": "Logout"
 	},
-	"menu_MyEpisodes": {
-		"message": "My episodes"
-	},
 	"menu_Member": {
 		"message": "My account"
 	},
 	"menu_MemberNotifications": {
 		"message": "My notifications"
 	},
+	"menu_MemberPlanning": {
+		"message": "Mon planning"
+	},
+	"menu_MemberTimeline": {
+		"message": "My friends"
+	},
 	"menu_MemberShows": {
 		"message": "My tvshows"
+	},
+	"menu_MyEpisodes": {
+		"message": "My episodes"
 	},
 	"menu_Options": {
 		"message": "My options"
 	},
-	"menu_MemberPlanning": {
-		"message": "Mon planning"
-	},
-	"menu_MemberSearch": {
-		"message": "Search a member"
-	},
-	"menu_ShowSearch": {
-		"message": "Search a tvshow"
-	},
-	"menu_MemberTimeline": {
-		"message": "My friends"
+	"menu_Search": {
+		"message": "Search"
 	},
 	"minimise": {
 		"message": "Minimise"

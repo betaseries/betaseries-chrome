@@ -22,8 +22,12 @@ ajax = {
       dataType: "json",
       success: function(data) {
         $('#sync img').attr('src', '../img/sync.png');
-        if (successCallback != null) {
-          return successCallback(data);
+        if (data.root.errors.error != null) {
+          return Fx.message(data.root.errors.error.content);
+        } else {
+          if (successCallback != null) {
+            return successCallback(data);
+          }
         }
       },
       error: function() {

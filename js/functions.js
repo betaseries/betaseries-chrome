@@ -195,5 +195,20 @@ Fx = {
         return BS.logout();
       }
     }
+  },
+  message: function(content) {
+    $('#message .content').html(content);
+    $('#message').slideDown();
+    return this.highlight($('#message'));
+  },
+  highlight: function(selector) {
+    var bgColor;
+    bgColor = selector.css('background-color');
+    selector.animate({
+      backgroundColor: '#FAFA97'
+    }, 500);
+    return selector.animate({
+      backgroundColor: bgColor
+    }, 500);
   }
 };

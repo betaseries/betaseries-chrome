@@ -172,32 +172,29 @@
 	"menu_Logout": {
 		"message": "Déconnexion"
 	},
-	"menu_MyEpisodes": {
-		"message": "Mes épisodes"
-	},
 	"menu_Member": {
 		"message": "Mon compte"
 	},
 	"menu_MemberNotifications": {
 		"message": "Mes notifications"
 	},
+	"menu_MemberPlanning": {
+		"message": "Mon planning"
+	},
+	"menu_MemberTimeline": {
+		"message": "Mes amis"
+	},
 	"menu_MemberShows": {
 		"message": "Mes séries"
+	},
+	"menu_MyEpisodes": {
+		"message": "Mes épisodes"
 	},
 	"menu_Options": {
 		"message": "Mes options"
 	},
-	"menu_MemberPlanning": {
-		"message": "Mon planning"
-	},
-	"menu_MemberSearch": {
-		"message": "Chercher un membre"
-	},
-	"menu_ShowSearch": {
-		"message": "Chercher une série"
-	},
-	"menu_MemberTimeline": {
-		"message": "Mes amis"
+	"menu_Search": {
+		"message": "Rechercher"
 	},
 	"minimise": {
 		"message": "Minimiser"

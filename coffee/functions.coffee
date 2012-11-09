@@ -154,4 +154,16 @@ Fx =
 			$('#message').html(__('new_version')).show()
 			# Déconnexion forcée
 			BS.logout() if version <= '0.9.5'
+
+	## Afficher un message
+	message: (content) -> 
+		$('#message .content').html content
+		$('#message').slideDown()
+		@highlight $('#message')
+
+	# Surligner un div
+	highlight: (selector) ->
+		bgColor = selector.css('background-color')
+		selector.animate({backgroundColor: '#FAFA97'}, 500)
+		selector.animate({backgroundColor: bgColor}, 500)
 		

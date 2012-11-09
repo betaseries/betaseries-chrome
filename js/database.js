@@ -46,11 +46,7 @@ DB = {
           img_path: '../img/notifications2.png',
           visible: true
         }, {
-          name: 'ShowSearch',
-          img_path: '../img/search.png',
-          visible: true
-        }, {
-          name: 'MemberSearch',
+          name: 'Search',
           img_path: '../img/search.png',
           visible: true
         }, {
