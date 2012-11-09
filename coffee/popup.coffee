@@ -181,7 +181,7 @@ $(document).ready ->
 	$('#page').on 'click', '.display_show', ->
 		event.preventDefault()
 		url = $(@).attr 'url'
-		BS.load 'showsDisplay', url
+		BS.load 'Show', url
 
 	# Ouvrir la fiche d'un épisode
 	$('#page').on 'click', '.display_episode', ->

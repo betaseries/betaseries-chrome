@@ -191,7 +191,7 @@ $(document).ready(function() {
     var url;
     event.preventDefault();
     url = $(this).attr('url');
-    return BS.load('showsDisplay', url);
+    return BS.load('Show', url);
   });
   $('#page').on('click', '.display_episode', function() {
     var episode, global, season, url;
