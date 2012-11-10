@@ -116,7 +116,7 @@ div#message img.close:hover {cursor: pointer; opacity: 1.0;}
 /*view timeline, notifications, commentsEpisode*/
 .MemberTimeline .left, .MemberNotifications .left {float: left; width: 205px;}
 .MemberTimeline .right, .MemberNotifications .right {margin-left: 205px; width: 80px;}
-.MemberTimeline .event, .MemberNotifications .event, .commentsEpisode .event {padding: 5px 0 5px 0; border-bottom: 1px solid #dcdcdc;}
+.MemberTimeline .event, .MemberNotifications .event, .EpisodeComments .event {padding: 5px 0 5px 0; border-bottom: 1px solid #dcdcdc;}
 .MemberTimeline .login, .EpisodeComments .login {color: #54709D;}
 	
 /*section cache*/
