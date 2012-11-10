@@ -29,9 +29,7 @@ Fx = {
     res = [];
     for (i in notifs) {
       j = notifs[i];
-      if (j.type === 'episode' && DB.get('options').mark_notifs_episode_as_seen) {
-        j.seen = true;
-      }
+      j.seen = j.type === 'episode' && DB.get('options').mark_notifs_episode_as_seen;
       res.push(j);
     }
     return res;

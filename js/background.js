@@ -5,7 +5,7 @@ DB.init();
 Badge.init();
 
 chrome.alarms.create('badge_update', {
-  periodInMinutes: 60
+  periodInMinutes: 30
 });
 
 chrome.alarms.onAlarm.addListener(function(alarm) {

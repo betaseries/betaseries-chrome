@@ -25,7 +25,7 @@ Badge = {
       n = Fx.sortNotifications(n);
       DB.set('member.' + login + '.notifs', n);
       nbr = Fx.checkNotifications();
-      return Badge.set('notifs', nbr);
+      return Badge.set('new_notifications', nbr);
     }, function() {
       return Badge.display();
     });

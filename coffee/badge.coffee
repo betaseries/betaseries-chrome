@@ -30,7 +30,7 @@ Badge =
 				n = Fx.sortNotifications n
 				DB.set 'member.' + login + '.notifs', n
 				nbr = Fx.checkNotifications()
-				Badge.set 'notifs', nbr
+				Badge.set 'new_notifications', nbr
 			->
 				Badge.display()
 	

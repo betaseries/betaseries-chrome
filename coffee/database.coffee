@@ -7,9 +7,7 @@ DB =
 
 	# Initialise la BD
 	init: ->
-		badge = 
-			value: 0
-			type: 'membersEpisodes'
+		badge = {}
 		
 		options = 
 			nbr_episodes_per_serie: 5

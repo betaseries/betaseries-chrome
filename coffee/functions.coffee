@@ -23,8 +23,7 @@ Fx =
 	formatNotifications: (notifs) ->
 		res = []
 		for i, j of notifs
-			if j.type is 'episode' && DB.get('options').mark_notifs_episode_as_seen
-				j.seen = true
+			j.seen = j.type is 'episode' && DB.get('options').mark_notifs_episode_as_seen
 			res.push j
 		return res
 

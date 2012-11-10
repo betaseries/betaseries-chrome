@@ -8,10 +8,7 @@ chrome.runtime.getBackgroundPage(function(bg) {
 DB = {
   init: function() {
     var badge, options, version;
-    badge = {
-      value: 0,
-      type: 'membersEpisodes'
-    };
+    badge = {};
     options = {
       nbr_episodes_per_serie: 5,
       badge_notification_type: 'watched',
