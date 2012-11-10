@@ -2,25 +2,24 @@
 __ = (msgname, placeholders) -> 
 	if msgname then chrome.i18n.getMessage msgname, placeholders
 
-## Functions (Fx)
+#
+# Objet Fx (Functions)
+#
 Fx = 
 	
-	##
+	# Ouvrir un onglet
 	openTab: (url, active) ->
 		active ?= false
 		chrome.tabs.create {"url": url, "active": active}
 		return false
 	
-	## Concaténe les nouvelles notifications avec les anciennes
-	# et ne garde que les 20 premières
+	# Concaténe les nouvelles notifications avec les anciennes et ne garde que les 20 premières
 	concatNotifications: (old_notifs, new_notifs) ->
 		res = old_notifs.concat new_notifs
 		res = res.slice 0, 20
 		return res
 
-	## Opération suppl. quand on récupère les notifications
-	# - Si type == episode, suppression
-	# - Ajout de seen = false
+	# Opérations suppl. quand on récupère les notifications
 	formatNotifications: (notifs) ->
 		res = []
 		for i, j of notifs
@@ -29,7 +28,7 @@ Fx =
 			res.push j
 		return res
 
-	## Trie les notifications par date décroissante
+	# Trie les notifications par date décroissante
 	sortNotifications: (notifs) ->
 		notifs.sort (a, b) ->
 			if a.date < b.date
@@ -38,7 +37,7 @@ Fx =
 				return 1
 			return 0
 
-	## Retourne le nbre de notifications non vues
+	# Retourne le nbre de notifications non vues
 	checkNotifications: ->
 		login = DB.get('session').login
 		notifs = DB.get 'member.' + login + '.notifs', []
@@ -49,7 +48,7 @@ Fx =
 				nbr++
 		return nbr
 
-	## Repère les options non définies et les initialise
+	# Repère les options non définies et les initialise
 	verifyOptions: (opt) ->
 		options = DB.get('options')
 		res = []
@@ -60,21 +59,21 @@ Fx =
 				options[i] = opt[i]
 		DB.set 'options', options
 	
-	##
+	# Retourne les n premiers caractères d'une chaîne
 	subFirst: (str, nbr) ->
 		strLength = str.length
 		strSub = str.substring 0, nbr
 		strSub += '..' if strSub.length < strLength 
 		return strSub
 	
-	##
+	# Retourne les n derniers caractères d'une chaîne
 	subLast: (str, nbr) ->
 		strLength = str.length;
 		strSub = str.substring strLength, Math.max 0, strLength-nbr
 		strSub = '..' + strSub if strSub.length < strLength
 		return strSub
 		
-	##
+	# Met à jour la hauteur du popup
 	updateHeight: (top) ->
 		top ?= false
 		setTimeout (
@@ -87,18 +86,18 @@ Fx =
 				$('.nano').nanoScroller(params)
 		), 500
 		
-	##
+	# Force la mise à jour du cache d'une vue
 	toUpdate: (view) ->
 		views = DB.get 'views'
 		if views[view]?
 			views[view].force = true
 			DB.set 'views', views
 	
-	##
+	# Retourne la version actuelle de l'extension
 	getVersion: ->
 		return chrome.app.getDetails().version
 		
-	##
+	# Retourne le format SXXEYY d'un épisode
 	getNumber: (season, episode) ->
 		number = 'S'
 		number += '0' if season <= 9
@@ -108,7 +107,7 @@ Fx =
 		number += episode
 		return number
 	
-	##
+	# Retourne le format XXxYY d'un épisode
 	displayNumber: (number) ->
 		res = ''
 		res += number[1] if number[1] isnt '0'
@@ -118,17 +117,17 @@ Fx =
 		res += number[5]
 		return res
 
-	##
+	# Retourne la note moyenne d'un épisode avec un code couleur
 	displayNote: (note) ->
 		n = if note then Math.round(note * 10) / 10 else 0
 		color = 'green'
 		color = 'orange' if n < 4
-		color = 'red' if n < 2 
+		color = 'red' if n < 3
 		n = '' if n is 0
 		res = '<span class="note ' + color + '">' + n + '</span>'
 		return res
 
-	##
+	# Retourne la saison et le numéro d'un épisode
 	splitNumber: (number) ->
 		season = ''
 		season += number[1] if number[1] isnt '0'
@@ -139,11 +138,11 @@ Fx =
 		season: season
 		episode: episode
 			
-	##
+	# TODO Texte pour indiquer qu'il faut mettre à jour le cache de la vue
 	needUpdate: ->
 	 	return __('no_data_found')
 	 	
-	##
+	# Vérifie s'il y a une nouvelle version
 	checkVersion: ->
 		version = DB.get 'version', 0
 		currVersion = Fx.getVersion()
@@ -155,7 +154,7 @@ Fx =
 			# Déconnexion forcée
 			@logout() if version <= '0.9.5'
 
-	## Afficher un message
+	# Afficher un message
 	message: (content) -> 
 		$('#message .content').html content
 		$('#message').slideDown()

@@ -40,7 +40,7 @@ Historic = {
   display: function(n) {
     var blackpages, view;
     view = BS.currentView.id;
-    blackpages = ['connection', 'registration', 'menu'];
+    blackpages = ['Connection', 'Registration', 'Menu'];
     if (n >= 2 && !(__indexOf.call(blackpages, view) >= 0)) {
       return $('#back').show();
     } else {

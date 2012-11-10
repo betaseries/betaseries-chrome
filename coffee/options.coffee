@@ -1,7 +1,5 @@
 $(document).ready ->
 
-	bgPage = chrome.extension.getBackgroundPage()
-	
 	## Internationalisation
 	__ = (msgname) -> chrome.i18n.getMessage msgname
 	

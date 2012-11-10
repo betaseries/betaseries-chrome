@@ -25,29 +25,24 @@ Cache = {
     }
     return count;
   },
-  maintenance: function() {
-    var cache, time;
+  remove: function() {
+    var cache, i, j, storage, time, todelete, _i, _len;
     time = Math.floor(new Date().getTime() / 1000);
     cache = DB.get('cache', time);
     if (time - cache > 1 * 24 * 3600) {
-      this.remove();
+      todelete = [];
+      storage = DB.getAll();
+      for (i in storage) {
+        j = storage[i];
+        if (i.indexOf('badge') !== 0 && i.indexOf('historic') !== 0 && i.indexOf('member' + DB.get('session').login + '.notifs') !== 0 && i.indexOf('options') !== 0 && i.indexOf('session') !== 0 && i.indexOf('version') !== 0 && i.indexOf('new_episodes_checked') !== 0) {
+          todelete.push(i);
+        }
+      }
+      for (_i = 0, _len = todelete.length; _i < _len; _i++) {
+        i = todelete[_i];
+        DB.remove(i);
+      }
       return message('<img src="../img/inaccurate.png" /> Le cache de l\'extension a été vidé.');
     }
-  },
-  remove: function() {
-    var i, j, storage, todelete, _i, _len;
-    todelete = [];
-    storage = DB.getAll();
-    for (i in storage) {
-      j = storage[i];
-      if (i.indexOf('badge') !== 0 && i.indexOf('historic') !== 0 && i.indexOf('member' + DB.get('session').login + '.notifs') !== 0 && i.indexOf('options') !== 0 && i.indexOf('session') !== 0 && i.indexOf('version') !== 0 && i.indexOf('new_episodes_checked') !== 0) {
-        todelete.push(i);
-      }
-    }
-    for (_i = 0, _len = todelete.length; _i < _len; _i++) {
-      i = todelete[_i];
-      DB.remove(i);
-    }
-    return true;
   }
 };

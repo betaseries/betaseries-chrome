@@ -1,8 +1,6 @@
-##
- # Classe Ajax
- #
-bgPage = chrome.extension.getBackgroundPage()
-
+#
+# Objet ajax
+#
 ajax =
 	
 	url_api: "https://api.betaseries.com",	# Url API
@@ -31,7 +29,7 @@ ajax =
 				$('#sync img').attr 'src', '../img/sync.png'
 				errorCallback() if errorCallback?
 
-requestFilter = urls: ["https://api.betaseries.com/*"]
+###requestFilter = urls: ["https://api.betaseries.com/*"]
 
 extraInfoSpec = ['requestHeaders', 'blocking']
   
@@ -45,4 +43,4 @@ handler = (details) ->
 	blockingResponse.requestHeaders = headers
 	return blockingResponse
 
-chrome.webRequest.onBeforeSendHeaders.addListener handler, requestFilter, extraInfoSpec
+chrome.webRequest.onBeforeSendHeaders.addListener handler, requestFilter, extraInfoSpec###

@@ -1,14 +1,9 @@
-##
- # Génération de contenu
- #
+#
+# Objet Content (Génération de contenu)
+#
 Content = 
 	
-	##
-	 # Génère un bloc *série*
-	 #
-	 # @param	object		Informations d'une *série*
-	 # @return 	string		Bloc *série*
-	 #
+	# Génère un bloc *série*
 	show: (s, nbrEpisodesTotal) ->		
 		visibleIcon = if s.hidden then '../img/arrow_right.gif' else '../img/arrow_down.gif'
 		titleIcon = if s.hidden then __('maximise') else __('minimise')
@@ -31,12 +26,7 @@ Content =
 		
 		return output
 
-	##
-	 # Génère un bloc *season*
-	 #
-	 # @param	object		Informations d'une *série*
-	 # @return 	string		Bloc *série*
-	 #
+	# Génère un bloc *season*
 	season: (n, nbrEpisodesTotal, hidden) ->		
 		visibleIcon = if hidden then '../img/arrow_right.gif' else '../img/arrow_down.gif'
 		titleIcon = if hidden then __('maximise') else __('minimise')
@@ -60,14 +50,7 @@ Content =
 		
 		return output
 	
-	##
-	 # Génère un bloc *épisode* (vue membersEpisodes & showsEpisodes)
-	 #
-	 # @param	object		Informations d'un *épisode*
-	 # @param	object		Informations d'une *série*
-	 # @param	integer		Position de l'épisode
-	 # @return 	string		Bloc *épisode*
-	 #	
+	# Génère un bloc *épisode* (vue membersEpisodes & showsEpisodes)
 	episode: (e, showTitle, hidden, start) ->
 		output = ''
 		
@@ -186,3 +169,4 @@ Content =
 		output += '</div>'
 		
 		return output
+		

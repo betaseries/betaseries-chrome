@@ -1,12 +1,14 @@
+# Actions du menu
 menu = 
 	show: -> $('.action').show()
 	hide: -> $('.action').hide()
 	hideStatus: -> $('#status').hide()
 	hideMenu: -> $('#menu').hide()
 
+# Modèle Controller
 class Controller
 	
-	# Objet "vue" courant
+	# Vue courante
 	currentView: null
 
 	# Démarrer l'affichage du popup
@@ -71,7 +73,7 @@ class Controller
 					cache = data.root[o.root]
 					
 					# Mise à jour du cache
-					Cache.maintenance data.root.code
+					Cache.remove data.root.code
 
 					# infos de la vue
 					time = (new Date().getDate()) + '.' + (new Date().getFullYear())
@@ -97,18 +99,12 @@ class Controller
 		# infos de la vue
 		o = @currentView
 		
-		# TODO mise à jour de l'historique
-		if bgPage.logged()
-			Historic.save()
+		# mise à jour de l'historique
+		if bgPage.logged() then Historic.save()
 		
 		# affichage de la vue (cache)
 		$('#page').html ''
 		$('#page').html o.content() if o.content
-		
-		# Post affichage
-		#if o.after?
-		#	$(document).ready ->
-		#		o.after()
 		
 		# Titre et classe
 		$('#title').text __('title_' + o.name)
@@ -123,7 +119,7 @@ class Controller
 		args = @currentView.id.split '.'
 		@load.apply @, args
 
-
+# Modèle Vue
 class View
 	
 	id: null

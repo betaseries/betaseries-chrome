@@ -2,8 +2,7 @@
 var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 $(document).ready(function() {
-  var bgPage, clean, highlight, message, registerAction;
-  bgPage = chrome.extension.getBackgroundPage();
+  var clean, highlight, message, registerAction;
   $('*[title], *[smart-title]').live({
     mouseenter: function() {
       var title;

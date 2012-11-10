@@ -1,30 +1,28 @@
-##
- # Background.js
- # Gestion du badge
- # 
+#
+# Objet Badge (background)
+# 
 Badge = 
 	
-	## Initialisation
+	# Initialisation
 	init: ->
 		@display()
 		return true
 
-	## Mise à jour automatique
-	 # (toutes les heures)
+	# Mise à jour automatique (toutes les heures)
 	autoUpdate: ->
 		if logged()
 			@update()
 			setTimeout @update, 1000 * 3600
 			return true
 
-	## Processus de mise à jour
+	# Processus de mise à jour
 	update: ->
 		return if !logged()
 		@searchEpisodes()
 		@searchNotifs() if DB.get('options').display_notifications_icon
 		return true
 
-	## Recherche de nouvelles notifications
+	# Recherche de nouvelles notifications
 	searchNotifs: ->
 		ajax.post '/members/notifications', '', 
 			(data) ->
@@ -40,7 +38,7 @@ Badge =
 				Badge.display()
 		return true
 	
-	## Mise à jour du nombre d'épisodes total
+	# Mise à jour du nombre d'épisodes total
 	searchEpisodes: ->
 		ajax.post '/members/episodes/all', '', 
 			(data) ->
@@ -72,7 +70,7 @@ Badge =
 				Badge.display()
 		return true
 
-	## Mets à jour le badge et recalcule l'affichage
+	# Mets à jour le badge et recalcule l'affichage
 	set: (type, value) ->
 		b = DB.get 'badge'
 		b[type] = value
@@ -80,7 +78,7 @@ Badge =
 		@display()
 		return true
 
-	## Afficher les données du badge en cache
+	# Afficher les données du badge en cache
 	display: ->
 		options = DB.get('options')
 		badgeNotificationType = options.badge_notification_type
@@ -105,7 +103,7 @@ Badge =
 			@render('empty', '')
 		return true
 	
-	## Mettre à jour le badge
+	# Mettre à jour le badge
 	render: (type, value) ->
 		switch type
 			when 'not_logged'
@@ -125,10 +123,10 @@ Badge =
 		chrome.browserAction.setBadgeText {text: value.toString()}
 		return true
 
-## Retourne vrai si l'utilisateur est connecté, faux sinon
+# Retourne vrai si l'utilisateur est connecté, faux sinon
 logged = -> DB.get('session', null)?
 
-## Lancement de la mise à jour automatique
+# Lancement de la mise à jour automatique
 DB.init()
 Badge.init()
 Badge.autoUpdate()

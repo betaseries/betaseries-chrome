@@ -1,7 +1,5 @@
 $(document).ready ->
 
-	bgPage = chrome.extension.getBackgroundPage()
-	
 	$('*[title], *[smart-title]').live
 		mouseenter: ->
 			title = $(@).attr 'title'

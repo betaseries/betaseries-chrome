@@ -153,7 +153,7 @@ Fx = {
     if (n < 4) {
       color = 'orange';
     }
-    if (n < 2) {
+    if (n < 3) {
       color = 'red';
     }
     if (n === 0) {
