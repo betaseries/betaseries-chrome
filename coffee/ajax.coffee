@@ -38,9 +38,15 @@ handler = (details) ->
 	blockingResponse = {}
 	for i, j of headers
 		if headers[i].name.toLowerCase() is 'user-agent'
-			headers[i].value = 'chromeseries' + Fx.getVersion()
+			headers[i].value = 'ChromeSeries (v' + Fx.getVersion() + ')'
 			break
 	blockingResponse.requestHeaders = headers
 	return blockingResponse
 
 chrome.webRequest.onBeforeSendHeaders.addListener handler, requestFilter, extraInfoSpec###
+
+rule = 
+	conditions: [new chrome.declarativeWebRequest.RequestMatcher url: {hostSuffix: 'api.betaseries.com'}]
+	actions: [new chrome.declarativeWebRequest.SetRequestHeader 'User-Agent', 'ChromeSeries (v' + Fx.getVersion() + ')']
+
+chrome.declarativeWebRequest.onRequest.addRules [rule]
