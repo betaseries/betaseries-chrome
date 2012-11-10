@@ -142,7 +142,7 @@ class View_Show extends View
 	
 	name: 'Show'
 	root: 'show'
-	login: DB.get('session').login
+	login: DB.get('session')?.login
 	
 	update: (data) ->
 		data.is_in_account = data.is_in_account is "1"
@@ -208,7 +208,7 @@ class View_ShowEpisodes extends View
 	name: 'ShowEpisodes'
 	params: '&summary=1&hide_notes=1'
 	root: 'seasons'
-	login: DB.get('session').login
+	login: DB.get('session')?.login
 	
 	update: (data) ->
 		shows = DB.get 'member.' + @login + '.shows', {}
@@ -388,7 +388,7 @@ class View_Episode extends View
 class View_MemberPlanning extends View
 
 	init: (login) =>
-		login ?= DB.get('session').login
+		login ?= DB.get('session')?.login
 		@id = 'MemberPlanning.' + login
 		@url = '/planning/member/' + login
 		@login = login
@@ -467,7 +467,7 @@ class View_MemberPlanning extends View
 class View_Member extends View
 
 	init: (login) =>
-		login ?= DB.get('session').login
+		login ?= DB.get('session')?.login
 		@id = 'Member.' + login
 		@url = '/members/infos/' + login
 		@login = login
@@ -516,7 +516,7 @@ class View_Member extends View
 class View_MemberShows extends View
 
 	init: (login) =>
-		login ?= DB.get('session').login
+		login ?= DB.get('session')?.login
 		@id = 'MemberShows.' + login
 		@url = '/members/infos/' + login
 		@login = login
@@ -562,7 +562,7 @@ class View_MyEpisodes extends View
 	
 	name: 'MyEpisodes',
 	root: 'episodes'
-	login: DB.get('session').login
+	login: DB.get('session')?.login
 	
 	update: (data) ->
 		shows = DB.get 'member.' + @login + '.shows', {}
@@ -682,7 +682,7 @@ class View_MemberNotifications extends View
 	name: 'MemberNotifications'
 	url: '/members/notifications'
 	root: 'notifications'
-	login: DB.get('session').login
+	login: DB.get('session')?.login
 	
 	update: (data) ->
 		old_notifs = DB.get 'member.' + @login + '.notifs', []
@@ -802,7 +802,7 @@ class View_MemberTimeline extends View
 	url: '/timeline/friends'
 	params: '&number=10'
 	root: 'timeline'
-	login: DB.get('session').login
+	login: DB.get('session')?.login
 	
 	update: (data) ->
 		DB.set 'member.' + @login + '.timeline', data
@@ -948,18 +948,3 @@ class View_Menu extends View
 			output += __('menu_' + m.name) + '</a>'
 
 		return output
-		
-	#
-'''	logout: ->
-		ajax.post '/members/destroy', '',
-			->
-				DB.removeAll()
-				DB.init()
-				bgPage.Badge.init()
-				BS.load('connection')
-			->
-				DB.removeAll()
-				DB.init()
-				bgPage.Badge.init()
-				BS.load('connection')
-		return false'''

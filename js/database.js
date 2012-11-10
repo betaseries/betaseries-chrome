@@ -101,5 +101,9 @@ DB = {
   },
   removeAll: function() {
     return localStorage.clear();
+  },
+  restart: function() {
+    this.removeAll();
+    return this.init();
   }
 };

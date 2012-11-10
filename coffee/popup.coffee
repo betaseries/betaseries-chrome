@@ -211,17 +211,17 @@ $(document).ready ->
 	$('#page').on 'click', '.display_member', ->
 		event.preventDefault()
 		login = $(@).attr 'login'
-		BS.load 'membersInfos', login
+		BS.load 'Member', login
 
 	# Ouvrir le formulaire d'inscription
 	$('#page').on 'click', '.display_registration', ->
 		event.preventDefault()
-		BS.load 'registration'
+		BS.load 'Registration'
 
 	# Ouvrir le formulaire de connexion
 	$('#page').on 'click', '.display_connection', ->
 		event.preventDefault()
-		BS.load 'connection'
+		BS.load 'Connection'
 
 	# Ouvrir l'article du blog
 	$('#page').on 'click', '.display_postblog', ->
@@ -477,7 +477,7 @@ $(document).ready ->
 							token: data.root.member.token
 						menu.show()
 						$('#back').hide()
-						BS.load('membersEpisodes')
+						BS.load 'MyEpisodes'
 					else
 						$('#password').attr 'value', ''
 						message '<img src="../img/inaccurate.png" /> ' + __('wrong_login_or_password')
@@ -515,7 +515,7 @@ $(document).ready ->
 							$('#repassword').attr 'value', ''
 							inputs.removeAttr 'disabled'
 						else
-							BS.load('connection').display()
+							BS.load 'Connection'
 							$('#login').val login
 							$('#password').val password
 							$('#connect').trigger 'submit'
@@ -702,10 +702,10 @@ $(document).ready ->
 	$('.Menu a').live 'click', ->
 		event.preventDefault()
 		id = $(@).attr('id').substring 5
-		if (id is 'options')
+		if (id is 'Options')
 			Fx.openTab chrome.extension.getURL('../html/options.html'), true
-		else if (id is 'logout')
-			BS.logout()
+		else if (id is 'Logout')
+			Fx.logout()
 		else
 			BS.load id
 

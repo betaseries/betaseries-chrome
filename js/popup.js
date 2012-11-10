@@ -221,15 +221,15 @@ $(document).ready(function() {
     var login;
     event.preventDefault();
     login = $(this).attr('login');
-    return BS.load('membersInfos', login);
+    return BS.load('Member', login);
   });
   $('#page').on('click', '.display_registration', function() {
     event.preventDefault();
-    return BS.load('registration');
+    return BS.load('Registration');
   });
   $('#page').on('click', '.display_connection', function() {
     event.preventDefault();
-    return BS.load('connection');
+    return BS.load('Connection');
   });
   $('#page').on('click', '.display_postblog', function() {
     var link;
@@ -494,7 +494,7 @@ $(document).ready(function() {
           });
           menu.show();
           $('#back').hide();
-          return BS.load('membersEpisodes');
+          return BS.load('MyEpisodes');
         } else {
           $('#password').attr('value', '');
           message('<img src="../img/inaccurate.png" /> ' + __('wrong_login_or_password'));
@@ -537,7 +537,7 @@ $(document).ready(function() {
             $('#repassword').attr('value', '');
             return inputs.removeAttr('disabled');
           } else {
-            BS.load('connection').display();
+            BS.load('Connection');
             $('#login').val(login);
             $('#password').val(password);
             return $('#connect').trigger('submit');
@@ -721,10 +721,10 @@ $(document).ready(function() {
     var id;
     event.preventDefault();
     id = $(this).attr('id').substring(5);
-    if (id === 'options') {
+    if (id === 'Options') {
       return Fx.openTab(chrome.extension.getURL('../html/options.html'), true);
-    } else if (id === 'logout') {
-      return BS.logout();
+    } else if (id === 'Logout') {
+      return Fx.logout();
     } else {
       return BS.load(id);
     }

@@ -97,3 +97,11 @@ DB =
 	#
 	removeAll: ->
 		localStorage.clear()
+
+	#
+	# Réinitialise la DB (lors de la déconnexion)
+	#
+	restart: ->
+		@removeAll()
+		@init()
+		

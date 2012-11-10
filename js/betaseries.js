@@ -132,6 +132,7 @@ View = (function() {
 })();
 
 View_Show = (function(_super) {
+  var _ref;
 
   __extends(View_Show, _super);
 
@@ -150,7 +151,7 @@ View_Show = (function(_super) {
 
   View_Show.prototype.root = 'show';
 
-  View_Show.prototype.login = DB.get('session').login;
+  View_Show.prototype.login = (_ref = DB.get('session')) != null ? _ref.login : void 0;
 
   View_Show.prototype.update = function(data) {
     data.is_in_account = data.is_in_account === "1";
@@ -159,7 +160,7 @@ View_Show = (function(_super) {
   };
 
   View_Show.prototype.content = function() {
-    var data, genres, i, k, note, output, v, _i, _ref, _ref1;
+    var data, genres, i, k, note, output, v, _i, _ref1, _ref2;
     data = DB.get('show.' + this.show, null);
     if (!data) {
       return Fx.needUpdate();
@@ -179,9 +180,9 @@ View_Show = (function(_super) {
     output += '<div>';
     output += '<div class="fleft200">';
     genres = [];
-    _ref = data.genres;
-    for (k in _ref) {
-      v = _ref[k];
+    _ref1 = data.genres;
+    for (k in _ref1) {
+      v = _ref1[k];
       genres.push(v);
     }
     output += genres.join(', ') + ' | ';
@@ -190,7 +191,7 @@ View_Show = (function(_super) {
     }
     output += '</div>';
     output += '<div class="fright200 aright">';
-    if (((_ref1 = data.note) != null ? _ref1.mean : void 0) != null) {
+    if (((_ref2 = data.note) != null ? _ref2.mean : void 0) != null) {
       output += data.note.mean + '/5 (' + data.note.members + ')';
     }
     output += '</div>';
@@ -222,6 +223,7 @@ View_Show = (function(_super) {
 })(View);
 
 View_ShowEpisodes = (function(_super) {
+  var _ref;
 
   __extends(View_ShowEpisodes, _super);
 
@@ -243,10 +245,10 @@ View_ShowEpisodes = (function(_super) {
 
   View_ShowEpisodes.prototype.root = 'seasons';
 
-  View_ShowEpisodes.prototype.login = DB.get('session').login;
+  View_ShowEpisodes.prototype.login = (_ref = DB.get('session')) != null ? _ref.login : void 0;
 
   View_ShowEpisodes.prototype.update = function(data) {
-    var e, i, j, n, seasons, showEpisodes, shows, _ref;
+    var e, i, j, n, seasons, showEpisodes, shows, _ref1;
     shows = DB.get('member.' + this.login + '.shows', {});
     if (this.show in shows) {
       shows[this.show].archive = false;
@@ -260,9 +262,9 @@ View_ShowEpisodes = (function(_super) {
     showEpisodes = DB.get('show.' + this.show + '.episodes', {});
     for (i in data) {
       seasons = data[i];
-      _ref = seasons.episodes;
-      for (j in _ref) {
-        e = _ref[j];
+      _ref1 = seasons.episodes;
+      for (j in _ref1) {
+        e = _ref1[j];
         n = Fx.splitNumber(e.number);
         showEpisodes[e.global] = {
           comments: e.comments,
@@ -468,8 +470,9 @@ View_MemberPlanning = (function(_super) {
   }
 
   View_MemberPlanning.prototype.init = function(login) {
+    var _ref;
     if (login == null) {
-      login = DB.get('session').login;
+      login = (_ref = DB.get('session')) != null ? _ref.login : void 0;
     }
     this.id = 'MemberPlanning.' + login;
     this.url = '/planning/member/' + login;
@@ -564,8 +567,9 @@ View_Member = (function(_super) {
   }
 
   View_Member.prototype.init = function(login) {
+    var _ref;
     if (login == null) {
-      login = DB.get('session').login;
+      login = (_ref = DB.get('session')) != null ? _ref.login : void 0;
     }
     this.id = 'Member.' + login;
     this.url = '/members/infos/' + login;
@@ -633,8 +637,9 @@ View_MemberShows = (function(_super) {
   }
 
   View_MemberShows.prototype.init = function(login) {
+    var _ref;
     if (login == null) {
-      login = DB.get('session').login;
+      login = (_ref = DB.get('session')) != null ? _ref.login : void 0;
     }
     this.id = 'MemberShows.' + login;
     this.url = '/members/infos/' + login;
@@ -691,6 +696,7 @@ View_MemberShows = (function(_super) {
 })(View);
 
 View_MyEpisodes = (function(_super) {
+  var _ref;
 
   __extends(View_MyEpisodes, _super);
 
@@ -711,7 +717,7 @@ View_MyEpisodes = (function(_super) {
 
   View_MyEpisodes.prototype.root = 'episodes';
 
-  View_MyEpisodes.prototype.login = DB.get('session').login;
+  View_MyEpisodes.prototype.login = (_ref = DB.get('session')) != null ? _ref.login : void 0;
 
   View_MyEpisodes.prototype.update = function(data) {
     var d, e, j, memberEpisodes, showEpisodes, shows, time, today;
@@ -826,6 +832,7 @@ View_MyEpisodes = (function(_super) {
 })(View);
 
 View_MemberNotifications = (function(_super) {
+  var _ref;
 
   __extends(View_MemberNotifications, _super);
 
@@ -841,7 +848,7 @@ View_MemberNotifications = (function(_super) {
 
   View_MemberNotifications.prototype.root = 'notifications';
 
-  View_MemberNotifications.prototype.login = DB.get('session').login;
+  View_MemberNotifications.prototype.login = (_ref = DB.get('session')) != null ? _ref.login : void 0;
 
   View_MemberNotifications.prototype.update = function(data) {
     var n, new_notifs, old_notifs;
@@ -984,6 +991,7 @@ View_EpisodeComments = (function(_super) {
 })(View);
 
 View_MemberTimeline = (function(_super) {
+  var _ref;
 
   __extends(View_MemberTimeline, _super);
 
@@ -1001,7 +1009,7 @@ View_MemberTimeline = (function(_super) {
 
   View_MemberTimeline.prototype.root = 'timeline';
 
-  View_MemberTimeline.prototype.login = DB.get('session').login;
+  View_MemberTimeline.prototype.login = (_ref = DB.get('session')) != null ? _ref.login : void 0;
 
   View_MemberTimeline.prototype.update = function(data) {
     return DB.set('member.' + this.login + '.timeline', data);
@@ -1166,6 +1174,3 @@ View_Menu = (function(_super) {
   return View_Menu;
 
 })(View);
-
-'	logout: ->\najax.post \'/members/destroy\', \'\',\n	->\n		DB.removeAll()\n		DB.init()\n		bgPage.Badge.init()\n		BS.load(\'connection\')\n	->\n		DB.removeAll()\n		DB.init()\n		bgPage.Badge.init()\n		BS.load(\'connection\')\nreturn false';
-

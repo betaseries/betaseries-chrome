@@ -192,7 +192,7 @@ Fx = {
       DB.set('version', currVersion);
       $('#message').html(__('new_version')).show();
       if (version <= '0.9.5') {
-        return BS.logout();
+        return this.logout();
       }
     }
   },
@@ -210,5 +210,11 @@ Fx = {
     return selector.animate({
       backgroundColor: bgColor
     }, 500);
+  },
+  logout: function() {
+    ajax.post('/members/destroy', '');
+    DB.restart();
+    bgPage.Badge.init();
+    return BS.load('Connection');
   }
 };

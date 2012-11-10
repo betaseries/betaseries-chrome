@@ -153,7 +153,7 @@ Fx =
 			DB.set 'version', currVersion
 			$('#message').html(__('new_version')).show()
 			# Déconnexion forcée
-			BS.logout() if version <= '0.9.5'
+			@logout() if version <= '0.9.5'
 
 	## Afficher un message
 	message: (content) -> 
@@ -166,4 +166,10 @@ Fx =
 		bgColor = selector.css('background-color')
 		selector.animate({backgroundColor: '#FAFA97'}, 500)
 		selector.animate({backgroundColor: bgColor}, 500)
-		
+
+	# Se déconnecter
+	logout: ->
+		ajax.post '/members/destroy', ''
+		DB.restart()
+		bgPage.Badge.init()
+		BS.load 'Connection'
