@@ -88,7 +88,7 @@ $(document).ready(function() {
       menu_order: menu_order
     };
     DB.set('options', options);
-    bgPage.Badge.update();
+    Badge.update();
     $(this).html(__('saved'));
     $(this).css('background-color', '#eafedf');
     $('#save_options').css('color', '#999');

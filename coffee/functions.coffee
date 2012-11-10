@@ -166,9 +166,12 @@ Fx =
 		selector.animate({backgroundColor: '#FAFA97'}, 500)
 		selector.animate({backgroundColor: bgColor}, 500)
 
+	# Retourne vrai si l'utilisateur est connecté, faux sinon
+	logged: -> DB.get('session', null)?
+
 	# Se déconnecter
 	logout: ->
 		ajax.post '/members/destroy', ''
 		DB.restart()
-		bgPage.Badge.init()
+		Badge.init()
 		BS.load 'Connection'

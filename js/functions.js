@@ -211,10 +211,13 @@ Fx = {
       backgroundColor: bgColor
     }, 500);
   },
+  logged: function() {
+    return DB.get('session', null) != null;
+  },
   logout: function() {
     ajax.post('/members/destroy', '');
     DB.restart();
-    bgPage.Badge.init();
+    Badge.init();
     return BS.load('Connection');
   }
 };

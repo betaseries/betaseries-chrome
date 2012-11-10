@@ -82,7 +82,7 @@ $(document).ready ->
 			mark_notifs_episode_as_seen: $('select[name=mark_notifs_episode_as_seen] :selected').val() is 'true'
 			menu_order: menu_order
 		DB.set 'options', options
-		bgPage.Badge.update()
+		Badge.update()
 		$(this).html __('saved')
 		$(this).css 'background-color', '#eafedf'
 		$('#save_options').css 'color', '#999'

@@ -20,7 +20,7 @@ class Controller
 		Fx.checkVersion()
 
 		# Page d'accueil
-		if bgPage.logged() then BS.load("MyEpisodes") else BS.load("Connection")
+		if Fx.logged() then BS.load("MyEpisodes") else BS.load("Connection")
 
 	# Lancer l'affichage d'une vue
 	load: (view, params...) ->
@@ -100,7 +100,7 @@ class Controller
 		o = @currentView
 		
 		# mise à jour de l'historique
-		if bgPage.logged() then Historic.save()
+		if Fx.logged() then Historic.save()
 		
 		# affichage de la vue (cache)
 		$('#page').html ''
@@ -612,7 +612,7 @@ class View_MyEpisodes extends View
 		
 		DB.set 'member.' + @login + '.shows', shows
 		DB.set 'member.' + @login + '.episodes', memberEpisodes
-		bgPage.Badge.set 'total_episodes', j
+		Badge.set 'total_episodes', j
 	
 	content: ->
 		# récupération des épisodes non vus (cache)
@@ -623,7 +623,7 @@ class View_MyEpisodes extends View
 		return Fx.needUpdate() if !shows
 
 		# mise à jour des notifications
-		if bgPage.logged()
+		if Fx.logged()
 			if DB.get('options').display_notifications_icon
 				nbr = Fx.checkNotifications()
 				$('.notif').html(nbr).show() if nbr > 0
@@ -631,7 +631,7 @@ class View_MyEpisodes extends View
 				$('#notifications').hide()	
 
 		# Mise à jour des notifications new_episodes
-		bgPage.Badge.set 'new_episodes', 0
+		Badge.set 'new_episodes', 0
 		DB.set 'new_episodes_checked', date('Y.m.d')
 			
 		# SHOWS
@@ -686,7 +686,7 @@ class View_MemberNotifications extends View
 		n = Fx.concatNotifications old_notifs, new_notifs
 		n = Fx.sortNotifications n
 		DB.set 'member.' + @login + '.notifs', n
-		bgPage.Badge.set 'notifs', 0
+		Badge.set 'notifs', 0
 	
 	content: ->
 		output = ''

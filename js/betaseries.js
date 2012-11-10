@@ -29,7 +29,7 @@ Controller = (function() {
   Controller.prototype.start = function() {
     DB.init();
     Fx.checkVersion();
-    if (bgPage.logged()) {
+    if (Fx.logged()) {
       return BS.load("MyEpisodes");
     } else {
       return BS.load("Connection");
@@ -90,7 +90,7 @@ Controller = (function() {
   Controller.prototype.display = function() {
     var o;
     o = this.currentView;
-    if (bgPage.logged()) {
+    if (Fx.logged()) {
       Historic.save();
     }
     $('#page').html('');
@@ -771,7 +771,7 @@ View_MyEpisodes = (function(_super) {
     }
     DB.set('member.' + this.login + '.shows', shows);
     DB.set('member.' + this.login + '.episodes', memberEpisodes);
-    return bgPage.Badge.set('total_episodes', j);
+    return Badge.set('total_episodes', j);
   };
 
   View_MyEpisodes.prototype.content = function() {
@@ -784,7 +784,7 @@ View_MyEpisodes = (function(_super) {
     if (!shows) {
       return Fx.needUpdate();
     }
-    if (bgPage.logged()) {
+    if (Fx.logged()) {
       if (DB.get('options').display_notifications_icon) {
         nbr = Fx.checkNotifications();
         if (nbr > 0) {
@@ -794,7 +794,7 @@ View_MyEpisodes = (function(_super) {
         $('#notifications').hide();
       }
     }
-    bgPage.Badge.set('new_episodes', 0);
+    Badge.set('new_episodes', 0);
     DB.set('new_episodes_checked', date('Y.m.d'));
     output = '<div id="shows">';
     for (i in data) {
@@ -857,7 +857,7 @@ View_MemberNotifications = (function(_super) {
     n = Fx.concatNotifications(old_notifs, new_notifs);
     n = Fx.sortNotifications(n);
     DB.set('member.' + this.login + '.notifs', n);
-    return bgPage.Badge.set('notifs', 0);
+    return Badge.set('notifs', 0);
   };
 
   View_MemberNotifications.prototype.content = function() {

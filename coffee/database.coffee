@@ -1,4 +1,4 @@
-bgPage = chrome.extension.getBackgroundPage()
+chrome.runtime.getBackgroundPage (bg) -> window.bgPage = bg
 
 #
 # Objet Database

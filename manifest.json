@@ -14,13 +14,13 @@
 		"128": "img/icon_128.png"
 	},
 	"background": {
-		"page": "html/background.html"
+		"page": "html/background.html",
+		"persistent": false
 	},
 	"permissions": [
 		"https://api.betaseries.com/*",
 		"https://www.betaseries.com/blog/*",
 		"clipboardWrite",
-		"webRequest",
-		"webRequestBlocking"
+		"alarms"
 	]
 }

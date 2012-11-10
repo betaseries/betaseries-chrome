@@ -64,7 +64,7 @@ $(document).ready(function() {
         badge_notification_type = DB.get('options').badge_notification_type;
         if (badge_notification_type === 'watched') {
           total_episodes = DB.get('badge').total_episodes;
-          return bgPage.Badge.set('total_episodes', total_episodes - nbr);
+          return Badge.set('total_episodes', total_episodes - nbr);
         }
       }, function() {
         return registerAction("/members/watched/" + show, params);
@@ -126,7 +126,7 @@ $(document).ready(function() {
         Cache.force('MemberTimeline');
         badge_notification_type = DB.get('options').badge_notification_type;
         if (badge_notification_type === 'watched') {
-          return bgPage.Badge.searchEpisodes();
+          return Badge.searchEpisodes();
         }
       }, function() {
         return registerAction("/members/watched/" + show, params);
@@ -325,7 +325,7 @@ $(document).ready(function() {
         } else {
           downloaded_episodes++;
         }
-        return bgPage.Badge.set('downloaded_episodes', downloaded_episodes);
+        return Badge.set('downloaded_episodes', downloaded_episodes);
       }
     }, function() {
       return registerAction("/members/downloaded/" + show, params);
@@ -351,7 +351,7 @@ $(document).ready(function() {
       Cache.force('MyEpisodes.all');
       badge_notification_type = DB.get('options').badge_notification_type;
       if (badge_notification_type === 'downloaded') {
-        bgPage.Badge.searchEpisodes();
+        Badge.searchEpisodes();
       }
       return $(_this).html('<span class="imgSyncOff"></span>' + __(dl));
     }, function() {
@@ -373,7 +373,7 @@ $(document).ready(function() {
       ajax.post("/shows/archive/" + show, "", function() {
         Cache.force('MyEpisodes.all');
         Cache.force('Member.' + DB.get('session').login);
-        bgPage.Badge.searchEpisodes();
+        Badge.searchEpisodes();
         $(_this).html('<span class="imgSyncOff"></span>' + __('show_unarchive'));
         return $(_this).attr('id', 'showsUnarchive');
       }, function() {
@@ -391,7 +391,7 @@ $(document).ready(function() {
       ajax.post("/shows/unarchive/" + show, "", function() {
         Cache.force('MyEpisodes.all');
         Cache.force('Member.' + DB.get('session').login);
-        bgPage.Badge.searchEpisodes();
+        Badge.searchEpisodes();
         $(_this).html('<span class="imgSyncOff"></span>' + __('show_archive'));
         return $(_this).attr('id', 'showsArchive');
       }, function() {
@@ -409,7 +409,7 @@ $(document).ready(function() {
       ajax.post('/shows/add/' + show, '', function() {
         Cache.force('MyEpisodes.all');
         Cache.force('Member.' + DB.get('session').login);
-        bgPage.Badge.searchEpisodes();
+        Badge.searchEpisodes();
         $(_this).html('<span class="imgSyncOff"></span>' + __('show_remove'));
         return $(_this).attr('id', 'showsRemove');
       }, function() {
@@ -429,7 +429,7 @@ $(document).ready(function() {
       ajax.post('/shows/remove/' + show, '', function() {
         Cache.force('MyEpisodes.all');
         Cache.force('Member.' + DB.get('session').login);
-        bgPage.Badge.searchEpisodes();
+        Badge.searchEpisodes();
         $(_this).html('<span class="imgSyncOff"></span>' + __('show_add'));
         return $(_this).attr('id', 'showsAdd');
       }, function() {
