@@ -702,7 +702,7 @@ BS = {
           }
           output += n.html;
           output += '</div>';
-          data[n].seen = true;
+          n.seen = true;
           nbrNotifications++;
         }
         DB.set('member.' + this.login + '.notifs', data);

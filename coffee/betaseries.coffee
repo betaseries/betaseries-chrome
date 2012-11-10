@@ -657,7 +657,7 @@ BS =
 				output += '<span class="new">' + __('new') + '</span> ' if !n.seen
 				output += n.html
 				output += '</div>'
-				data[n].seen = true
+				n.seen = true
 				nbrNotifications++	
 
 			# on marque les notifications comme lus
