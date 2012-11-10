@@ -856,8 +856,7 @@ View_MemberNotifications = (function(_super) {
     new_notifs = Fx.formatNotifications(data);
     n = Fx.concatNotifications(old_notifs, new_notifs);
     n = Fx.sortNotifications(n);
-    DB.set('member.' + this.login + '.notifs', n);
-    return Badge.set('notifs', 0);
+    return DB.set('member.' + this.login + '.notifs', n);
   };
 
   View_MemberNotifications.prototype.content = function() {

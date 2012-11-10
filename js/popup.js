@@ -740,7 +740,7 @@ $(document).ready(function() {
     return false;
   }).attr('title', __('notifs'));
   $('#menu').click(function() {
-    if (BS.currentView.id === 'menu') {
+    if (BS.currentView.id === 'Menu') {
       return Historic.refresh();
     } else {
       return BS.load("Menu");

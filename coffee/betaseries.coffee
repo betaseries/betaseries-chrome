@@ -686,7 +686,6 @@ class View_MemberNotifications extends View
 		n = Fx.concatNotifications old_notifs, new_notifs
 		n = Fx.sortNotifications n
 		DB.set 'member.' + @login + '.notifs', n
-		Badge.set 'notifs', 0
 	
 	content: ->
 		output = ''
@@ -714,7 +713,7 @@ class View_MemberNotifications extends View
 		DB.set 'member.' + @login + '.notifs', data
 		$('.notif').html(0).hide()
 		Badge.set 'new_notifications', 0
-		
+	
 		output += __('no_notifications') if nbrNotifications is 0
 		return output
 	

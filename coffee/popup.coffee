@@ -727,7 +727,7 @@ $(document).ready ->
 	# Action: Afficher/quitter le menu
 	$('#menu')
 		.click ->
-			if BS.currentView.id is 'menu'
+			if BS.currentView.id is 'Menu'
 				Historic.refresh()
 			else
 				BS.load "Menu"
