@@ -56,15 +56,16 @@ chrome.webRequest.onBeforeSendHeaders.addListener handler, requestFilter, extraI
 */
 
 
-rule = {
-  conditions: [
-    new chrome.declarativeWebRequest.RequestMatcher({
-      url: {
-        hostSuffix: 'api.betaseries.com'
-      }
-    })
-  ],
-  actions: [new chrome.declarativeWebRequest.SetRequestHeader('User-Agent', 'ChromeSeries (v' + Fx.getVersion() + ')')]
-};
-
-chrome.declarativeWebRequest.onRequest.addRules([rule]);
+if (chrome.declarativeWebRequest != null) {
+  rule = {
+    conditions: [
+      new chrome.declarativeWebRequest.RequestMatcher({
+        url: {
+          hostSuffix: 'api.betaseries.com'
+        }
+      })
+    ],
+    actions: [new chrome.declarativeWebRequest.SetRequestHeader('User-Agent', 'ChromeSeries (v' + Fx.getVersion() + ')')]
+  };
+  chrome.declarativeWebRequest.onRequest.addRules([rule]);
+}

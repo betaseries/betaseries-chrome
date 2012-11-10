@@ -29,14 +29,14 @@
 
 ## Dernière version
 
-### Version 0.9.9
+### Version 1.0.0
 
-* Ajout d'une nouvelle option : marquer les notifications de type 'épisode' comme vu (ticket #28)
-* Plus besoin de forcer la déconnexion quand une nouvelle option sera ajoutée à partir de maintenant
-* Possibilité de minimiser/maximiser les semaines dans la section planning (ticket #30)
-* Amélioration de l'affichage de la section planning (ticket #31)
-* Correction du badge quand il ne reste plus d'épisodes
-* Diminution des requêtes faites au serveur
+* Correction de plusieurs bugs liés aux notifications (dont le ticket #11)
+* Lorsque l'extension n'est pas utilisée, la mémoire est libérée
+* Fusion des deux vues de recherche en une seule
+* Déconnexion forcée pour cette version
+
+Note: Il se peut qu'il y ait un avertissement après la mise à jour, si vous utilisez la version stable de chrome - cela n'affectera pas le fonctionnement de l'extension.
 
 ## Liens
 

@@ -45,8 +45,9 @@ handler = (details) ->
 
 chrome.webRequest.onBeforeSendHeaders.addListener handler, requestFilter, extraInfoSpec###
 
-rule = 
-	conditions: [new chrome.declarativeWebRequest.RequestMatcher url: {hostSuffix: 'api.betaseries.com'}]
-	actions: [new chrome.declarativeWebRequest.SetRequestHeader 'User-Agent', 'ChromeSeries (v' + Fx.getVersion() + ')']
+if chrome.declarativeWebRequest?
+	rule = 
+		conditions: [new chrome.declarativeWebRequest.RequestMatcher url: {hostSuffix: 'api.betaseries.com'}]
+		actions: [new chrome.declarativeWebRequest.SetRequestHeader 'User-Agent', 'ChromeSeries (v' + Fx.getVersion() + ')']
 
-chrome.declarativeWebRequest.onRequest.addRules [rule]
+	chrome.declarativeWebRequest.onRequest.addRules [rule]
