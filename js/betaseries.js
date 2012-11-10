@@ -891,6 +891,7 @@ View_MemberNotifications = (function(_super) {
     }
     DB.set('member.' + this.login + '.notifs', data);
     $('.notif').html(0).hide();
+    Badge.set('new_notifications', 0);
     if (nbrNotifications === 0) {
       output += __('no_notifications');
     }

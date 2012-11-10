@@ -713,6 +713,7 @@ class View_MemberNotifications extends View
 		# on marque les notifications comme lus
 		DB.set 'member.' + @login + '.notifs', data
 		$('.notif').html(0).hide()
+		Badge.set 'new_notifications', 0
 		
 		output += __('no_notifications') if nbrNotifications is 0
 		return output
