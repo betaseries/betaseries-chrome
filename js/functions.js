@@ -187,13 +187,11 @@ Fx = {
     version = DB.get('version', 0);
     currVersion = Fx.getVersion();
     newVersion = version !== currVersion;
-    $('#versionLink').text(Fx.getVersion());
+    $('#versionLink').text('b' + Fx.getVersion());
     if (newVersion) {
       DB.set('version', currVersion);
       $('#message').html(__('new_version')).show();
-      if (version <= '0.9.5') {
-        return this.logout();
-      }
+      return this.logout();
     }
   },
   message: function(content) {

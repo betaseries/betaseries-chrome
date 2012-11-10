@@ -147,12 +147,12 @@ Fx =
 		version = DB.get 'version', 0
 		currVersion = Fx.getVersion()
 		newVersion = version isnt currVersion
-		$('#versionLink').text Fx.getVersion()
+		$('#versionLink').text 'b' + Fx.getVersion()
 		if (newVersion) 
 			DB.set 'version', currVersion
 			$('#message').html(__('new_version')).show()
 			# Déconnexion forcée
-			@logout() if version <= '0.9.5'
+			@logout()
 
 	# Afficher un message
 	message: (content) -> 
