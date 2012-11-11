@@ -399,55 +399,52 @@
 	"synopsis": {
 		"message": "Synopsis"
 	},
-	"title_blog": {
+	"title_Blog": {
 		"message": "Le blog"
 	},
-	"title_commentsEpisode": {
+	"title_EpisodeComments": {
 		"message": "Commentaires d'un épisode"
 	},
-	"title_connection": {
+	"title_Connection": {
 		"message": "Connexion"
 	},
-	"title_membersEpisodes": {
+	"title_MyEpisodes": {
 		"message": "Mes épisodes"
 	},
-	"title_membersInfos": {
+	"title_Member": {
 		"message": "Mon compte"
 	},
-	"title_membersNotifications": {
+	"title_MemberNotifications": {
 		"message": "Mes notifications"
 	},
-	"title_membersShows": {
+	"title_MemberShows": {
 		"message": "Mes séries"
 	},
-	"title_menu": {
+	"title_Menu": {
 		"message": "Menu"
 	},
 	"title_noConnection": {
 		"message": "Pas de connexion"
 	},
-	"title_planningMember": {
+	"title_MemberPlanning": {
 		"message": "Mon planning"
 	},
-	"title_registration": {
+	"title_Registration": {
 		"message": "Inscription"
 	},
-	"title_searchMember": {
-		"message": "Chercher un membre"
+	"title_Search": {
+		"message": "Rechercher"
 	},
-	"title_searchShow": {
-		"message": "Chercher une série"
-	},
-	"title_showsDisplay": {
+	"title_Show": {
 		"message": "Vue d'une série"
 	},
-	"title_showsEpisode": {
+	"title_Episode": {
 		"message": "Vue d'un épisode"
 	},
-	"title_showsEpisodes": {
+	"title_ShowEpisodes": {
 		"message": "Vue de tous les épisodes"
 	},
-	"title_timelineFriends": {
+	"title_MemberTimeline": {
 		"message": "Mes amis"
 	},
 	"title_view_menu": {

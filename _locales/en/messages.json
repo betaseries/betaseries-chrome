@@ -396,56 +396,56 @@
 	"synopsis": {
 		"message": "Synopsis"
 	},
-	"title_blog": {
+	"title_Blog": {
 		"message": "Blog"
 	},
-	"title_commentsEpisode": {
+	"title_EpisodeComments": {
 		"message": "Episode's comments"
 	},
-	"title_connection": {
+	"title_Connection": {
 		"message": "Connection"
 	},
-	"title_membersEpisodes": {
+	"title_MyEpisodes": {
 		"message": "My episodes"
 	},
-	"title_membersInfos": {
+	"title_Member": {
 		"message": "My account"
 	},
-	"title_membersNotifications": {
+	"title_MemberNotifications": {
 		"message": "My notifications"
 	},
-	"title_membersShows": {
+	"title_MemberShows": {
 		"message": "My tvshows"
 	},
-	"title_menu": {
+	"title_Menu": {
 		"message": "Menu"
 	},
 	"title_noConnection": {
 		"message": "No connection"
 	},
-	"title_planningMember": {
+	"title_MemberPlanning": {
 		"message": "My planning"
 	},
-	"title_registration": {
+	"title_Registration": {
 		"message": "Registration"
 	},
-	"title_searchMember": {
-		"message": "Search a member"
+	"title_Search": {
+		"message": "Search"
 	},
-	"title_searchShow": {
-		"message": "Search a tvshow"
-	},
-	"title_showsDisplay": {
+	"title_Show": {
 		"message": "Tvshow's view"
 	},
-	"title_showsEpisode": {
+	"title_Episode": {
 		"message": "Episode's view"
 	},
-	"title_showsEpisodes": {
+	"title_ShowEpisodes": {
 		"message": "All episodes's view"
 	},
-	"title_timelineFriends": {
+	"title_MemberTimeline": {
 		"message": "My friends"
+	},
+	"title_view_menu": {
+		"message": "'menu' view"
 	},
 	"this_week": {
 		"message": "This week"
