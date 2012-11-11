@@ -21,10 +21,10 @@ ajax =
 			dataType: "json"
 			success: (data) ->
 				$('#sync img').attr 'src', '../img/sync.png'
-				if data.root.errors.error?
-					Fx.message data.root.errors.error.content
-				else
-					successCallback data if successCallback?
+				#if data.root.errors.error?
+				#	Fx.message data.root.errors.error.content
+				#else
+				successCallback data if successCallback?
 			error: ->
 				$('#sync img').attr 'src', '../img/sync.png'
 				errorCallback() if errorCallback?

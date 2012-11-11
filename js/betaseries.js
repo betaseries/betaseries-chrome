@@ -90,9 +90,7 @@ Controller = (function() {
   Controller.prototype.display = function() {
     var o;
     o = this.currentView;
-    if (Fx.logged()) {
-      Historic.save();
-    }
+    Historic.save();
     $('#page').html('');
     if (o.content) {
       $('#page').html(o.content());

@@ -100,7 +100,7 @@ class Controller
 		o = @currentView
 		
 		# mise à jour de l'historique
-		if Fx.logged() then Historic.save()
+		Historic.save()
 		
 		# affichage de la vue (cache)
 		$('#page').html ''

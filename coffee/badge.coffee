@@ -7,12 +7,6 @@ Badge =
 	init: ->
 		@display()
 
-	# Mise à jour automatique (toutes les heures)
-	#autoUpdate: ->
-	#	if Fx.logged()
-	#		@update()
-	#		setTimeout @update, 1000 * 3600
-
 	# Processus de mise à jour
 	update: ->
 		return if !Fx.logged()
