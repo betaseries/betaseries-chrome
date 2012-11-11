@@ -139,8 +139,6 @@ Fx =
 			
 	# TODO Texte pour indiquer qu'il faut mettre à jour le cache de la vue
 	needUpdate: ->
-		if $('#sync img').attr 'src' isnt '../img/sync.gif'
-			BS.refresh()
 		return __('no_data_found')
 	 	
 	# Vérifie s'il y a une nouvelle version

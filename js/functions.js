@@ -178,9 +178,6 @@ Fx = {
     };
   },
   needUpdate: function() {
-    if ($('#sync img').attr('src' !== '../img/sync.gif')) {
-      BS.refresh();
-    }
     return __('no_data_found');
   },
   checkVersion: function() {
