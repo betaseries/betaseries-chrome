@@ -3,23 +3,60 @@ $(document).ready ->
 	## Internationalisation
 	__ = (msgname) -> chrome.i18n.getMessage msgname
 	
+	options = DB.get 'options'
+
 	## Internationalisation
-	$('#link_general').text __('general')
-	$('#link_facebook').text __('facebook')
-	$('#link_about').text __('about')
+	$('.link_general').text __('general')
+	$('.link_facebook').text __('facebook')
+	$('.link_about').text __('about')
 	$('#title_badge').text __('badge')
 	$('#title_view_episodes_not_seen').text __('view_episodes_not_seen')
 	$('#save_options').text __('save')
 	$('#dl_srt_language').text __("dl_srt_language")
 	$('#nbr_episodes_per_serie').text __("nbr_episodes_per_serie")
-	$('#badge_notification_type').text __("badge_notification_type")
-	$('#display_global').text __("display_global")
-	$('#enable_ratings').text __("enable_ratings")
+	
+	# <-- Gestion des radiobox
+
+	$('.watched span').text __('episodes_not_seen')
+	$('.watched input').attr 'checked', ('watched' is options.badge_notification_type)
+	$('.downloaded span').text __('episodes_not_dl')
+	$('.downloaded input').attr 'checked', ('downloaded' is options.badge_notification_type)
+	
+	$('.radio input').click ->
+		attr = $(@).attr 'name'
+		value = $(@).attr 'value'
+		options[attr] = value
+		DB.set 'options', options
+
+	# <-- Gestion des checkbox
+
+	$('#display_global label span').text __("display_global")
+	$('#display_global label input').attr 'checked', options.display_global
+	
+	$('#enable_ratings label span').text __("enable_ratings")
+	$('#enable_ratings label input').attr 'checked', DB.get('options').enable_ratings
+
+	$('#display_mean_note label span').text __("display_mean_note")
+	$('#display_mean_note label input').attr 'checked', DB.get('options').display_mean_note
+	
+	$('#display_copy_episode label span').text __("display_copy_episode")
+	$('#display_copy_episode label input').attr 'checked', DB.get('options').display_copy_episode
+	
+	$('#display_notifications_icon label span').text __("display_notifications_icon")
+	$('#display_notifications_icon label input').attr 'checked', DB.get('options').display_notifications_icon
+	
+	$('#mark_notifs_episode_as_seen label span').text __("mark_notifs_episode_as_seen")
+	$('#mark_notifs_episode_as_seen label input').attr 'checked', DB.get('options').mark_notifs_episode_as_seen
+	
+	$('p label input').click ->
+		attr = $(@).parent().parent().attr 'id'
+		checked = $(@).is(':checked')
+		options[attr] = checked
+		DB.set 'options', options
+
+	# -->
+
 	$('#max_height').text __("max_height")
-	$('#display_mean_note').text __("display_mean_note")
-	$('#display_copy_episode').text __("display_copy_episode")
-	$('#display_notifications_icon').text __("display_notifications_icon")
-	$('#mark_notifs_episode_as_seen').text __("mark_notifs_episode_as_seen")
 	$('#title_view_menu').text __("title_view_menu")
 	$('#order_sections').text __("order_sections")
 	$('#title_author').text __('author')
@@ -29,22 +66,15 @@ $(document).ready ->
 	$('#title_suggestions').text __('suggestions_or_bugs')
 	
 	## Remplissage des champs
-	$('select[name=badge_notification_type]').val DB.get('options').badge_notification_type
 	$('select[name=dl_srt_language]').val DB.get('options').dl_srt_language
 	$('input[name=nbr_episodes_per_serie]').attr 'value', DB.get('options').nbr_episodes_per_serie
-	$('select[name=display_global]').val DB.get('options').display_global + ""
-	$('select[name=enable_ratings]').val DB.get('options').enable_ratings + ""
+	
+	
 	$('input[name=max_height]').attr 'value', DB.get('options').max_height
-	$('select[name=display_mean_note]').val DB.get('options').display_mean_note + ""
-	$('select[name=display_copy_episode]').val DB.get('options').display_copy_episode + ""
-	$('select[name=display_notifications_icon]').val DB.get('options').display_notifications_icon + ""
-	$('select[name=mark_notifs_episode_as_seen]').val DB.get('options').mark_notifs_episode_as_seen + ""
 	menu_order = DB.get('options').menu_order
 	for menu in menu_order
 		selected = if menu.visible then 'checked="checked" ' else ''
 		$('#sections').append '<span id="' + menu.name + '">' + '<input type="checkbox" ' + selected + '/>' + '<img src="../img/grippy.png" /> ' + __('menu_' + menu.name) + '</span>'
-	$('option[value=watched]').text __('episodes_not_seen')
-	$('option[value=downloaded]').text __('episodes_not_dl')
 	$('option[value=VO]').text __('vo')
 	$('option[value=VF]').text __('vf')
 	$('option[value=ALL]').text __('all')
@@ -59,7 +89,7 @@ $(document).ready ->
 		placeHolderTemplate: false
 	$('#sections img').removeAttr 'style'
 	
-	$('#save_options').click ->
+	$('#save_options_____').click ->
 		for i in menu_order
 			visible = $('#sections #' + i.name).find('input').is(':checked')
 			i.visible = visible
@@ -86,23 +116,21 @@ $(document).ready ->
 		$(this).html __('saved')
 		$(this).css 'background-color', '#eafedf'
 		$('#save_options').css 'color', '#999'
-		setTimeout init_save, 1000 * 5
-	
-	init_save = ->
-		$('#save_options').html __('save')
-		$('#save_options').css 'background-color', '#a6e086'
-		$('#save_options').css 'color', '#fff'
-	
-	$('.menu a').click ->
-		menu = $(this).attr('id').substring 5
-		showPart menu
-		return false
-	
-	showPart = (menu) ->
-		$('.content div.part').hide()
-		$('.content div#'+menu).slideDown()
+
+	$('.menu a').click (ev) ->
+		ev.preventDefault()
+		selected = 'selected'
+
+		$('.mainview > *').removeClass selected
+		$('.menu li').removeClass selected
 		
-		$('li').removeClass 'selected'
-		$('li#' + menu).addClass 'selected'
-		
-	showPart "general"
+		setTimeout (-> $('.mainview > *:not(.selected)').css('display', 'none')), 100
+
+		$(ev.currentTarget).parent().addClass selected
+		currentView = $($(ev.currentTarget).attr('href'))
+		currentView.css 'display', 'block'
+		setTimeout (-> currentView.addClass(selected)), 0
+
+		setTimeout (-> $('body')[0].scrollTop = 0), 200
+
+	$('.mainview > *:not(.selected)').css 'display', 'none'

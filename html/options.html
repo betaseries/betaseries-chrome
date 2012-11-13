@@ -9,7 +9,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<link rel="stylesheet" type="text/css" href="../css/options.css">
+		<link rel="stylesheet" href="../css/chrome-bootstrap.css">
+		<link rel="stylesheet" href="../css/options.css">
 		
 		<script src='../lib/jquery.min.js'></script>
 		<script src='../lib/jquery.dragsort.min.js'></script>
@@ -17,148 +18,181 @@
 		<script src='../js/badge.js'></script>
 		<script src='../js/options.js'></script>
 	</head>
-	<body>
+	<body class="frame">
 	
-		<div class="header">
-			<div class="title">{ chromeseries.options }</div>
-		</div>
-		
-		<!-- start -->
-		<div class="wrapper">
-		
-		<div class="menu">
-			<ul>
-				<li id="general" class="first"><a href="" id="link_general"></a></li>
-				<li id="facebook" class="facebook"><a href="" id="link_facebook"></a></li>
-				<li id="about" class="about"><a href="" id="link_about"></a></li>
+		<div class="navigation">
+			<h1><a href="#">ChromeSeries</a></h1>
+			<ul class="menu">
+				<li class="selected"><a href="#badge" class="title_badge">Badge</a></li>
+			</ul>
+
+			<ul class="menu">
+				<li><a href="#facebook" class="link_guide"></a></li>
+				<li><a href="#about" class="link_about"></a></li>
 			</ul>
 		</div>
 		
-		<div class="content">
+		<div class="mainview view">
 		
-			<div id="general" class="part" style="display:none;">
-			
-				<h1 id="title_badge"></h1> 
-				<p>
-				<span id="badge_notification_type"></span>
-				<select name="badge_notification_type">
-					<option value="watched"></option>
-					<option value="downloaded"></option>
-				</select>
-				</p>
-				
-				<p>
-				<span id="max_height"></span>
-				<input type="text" name="max_height" size="3" />
-				</p>
-				
-				<h1 id="title_view_episodes_not_seen"></h1>
-				<p>
-				<span id="dl_srt_language"></span>
-				<select name="dl_srt_language">
-					<option value="VF"></option>
-					<option value="VO"></option>
-					<option value="ALL"></option>
-				</select>
-				</p>
+			<div id="badge" class="selected">
+				<header><h1 class="title_badge">Badge</h1></header>
 
-				<p>
-				<span id="nbr_episodes_per_serie"></span>
-				<input type="text" name="nbr_episodes_per_serie" size="2" />
-				</p>
+				<div class="content">
+					
+					<h2 id="">Type de notification</h2>
+					
+					<div class="radio watched">
+						<label>
+							<input type="radio" name="badge_notification_type" value="watched" />
+							<span />
+						</label>
+					</div>
+
+					<div class="radio downloaded">
+						<label>
+							<input type="radio" name="badge_notification_type" value="downloaded" />
+							<span />
+						</label>
+					</div>
+					
+					<div style="margin-top:50px">
+						<h2 id="">Popup</h2>
+						
+						<p>
+							<span id="max_height"></span>
+							<input type="text" name="max_height" size="3" />
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<div id="general">
 				
-				<p>
-				<span id="display_global"></span>
-				<select name="display_global">
-					<option value="true"></option>
-					<option value="false"></option>
-				</select>
-				</p>
+				<header><h1 class="link_general"></h1></header>
+
+				<div class="content">
+					
+					<h2 id="title_badge"></h2>
+					<p>
+					<span id="badge_notification_type"></span>
+					<select name="badge_notification_type">
+						<option value="watched"></option>
+						<option value="downloaded"></option>
+					</select>
+					</p>
+					
+					<p>
+					<span id="max_height"></span>
+					<input type="text" name="max_height" size="3" />
+					</p>
+					
+					<div style="margin-top: 50px;">
+						<h2 id="title_view_episodes_not_seen"></h2>
+						<p>
+						<span id="dl_srt_language"></span>
+						<select name="dl_srt_language">
+							<option value="VF"></option>
+							<option value="VO"></option>
+							<option value="ALL"></option>
+						</select>
+						</p>
+
+						<p>
+						<span id="nbr_episodes_per_serie"></span>
+						<input type="text" name="nbr_episodes_per_serie" size="2" />
+						</p>
+						
+						<p id="display_global">
+						<label>
+							<input type="checkbox" />
+							<span/>
+						</label>
+						</p>
+
+						<p id="enable_ratings">
+						<label>
+							<input type="checkbox" />
+							<span/>
+						</label>
+						</p>
+
+						<p id="display_mean_note">
+						<label>
+							<input type="checkbox" />
+							<span/>
+						</label>
+						</p>
+
+						<p id="display_copy_episode">
+						<label>
+							<input type="checkbox" />
+							<span/>
+						</label>
+						</p>
+
+						<p id="display_notifications_icon">
+						<label>
+							<input type="checkbox" />
+							<span/>
+						</label>
+						</p>
+
+						<p id="mark_notifs_episode_as_seen">
+						<label>
+							<input type="checkbox" />
+							<span/>
+						</label>
+						</p>
+					</div>
+
+					<div style="margin: 50px 0 30px;">
+						<h2 id="title_view_menu"></h2>
+						<p>
+						<span id="order_sections"></span><br />
+						<div id="sections"></div>
+						</p>
+					</div>
 				
-				<p>
-				<span id="enable_ratings"></span>
-				<select name="enable_ratings">
-					<option value="true"></option>
-					<option value="false"></option>
-				</select>
-				</p>
+				</div>
 
-				<p>
-				<span id="display_mean_note"></span>
-				<select name="display_mean_note">
-					<option value="true"></option>
-					<option value="false"></option>
-				</select>
-				</p>
-
-				<p>
-				<span id="display_copy_episode"></span>
-				<select name="display_copy_episode">
-					<option value="true"></option>
-					<option value="false"></option>
-				</select>
-				</p>
-
-				<p>
-				<span id="display_notifications_icon"></span>
-				<select name="display_notifications_icon">
-					<option value="true"></option>
-					<option value="false"></option>
-				</select>
-				</p>
-
-				<p>
-				<span id="mark_notifs_episode_as_seen"></span>
-				<select name="mark_notifs_episode_as_seen">
-					<option value="true"></option>
-					<option value="false"></option>
-				</select>
-				</p>
-
-				<h1 id="title_view_menu"></h1>
-				<p>
-				<span id="order_sections"></span><br />
-				<div id="sections"></div>
-				</p>
-				
-				<p><span id="save_options"></span></p>
-				<div style="clear:both;"></div>
-				
 			</div>
 			
-			<div id="facebook" class="part" style="display:none;">
-				<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2FChromeSeries&amp;width=739&amp;colorscheme=light&amp;show_faces=false&amp;border_color&amp;stream=true&amp;header=true&amp;height=427" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:739px; height:427px;" allowTransparency="true"></iframe>
+			<div id="facebook">
+				<header><h1 class="link_facebook"></h1></header>
+				<div class="content">
+					<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2FChromeSeries&amp;width=739&amp;colorscheme=light&amp;show_faces=false&amp;border_color&amp;stream=true&amp;header=true&amp;height=427" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:739px; height:427px;" allowTransparency="true"></iframe>
+				</div>
 			</div>
 			
-			<div id="about" class="part" style="display:none;">
-				<h1 id="title_author"></h1>
-				<p>Menencia</p>
-				
-				<h1 id="title_contributors"></h1>
-				<p>tusbar</p>
-				<p>Kusco</p>
-				<p>Einstein</p>
-				
-				<h1 id="title_ext_page"></h1>
-				<p><a href="https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda" target="_blank">
-					https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda
-				</a></p>
-				
-				<h1 id="title_git_page"></h1>
-				<p><a href="https://github.com/Menencia/chromeseries" target="_blank">
-					https://github.com/Menencia/chromeseries
-				</a></p>
-				
-				<h1 id="title_suggestions"></h1>
-				<p><a href="https://www.betaseries.com/bugs/chromeseries" target="_blank">
-					https://www.betaseries.com/bugs/chromeseries
-				</a></p>
+			<div id="about">
+				<header><h1 class="link_about"></h1></header>
+				<div class="content">
+					<h2 id="title_author"></h2>
+					<p>Menencia</p>
+					
+					<h2 id="title_contributors"></h2>
+					<p>tusbar</p>
+					<p>Kusco</p>
+					<p>Einstein</p>
+					
+					<h2 id="title_ext_page"></h2>
+					<p><a href="https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda" target="_blank">
+						https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda
+					</a></p>
+					
+					<h2 id="title_git_page"></h2>
+					<p><a href="https://github.com/Menencia/chromeseries" target="_blank">
+						https://github.com/Menencia/chromeseries
+					</a></p>
+					
+					<h2 id="title_suggestions"></h2>
+					<p><a href="https://www.betaseries.com/bugs/chromeseries" target="_blank">
+						https://www.betaseries.com/bugs/chromeseries
+					</a></p>
+				</div>
 			</div>
 			
 		</div>
-		
-		</div>
-		<!-- end -->
 	</body>
 </html>
 
