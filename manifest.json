@@ -23,9 +23,7 @@
 		"https://www.betaseries.com/blog/*",
 		"clipboardWrite",
 		"alarms",
-		"declarativeWebRequest",
-		"webRequest",
-		"webRequestBlocking"
+		"declarativeWebRequest"
 	],
 	"content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'"
 }

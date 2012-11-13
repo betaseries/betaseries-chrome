@@ -35,19 +35,3 @@ if chrome.declarativeWebRequest?
 		actions: [new chrome.declarativeWebRequest.SetRequestHeader {name:'User-Agent', value:Fx.getNewUserAgent()}]
 
 	chrome.declarativeWebRequest.onRequest.addRules [rule]
-else
-	requestFilter = urls: ["https://api.betaseries.com/*"]
-
-	extraInfoSpec = ['requestHeaders', 'blocking']
-	  
-	handler = (details) ->
-		headers = details.requestHeaders
-		blockingResponse = {}
-		for i, j of headers
-			if headers[i].name.toLowerCase() is 'user-agent'
-				headers[i].value = Fx.getNewUserAgent()
-				break
-		blockingResponse.requestHeaders = headers
-		return blockingResponse
-
-	chrome.webRequest.onBeforeSendHeaders.addListener handler, requestFilter, extraInfoSpec
