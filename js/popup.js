@@ -778,9 +778,9 @@ _gaq.push(['_setCustomVar', 1, 'Member', typeof DB !== "undefined" && DB !== nul
 
 _gaq.push(['_setCustomVar', 2, 'ExtensionVersion', typeof Fx !== "undefined" && Fx !== null ? Fx.getVersion() : void 0, 1]);
 
-_gaq.push(['_setCustomVar', 3, 'BrowserVersion', window.navigator.appVersion.match(/Chrome\/(\d+)\./)[1], 1]);
+_gaq.push(['_setCustomVar', 3, 'BrowserVersion', Fx.getBrowserVersion(), 1]);
 
-_gaq.push(['_setCustomVar', 4, 'OS', navigator.platform, 1]);
+_gaq.push(['_setCustomVar', 4, 'OS', Fx.getOS(), 1]);
 
 _gaq.push(['_trackPageview']);
 

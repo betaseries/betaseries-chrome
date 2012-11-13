@@ -95,6 +95,15 @@ Fx =
 	# Retourne la version actuelle de l'extension
 	getVersion: ->
 		return chrome.app.getDetails().version
+
+	getBrowserVersion: ->
+		return window.navigator.appVersion.match(/Chrome\/(\d+)\./)[1]
+
+	getOS: ->
+		return navigator.platform
+
+	getNewUserAgent: ->
+		return 'ChromeSeries/' + @getVersion() + ' Chrome/' + @getBrowserVersion() + ' OS/' + @getOS()
 		
 	# Retourne le format SXXEYY d'un épisode
 	getNumber: (season, episode) ->

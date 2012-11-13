@@ -118,6 +118,15 @@ Fx = {
   getVersion: function() {
     return chrome.app.getDetails().version;
   },
+  getBrowserVersion: function() {
+    return window.navigator.appVersion.match(/Chrome\/(\d+)\./)[1];
+  },
+  getOS: function() {
+    return navigator.platform;
+  },
+  getNewUserAgent: function() {
+    return 'ChromeSeries/' + this.getVersion() + ' Chrome/' + this.getBrowserVersion() + ' OS/' + this.getOS();
+  },
   getNumber: function(season, episode) {
     var number;
     number = 'S';

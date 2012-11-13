@@ -29,25 +29,25 @@ ajax =
 				$('#sync img').attr 'src', '../img/sync.png'
 				errorCallback() if errorCallback?
 
-###requestFilter = urls: ["https://api.betaseries.com/*"]
-
-extraInfoSpec = ['requestHeaders', 'blocking']
-  
-handler = (details) ->
-	headers = details.requestHeaders
-	blockingResponse = {}
-	for i, j of headers
-		if headers[i].name.toLowerCase() is 'user-agent'
-			headers[i].value = 'ChromeSeries (v' + Fx.getVersion() + ')'
-			break
-	blockingResponse.requestHeaders = headers
-	return blockingResponse
-
-chrome.webRequest.onBeforeSendHeaders.addListener handler, requestFilter, extraInfoSpec###
-
 if chrome.declarativeWebRequest?
 	rule = 
 		conditions: [new chrome.declarativeWebRequest.RequestMatcher {url: {hostSuffix: 'api.betaseries.com'}}]
-		actions: [new chrome.declarativeWebRequest.SetRequestHeader {name:'User-Agent', value:'ChromeSeries (v' + Fx.getVersion() + ')'}]
+		actions: [new chrome.declarativeWebRequest.SetRequestHeader {name:'User-Agent', value:Fx.getNewUserAgent()}]
 
 	chrome.declarativeWebRequest.onRequest.addRules [rule]
+else
+	requestFilter = urls: ["https://api.betaseries.com/*"]
+
+	extraInfoSpec = ['requestHeaders', 'blocking']
+	  
+	handler = (details) ->
+		headers = details.requestHeaders
+		blockingResponse = {}
+		for i, j of headers
+			if headers[i].name.toLowerCase() is 'user-agent'
+				headers[i].value = Fx.getNewUserAgent()
+				break
+		blockingResponse.requestHeaders = headers
+		return blockingResponse
+
+	chrome.webRequest.onBeforeSendHeaders.addListener handler, requestFilter, extraInfoSpec

@@ -2,6 +2,7 @@
 	"manifest_version": 2,
 	"name": "ChromeSeries",
 	"version": "1.0.2",
+	"minimum_chrome_version": "22",
 	"description": "__MSG_extDesc__",
 	"default_locale": "fr",
 	"browser_action": {
@@ -22,7 +23,9 @@
 		"https://www.betaseries.com/blog/*",
 		"clipboardWrite",
 		"alarms",
-		"declarativeWebRequest"
+		"declarativeWebRequest",
+		"webRequest",
+		"webRequestBlocking"
 	],
 	"content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'"
 }
