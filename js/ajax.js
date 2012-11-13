@@ -61,7 +61,12 @@ if (chrome.declarativeWebRequest != null) {
         }
       })
     ],
-    actions: [new chrome.declarativeWebRequest.SetRequestHeader('User-Agent', 'ChromeSeries (v' + Fx.getVersion() + ')')]
+    actions: [
+      new chrome.declarativeWebRequest.SetRequestHeader({
+        name: 'User-Agent',
+        value: 'ChromeSeries (v' + Fx.getVersion() + ')'
+      })
+    ]
   };
   chrome.declarativeWebRequest.onRequest.addRules([rule]);
 }
