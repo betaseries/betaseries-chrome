@@ -149,7 +149,7 @@
 		"message": "Marquer cet épisode, et les précédents, comme vus"
 	},
 	"mark_notifs_episode_as_seen": {
-		"message": "Marquer les notifications de type 'épisode' comme lu"
+		"message": "Marquer les notifications de type épisode comme lu"
 	},
 	"max_height": {
 		"message": "Hauteur maximale du popup : "
