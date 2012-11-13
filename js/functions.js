@@ -197,12 +197,12 @@ Fx = {
     $('#versionLink').text(Fx.getVersion());
     if (newVersion) {
       DB.set('version', currVersion);
-      return $('#message').html(__('new_version')).show();
+      return this.message(__('new_version'));
     }
   },
   message: function(content) {
     $('#message .content').html(content);
-    $('#message').slideDown();
+    $('#message').fadeIn();
     return this.highlight($('#message'));
   },
   highlight: function(selector) {

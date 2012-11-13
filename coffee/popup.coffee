@@ -748,7 +748,7 @@ $(document).ready ->
 	# Action: Fermer l'encart message
 	$('#message').on 'click', '.close', ->
 		event.preventDefault()
-		$('#message').slideUp()	
+		$('#message').fadeOut()	
 
 	# START
 	window.BS = new Controller

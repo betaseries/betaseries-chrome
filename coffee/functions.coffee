@@ -158,12 +158,12 @@ Fx =
 		$('#versionLink').text Fx.getVersion()
 		if (newVersion) 
 			DB.set 'version', currVersion
-			$('#message').html(__('new_version')).show()
+			@message __('new_version')
 
 	# Afficher un message
 	message: (content) -> 
 		$('#message .content').html content
-		$('#message').slideDown()
+		$('#message').fadeIn()
 		@highlight $('#message')
 
 	# Surligner un div

@@ -764,7 +764,7 @@ $(document).ready(function() {
   };
   $('#message').on('click', '.close', function() {
     event.preventDefault();
-    return $('#message').slideUp();
+    return $('#message').fadeOut();
   });
   window.BS = new Controller;
   return BS.start();
