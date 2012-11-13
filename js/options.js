@@ -11,9 +11,19 @@ $(document).ready(function() {
   $('.link_about').text(__('about'));
   $('#title_badge').text(__('badge'));
   $('#title_view_episodes_not_seen').text(__('view_episodes_not_seen'));
-  $('#save_options').text(__('save'));
   $('#dl_srt_language').text(__("dl_srt_language"));
   $('#nbr_episodes_per_serie').text(__("nbr_episodes_per_serie"));
+  $('.max_height span').text(__("max_height"));
+  $('.max_height input').attr('value', options.max_height + '');
+  $('.nbr_episodes_per_serie span').text(__("nbr_episodes_per_serie"));
+  $('.nbr_episodes_per_serie input').attr('value', options.nbr_episodes_per_serie + '');
+  $('.text input').keyup(function() {
+    var attr, value;
+    attr = $(this).attr('name');
+    value = $(this).attr('value');
+    options[attr] = value;
+    return DB.set('options', options);
+  });
   $('.watched span').text(__('episodes_not_seen'));
   $('.watched input').attr('checked', 'watched' === options.badge_notification_type);
   $('.downloaded span').text(__('episodes_not_dl'));
@@ -50,7 +60,6 @@ $(document).ready(function() {
     options[attr] = checked;
     return DB.set('options', options);
   });
-  $('#max_height').text(__("max_height"));
   $('#title_view_menu').text(__("title_view_menu"));
   $('#order_sections').text(__("order_sections"));
   $('#title_author').text(__('author'));
