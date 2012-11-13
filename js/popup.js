@@ -774,6 +774,14 @@ _gaq = _gaq || [];
 
 _gaq.push(['_setAccount', 'UA-36275514-1']);
 
+_gaq.push(['_setCustomVar', 1, 'Member', typeof DB !== "undefined" && DB !== null ? DB.get('session').login : void 0, 3]);
+
+_gaq.push(['_setCustomVar', 2, 'ExtensionVersion', typeof Fx !== "undefined" && Fx !== null ? Fx.getVersion() : void 0, 1]);
+
+_gaq.push(['_setCustomVar', 3, 'BrowserVersion', window.navigator.appVersion.match(/Chrome\/(\d+)\./)[1], 1]);
+
+_gaq.push(['_setCustomVar', 4, 'OS', navigator.platform, 1]);
+
 _gaq.push(['_trackPageview']);
 
 (function() {
