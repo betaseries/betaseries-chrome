@@ -22,6 +22,13 @@ $(document).ready ->
 	$('.downloaded span').text __('episodes_not_dl')
 	$('.downloaded input').attr 'checked', ('downloaded' is options.badge_notification_type)
 	
+	$('.vf span').text __('vf')
+	$('.vf input').attr 'checked', ('VF' is options.dl_srt_language)
+	$('.vo span').text __('vo')
+	$('.vo input').attr 'checked', ('VO' is options.dl_srt_language)
+	$('.all span').text __('all')
+	$('.all input').attr 'checked', ('ALL' is options.dl_srt_language)
+
 	$('.radio input').click ->
 		attr = $(@).attr 'name'
 		value = $(@).attr 'value'

@@ -18,6 +18,12 @@ $(document).ready(function() {
   $('.watched input').attr('checked', 'watched' === options.badge_notification_type);
   $('.downloaded span').text(__('episodes_not_dl'));
   $('.downloaded input').attr('checked', 'downloaded' === options.badge_notification_type);
+  $('.vf span').text(__('vf'));
+  $('.vf input').attr('checked', 'VF' === options.dl_srt_language);
+  $('.vo span').text(__('vo'));
+  $('.vo input').attr('checked', 'VO' === options.dl_srt_language);
+  $('.all span').text(__('all'));
+  $('.all input').attr('checked', 'ALL' === options.dl_srt_language);
   $('.radio input').click(function() {
     var attr, value;
     attr = $(this).attr('name');
