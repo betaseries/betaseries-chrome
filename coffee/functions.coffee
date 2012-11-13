@@ -150,8 +150,6 @@ Fx =
 		if (newVersion) 
 			DB.set 'version', currVersion
 			$('#message').html(__('new_version')).show()
-			# Déconnexion forcée
-			@logout() if version <= '1.0.0'
 
 	# Afficher un message
 	message: (content) -> 

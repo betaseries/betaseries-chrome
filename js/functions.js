@@ -188,10 +188,7 @@ Fx = {
     $('#versionLink').text(Fx.getVersion());
     if (newVersion) {
       DB.set('version', currVersion);
-      $('#message').html(__('new_version')).show();
-      if (version <= '1.0.0') {
-        return this.logout();
-      }
+      return $('#message').html(__('new_version')).show();
     }
   },
   message: function(content) {
