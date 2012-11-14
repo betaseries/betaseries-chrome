@@ -24,11 +24,11 @@ $(document).ready ->
 
 	# <-- Gestion des radiobox
 
-	$('.radio input').click ->
+	###$('.radio input').click ->
 		attr = $(@).attr 'name'
 		value = $(@).attr 'value'
 		options[attr] = value
-		DB.set 'options', options
+		DB.set 'options', options###
 
 	# -->
 	
@@ -55,29 +55,26 @@ $(document).ready ->
 
 	# <-- Gestion des checkbox
 
-	$('#display_global label span').text __("display_global")
-	$('#display_global label input').attr 'checked', options.display_global
+	$('.checkbox').each ->
+		attr = $(@).find('input').attr 'id'
+		$(@).find('input').attr 'checked', options[attr]
+		$(@).find('span').text __(attr)
 	
-	$('#enable_ratings label span').text __("enable_ratings")
-	$('#enable_ratings label input').attr 'checked', DB.get('options').enable_ratings
-
-	$('#display_mean_note label span').text __("display_mean_note")
-	$('#display_mean_note label input').attr 'checked', DB.get('options').display_mean_note
-	
-	$('#display_copy_episode label span').text __("display_copy_episode")
-	$('#display_copy_episode label input').attr 'checked', DB.get('options').display_copy_episode
-	
-	$('#display_notifications_icon label span').text __("display_notifications_icon")
-	$('#display_notifications_icon label input').attr 'checked', DB.get('options').display_notifications_icon
-	
-	$('#mark_notifs_episode_as_seen label span').text __("mark_notifs_episode_as_seen")
-	$('#mark_notifs_episode_as_seen label input').attr 'checked', DB.get('options').mark_notifs_episode_as_seen
-	
-	$('p label input').click ->
-		attr = $(@).parent().parent().attr 'id'
+	$('.checkbox input').click ->
+		attr = $(@).attr 'id'
 		checked = $(@).is(':checked')
-		options[attr] = checked
-		DB.set 'options', options
+		if attr in ['bs_downloaded', 'bs_decalage']
+			value = if checked then '1' else '0'
+			params = "&value=" + value
+			
+			ajax.post "/members/option/" + attr.substring(3), params, 
+				(data) -> 
+					checked = data.root.option.value is '1'
+					options[attr] = checked
+					DB.set 'options', options
+		else
+			options[attr] = checked
+			DB.set 'options', options
 
 	# -->
 
@@ -108,7 +105,23 @@ $(document).ready ->
 	$('#sections input').click ->
 		checked = $(@).is(':checked')
 		saveMenu()
-		
+	
+	# Récupérer les options de BetaSeries
+	if !options.bs_downloaded && !options.bs_decalage
+		ajax.post "/members/option/downloaded", '', 
+			(data) => 
+				checked = data.root.option.value is '1'
+				$('#downloaded').attr 'checked', checked
+				options.bs_downloaded = checked
+				DB.set 'options', options
+		ajax.post "/members/option/decalage", '', 
+			(data) => 
+				checked = data.root.option.value is '1'
+				$('#decalage').attr 'checked', checked
+				options.bs_decalage = checked
+				DB.set 'options', options
+
+	# Navigation
 	$('.menu a').click (ev) ->
 		ev.preventDefault()
 		selected = 'selected'
@@ -141,4 +154,3 @@ saveMenu = ->
 		return 0
 	options.menu_order = menu_order
 	DB.set 'options', options
-	

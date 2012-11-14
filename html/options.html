@@ -15,6 +15,8 @@
 		<script src='../lib/jquery.min.js'></script>
 		<script src='../lib/jquery.dragsort.min.js'></script>
 		<script src='../js/database.js'></script>
+		<script src='../js/functions.js'></script>
+		<script src='../js/ajax.js'></script>
 		<script src='../js/badge.js'></script>
 		<script src='../js/options.js'></script>
 	</head>
@@ -26,6 +28,7 @@
 				<li class="selected"><a href="#general" class="title_general">Général</a></li>
 				<li><a href="#myepisodes" class="title_myepisodes">Mes épisodes</a></li>
 				<li><a href="#menu" class="title_menu">Menu</a></li>
+				<li><a href="#betaseries" class="title_menu">BetaSeries</a></li>
 			</ul>
 
 			<ul class="menu">
@@ -42,7 +45,7 @@
 				<div class="content">
 					
 					<section>
-						<h3 id="">Notifications</h3>
+						<h3 id="">Badge</h3>
 
 						<div class="select badge_notification_type">
 							<span></span>
@@ -52,19 +55,24 @@
 							</select>
 						</div>
 					
-						<p id="display_notifications_icon">
-						<label>
-							<input type="checkbox" />
-							<span/>
-						</label>
-						</p>
+					</section>
 
-						<p id="mark_notifs_episode_as_seen">
-						<label>
-							<input type="checkbox" />
-							<span/>
-						</label>
-						</p>
+					<section>
+						<h3 id="">Notifications</h3>
+
+						<div class="checkbox">
+							<label>
+								<input id="display_notifications_icon" type="checkbox" />
+								<span/>
+							</label>
+						</div>
+
+						<div class="checkbox">
+							<label>
+								<input id="mark_notifs_episode_as_seen" type="checkbox" />
+								<span/>
+							</label>
+						</div>
 					</section>
 					
 					<section>
@@ -109,36 +117,65 @@
 							</select>
 						</div>
 
-						<p id="display_mean_note">
-						<label>
-							<input type="checkbox" />
-							<span/>
-						</label>
-						</p>
+						<div class="checkbox">
+							<label>
+								<input id="display_mean_note" type="checkbox" />
+								<span/>
+							</label>
+						</div>
 
-						<p id="display_copy_episode">
-						<label>
-							<input type="checkbox" />
-							<span/>
-						</label>
-						</p>
-					
-						<p id="display_global">
-						<label>
-							<input type="checkbox" />
-							<span/>
-						</label>
-						</p>
+						<div class="checkbox">
+							<label>
+								<input id="display_copy_episode" type="checkbox" />
+								<span/>
+							</label>
+						</div>
 
-						<p id="enable_ratings">
-						<label>
-							<input type="checkbox" />
-							<span/>
-						</label>
-						</p>
+						<div class="checkbox">
+							<label>
+								<input id="display_global" type="checkbox" />
+								<span/>
+							</label>
+						</div>
+
+						<div class="checkbox">
+							<label>
+								<input id="enable_ratings" type="checkbox" />
+								<span/>
+							</label>
+						</div>
 
 					</section>
 				
+				</div>
+
+			</div>
+
+			<div id="betaseries">
+				
+				<header><h1 class="link_menu">BetaSeries</h1></header>
+
+				<div class="content">
+					
+					<section>
+						<h3 id="title_view_menu_">Options du site</h3>
+
+						<div class="checkbox">
+							<label>
+								<input id="bs_downloaded" type="checkbox" />
+								<span/>
+							</label>
+						</div>
+
+						<div class="checkbox">
+							<label>
+								<input id="bs_decalage" type="checkbox" />
+								<span/>
+							</label>
+						</div>
+
+					</section>
+			
 				</div>
 
 			</div>

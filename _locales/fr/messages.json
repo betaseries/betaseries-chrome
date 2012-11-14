@@ -16,9 +16,6 @@
 			}
 		}
 	},
-	"enable_ratings": {
-		"message": "Activer la notation"
-	},
 	"all": {
 		"message": "ALL"
 	},
@@ -39,6 +36,12 @@
 	},
 	"badge_notification_type": {
 		"message": "Badge : "
+	},
+	"bs_decalage": {
+		"message": "Décaler les dates d'une journée pour correspondre à la sortie française"
+	},
+	"bs_downloaded": {
+		"message": "Ajouter une option dans 'Mes épisodes' pour marquer les épisodes comme récupérés"
 	},
 	"close": {
 		"message": "Fermer ce pop-up"
@@ -75,6 +78,9 @@
 	},
 	"email": {
 		"message": "Email :"
+	},
+	"enable_ratings": {
+		"message": "Activer la notation"
 	},
 	"episodes_not_dl": {
 		"message": "Episodes non récupérés"

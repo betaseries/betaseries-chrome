@@ -2,7 +2,8 @@
 var saveMenu;
 
 $(document).ready(function() {
-  var menu, menu_order, options, selected, __, _i, _len;
+  var menu, menu_order, options, selected, __, _i, _len,
+    _this = this;
   __ = function(msgname) {
     return chrome.i18n.getMessage(msgname);
   };
@@ -18,13 +19,13 @@ $(document).ready(function() {
     options[attr] = value;
     return DB.set('options', options);
   });
-  $('.radio input').click(function() {
-    var attr, value;
-    attr = $(this).attr('name');
-    value = $(this).attr('value');
-    options[attr] = value;
-    return DB.set('options', options);
-  });
+  /*$('.radio input').click ->
+  		attr = $(@).attr 'name'
+  		value = $(@).attr 'value'
+  		options[attr] = value
+  		DB.set 'options', options
+  */
+
   $('.badge_notification_type span').text(__('badge_notification_type'));
   $('#badge_notification_type option[value=watched]').text(__('episodes_not_seen'));
   $('#badge_notification_type option[value=downloaded]').text(__('episodes_not_dl'));
@@ -41,24 +42,28 @@ $(document).ready(function() {
     options[attr] = value;
     return DB.set('options', options);
   });
-  $('#display_global label span').text(__("display_global"));
-  $('#display_global label input').attr('checked', options.display_global);
-  $('#enable_ratings label span').text(__("enable_ratings"));
-  $('#enable_ratings label input').attr('checked', DB.get('options').enable_ratings);
-  $('#display_mean_note label span').text(__("display_mean_note"));
-  $('#display_mean_note label input').attr('checked', DB.get('options').display_mean_note);
-  $('#display_copy_episode label span').text(__("display_copy_episode"));
-  $('#display_copy_episode label input').attr('checked', DB.get('options').display_copy_episode);
-  $('#display_notifications_icon label span').text(__("display_notifications_icon"));
-  $('#display_notifications_icon label input').attr('checked', DB.get('options').display_notifications_icon);
-  $('#mark_notifs_episode_as_seen label span').text(__("mark_notifs_episode_as_seen"));
-  $('#mark_notifs_episode_as_seen label input').attr('checked', DB.get('options').mark_notifs_episode_as_seen);
-  $('p label input').click(function() {
-    var attr, checked;
-    attr = $(this).parent().parent().attr('id');
+  $('.checkbox').each(function() {
+    var attr;
+    attr = $(this).find('input').attr('id');
+    $(this).find('input').attr('checked', options[attr]);
+    return $(this).find('span').text(__(attr));
+  });
+  $('.checkbox input').click(function() {
+    var attr, checked, params, value;
+    attr = $(this).attr('id');
     checked = $(this).is(':checked');
-    options[attr] = checked;
-    return DB.set('options', options);
+    if (attr === 'bs_downloaded' || attr === 'bs_decalage') {
+      value = checked ? '1' : '0';
+      params = "&value=" + value;
+      return ajax.post("/members/option/" + attr.substring(3), params, function(data) {
+        checked = data.root.option.value === '1';
+        options[attr] = checked;
+        return DB.set('options', options);
+      });
+    } else {
+      options[attr] = checked;
+      return DB.set('options', options);
+    }
   });
   $('#title_view_menu').text(__("title_view_menu"));
   $('#order_sections').text(__("order_sections"));
@@ -85,6 +90,22 @@ $(document).ready(function() {
     checked = $(this).is(':checked');
     return saveMenu();
   });
+  if (!options.bs_downloaded && !options.bs_decalage) {
+    ajax.post("/members/option/downloaded", '', function(data) {
+      var checked;
+      checked = data.root.option.value === '1';
+      $('#downloaded').attr('checked', checked);
+      options.bs_downloaded = checked;
+      return DB.set('options', options);
+    });
+    ajax.post("/members/option/decalage", '', function(data) {
+      var checked;
+      checked = data.root.option.value === '1';
+      $('#decalage').attr('checked', checked);
+      options.bs_decalage = checked;
+      return DB.set('options', options);
+    });
+  }
   $('.menu a').click(function(ev) {
     var currentView;
     ev.preventDefault();
