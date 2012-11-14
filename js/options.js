@@ -6,13 +6,6 @@ $(document).ready(function() {
     return chrome.i18n.getMessage(msgname);
   };
   options = DB.get('options');
-  $('.link_general').text(__('general'));
-  $('.link_facebook').text(__('facebook'));
-  $('.link_about').text(__('about'));
-  $('#title_badge').text(__('badge'));
-  $('#title_view_episodes_not_seen').text(__('view_episodes_not_seen'));
-  $('#dl_srt_language').text(__("dl_srt_language"));
-  $('#nbr_episodes_per_serie').text(__("nbr_episodes_per_serie"));
   $('.max_height span').text(__("max_height"));
   $('.max_height input').attr('value', options.max_height + '');
   $('.nbr_episodes_per_serie span').text(__("nbr_episodes_per_serie"));
@@ -24,19 +17,25 @@ $(document).ready(function() {
     options[attr] = value;
     return DB.set('options', options);
   });
-  $('.watched span').text(__('episodes_not_seen'));
-  $('.watched input').attr('checked', 'watched' === options.badge_notification_type);
-  $('.downloaded span').text(__('episodes_not_dl'));
-  $('.downloaded input').attr('checked', 'downloaded' === options.badge_notification_type);
-  $('.vf span').text(__('vf'));
-  $('.vf input').attr('checked', 'VF' === options.dl_srt_language);
-  $('.vo span').text(__('vo'));
-  $('.vo input').attr('checked', 'VO' === options.dl_srt_language);
-  $('.all span').text(__('all'));
-  $('.all input').attr('checked', 'ALL' === options.dl_srt_language);
   $('.radio input').click(function() {
     var attr, value;
     attr = $(this).attr('name');
+    value = $(this).attr('value');
+    options[attr] = value;
+    return DB.set('options', options);
+  });
+  $('.badge_notification_type span').text(__('badge_notification_type'));
+  $('#badge_notification_type option[value=watched]').text(__('episodes_not_seen'));
+  $('#badge_notification_type option[value=downloaded]').text(__('episodes_not_dl'));
+  $('#badge_notification_type').val(options.badge_notification_type);
+  $('.dl_srt_language span').text(__('dl_srt_language'));
+  $('#dl_srt_language option[value=VF]').text(__('vf'));
+  $('#dl_srt_language option[value=VO]').text(__('vo'));
+  $('#dl_srt_language option[value=ALL]').text(__('all'));
+  $('#dl_srt_language').val(options.dl_srt_language);
+  $('.select select').change(function() {
+    var attr, value;
+    attr = $(this).attr('id');
     value = $(this).attr('value');
     options[attr] = value;
     return DB.set('options', options);
@@ -67,20 +66,12 @@ $(document).ready(function() {
   $('#title_ext_page').text(__('extension_page'));
   $('#title_git_page').text(__('github_page'));
   $('#title_suggestions').text(__('suggestions_or_bugs'));
-  $('select[name=dl_srt_language]').val(DB.get('options').dl_srt_language);
-  $('input[name=nbr_episodes_per_serie]').attr('value', DB.get('options').nbr_episodes_per_serie);
-  $('input[name=max_height]').attr('value', DB.get('options').max_height);
   menu_order = DB.get('options').menu_order;
   for (_i = 0, _len = menu_order.length; _i < _len; _i++) {
     menu = menu_order[_i];
     selected = menu.visible ? 'checked="checked" ' : '';
     $('#sections').append('<span id="' + menu.name + '">' + '<input type="checkbox" ' + selected + '/>' + '<img src="../img/grippy.png" /> ' + __('menu_' + menu.name) + '</span>');
   }
-  $('option[value=VO]').text(__('vo'));
-  $('option[value=VF]').text(__('vf'));
-  $('option[value=ALL]').text(__('all'));
-  $('option[value=true]').text(__('yes'));
-  $('option[value=false]').text(__('no'));
   $("#sections").dragsort({
     dragSelector: "img",
     dragEnd: function() {},
@@ -105,16 +96,6 @@ $(document).ready(function() {
       return 0;
     });
     options = {
-      badge_notification_type: $('select[name=badge_notification_type] :selected').val(),
-      dl_srt_language: $('select[name=dl_srt_language] :selected').val(),
-      nbr_episodes_per_serie: parseInt($('input[name=nbr_episodes_per_serie]').attr('value')),
-      display_global: $('select[name=display_global] :selected').val() === 'true',
-      enable_ratings: $('select[name=enable_ratings] :selected').val() === 'true',
-      max_height: parseInt($('input[name=max_height]').attr('value')),
-      display_mean_note: $('select[name=display_mean_note] :selected').val() === 'true',
-      display_copy_episode: $('select[name=display_copy_episode] :selected').val() === 'true',
-      display_notifications_icon: $('select[name=display_notifications_icon] :selected').val() === 'true',
-      mark_notifs_episode_as_seen: $('select[name=mark_notifs_episode_as_seen] :selected').val() === 'true',
       menu_order: menu_order
     };
     DB.set('options', options);

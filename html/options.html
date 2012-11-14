@@ -44,18 +44,12 @@
 					<section>
 						<h3 id="">Notifications</h3>
 
-						<div class="radio watched">
-							<label>
-								<input type="radio" name="badge_notification_type" value="watched" />
-								<span />
-							</label>
-						</div>
-
-						<div class="radio downloaded">
-							<label>
-								<input type="radio" name="badge_notification_type" value="downloaded" />
-								<span />
-							</label>
+						<div class="select badge_notification_type">
+							<span></span>
+							<select id="badge_notification_type">
+								<option value="watched"></option>
+								<option value="downloaded"></option>
+							</select>
 						</div>
 					
 						<p id="display_notifications_icon">
@@ -93,33 +87,6 @@
 				<div class="content">
 					
 					<section>
-						<h3>Sous-titres</h3>
-					
-						<div class="radio vf">
-							<label>
-								<input type="radio" name="dl_srt_language" value="VF" />
-								<span />
-							</label>
-						</div>
-
-						<div class="radio vo">
-							<label>
-								<input type="radio" name="dl_srt_language" value="VO" />
-								<span />
-							</label>
-						</div>
-
-						<div class="radio all">
-							<label>
-								<input type="radio" name="dl_srt_language" value="ALL" />
-								<span />
-							</label>
-						</div>
-
-						<p>
-					</section>
-
-					<section>
 						<h3>Séries</h3>
 						
 						<div class="text nbr_episodes_per_serie">
@@ -133,19 +100,14 @@
 					<section>
 						<h3>Episodes</h3>
 
-						<p id="display_global">
-						<label>
-							<input type="checkbox" />
-							<span/>
-						</label>
-						</p>
-
-						<p id="enable_ratings">
-						<label>
-							<input type="checkbox" />
-							<span/>
-						</label>
-						</p>
+						<div class="select dl_srt_language">
+							<span></span>
+							<select id="dl_srt_language">
+								<option value="VF"></option>
+								<option value="VO"></option>
+								<option value="ALL"></option>
+							</select>
+						</div>
 
 						<p id="display_mean_note">
 						<label>
@@ -160,6 +122,21 @@
 							<span/>
 						</label>
 						</p>
+					
+						<p id="display_global">
+						<label>
+							<input type="checkbox" />
+							<span/>
+						</label>
+						</p>
+
+						<p id="enable_ratings">
+						<label>
+							<input type="checkbox" />
+							<span/>
+						</label>
+						</p>
+
 					</section>
 				
 				</div>
@@ -173,7 +150,7 @@
 				<div class="content">
 					
 					<section>
-						<h3 id="title_view_menu"></h3>
+						<h3 id="title_view_menu_">Organisation</h3>
 						
 						<p>
 						<span id="order_sections"></span><br />
