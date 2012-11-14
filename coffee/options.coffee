@@ -91,7 +91,10 @@ $(document).ready ->
 	menu_order = DB.get('options').menu_order
 	for menu in menu_order
 		selected = if menu.visible then 'checked="checked" ' else ''
-		$('#sections').append '<span id="' + menu.name + '">' + '<input type="checkbox" ' + selected + '/>' + '<img src="../img/grippy.png" /> ' + __('menu_' + menu.name) + '</span>'
+		$('#sections').append '<span id="' + menu.name + '">' +
+			'<input type="checkbox" ' + selected + '/>' + 
+			'<img src="../img/grippy.png" /> ' + 
+			__('menu_' + menu.name) + '</span>'
 
 	# Activation du drag'n drop
 	$("#sections").dragsort
@@ -139,6 +142,9 @@ $(document).ready ->
 		setTimeout (-> $('body')[0].scrollTop = 0), 200
 
 	$('.mainview > *:not(.selected)').css 'display', 'none'
+
+	$('#numversion').text Fx.getVersion()
+	$('#useragent').text Fx.getNewUserAgent()
 
 saveMenu = ->
 	options = DB.get('options')

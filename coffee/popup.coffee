@@ -461,7 +461,7 @@ $(document).ready ->
 	$('#connect').live
 		submit: ->
 			login = $('#login').val()
-			password = hex_md5 $('#password').val()
+			password = md5 $('#password').val()
 			inputs = $(this).find('input').attr {disabled: 'disabled'}
 			params = "&login=" + login + "&password=" + password
 			ajax.post "/members/auth", params, 
@@ -756,7 +756,7 @@ $(document).ready ->
 
 _gaq = _gaq || [];
 _gaq.push ['_setAccount', 'UA-36275514-1']
-_gaq.push ['_setCustomVar', 1, 'Member', DB?.get('session').login, 3]
+_gaq.push ['_setCustomVar', 1, 'Member', DB?.get('session')?.login, 3]
 _gaq.push ['_setCustomVar', 2, 'ExtensionVersion', Fx?.getVersion(), 1]
 _gaq.push ['_setCustomVar', 3, 'BrowserVersion', Fx.getBrowserVersion(), 1]
 _gaq.push ['_setCustomVar', 4, 'OS', Fx.getOS(), 1]

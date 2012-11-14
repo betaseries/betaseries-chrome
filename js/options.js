@@ -125,7 +125,9 @@ $(document).ready(function() {
       return $('body')[0].scrollTop = 0;
     }), 200);
   });
-  return $('.mainview > *:not(.selected)').css('display', 'none');
+  $('.mainview > *:not(.selected)').css('display', 'none');
+  $('#numversion').text(Fx.getVersion());
+  return $('#useragent').text(Fx.getNewUserAgent());
 });
 
 saveMenu = function() {

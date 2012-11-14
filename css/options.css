@@ -5,3 +5,5 @@
 #sections span img {margin-bottom: -3px;}
 
 #sections span img:hover {cursor: move}
+
+#sections span input {margin-right: 6px;}
