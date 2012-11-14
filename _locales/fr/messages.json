@@ -65,7 +65,7 @@
 		"message": "Afficher la note moyenne"
 	},
 	"display_notifications_icon": {
-		"message": "Activer la récupération automatique des notifications et afficher l'icône des notifications"
+		"message": "Activer les notifications"
 	},
 	"dl_srt_language": {
 		"message": "Langue des sous-titres : "
