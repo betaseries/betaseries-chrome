@@ -89,37 +89,26 @@ $(document).ready ->
 	$('#title_git_page').text __('github_page')
 	$('#title_suggestions').text __('suggestions_or_bugs')	
 	
+	# <-- Organisation du menu
+
 	menu_order = DB.get('options').menu_order
 	for menu in menu_order
 		selected = if menu.visible then 'checked="checked" ' else ''
 		$('#sections').append '<span id="' + menu.name + '">' + '<input type="checkbox" ' + selected + '/>' + '<img src="../img/grippy.png" /> ' + __('menu_' + menu.name) + '</span>'
-	
-	## Activation du drag'n drop
+
+	# Activation du drag'n drop
 	$("#sections").dragsort
 		dragSelector: "img", 
-		dragEnd: -> ,
+		dragEnd: saveMenu,
 		dragBetween: false, 
 		placeHolderTemplate: false
 	$('#sections img').removeAttr 'style'
-	
-	$('#save_options_____').click ->
-		for i in menu_order
-			visible = $('#sections #' + i.name).find('input').is(':checked')
-			i.visible = visible
-		menu_order.sort (a, b) ->
-			if $('#sections #' + a.name).index() < $('#sections #' + b.name).index()
-				return -1
-			if $('#sections #' + a.name).index() > $('#sections #' + b.name).index()
-				return 1
-			return 0
-		options =
-			menu_order: menu_order
-		DB.set 'options', options
-		Badge.update()
-		$(this).html __('saved')
-		$(this).css 'background-color', '#eafedf'
-		$('#save_options').css 'color', '#999'
 
+	# Listener sur les checkbox
+	$('#sections input').click ->
+		checked = $(@).is(':checked')
+		saveMenu()
+		
 	$('.menu a').click (ev) ->
 		ev.preventDefault()
 		selected = 'selected'
@@ -137,3 +126,19 @@ $(document).ready ->
 		setTimeout (-> $('body')[0].scrollTop = 0), 200
 
 	$('.mainview > *:not(.selected)').css 'display', 'none'
+
+saveMenu = ->
+	options = DB.get('options')
+	menu_order = options.menu_order
+	for i in menu_order
+		visible = $('#sections #' + i.name).find('input').is(':checked')
+		i.visible = visible
+	menu_order.sort (a, b) ->
+		if $('#sections #' + a.name).index() < $('#sections #' + b.name).index()
+			return -1
+		if $('#sections #' + a.name).index() > $('#sections #' + b.name).index()
+			return 1
+		return 0
+	options.menu_order = menu_order
+	DB.set 'options', options
+	
