@@ -66,10 +66,10 @@ Content = {
       }
     }
     quality = Math.floor((quality + 1) / 2);
-    if (e.downloaded) {
+    if ((e.downloaded != null) && e.downloaded) {
       imgDownloaded = "folder";
       texte3 = __('mark_as_not_dl');
-    } else {
+    } else if (e.downloaded != null) {
       imgDownloaded = "folder_off";
       texte3 = __('mark_as_dl');
     }
@@ -78,6 +78,9 @@ Content = {
       titleWidth += 26;
     }
     if (!DB.get('options').display_copy_episode) {
+      titleWidth += 20;
+    }
+    if (!(e.downloaded != null)) {
       titleWidth += 20;
     }
     output += '<div class="episode e' + e.global + newShow + hidden + '" number="' + e.number + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '">';
@@ -116,9 +119,11 @@ Content = {
       output += '<img src="../img/empty.png" alt="hidden" />';
     }
     output += '</div>';
-    output += '<div class="td wrapper-recover">';
-    output += '<img src="../img/' + imgDownloaded + '.png" class="downloaded action" title="' + texte3 + '" />';
-    output += '</div>';
+    if (e.downloaded != null) {
+      output += '<div class="td wrapper-recover">';
+      output += '<img src="../img/' + imgDownloaded + '.png" class="downloaded action" title="' + texte3 + '" />';
+      output += '</div>';
+    }
     output += '<div class="td wrapper-subtitles">';
     if (nbSubs > 0) {
       output += '<img src="../img/page_white_text.png" class="subs action" link="' + url + '" quality="' + quality + '" title="' + __('srt_quality', [lang, quality]) + '" />';

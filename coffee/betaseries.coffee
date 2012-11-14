@@ -237,6 +237,8 @@ class View_ShowEpisodes extends View
 					show: @show
 					url: @show
 					#subs: e.subs
+				if e.downloaded isnt '-1'
+					showEpisodes[e.global].downloaded = e.downloaded is '1'
 		
 		DB.set 'show.' + @show + '.episodes', showEpisodes
 		DB.set 'member.' + @login + '.shows', shows
@@ -312,7 +314,7 @@ class View_Episode extends View
 		ep.comments = e.comments if e.comments?
 		ep.date = e.date if e.date?
 		ep.description = e.description if e.description?
-		ep.downloaded = e.downloaded if e.downloaded?
+		#ep.downloaded = e.downloaded if e.downloaded?
 		ep.episode = e.episode if e.episode?
 		ep.global = e.global if e.global?
 		ep.number = e.number if e.number?
@@ -374,9 +376,10 @@ class View_Episode extends View
 		output += '<span class="imgSyncNo"></span>' + __('see_comments', e.comments) + '</a>'
 		
 		# Marquer comme récupéré ou pas
-		dl = if e.downloaded then 'mark_as_not_dl' else 'mark_as_dl'
-		output += '<a href="" show="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" class="link downloaded">'
-		output += '<span class="imgSyncOff"></span>' + __(dl) + '</a>'
+		if e.downloaded?
+			dl = if e.downloaded then 'mark_as_not_dl' else 'mark_as_dl'
+			output += '<a href="" show="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" class="link downloaded">'
+			output += '<span class="imgSyncOff"></span>' + __(dl) + '</a>'
 		
 		return output
 	
@@ -587,7 +590,6 @@ class View_MyEpisodes extends View
 			showEpisodes[e.global] =
 				comments: e.comments
 				date: e.date
-				downloaded: e.downloaded is '1'
 				episode: e.episode
 				global: e.global
 				number: e.number
@@ -597,6 +599,8 @@ class View_MyEpisodes extends View
 				url: e.url
 				subs: e.subs
 				note: e.note.mean
+			if e.downloaded isnt '-1'
+				showEpisodes[e.global].downloaded = e.downloaded is '1'
 			DB.set 'show.' + e.url + '.episodes', showEpisodes
 			
 			# cache des épisodes déjà vus

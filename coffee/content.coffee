@@ -86,16 +86,17 @@ Content =
 				nbSubs++
 		
 		quality = Math.floor (quality + 1) / 2
-		if e.downloaded
+		if e.downloaded? && e.downloaded
 			imgDownloaded = "folder"
 			texte3 = __('mark_as_not_dl')
-		else
+		else if e.downloaded?
 			imgDownloaded = "folder_off"
 			texte3 = __('mark_as_dl')
 
 		titleWidth = 140
 		titleWidth += 26 if !DB.get('options').display_mean_note
 		titleWidth += 20 if !DB.get('options').display_copy_episode
+		titleWidth += 20 if !e.downloaded?
 		
 		## OUTPUT ---------------------------------------
 		
@@ -146,9 +147,10 @@ Content =
 		output += '</div>'
 		
 		# Action 'mark as (not) recover'
-		output += '<div class="td wrapper-recover">'
-		output += '<img src="../img/' + imgDownloaded + '.png" class="downloaded action" title="' + texte3 + '" />'
-		output += '</div>'
+		if e.downloaded?
+			output += '<div class="td wrapper-recover">'
+			output += '<img src="../img/' + imgDownloaded + '.png" class="downloaded action" title="' + texte3 + '" />'
+			output += '</div>'
 
 		# Action 'download best subtitle'
 		output += '<div class="td wrapper-subtitles">'

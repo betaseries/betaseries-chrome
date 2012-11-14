@@ -276,6 +276,9 @@ View_ShowEpisodes = (function(_super) {
           show: this.show,
           url: this.show
         };
+        if (e.downloaded !== '-1') {
+          showEpisodes[e.global].downloaded = e.downloaded === '1';
+        }
       }
     }
     DB.set('show.' + this.show + '.episodes', showEpisodes);
@@ -371,9 +374,6 @@ View_Episode = (function(_super) {
     if (e.description != null) {
       ep.description = e.description;
     }
-    if (e.downloaded != null) {
-      ep.downloaded = e.downloaded;
-    }
     if (e.episode != null) {
       ep.episode = e.episode;
     }
@@ -448,9 +448,11 @@ View_Episode = (function(_super) {
     output += '<div class="title2">' + __('actions') + '</div>';
     output += '<a href="" url="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" class="link display_comments">';
     output += '<span class="imgSyncNo"></span>' + __('see_comments', e.comments) + '</a>';
-    dl = e.downloaded ? 'mark_as_not_dl' : 'mark_as_dl';
-    output += '<a href="" show="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" class="link downloaded">';
-    output += '<span class="imgSyncOff"></span>' + __(dl) + '</a>';
+    if (e.downloaded != null) {
+      dl = e.downloaded ? 'mark_as_not_dl' : 'mark_as_dl';
+      output += '<a href="" show="' + e.url + '" season="' + e.season + '" episode="' + e.episode + '" global="' + e.global + '" class="link downloaded">';
+      output += '<span class="imgSyncOff"></span>' + __(dl) + '</a>';
+    }
     return output;
   };
 
@@ -739,7 +741,6 @@ View_MyEpisodes = (function(_super) {
       showEpisodes[e.global] = {
         comments: e.comments,
         date: e.date,
-        downloaded: e.downloaded === '1',
         episode: e.episode,
         global: e.global,
         number: e.number,
@@ -750,6 +751,9 @@ View_MyEpisodes = (function(_super) {
         subs: e.subs,
         note: e.note.mean
       };
+      if (e.downloaded !== '-1') {
+        showEpisodes[e.global].downloaded = e.downloaded === '1';
+      }
       DB.set('show.' + e.url + '.episodes', showEpisodes);
       if (e.url in memberEpisodes) {
         today = Math.floor(new Date().getTime() / 1000);
