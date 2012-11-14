@@ -7,10 +7,14 @@ Badge = {
     return this.display();
   },
   update: function() {
+    var last_checked;
     if (!Fx.logged()) {
       return;
     }
-    this.searchEpisodes();
+    last_checked = DB.get('new_episodes_checked', null);
+    if (!last_checked || last_checked < date('Y.m.d')) {
+      this.searchEpisodes();
+    }
     if (DB.get('options').display_notifications_icon) {
       return this.searchNotifs();
     }

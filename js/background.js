@@ -7,7 +7,7 @@ chrome.runtime.onInstalled.addListener(function(details) {
 
 chrome.alarms.create('badge_update', {
   delayInMinutes: 5,
-  periodInMinutes: 30
+  periodInMinutes: 60
 });
 
 chrome.alarms.onAlarm.addListener(function(alarm) {

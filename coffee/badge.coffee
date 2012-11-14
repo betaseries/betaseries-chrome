@@ -10,7 +10,8 @@ Badge =
 	# Processus de mise à jour
 	update: ->
 		return if !Fx.logged()
-		@searchEpisodes()
+		last_checked = DB.get 'new_episodes_checked', null
+		@searchEpisodes() if !last_checked || last_checked < date('Y.m.d')
 		@searchNotifs() if DB.get('options').display_notifications_icon
 
 	# Recherche de nouvelles notifications
