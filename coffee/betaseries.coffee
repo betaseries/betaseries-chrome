@@ -569,7 +569,7 @@ class View_MyEpisodes extends View
 		for d, e of data
 			
 			# si l'épisode n'est pas encore diffusé, ne pas le prendre
-			continue if (time - e.date < 24 * 3600) 
+			#continue if (time - e.date < 1 * 24 * 3600) 
 			
 			# cache des infos de la *série*
 			if e.url of shows

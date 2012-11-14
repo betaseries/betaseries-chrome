@@ -45,7 +45,7 @@ Badge =
 				for own i of episodes
 
 					# si l'épisode n'est pas encore diffusé, ne pas le prendre
-					continue if (time - episodes[i].date < 24 * 3600) 
+					#continue if (time - episodes[i].date < 1 * 24 * 3600) 
 
 					if (time - episodes[i].date < 2 * 24 * 3600) && (!last_checked || last_checked < date('Y.m.d'))
 						new_episodes++

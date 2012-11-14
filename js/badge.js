@@ -46,9 +46,6 @@ Badge = {
       new_episodes = 0;
       for (i in episodes) {
         if (!__hasProp.call(episodes, i)) continue;
-        if (time - episodes[i].date < 24 * 3600) {
-          continue;
-        }
         if ((time - episodes[i].date < 2 * 24 * 3600) && (!last_checked || last_checked < date('Y.m.d'))) {
           new_episodes++;
         }

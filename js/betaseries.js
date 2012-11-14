@@ -725,9 +725,6 @@ View_MyEpisodes = (function(_super) {
     j = 0;
     for (d in data) {
       e = data[d];
-      if (time - e.date < 24 * 3600) {
-        continue;
-      }
       if (e.url in shows) {
         shows[e.url].archive = false;
       } else {
