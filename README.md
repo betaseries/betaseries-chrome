@@ -29,14 +29,16 @@
 
 ## Dernière version
 
-### Version 1.0.0
+### Version 1.1
 
-* Correction de plusieurs bugs liés aux notifications (dont le ticket #11)
-* Lorsque l'extension n'est pas utilisée, la mémoire est libérée
-* Fusion des deux vues de recherche en une seule
-* Déconnexion forcée pour cette version
+* Nouveau design pour la page des options
+* Nouvelle option : Ajouter une option dans 'Mes épisodes' pour marquer les épisodes comme récupérés
+* Nouvelle option : Décaler les dates d'une journée pour correspondre à la sortie française
+* Diminution des requêtes envoyées au serveur lors de la mise à jour du badge
+* Correction de l'affichage du message lors d'une mise à jour
+* Correction d'un bug en mode déconnecté
 
-Note: Il se peut qu'il y ait un avertissement après la mise à jour, si vous utilisez la version stable de chrome - cela n'affectera pas le fonctionnement de l'extension.
+Note : Les 2 nouvelles options sont exactement celles du site de BetaSeries dans Configuration.
 
 ## Liens
 
