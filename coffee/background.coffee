@@ -1,12 +1,8 @@
-# START
-chrome.runtime.onInstalled.addListener (details) ->
-	DB.init()
-	Badge.init()
-
-chrome.alarms.create 'badge_update', 
-	delayInMinutes: 5
-	periodInMinutes: 60
-
 chrome.alarms.onAlarm.addListener (alarm) ->
-	if alarm.name is 'badge_update' && Fx.logged()
-		Badge.update()
+	if Fx.logged()
+		if alarm.name is 'search_episodes'
+			last_checked = DB.get('options').new_episodes_checked
+			Badge.search_episodes() if !last_checked || last_checked < date('Y.m.d')
+		if alarm.name is 'search_notifications'
+			period_search_notifications = DB.get('options').period_search_notifications
+			Badge.search_notifications() if !period_search_notifications

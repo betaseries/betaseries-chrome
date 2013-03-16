@@ -6,20 +6,7 @@ Badge = {
   init: function() {
     return this.display();
   },
-  update: function() {
-    var last_checked;
-    if (!Fx.logged()) {
-      return;
-    }
-    last_checked = DB.get('new_episodes_checked', null);
-    if (!last_checked || last_checked < date('Y.m.d')) {
-      this.searchEpisodes();
-    }
-    if (DB.get('options').display_notifications_icon) {
-      return this.searchNotifs();
-    }
-  },
-  searchNotifs: function() {
+  search_notifications: function() {
     return ajax.post('/members/notifications', '', function(data) {
       var login, n, nbr, new_notifs, old_notifs;
       login = DB.get('session').login;
@@ -34,7 +21,7 @@ Badge = {
       return Badge.display();
     });
   },
-  searchEpisodes: function() {
+  search_episodes: function() {
     return ajax.post('/members/episodes/all', '', function(data) {
       var downloaded_episodes, episodes, i, last_checked, new_episodes, time, total_episodes;
       episodes = data.root.episodes;

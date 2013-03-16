@@ -18,6 +18,7 @@ DB = {
       max_height: 200,
       display_mean_note: true,
       display_copy_episode: false,
+      period_search_notifications: 0,
       display_notifications_icon: true,
       mark_notifs_episode_as_seen: true,
       menu_order: [

@@ -181,3 +181,19 @@ Fx =
 		DB.restart()
 		Badge.init()
 		BS.load 'Connection'
+
+	#
+	search_episodes: ->
+		chrome.alarms.clear 'search_episodes'
+		chrome.alarms.create 'search_episodes', 
+			delayInMinutes: 5
+			periodInMinutes: 60
+
+	search_notifications: ->
+		chrome.alarms.clear 'search_notifications'
+		period_search_notifications = parseInt DB.get('options')?.period_search_notifications?
+		if period_search_notifications && period_search_notifications > 0
+			chrome.alarms.create 'search_notifications', 
+				delayInMinutes: 5
+				periodInMinutes: period_search_notifications
+

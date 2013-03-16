@@ -68,7 +68,7 @@
 		"message": "Afficher la note moyenne"
 	},
 	"display_notifications_icon": {
-		"message": "Activer les notifications"
+		"message": "Afficher l'icône des notifications"
 	},
 	"dl_srt_language": {
 		"message": "Langue des sous-titres : "
@@ -315,8 +315,23 @@
 	"password_not_matching": {
 		"message": "Mot de passe invalide"
 	},
-	"progress": {
-		"message": "avancement"
+	"period_search_notifications": {
+		"message": "Rercherche de nouvelles notifications : "
+	},
+	"psn0": {
+		"message": "Jamais"
+	},
+	"psn30": {
+		"message": "Toutes les 30min"
+	},
+	"psn60": {
+		"message": "Toutes les 1h"
+	},
+	"psn120": {
+		"message": "Toutes les 2h"
+	},
+	"psn240": {
+		"message": "Toutes les 4h"
 	},
 	"read_article": {
 		"message": "Lire l'article"

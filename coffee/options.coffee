@@ -45,12 +45,24 @@ $(document).ready ->
 	$('#dl_srt_language option[value=ALL]').text __('all')
 	$('#dl_srt_language').val options.dl_srt_language
 
+	$('.period_search_notifications span').text __('period_search_notifications')
+	$('#period_search_notifications option[value=psn0]').text __('psn0')
+	$('#period_search_notifications option[value=psn30]').text __('psn30')
+	$('#period_search_notifications option[value=psn60]').text __('psn60')
+	$('#period_search_notifications option[value=psn120]').text __('psn120')
+	$('#period_search_notifications option[value=psn240]').text __('psn240')
+	$('#period_search_notifications').val 'psn' + options.period_search_notifications
+
 	$('.select select').change ->
 		attr = $(@).attr 'id'
 		value = $(@).attr 'value'
+		if value.indexOf('psn') is 0 
+			value = parseInt value.substring(3)		
 		options[attr] = value
 		DB.set 'options', options
-
+		if value.indexOf('psn') is 0 
+			Fx.search_notifications()	
+		
 	# -->
 
 	# <-- Gestion des checkbox

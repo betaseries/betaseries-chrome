@@ -65,7 +65,7 @@
 		"message": "Show the average rating of episodes : "
 	},
 	"display_notifications_icon": {
-		"message": "Enable notifications automatic update and show notifications icon : "
+		"message": "Show notifications icon : "
 	},
 	"dl_srt_language": {
 		"message": "Language of the episode subtitles : "
@@ -308,6 +308,24 @@
 	},
 	"progress": {
 		"message": "progress"
+	},
+	"period_search_notifications": {
+		"message": "Search for new notifications : "
+	},
+	"psn0": {
+		"message": "Never"
+	},
+	"psn30": {
+		"message": "Every 30min"
+	},
+	"psn60": {
+		"message": "Every 1h"
+	},
+	"psn120": {
+		"message": "Every 2h"
+	},
+	"psn240": {
+		"message": "Every 4h"
 	},
 	"read_article": {
 		"message": "Read article"

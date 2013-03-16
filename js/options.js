@@ -35,12 +35,25 @@ $(document).ready(function() {
   $('#dl_srt_language option[value=VO]').text(__('vo'));
   $('#dl_srt_language option[value=ALL]').text(__('all'));
   $('#dl_srt_language').val(options.dl_srt_language);
+  $('.period_search_notifications span').text(__('period_search_notifications'));
+  $('#period_search_notifications option[value=psn0]').text(__('psn0'));
+  $('#period_search_notifications option[value=psn30]').text(__('psn30'));
+  $('#period_search_notifications option[value=psn60]').text(__('psn60'));
+  $('#period_search_notifications option[value=psn120]').text(__('psn120'));
+  $('#period_search_notifications option[value=psn240]').text(__('psn240'));
+  $('#period_search_notifications').val('psn' + options.period_search_notifications);
   $('.select select').change(function() {
     var attr, value;
     attr = $(this).attr('id');
     value = $(this).attr('value');
+    if (value.indexOf('psn') === 0) {
+      value = parseInt(value.substring(3));
+    }
     options[attr] = value;
-    return DB.set('options', options);
+    DB.set('options', options);
+    if (value.indexOf('psn') === 0) {
+      return Fx.search_notifications();
+    }
   });
   $('.checkbox').each(function() {
     var attr;

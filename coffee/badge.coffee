@@ -7,15 +7,8 @@ Badge =
 	init: ->
 		@display()
 
-	# Processus de mise à jour
-	update: ->
-		return if !Fx.logged()
-		last_checked = DB.get 'new_episodes_checked', null
-		@searchEpisodes() if !last_checked || last_checked < date('Y.m.d')
-		@searchNotifs() if DB.get('options').display_notifications_icon
-
 	# Recherche de nouvelles notifications
-	searchNotifs: ->
+	search_notifications: ->
 		ajax.post '/members/notifications', '', 
 			(data) ->
 				login = DB.get('session').login
@@ -30,7 +23,7 @@ Badge =
 				Badge.display()
 	
 	# Mise à jour du nombre d'épisodes total
-	searchEpisodes: ->
+	search_episodes: ->
 		ajax.post '/members/episodes/all', '', 
 			(data) ->
 				episodes = data.root.episodes
