@@ -73,7 +73,7 @@ Content = {
       imgDownloaded = "folder_off";
       texte3 = __('mark_as_dl');
     }
-    titleWidth = 140;
+    titleWidth = 206;
     if (!DB.get('options').display_mean_note) {
       titleWidth += 26;
     }

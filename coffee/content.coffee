@@ -93,7 +93,7 @@ Content =
 			imgDownloaded = "folder_off"
 			texte3 = __('mark_as_dl')
 
-		titleWidth = 140
+		titleWidth = 206
 		titleWidth += 26 if !DB.get('options').display_mean_note
 		titleWidth += 20 if !DB.get('options').display_copy_episode
 		titleWidth += 20 if !e.downloaded?
