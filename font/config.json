@@ -1,0 +1,76 @@
+{
+  "name": "",
+  "glyphs": [
+    {
+      "search": [
+        "back",
+        "return"
+      ],
+      "code": 8624,
+      "uid": "5308d824454af8ec7835786e272361a9",
+      "css": "level-up",
+      "orig_css": "level-up",
+      "orig_code": 8624,
+      "src": "entypo",
+      "from": 8624
+    },
+    {
+      "search": [
+        "exclamation",
+        "attention"
+      ],
+      "code": 57603,
+      "uid": "711fdb6caa365d5b69d4a72da2009cf6",
+      "css": "exclamation",
+      "orig_css": "exclamation",
+      "orig_code": 57603,
+      "src": "elusive",
+      "from": 57603
+    },
+    {
+      "search": [
+        "load",
+        "progress",
+        "wait"
+      ],
+      "code": 59440,
+      "meta": {
+        "email": "berbentseva_angela@yahoo.com",
+        "author": "Angela Berbentseva, specially for fontello"
+      },
+      "uid": "72109d2fb3088d0e66ea6a9204297651",
+      "css-ext": "animate-spin",
+      "css": "spin1",
+      "orig_css": "spin1",
+      "orig_code": 59440,
+      "src": "fontelico",
+      "from": 59440
+    },
+    {
+      "search": [
+        "logout",
+        "signout",
+        "exit"
+      ],
+      "code": 61485,
+      "uid": "a6b6f85116fc55e4a7c83d66973035a7",
+      "css": "logout-1",
+      "orig_css": "logout",
+      "orig_code": 61485,
+      "src": "mfglabs",
+      "from": 61485
+    },
+    {
+      "search": [
+        "menu"
+      ],
+      "code": 61641,
+      "uid": "559647a6f430b3aeadbecd67194451dd",
+      "css": "menu",
+      "orig_css": "menu",
+      "orig_code": 61641,
+      "src": "fontawesome",
+      "from": 61641
+    }
+  ]
+}

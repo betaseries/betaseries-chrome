@@ -1,4 +1,10 @@
-body {font-size: 11px; width: 300px; margin: 0; color: #333; font-family: "Lucida Grande", "Trebuchet MS", sans-serif;}
+body {
+	width: 366px; 
+	margin: 0; 
+	font-family: "Lucida Grande", "Trebuchet MS", sans-serif;
+	font-size: 12px;
+	color: #333;
+}
 
 /*Links*/
 a, a:visited {text-decoration: none; color: #009; outline: none;}
@@ -21,7 +27,28 @@ a.invisible:hover {text-decoration: none;}
 .nano .pane .slider { background: #bbb; }
 
 /*Pannel*/
-#header {padding-bottom: 3px; border-bottom: 1px solid #bbb;}
+#header {
+	width: 366px; 
+	height: 23px;
+	background-color: rgb(59,141,208);
+	color: #fff;
+}
+	#logo {
+		display: inline-block; 
+		width: 200px;
+		font-size: 16px;
+		line-height: 22px;
+	}
+
+	#actions {
+		display: inline-block;
+		width: 162px; /* miss 4px ? */
+		text-align: right; 
+	}
+		
+		.action {opacity: 0.5; cursor: pointer;}
+		.action:hover {opacity: 1.0; cursor: pointer;}
+
 #about {margin: 3px 0 3px 0;}
 
 /*Form*/
@@ -29,7 +56,7 @@ a.invisible:hover {text-decoration: none;}
 .postComment input[type=submit] {float: right; width: 80px; margin-right: 5px;}
 
 /*Help*/
-#footer {height: 18px; padding-top: 3px; border-top: 1px solid #BBB; padding-left: 10px;}
+#footer {height: 22px; border-top: 1px dashed rgb(222,222,222); background-color: rgb(236,236,236);}
 #help-wrapper {float: left;}
 #help-text {font-style: italic; color: #999; font-size: 10px;}
 
@@ -49,16 +76,21 @@ img.archive:hover,img.unarchive:hover{cursor: pointer;}
 .aright {text-align: right;}
 
 /*Actions*/
-#logo {float: left; width: 200px;}
-#actions {text-align: right; padding: 2px 3px 0 0; height: 21px;}
 img.action {opacity: 0.5; cursor: pointer;}
 img.action:hover {opacity: 1.0;}
 
-#title {float: left; width: 160px; color: #aaa; font-variant: small-caps;}
+#title {
+	background: #EBF3F9;
+	margin: 0;
+	padding: 4px 8px 3px;
+	font-family: Helvetica, Arial, sans-serif;
+	text-shadow: 1px 1px white;
+	font-size: 12px;
+	text-transform: uppercase;
+	font-weight: bold;
+}
 #menu-wrapper {text-align:right; margin-right: 3px;}
 #trash-wrapper {text-align:right; margin-right: 3px;}
-img.action {opacity: 0.5; cursor: pointer;}
-img.action:hover {opacity: 1.0; cursor: pointer;}
 
 /*membersEpisodes*/
 #page {width: 294px;}
