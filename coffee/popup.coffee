@@ -685,54 +685,7 @@ $(document).ready ->
 				$(@).attr 'src', '../img/arrow_right.gif'
 			
 			Fx.updateHeight()
-			
-	# Action: aller sur le site de BetaSeries
-	$('#logoLink')
-		.click(-> Fx.openTab ajax.site_url, true)
-		.attr 'title', __("logo")
-	
-	# Action: aller sur la page du ChromeWebStore
-	$('#versionLink')
-		.click(-> Fx.openTab 'https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true)
-		.attr 'title', __("version")
-	
-	## Actions: liens du menu
-	$('.Menu a').live 'click', ->
-		event.preventDefault()
-		id = $(@).attr('id').substring 5
-		if (id is 'Options')
-			Fx.openTab chrome.extension.getURL('../html/options.html'), true
-		else if (id is 'Logout')
-			Fx.logout()
-		else
-			BS.load id
 
-	# Action: revenir en arrière
-	$('#back').click ->
-			Historic.back()
-			return false
-		.attr 'title', __("back")
-	
-	# Action: Rafraîchir une vue
-	$('#sync')
-		.click(-> BS.refresh())
-		.attr 'title', __('sync')
-
-	# Action: Aller à "Mes notifications"
-	$('#notifications').click ->
-			BS.load 'MemberNotifications'
-			return false
-		.attr 'title', __('notifs')
-	
-	# Action: Afficher/quitter le menu
-	$('#menu')
-		.click ->
-			if BS.currentView.id is 'Menu'
-				Historic.refresh()
-			else
-				BS.load "Menu"
-		.attr 'title', __('menu')
-		
 	## Fonction: afficher un message
 	message = (content) -> 
 		$('#message .content').html content
@@ -743,26 +696,11 @@ $(document).ready ->
 	highlight = (selector) ->
 		bgColor = selector.css('background-color')
 		selector.animate({backgroundColor: '#FAFA97'}, 500)
-		selector.animate({backgroundColor: bgColor}, 500)
-
-	# Action: Fermer l'encart message
-	$('#message').on 'click', '.close', ->
-		event.preventDefault()
-		$('#message').fadeOut()	
+		selector.animate({backgroundColor: bgColor}, 500)	
 
 	# START
-	window.BS = new Controller
-	BS.start()
+	#window.BS = new Controller
+	#BS.start()
 
-_gaq = _gaq || [];
-_gaq.push ['_setAccount', 'UA-36275514-1']
-_gaq.push ['_setCustomVar', 1, 'Member', DB?.get('session')?.login, 3]
-_gaq.push ['_setCustomVar', 2, 'ExtensionVersion', Fx?.getVersion(), 1]
-_gaq.push ['_setCustomVar', 3, 'BrowserVersion', Fx.getBrowserVersion(), 1]
-_gaq.push ['_setCustomVar', 4, 'OS', Fx.getOS(), 1]
-_gaq.push ['_trackPageview']
-(->
-	ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	ga.src = 'https://ssl.google-analytics.com/ga.js';
-	s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-)()
+	app = new App()
+	app.init()

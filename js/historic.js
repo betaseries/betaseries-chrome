@@ -2,29 +2,36 @@
 var Historic,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-Historic = {
-  refresh: function() {
+Historic = (function() {
+
+  function Historic(app) {
+    this.app = app;
+  }
+
+  Historic.prototype.refresh = function() {
     var args, historic, length;
     historic = DB.get('historic');
     length = historic.length;
     args = historic[length - 1].split('.');
     BS.load.apply(BS, args);
     return this.display(length);
-  },
-  save: function() {
+  };
+
+  Historic.prototype.save = function() {
     var blackpages, historic, length, view;
     historic = DB.get('historic');
     length = historic.length;
     blackpages = ['Connection', 'Registration', 'Menu'];
-    view = BS.currentView.id;
+    view = this.app.view.id;
     if (historic[length - 1] !== view && !(__indexOf.call(blackpages, view) >= 0)) {
       historic.push(view);
       DB.set('historic', historic);
       length++;
     }
     return this.display(length);
-  },
-  back: function() {
+  };
+
+  Historic.prototype.back = function() {
     var args, historic, length;
     historic = DB.get('historic');
     if ((length = historic.length) >= 2) {
@@ -36,15 +43,19 @@ Historic = {
     }
     this.display(length);
     return false;
-  },
-  display: function(n) {
+  };
+
+  Historic.prototype.display = function(n) {
     var blackpages, view;
-    view = BS.currentView.id;
+    view = this.app.view.id;
     blackpages = ['Connection', 'Registration', 'Menu'];
     if (n >= 2 && !(__indexOf.call(blackpages, view) >= 0)) {
       return $('#back').show();
     } else {
       return $('#back').hide();
     }
-  }
-};
+  };
+
+  return Historic;
+
+})();

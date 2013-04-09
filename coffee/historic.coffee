@@ -1,8 +1,7 @@
-#
-# Objet Historic
-#
-Historic =
+class Historic
 	
+	constructor: (@app) ->
+
 	# Affiche la dernière vue dans l'historique
 	refresh: ->
 		historic = DB.get 'historic'
@@ -16,7 +15,7 @@ Historic =
 		historic = DB.get 'historic'
 		length = historic.length
 		blackpages = ['Connection', 'Registration', 'Menu']
-		view = BS.currentView.id
+		view = @app.view.id
 		if historic[length-1] isnt view and !(view in blackpages)
 			historic.push view
 			DB.set 'historic', historic
@@ -37,7 +36,7 @@ Historic =
 
 	# Afficher/cacher l'icône du retour en arrière
 	display: (n) ->
-		view = BS.currentView.id
+		view = @app.view.id
 		blackpages = ['Connection', 'Registration', 'Menu']
 		if n >= 2 and !(view in blackpages)
 			$('#back').show()
