@@ -16,44 +16,28 @@ App = (function() {
     homepage = Fx.logged() ? 'MyEpisodes' : 'Connection';
     this.historic = new Historic(this);
     this.view = new View(this);
-    return this.view.load(homepage);
+    this.view.load(homepage);
+    return this.listen();
   };
 
   App.prototype.listen = function() {
-    $('#logoLink').click(function() {
-      return Fx.openTab(ajax.site_url, true);
-    }).attr('title', __("logo"));
-    $('#versionLink').click(function() {
-      return Fx.openTab('https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true);
-    }).attr('title', __("version"));
-    $('.Menu a').live('click', function() {
-      var id;
-      event.preventDefault();
-      id = $(this).attr('id').substring(5);
-      if (id === 'Options') {
-        return Fx.openTab(chrome.extension.getURL('../html/options.html'), true);
-      } else if (id === 'Logout') {
-        return Fx.logout();
-      } else {
-        return BS.load(id);
-      }
-    });
+    var _this = this;
     $('#back').click(function() {
       Historic.back();
       return false;
     }).attr('title', __("back"));
     $('#sync').click(function() {
-      return BS.refresh();
+      return _this.view.refresh();
     }).attr('title', __('sync'));
     $('#notifications').click(function() {
       BS.load('MemberNotifications');
       return false;
     }).attr('title', __('notifs'));
     $('#menu').click(function() {
-      if (BS.currentView.id === 'Menu') {
-        return this.historic.refresh();
+      if (_this.view.id === 'Menu') {
+        return _this.historic.refresh();
       } else {
-        return this.view.load('Menu');
+        return _this.view.load('Menu');
       }
     }).attr('title', __('menu'));
     return $('#message').on('click', '.close', function() {

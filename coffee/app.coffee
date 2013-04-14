@@ -23,30 +23,11 @@ class App
 		@view = new View(@)
 		@view.load homepage
 
+		@listen()
+
 
 	# listen for top elements UI
 	listen: ->
-		# Action: aller sur le site de BetaSeries
-		$('#logoLink')
-			.click(-> Fx.openTab ajax.site_url, true)
-			.attr 'title', __("logo")
-		
-		# Action: aller sur la page du ChromeWebStore
-		$('#versionLink')
-			.click(-> Fx.openTab 'https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true)
-			.attr 'title', __("version")
-		
-		## Actions: liens du menu
-		$('.Menu a').live 'click', ->
-			event.preventDefault()
-			id = $(@).attr('id').substring 5
-			if (id is 'Options')
-				Fx.openTab chrome.extension.getURL('../html/options.html'), true
-			else if (id is 'Logout')
-				Fx.logout()
-			else
-				BS.load id
-
 		# Action: revenir en arrière
 		$('#back').click ->
 				Historic.back()
@@ -55,7 +36,7 @@ class App
 		
 		# Action: Rafraîchir une vue
 		$('#sync')
-			.click(-> BS.refresh())
+			.click(=> @view.refresh())
 			.attr 'title', __('sync')
 
 		# Action: Aller à "Mes notifications"
@@ -66,8 +47,8 @@ class App
 		
 		# Action: Afficher/quitter le menu
 		$('#menu')
-			.click ->
-				if BS.currentView.id is 'Menu'
+			.click =>
+				if @view.id is 'Menu'
 					@historic.refresh()
 				else
 					@view.load 'Menu'

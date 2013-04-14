@@ -4,6 +4,8 @@ var View,
 
 View = (function() {
 
+  View.prototype.infos = null;
+
   function View(app) {
     this.app = app;
   }
@@ -15,8 +17,8 @@ View = (function() {
     if (o.init != null) {
       o.init.apply(this, params);
     }
-    sameView = (this.app.view != null) && o.id === this.app.view.id;
-    this.app.view = o;
+    sameView = (this.infos != null) && o.id === this.infos.id;
+    this.infos = o;
     if (!sameView) {
       this.display();
     }
@@ -37,7 +39,7 @@ View = (function() {
   View.prototype.update = function() {
     var o, params,
       _this = this;
-    o = this.app.view;
+    o = this.infos;
     params = o.params || '';
     if (o.url != null) {
       return ajax.post(o.url, params, function(data) {
@@ -61,7 +63,7 @@ View = (function() {
 
   View.prototype.display = function() {
     var o;
-    o = this.app.view;
+    o = this.infos;
     this.app.historic.save();
     $('#page').html('');
     if (o.content) {
@@ -69,13 +71,16 @@ View = (function() {
     }
     $('#title').text(__('title_' + o.name));
     $('#page').removeClass().addClass(o.name);
+    if (o.listen) {
+      o.listen();
+    }
     return Fx.updateHeight();
   };
 
   View.prototype.refresh = function() {
     var args;
-    Fx.toUpdate(this.app.view.id);
-    args = this.app.view.id.split('.');
+    Fx.toUpdate(this.infos.id);
+    args = this.infos.id.split('.');
     return this.load.apply(this, args);
   };
 

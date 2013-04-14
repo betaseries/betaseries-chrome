@@ -702,5 +702,5 @@ $(document).ready ->
 	#window.BS = new Controller
 	#BS.start()
 
-	app = new App()
+	window.app = new App()
 	app.init()

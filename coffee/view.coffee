@@ -1,5 +1,8 @@
 class View
 
+	# infos of current view
+	infos: null
+
 	constructor: (@app) ->
 
 	# Lancer l'affichage d'une vue
@@ -11,10 +14,10 @@ class View
 		if o.init? then o.init.apply @, params
 
 		# réaffichage de la vue ?
-		sameView = @app.view? and o.id is @app.view.id
+		sameView = @infos? and o.id is @infos.id
 		
 		# mémorisation de la vue
-		@app.view = o;
+		@infos = o;
 		
 		# affichage de la vue (cache)
 		@display() if !sameView
@@ -41,7 +44,7 @@ class View
 	# Mettre à jour les données de la vue courante
 	update: ->
 		# infos de la vue
-		o = @app.view
+		o = @infos
 		
 		# paramètres
 		params = o.params || ''
@@ -77,7 +80,7 @@ class View
 	# Afficher la vue courante avec les données en cache
 	display: ->
 		# infos de la vue
-		o = @app.view
+		o = @infos
 		
 		# mise à jour de l'historique
 		@app.historic.save()
@@ -89,14 +92,17 @@ class View
 		# Titre et classe
 		$('#title').text __('title_' + o.name)
 		$('#page').removeClass().addClass o.name
+
+		# listeners
+		o.listen() if o.listen
 		
 		# Hauteur du popup
 		Fx.updateHeight()
 
 	# Réactualise la vue courante
 	refresh: ->
-		Fx.toUpdate @app.view.id
-		args = @app.view.id.split '.'
+		Fx.toUpdate @infos.id
+		args = @infos.id.split '.'
 		@load.apply @, args
 		
 

@@ -2,7 +2,7 @@
 var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 $(document).ready(function() {
-  var app, clean, highlight, message, registerAction;
+  var clean, highlight, message, registerAction;
   $('*[title], *[smart-title]').live({
     mouseenter: function() {
       var title;
@@ -725,6 +725,6 @@ $(document).ready(function() {
       backgroundColor: bgColor
     }, 500);
   };
-  app = new App();
+  window.app = new App();
   return app.init();
 });
