@@ -90,7 +90,7 @@ View_Episode = (function() {
     output += ' <div class="clear"></div>';
     output += '</div>';
     if (e.screen != null) {
-      output += '<div style="height: 70px; overflow: hidden; margin-top: 10px;"><img src="' + e.screen + '" style="width: 290px; margin-top: -15px;" /></div>';
+      output += '<div style="height: 70px; overflow: hidden; margin-top: 10px;"><img src="' + e.screen + '" style="width: 355px; margin-top: -15px;" /></div>';
     }
     if (e.description != null) {
       output += '<div class="title2">' + __('synopsis') + '</div>';

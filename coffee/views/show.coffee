@@ -41,7 +41,7 @@ class View_Show
 		output += '</div>'
 			
 		if data.banner?
-			output += '<img src="' + data.banner + '" width="290" height="70" alt="banner" style="margin-top: 10px;" />'
+			output += '<img src="' + data.banner + '" width="355" height="70" alt="banner" style="margin-top: 10px;" />'
 		
 		if data.description?
 			output += '<div class="title2">' + __('synopsis') + '</div>'

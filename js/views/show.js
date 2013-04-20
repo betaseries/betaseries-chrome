@@ -63,7 +63,7 @@ View_Show = (function() {
     output += '</div>';
     output += '</div>';
     if (data.banner != null) {
-      output += '<img src="' + data.banner + '" width="290" height="70" alt="banner" style="margin-top: 10px;" />';
+      output += '<img src="' + data.banner + '" width="355" height="70" alt="banner" style="margin-top: 10px;" />';
     }
     if (data.description != null) {
       output += '<div class="title2">' + __('synopsis') + '</div>';
