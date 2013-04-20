@@ -47,10 +47,6 @@ App = (function() {
     $('#sync').click(function() {
       return _this.view.refresh();
     }).attr('title', __('sync'));
-    $('#notifications').click(function() {
-      _this.view.load('MemberNotifications');
-      return false;
-    }).attr('title', __('notifs'));
     $('#menu').click(function() {
       if (_this.view.infos.id === 'Menu') {
         return _this.historic.refresh();

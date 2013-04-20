@@ -57,12 +57,6 @@ class App
 		$('#sync')
 			.click(=> @view.refresh())
 			.attr 'title', __('sync')
-
-		# Open member notifications view
-		$('#notifications').click =>
-				@view.load 'MemberNotifications'
-				return false
-			.attr 'title', __('notifs')
 		
 		# Show/hide menu
 		$('#menu')
