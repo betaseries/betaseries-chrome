@@ -166,9 +166,6 @@
 	"menu": {
 		"message": "Go to menu"
 	},
-	"menu_Blog": {
-		"message": "Blog"
-	},
 	"menu_Logout": {
 		"message": "Logout"
 	},
@@ -413,9 +410,6 @@
 	},
 	"synopsis": {
 		"message": "Synopsis"
-	},
-	"title_Blog": {
-		"message": "Blog"
 	},
 	"title_EpisodeComments": {
 		"message": "Episode's comments"

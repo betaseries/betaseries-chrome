@@ -35,9 +35,9 @@ View_Menu = (function() {
   };
 
   View_Menu.prototype.listen = function() {
-    return $('.Menu a').on('click', function(evt) {
+    return $('.Menu a').on('click', function() {
       var id;
-      evt.preventDefault();
+      event.preventDefault();
       id = $(this).attr('id').substring(5);
       if (id === 'Options') {
         return Fx.openTab(chrome.extension.getURL('../html/options.html'), true);

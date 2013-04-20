@@ -52,10 +52,6 @@ DB = {
           img_path: '../img/search.png',
           visible: true
         }, {
-          name: 'Blog',
-          img_path: '../img/blog.png',
-          visible: true
-        }, {
           name: 'Options',
           img_path: '../img/options.png',
           visible: true

@@ -24,9 +24,9 @@ class View_Menu
 
 	listen: ->
 		
-		$('.Menu a').on 'click', (evt) ->	
+		$('.Menu a').on 'click', () ->	
 			
-			evt.preventDefault()
+			event.preventDefault()
 			
 			id = $(this).attr('id').substring 5
 			

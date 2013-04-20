@@ -172,9 +172,6 @@
 	"menu": {
 		"message": "Accéder au menu"
 	},
-	"menu_Blog": {
-		"message": "Le blog"
-	},
 	"menu_Logout": {
 		"message": "Déconnexion"
 	},
@@ -419,9 +416,6 @@
 	},
 	"synopsis": {
 		"message": "Synopsis"
-	},
-	"title_Blog": {
-		"message": "Le blog"
 	},
 	"title_EpisodeComments": {
 		"message": "Commentaires d'un épisode"
