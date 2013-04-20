@@ -51,7 +51,7 @@ Fx =
 
 	# Concaténe les nouvelles notifications avec les anciennes et ne garde que les 20 premières
 	concatNotifications: (old_notifs, new_notifs) ->
-		res = old_notifs.concat new_notifs
+		res = new_notifs.concat old_notifs
 		res = res.slice 0, 20
 		return res
 

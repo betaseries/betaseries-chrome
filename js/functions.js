@@ -62,7 +62,7 @@ Fx = {
   },
   concatNotifications: function(old_notifs, new_notifs) {
     var res;
-    res = old_notifs.concat(new_notifs);
+    res = new_notifs.concat(old_notifs);
     res = res.slice(0, 20);
     return res;
   },
