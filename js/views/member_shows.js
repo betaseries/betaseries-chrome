@@ -71,7 +71,7 @@ View_MemberShows = (function() {
       ajax.post("/shows/archive/" + show, "", function() {
         Cache.force('MyEpisodes.all');
         Cache.force('Member.' + DB.get('session').login);
-        Badge.searchEpisodes();
+        Badge.search_episodes();
         $(_this).html('<span class="imgSyncOff"></span>' + __('show_unarchive'));
         return $(_this).attr('id', 'showsUnarchive');
       }, function() {
@@ -87,7 +87,7 @@ View_MemberShows = (function() {
       ajax.post("/shows/unarchive/" + show, "", function() {
         Cache.force('MyEpisodes.all');
         Cache.force('Member.' + DB.get('session').login);
-        Badge.searchEpisodes();
+        Badge.search_episodes();
         $(_this).html('<span class="imgSyncOff"></span>' + __('show_archive'));
         return $(_this).attr('id', 'showsArchive');
       }, function() {

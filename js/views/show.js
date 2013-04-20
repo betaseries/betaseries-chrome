@@ -99,7 +99,7 @@ View_Show = (function() {
       ajax.post('/shows/add/' + show, '', function() {
         Cache.force('MyEpisodes.all');
         Cache.force('Member.' + DB.get('session').login);
-        Badge.searchEpisodes();
+        Badge.search_episodes();
         $(_this).html('<span class="imgSyncOff"></span>' + __('show_remove'));
         return $(_this).attr('id', 'showsRemove');
       }, function() {
@@ -117,7 +117,7 @@ View_Show = (function() {
       ajax.post('/shows/remove/' + show, '', function() {
         Cache.force('MyEpisodes.all');
         Cache.force('Member.' + DB.get('session').login);
-        Badge.searchEpisodes();
+        Badge.search_episodes();
         $(_this).html('<span class="imgSyncOff"></span>' + __('show_add'));
         return $(_this).attr('id', 'showsAdd');
       }, function() {

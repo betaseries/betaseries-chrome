@@ -49,7 +49,7 @@ class View_MemberShows
 				=>
 					Cache.force 'MyEpisodes.all'
 					Cache.force 'Member.' + DB.get('session').login
-					Badge.searchEpisodes()
+					Badge.search_episodes()
 					$(@).html '<span class="imgSyncOff"></span>' + __('show_unarchive')
 					$(@).attr 'id', 'showsUnarchive'
 				-> registerAction "/shows/archive/" + show, ""
@@ -66,7 +66,7 @@ class View_MemberShows
 				=>
 					Cache.force 'MyEpisodes.all'
 					Cache.force 'Member.' + DB.get('session').login
-					Badge.searchEpisodes()
+					Badge.search_episodes()
 					$(this).html '<span class="imgSyncOff"></span>' + __('show_archive')
 					$(this).attr 'id', 'showsArchive'
 				-> registerAction "/shows/unarchive/" + show, ""

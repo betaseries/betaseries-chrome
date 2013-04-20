@@ -8,7 +8,7 @@ class View
 	# Lancer l'affichage d'une vue
 	load: (view, params...) ->
 		# infos de la vue
-		o = new window['View_' + view]
+		o = new window['View_' + view]()
 		
 		# initialisation de la vue
 		if o.init? then o.init.apply @, params

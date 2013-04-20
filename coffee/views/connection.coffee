@@ -1,6 +1,6 @@
 class View_Connection
 	
-	init: ->
+	init: =>
 		@id = 'Connection'
 		@name = 'Connection'
 	

@@ -1,6 +1,6 @@
 class View_Registration
 	
-	init: ->
+	init: =>
 		@id = 'Registration'
 		@name = 'Registration'
 	

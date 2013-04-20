@@ -1,6 +1,6 @@
 class View_MemberTimeline
 
-	init: ->
+	init: =>
 		@id = 'MemberTimeline'
 		@name = 'MemberTimeline'
 		@url = '/timeline/friends'

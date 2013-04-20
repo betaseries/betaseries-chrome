@@ -135,7 +135,7 @@ class View_ShowEpisodes
 						Cache.force 'MemberTimeline'
 						badge_notification_type = DB.get('options').badge_notification_type
 						if badge_notification_type is 'watched'
-							Badge.searchEpisodes()
+							Badge.search_episodes()
 					-> 
 						registerAction "/members/watched/" + show, params
 				
@@ -178,7 +178,7 @@ class View_ShowEpisodes
 					Cache.force 'MyEpisodes.all'
 					badge_notification_type = DB.get('options').badge_notification_type
 					if badge_notification_type is 'downloaded'
-						Badge.searchEpisodes()
+						Badge.search_episodes()
 					$(@).html '<span class="imgSyncOff"></span>' + __(dl)
 				-> 
 					registerAction "/members/downloaded/" + show, params

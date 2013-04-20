@@ -147,7 +147,7 @@ View_ShowEpisodes = (function() {
           Cache.force('MemberTimeline');
           badge_notification_type = DB.get('options').badge_notification_type;
           if (badge_notification_type === 'watched') {
-            return Badge.searchEpisodes();
+            return Badge.search_episodes();
           }
         }, function() {
           return registerAction("/members/watched/" + show, params);
@@ -189,7 +189,7 @@ View_ShowEpisodes = (function() {
         Cache.force('MyEpisodes.all');
         badge_notification_type = DB.get('options').badge_notification_type;
         if (badge_notification_type === 'downloaded') {
-          Badge.searchEpisodes();
+          Badge.search_episodes();
         }
         return $(_this).html('<span class="imgSyncOff"></span>' + __(dl));
       }, function() {

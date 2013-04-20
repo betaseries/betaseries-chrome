@@ -1,6 +1,6 @@
 class View_MemberNotifications
 
-	init: ->
+	init: =>
 		@id = 'MemberNotifications'
 		@name = 'MemberNotifications'
 		@url = '/members/notifications'

@@ -1,6 +1,6 @@
 class View_Blog
 	
-	init: ->
+	init: =>
 		@id = 'Blog'
 		@name = 'Blog'
 	

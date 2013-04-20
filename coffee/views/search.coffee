@@ -1,6 +1,6 @@
 class View_Search
 	
-	init: ->
+	init: =>
 		@id = 'Search'
 		@name = 'Search'
 	
@@ -59,13 +59,13 @@ class View_Search
 			return false
 
 		# Open serie view
-		$('.display_show').on 'click', ->
+		$('#page').on 'click', '.display_show', ->
 			event.preventDefault()
 			url = $(@).attr 'url'
 			app.view.load 'Show', url
 
 		# Open member view
-		$('.display_member').on 'click', ->
+		$('#page').on 'click', '.display_member', ->
 			event.preventDefault()
 			login = $(@).attr 'login'
 			app.view.load 'Member', login
