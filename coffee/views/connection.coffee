@@ -15,3 +15,38 @@ class View_Connection
 		output += '	<a href="" class="display_registration">' + __('sign_up') + '</a></div>'
 		output += '</form>'
 		return output
+
+	listen: ->
+
+		# Open registration view
+		$('.display_registration').on 'click', ->
+			event.preventDefault()
+			app.view.load 'Registration'
+
+		# connect
+		$('#connect').on 'submit', ->
+			login = $('#login').val()
+			password = md5 $('#password').val()
+			inputs = $(this).find('input').attr {disabled: 'disabled'}
+			params = "&login=" + login + "&password=" + password
+			ajax.post "/members/auth", params, 
+				(data) ->
+					if data.root.member?
+						$('#message').slideUp()
+						$('#connect').remove()
+						token = data.root.member.token
+						DB.set 'session', 
+							login: login
+							token: data.root.member.token
+						menu.show()
+						$('#back').hide()
+						BS.load 'MyEpisodes'
+					else
+						$('#password').attr 'value', ''
+						message '<img src="../img/inaccurate.png" /> ' + __('wrong_login_or_password')
+						inputs.removeAttr 'disabled'
+				->
+					$('#password').attr 'value', ''
+					inputs.removeAttr 'disabled'
+					
+			return false

@@ -84,6 +84,49 @@ View_Show = (function() {
     return output;
   };
 
+  View_Show.prototype.listen = function() {
+    $('.display_episodes').on('click', function() {
+      var url;
+      event.preventDefault();
+      url = $(this).attr('url');
+      return app.view.load('ShowEpisodes', url);
+    });
+    $('#showsAdd').on('click', function() {
+      var show,
+        _this = this;
+      show = $(this).attr('href').substring(1);
+      $(this).find('span').toggleClass('imgSyncOff imgSyncOn');
+      ajax.post('/shows/add/' + show, '', function() {
+        Cache.force('MyEpisodes.all');
+        Cache.force('Member.' + DB.get('session').login);
+        Badge.searchEpisodes();
+        $(_this).html('<span class="imgSyncOff"></span>' + __('show_remove'));
+        return $(_this).attr('id', 'showsRemove');
+      }, function() {
+        return registerAction("/shows/add/" + show, '');
+      });
+      return false;
+    });
+    return $('#showsRemove').on('click', function() {
+      var show,
+        _this = this;
+      show = $(this).attr('href').substring(1);
+      $(this).find('span').toggleClass('imgSyncOff imgSyncOn');
+      $('#showsArchive').slideUp();
+      $('#showsUnarchive').slideUp();
+      ajax.post('/shows/remove/' + show, '', function() {
+        Cache.force('MyEpisodes.all');
+        Cache.force('Member.' + DB.get('session').login);
+        Badge.searchEpisodes();
+        $(_this).html('<span class="imgSyncOff"></span>' + __('show_add'));
+        return $(_this).attr('id', 'showsAdd');
+      }, function() {
+        return registerAction("/shows/remove/" + show, '');
+      });
+      return false;
+    });
+  };
+
   return View_Show;
 
 })();

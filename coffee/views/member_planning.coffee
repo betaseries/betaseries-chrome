@@ -74,3 +74,19 @@ class View_MemberPlanning
 			
 			nbrEpisodes++
 		return output
+
+	listen: ->
+
+		# Show/hide week
+		$('.toggleWeek').on 'click', ->
+			week = $(@).closest('.week')
+			hidden = $(week).hasClass('hidden')
+			$(week).toggleClass('hidden')
+			$(week).find('.episode').slideToggle()
+			
+			if hidden
+				$(@).attr 'src', '../img/arrow_down.gif'
+			else
+				$(@).attr 'src', '../img/arrow_right.gif'
+			
+			Fx.updateHeight()

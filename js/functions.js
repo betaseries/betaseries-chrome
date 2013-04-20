@@ -266,6 +266,9 @@ Fx = {
     Badge.init();
     return BS.load('Connection');
   },
+  registerAction: function(category, params) {
+    return console.log("action: " + category + params);
+  },
   search_episodes: function() {
     chrome.alarms.clear('search_episodes');
     return chrome.alarms.create('search_episodes', {

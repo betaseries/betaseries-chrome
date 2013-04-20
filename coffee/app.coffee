@@ -28,24 +28,43 @@ class App
 
 	# listen for top elements UI
 	listen: ->
-		# Action: revenir en arrière
+		
+		# About titles
+		$('*[title], *[smart-title]').live
+		mouseenter: ->
+			title = $(@).attr 'title'
+			if title? 
+				$(@).removeAttr 'title'
+				$(@).attr 'smart-title', title
+			else
+				title = $(@).attr 'smart-title'
+			$('#help').show()
+			$('#help-text').html title
+		mouseleave: ->
+			$('#help').hide()
+			$('#help-text').html ''
+		click: ->
+			$('#help').hide()
+			$('#help-text').html ''
+
+		# Go back
 		$('#back').click ->
 				Historic.back()
 				return false
 			.attr 'title', __("back")
 		
-		# Action: Rafraîchir une vue
+		# Refresh
 		$('#sync')
 			.click(=> @view.refresh())
 			.attr 'title', __('sync')
 
-		# Action: Aller à "Mes notifications"
+		# Open member notifications view
 		$('#notifications').click ->
 				BS.load 'MemberNotifications'
 				return false
 			.attr 'title', __('notifs')
 		
-		# Action: Afficher/quitter le menu
+		# Show/hide menu
 		$('#menu')
 			.click =>
 				if @view.id is 'Menu'
@@ -54,7 +73,7 @@ class App
 					@view.load 'Menu'
 			.attr 'title', __('menu')
 
-		# Action: Fermer l'encart message
+		# Close message
 		$('#message').on 'click', '.close', ->
 			event.preventDefault()
 			$('#message').fadeOut()

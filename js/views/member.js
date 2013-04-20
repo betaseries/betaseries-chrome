@@ -64,6 +64,39 @@ View_Member = (function() {
     return output;
   };
 
+  View_Member.prototype.listen = function() {
+    $('#friendsAdd').on('click', function() {
+      var login,
+        _this = this;
+      login = $(this).attr('href').substring(1);
+      $(this).find('span').toggleClass('imgSyncOff imgSyncOn');
+      ajax.post("/members/add/" + login, '', function() {
+        Cache.force('MyEpisodes.' + DB.get('session').login);
+        Cache.force('Member.' + login);
+        Cache.force('MemberTimeline');
+        $(_this).html('<span class="imgSyncOff"></span>' + __('remove_to_friends', [login]));
+        return $(_this).attr('id', 'friendsRemove');
+      }, function() {
+        return registerAction("/members/add/" + login, '');
+      });
+      return false;
+    });
+    return $('#friendsRemove').on('click', function() {
+      var login,
+        _this = this;
+      login = $(this).attr('href').substring(1);
+      $(this).find('span').toggleClass('imgSyncOff imgSyncOn');
+      ajax.post("/members/delete/" + login, '', function() {
+        Cache.force('Member.' + DB.get('session').login);
+        Cache.force('Member.' + login);
+        Cache.force('MemberTimeline');
+        $(_this).html('<span class="imgSyncOff"></span>' + __('add_to_friends', [login]));
+        return $(_this).attr('id', 'friendsAdd');
+      });
+      return false;
+    });
+  };
+
   return View_Member;
 
 })();

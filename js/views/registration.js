@@ -26,6 +26,59 @@ View_Registration = (function() {
     return output;
   };
 
+  View_Registration.prototype.listen = function() {
+    $('.display_connection').on('click', function() {
+      event.preventDefault();
+      return app.view.load('Connection');
+    });
+    return $('#register').on('submit', function() {
+      var inputs, login, mail, params, pass, password, repassword;
+      login = $('#login').val();
+      password = $('#password').val();
+      repassword = $('#repassword').val();
+      mail = $('#mail').val();
+      inputs = $(this).find('input').attr({
+        disabled: 'disabled'
+      });
+      params = "&login=" + login + "&password=" + password + "&mail=" + mail;
+      pass = true;
+      if (password !== repassword) {
+        pass = false;
+        message('<img src="../img/inaccurate.png" /> ' + __("password_not_matching"));
+      }
+      if (login.length > 24) {
+        pass = false;
+        message('<img src="../img/inaccurate.png" /> ' + __("long_login"));
+      }
+      if (pass) {
+        ajax.post("/members/signup", params, function(data) {
+          var err;
+          if (data.root.errors.error) {
+            err = data.root.errors.error;
+            message('<img src="../img/inaccurate.png" /> ' + __('err' + err.code));
+            $('#password').attr('value', '');
+            $('#repassword').attr('value', '');
+            return inputs.removeAttr('disabled');
+          } else {
+            BS.load('Connection');
+            $('#login').val(login);
+            $('#password').val(password);
+            return $('#connect').trigger('submit');
+          }
+        }, function() {
+          $('#password').attr('value', '');
+          $('#repassword').attr('value', '');
+          return inputs.removeAttr('disabled');
+        });
+      } else {
+        $('#password').attr('value', '');
+        $('#repassword').attr('value', '');
+        inputs.removeAttr('disabled');
+      }
+      return false;
+    });
+  };
+
   return View_Registration;
 
 })();

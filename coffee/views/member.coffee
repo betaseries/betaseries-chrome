@@ -44,3 +44,36 @@ class View_Member
 				output += '<a href="#' + data.login + '" id="friendsAdd" class="link">' + '<span class="imgSyncOff"></span>' + __('add_to_friends', [data.login]) + '</a>'
 		
 		return output
+
+	listen: ->
+
+		# add as friend
+		$('#friendsAdd').on 'click', ->
+			login = $(this).attr('href').substring 1
+			
+			$(this).find('span').toggleClass 'imgSyncOff imgSyncOn'
+			
+			ajax.post "/members/add/" + login, '', 
+				=>
+					Cache.force 'MyEpisodes.' + DB.get('session').login
+					Cache.force 'Member.' + login
+					Cache.force 'MemberTimeline'
+					$(this).html '<span class="imgSyncOff"></span>' + __('remove_to_friends', [login])
+					$(this).attr 'id', 'friendsRemove'
+				-> registerAction "/members/add/" + login, ''
+			return false
+		
+		# remove from friends
+		$('#friendsRemove').on 'click', ->
+			login = $(this).attr('href').substring 1
+			
+			$(this).find('span').toggleClass 'imgSyncOff imgSyncOn'
+			
+			ajax.post "/members/delete/" + login, '', 
+				=>
+					Cache.force 'Member.' + DB.get('session').login
+					Cache.force 'Member.' + login
+					Cache.force 'MemberTimeline'
+					$(this).html '<span class="imgSyncOff"></span>' + __('add_to_friends', [login])
+					$(this).attr 'id', 'friendsAdd'
+			return false

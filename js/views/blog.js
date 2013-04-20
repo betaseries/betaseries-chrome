@@ -56,6 +56,15 @@ View_Blog = (function() {
     return output;
   };
 
+  View_Blog.prototype.listen = function() {
+    return $('.display_postblog').on('click', function() {
+      var link;
+      event.preventDefault();
+      link = $(this).attr('link');
+      return Fx.openTab(link, true);
+    });
+  };
+
   return View_Blog;
 
 })();

@@ -27,6 +27,58 @@ View_Search = (function() {
     return output;
   };
 
+  View_Search.prototype.listen = function() {
+    $('#search').on('submit', function() {
+      var params, terms;
+      terms = $('#terms').val();
+      params = "&title=" + terms;
+      ajax.post("/shows/search", params, function(data) {
+        var content, n, show, shows;
+        content = '<div class="title">' + __('shows') + '</div>';
+        shows = data.root.shows;
+        if (Object.keys(shows).length > 0) {
+          for (n in shows) {
+            show = shows[n];
+            content += '<div class="episode"><a href="" url="' + show.url + '" title="' + show.title + '" class="epLink display_show">' + Fx.subFirst(show.title, 25) + '</a></div>';
+          }
+        } else {
+          content += '<div class="episode">' + __('no_shows_found') + '</div>';
+        }
+        $('#results_shows').html(content);
+        return Fx.updateHeight();
+      }, function() {});
+      params = "&login=" + terms;
+      ajax.post("/members/search", params, function(data) {
+        var content, member, members, n;
+        content = '<div class="title">' + __('members') + '</div>';
+        members = data.root.members;
+        if (Object.keys(members).length > 0) {
+          for (n in members) {
+            member = members[n];
+            content += '<div class="episode"><a href="#" login="' + member.login + '" class="epLink display_member">' + Fx.subFirst(member.login, 25) + '</a></div>';
+          }
+        } else {
+          content += '<div class="episode">' + __('no_members_found') + '</div>';
+        }
+        $('#results_members').html(content);
+        return Fx.updateHeight();
+      }, function() {});
+      return false;
+    });
+    $('.display_show').on('click', function() {
+      var url;
+      event.preventDefault();
+      url = $(this).attr('url');
+      return app.view.load('Show', url);
+    });
+    return $('.display_member').on('click', function() {
+      var login;
+      event.preventDefault();
+      login = $(this).attr('login');
+      return app.view.load('Member', login);
+    });
+  };
+
   return View_Search;
 
 })();

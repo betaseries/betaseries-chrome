@@ -45,3 +45,11 @@ class View_Blog
 			output += '<div style="height:11px;"></div>'
 					
 		return output
+
+	listen: ->
+
+		# Open blog article
+		$('.display_postblog').on 'click', ->
+			event.preventDefault()
+			link = $(@).attr 'link'
+			Fx.openTab link, true

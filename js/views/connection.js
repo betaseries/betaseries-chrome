@@ -24,6 +24,45 @@ View_Connection = (function() {
     return output;
   };
 
+  View_Connection.prototype.listen = function() {
+    $('.display_registration').on('click', function() {
+      event.preventDefault();
+      return app.view.load('Registration');
+    });
+    return $('#connect').on('submit', function() {
+      var inputs, login, params, password;
+      login = $('#login').val();
+      password = md5($('#password').val());
+      inputs = $(this).find('input').attr({
+        disabled: 'disabled'
+      });
+      params = "&login=" + login + "&password=" + password;
+      ajax.post("/members/auth", params, function(data) {
+        var token;
+        if (data.root.member != null) {
+          $('#message').slideUp();
+          $('#connect').remove();
+          token = data.root.member.token;
+          DB.set('session', {
+            login: login,
+            token: data.root.member.token
+          });
+          menu.show();
+          $('#back').hide();
+          return BS.load('MyEpisodes');
+        } else {
+          $('#password').attr('value', '');
+          message('<img src="../img/inaccurate.png" /> ' + __('wrong_login_or_password'));
+          return inputs.removeAttr('disabled');
+        }
+      }, function() {
+        $('#password').attr('value', '');
+        return inputs.removeAttr('disabled');
+      });
+      return false;
+    });
+  };
+
   return View_Connection;
 
 })();

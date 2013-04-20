@@ -218,6 +218,10 @@ Fx =
 		Badge.init()
 		BS.load 'Connection'
 
+	# register action for offline
+	registerAction: (category, params) ->
+		console.log "action: " + category + params
+
 	#
 	search_episodes: ->
 		chrome.alarms.clear 'search_episodes'

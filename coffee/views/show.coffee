@@ -59,3 +59,48 @@ class View_Show
 			output += '<a href="#' + data.url + '" id="showsAdd" class="link">' + '<span class="imgSyncOff"></span>' + __('show_add') + '</a>'
 		
 		return output
+
+	listen: ->
+
+		# Ouvrir la fiche des épisodes d'une série
+		$('.display_episodes').on 'click', ->
+			event.preventDefault()
+			url = $(@).attr 'url'
+			app.view.load 'ShowEpisodes', url	
+
+		# add a serie
+		$('#showsAdd').on 'click', ->
+			show = $(this).attr('href').substring 1
+			
+			$(this).find('span').toggleClass 'imgSyncOff imgSyncOn'
+			
+			ajax.post '/shows/add/' + show, '', 
+				=>
+					Cache.force 'MyEpisodes.all'
+					Cache.force 'Member.' + DB.get('session').login
+					Badge.searchEpisodes()
+					$(this).html '<span class="imgSyncOff"></span>' + __('show_remove')
+					$(this).attr 'id', 'showsRemove'
+				-> registerAction "/shows/add/" + show, ''
+			
+			return false
+		
+		# remove a serie
+		$('#showsRemove').on 'click', ->
+			show = $(this).attr('href').substring 1
+			
+			$(this).find('span').toggleClass 'imgSyncOff imgSyncOn'
+
+			$('#showsArchive').slideUp();
+			$('#showsUnarchive').slideUp();
+
+			ajax.post '/shows/remove/' + show, '', 
+				=>
+					Cache.force 'MyEpisodes.all'
+					Cache.force 'Member.' + DB.get('session').login
+					Badge.searchEpisodes()
+					$(this).html '<span class="imgSyncOff"></span>' + __('show_add')
+					$(this).attr 'id', 'showsAdd'
+				-> registerAction "/shows/remove/" + show, ''
+			
+			return false

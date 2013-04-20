@@ -90,6 +90,22 @@ View_MemberPlanning = (function() {
     return output;
   };
 
+  View_MemberPlanning.prototype.listen = function() {
+    return $('.toggleWeek').on('click', function() {
+      var hidden, week;
+      week = $(this).closest('.week');
+      hidden = $(week).hasClass('hidden');
+      $(week).toggleClass('hidden');
+      $(week).find('.episode').slideToggle();
+      if (hidden) {
+        $(this).attr('src', '../img/arrow_down.gif');
+      } else {
+        $(this).attr('src', '../img/arrow_right.gif');
+      }
+      return Fx.updateHeight();
+    });
+  };
+
   return View_MemberPlanning;
 
 })();
