@@ -2,6 +2,13 @@
 __ = (msgname, placeholders) -> 
 	if msgname then chrome.i18n.getMessage msgname, placeholders
 
+# Actions du menu
+menu = 
+	show: -> $('.action').show()
+	hide: -> $('.action').hide()
+	hideStatus: -> $('#status').hide()
+	hideMenu: -> $('#menu').hide()
+
 #
 # Objet Fx (Functions)
 #
