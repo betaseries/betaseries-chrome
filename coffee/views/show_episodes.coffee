@@ -99,6 +99,20 @@ class View_ShowEpisodes
 
 	listen: ->
 
+		# Show/hide season
+		$('.toggleSeason').on 'click', ->
+			season = $(@).closest('.season')
+			hidden = $(season).hasClass('hidden')
+			$(season).toggleClass('hidden')
+			$(season).find('.episode').slideToggle()
+			
+			if hidden
+				$(@).attr 'src', '../img/arrow_down.gif'
+			else
+				$(@).attr 'src', '../img/arrow_right.gif'
+			
+			Fx.updateHeight()
+
 		# Mark on or more episodes as seen
 		$('.watched').on 
 			click: -> 
@@ -152,14 +166,32 @@ class View_ShowEpisodes
 				else
 					e.find('.watched').attr('src', '../img/empty.png')
 
-		# Mark an episode as recover
-		$('.downloaded').on 'click', ->
+		# Open episode view
+		$('.display_episode').on 'click', ->
 			event.preventDefault()
-			
-			show = $(@).attr 'show'
+			url = $(@).attr 'url'
 			season = $(@).attr 'season'
 			episode = $(@).attr 'episode'
 			global = $(@).attr 'global'
+			app.view.load 'Episode', url, season, episode, global
+
+		# Open episode comments
+		$('.display_comments').on 'click', ->
+			event.preventDefault()
+			url = $(@).attr 'url'
+			season = $(@).attr 'season'
+			episode = $(@).attr 'episode'
+			global = $(@).attr 'global'
+			app.view.load 'EpisodeComments', url, season, episode, global
+
+		# Mark an episode as recover or not
+		$('.downloaded').on 'click', ->
+			s = $(this).closest('.show')
+			show = s.attr 'id'
+			e = $(this).closest('.episode')
+			season = e.attr 'season'
+			episode = e.attr 'episode'
+			global = e.attr 'global'
 			
 			# mise à jour du cache
 			es = DB.get 'show.' + show + '.episodes'
@@ -168,31 +200,26 @@ class View_ShowEpisodes
 			DB.set 'show.' + show + '.episodes', es
 			
 			# modification de l'icône
-			$(@).find('span').toggleClass 'imgSyncOff imgSyncOn'
-			dl = if downloaded then 'mark_as_dl' else 'mark_as_not_dl'
-
+			if downloaded
+				$(this).attr 'src', '../img/folder_off.png'
+			else 
+				$(this).attr 'src', '../img/folder.png'
+			
 			# envoi de la requête
 			params = "&season=" + season + "&episode=" + episode
 			ajax.post "/members/downloaded/" + show, params, 
-				=>
-					Cache.force 'MyEpisodes.all'
+				-> 
 					badge_notification_type = DB.get('options').badge_notification_type
 					if badge_notification_type is 'downloaded'
-						Badge.search_episodes()
-					$(@).html '<span class="imgSyncOff"></span>' + __(dl)
-				-> 
-					registerAction "/members/downloaded/" + show, params
+						downloaded_episodes = DB.get('badge').downloaded_episodes
+						if es[global].downloaded
+							downloaded_episodes--
+						else
+							downloaded_episodes++
+						Badge.set 'downloaded_episodes', downloaded_episodes
+				-> registerAction "/members/downloaded/" + show, params
 
-		# Show/hide season
-		$('.toggleSeason').on 'click', ->
-			season = $(@).closest('.season')
-			hidden = $(season).hasClass('hidden')
-			$(season).toggleClass('hidden')
-			$(season).find('.episode').slideToggle()
-			
-			if hidden
-				$(@).attr 'src', '../img/arrow_down.gif'
-			else
-				$(@).attr 'src', '../img/arrow_right.gif'
-			
-			Fx.updateHeight()
+		# Download episode subtitle
+		$('.subs').on 'click', -> 
+			Fx.openTab $(this).attr 'link'
+			return false

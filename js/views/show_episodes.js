@@ -112,6 +112,19 @@ View_ShowEpisodes = (function() {
   };
 
   View_ShowEpisodes.prototype.listen = function() {
+    $('.toggleSeason').on('click', function() {
+      var hidden, season;
+      season = $(this).closest('.season');
+      hidden = $(season).hasClass('hidden');
+      $(season).toggleClass('hidden');
+      $(season).find('.episode').slideToggle();
+      if (hidden) {
+        $(this).attr('src', '../img/arrow_down.gif');
+      } else {
+        $(this).attr('src', '../img/arrow_right.gif');
+      }
+      return Fx.updateHeight();
+    });
     $('.watched').on({
       click: function() {
         var e, episode, es, login, newStart, params, s, season, show, start, _ref;
@@ -169,45 +182,61 @@ View_ShowEpisodes = (function() {
         }
       }
     });
-    $('.downloaded').on('click', function() {
-      var dl, downloaded, episode, es, global, params, season, show,
-        _this = this;
+    $('.display_episode').on('click', function() {
+      var episode, global, season, url;
       event.preventDefault();
-      show = $(this).attr('show');
+      url = $(this).attr('url');
       season = $(this).attr('season');
       episode = $(this).attr('episode');
       global = $(this).attr('global');
+      return app.view.load('Episode', url, season, episode, global);
+    });
+    $('.display_comments').on('click', function() {
+      var episode, global, season, url;
+      event.preventDefault();
+      url = $(this).attr('url');
+      season = $(this).attr('season');
+      episode = $(this).attr('episode');
+      global = $(this).attr('global');
+      return app.view.load('EpisodeComments', url, season, episode, global);
+    });
+    $('.downloaded').on('click', function() {
+      var downloaded, e, episode, es, global, params, s, season, show;
+      s = $(this).closest('.show');
+      show = s.attr('id');
+      e = $(this).closest('.episode');
+      season = e.attr('season');
+      episode = e.attr('episode');
+      global = e.attr('global');
       es = DB.get('show.' + show + '.episodes');
       downloaded = es[global].downloaded;
       es[global].downloaded = !downloaded;
       DB.set('show.' + show + '.episodes', es);
-      $(this).find('span').toggleClass('imgSyncOff imgSyncOn');
-      dl = downloaded ? 'mark_as_dl' : 'mark_as_not_dl';
+      if (downloaded) {
+        $(this).attr('src', '../img/folder_off.png');
+      } else {
+        $(this).attr('src', '../img/folder.png');
+      }
       params = "&season=" + season + "&episode=" + episode;
       return ajax.post("/members/downloaded/" + show, params, function() {
-        var badge_notification_type;
-        Cache.force('MyEpisodes.all');
+        var badge_notification_type, downloaded_episodes;
         badge_notification_type = DB.get('options').badge_notification_type;
         if (badge_notification_type === 'downloaded') {
-          Badge.search_episodes();
+          downloaded_episodes = DB.get('badge').downloaded_episodes;
+          if (es[global].downloaded) {
+            downloaded_episodes--;
+          } else {
+            downloaded_episodes++;
+          }
+          return Badge.set('downloaded_episodes', downloaded_episodes);
         }
-        return $(_this).html('<span class="imgSyncOff"></span>' + __(dl));
       }, function() {
         return registerAction("/members/downloaded/" + show, params);
       });
     });
-    return $('.toggleSeason').on('click', function() {
-      var hidden, season;
-      season = $(this).closest('.season');
-      hidden = $(season).hasClass('hidden');
-      $(season).toggleClass('hidden');
-      $(season).find('.episode').slideToggle();
-      if (hidden) {
-        $(this).attr('src', '../img/arrow_down.gif');
-      } else {
-        $(this).attr('src', '../img/arrow_right.gif');
-      }
-      return Fx.updateHeight();
+    return $('.subs').on('click', function() {
+      Fx.openTab($(this).attr('link'));
+      return false;
     });
   };
 

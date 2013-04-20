@@ -315,12 +315,12 @@ View_MyEpisodes = (function() {
     });
     $('.display_comments').on('click', function() {
       var episode, global, season, url;
+      event.preventDefault();
       url = $(this).attr('url');
       season = $(this).attr('season');
       episode = $(this).attr('episode');
       global = $(this).attr('global');
-      app.view.load('EpisodeComments', url, season, episode, global);
-      return false;
+      return app.view.load('EpisodeComments', url, season, episode, global);
     });
     $('.toggleShow').on('click', function() {
       var hidden, login, show, showName, shows;

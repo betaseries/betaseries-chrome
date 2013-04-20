@@ -85,3 +85,50 @@ class View_Episode
 			output += '<span class="imgSyncOff"></span>' + __(dl) + '</a>'
 		
 		return output
+
+	listen: ->
+
+		# Download episode subtitle
+		$('.subs').on 'click', -> 
+			Fx.openTab $(this).attr 'link'
+			return false
+
+		# Open episode comments
+		$('.display_comments').on 'click', ->
+			url = $(@).attr 'url'
+			season = $(@).attr 'season'
+			episode = $(@).attr 'episode'
+			global = $(@).attr 'global'
+			app.view.load 'EpisodeComments', url, season, episode, global
+			return false
+
+		# Mark an episode as recover
+		$('.downloaded').on 'click', ->
+			event.preventDefault()
+			
+			show = $(@).attr 'show'
+			season = $(@).attr 'season'
+			episode = $(@).attr 'episode'
+			global = $(@).attr 'global'
+			
+			# mise à jour du cache
+			es = DB.get 'show.' + show + '.episodes'
+			downloaded = es[global].downloaded
+			es[global].downloaded = !downloaded
+			DB.set 'show.' + show + '.episodes', es
+			
+			# modification de l'icône
+			$(@).find('span').toggleClass 'imgSyncOff imgSyncOn'
+			dl = if downloaded then 'mark_as_dl' else 'mark_as_not_dl'
+
+			# envoi de la requête
+			params = "&season=" + season + "&episode=" + episode
+			ajax.post "/members/downloaded/" + show, params, 
+				=>
+					Cache.force 'MyEpisodes.all'
+					badge_notification_type = DB.get('options').badge_notification_type
+					if badge_notification_type is 'downloaded'
+						Badge.search_episodes()
+					$(@).html '<span class="imgSyncOff"></span>' + __(dl)
+				-> 
+					registerAction "/members/downloaded/" + show, params

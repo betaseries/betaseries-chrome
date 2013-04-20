@@ -63,37 +63,11 @@ View_MemberShows = (function() {
   };
 
   View_MemberShows.prototype.listen = function() {
-    $('#showsArchive').on('click', function() {
-      var show,
-        _this = this;
-      show = $(this).attr('href').substring(1);
-      $(this).find('span').toggleClass('imgSyncOff imgSyncOn');
-      ajax.post("/shows/archive/" + show, "", function() {
-        Cache.force('MyEpisodes.all');
-        Cache.force('Member.' + DB.get('session').login);
-        Badge.search_episodes();
-        $(_this).html('<span class="imgSyncOff"></span>' + __('show_unarchive'));
-        return $(_this).attr('id', 'showsUnarchive');
-      }, function() {
-        return registerAction("/shows/archive/" + show, "");
-      });
-      return false;
-    });
-    return $('#showsUnarchive').on('click', function() {
-      var show,
-        _this = this;
-      show = $(this).attr('href').substring(1);
-      $(this).find('span').toggleClass('imgSyncOff imgSyncOn');
-      ajax.post("/shows/unarchive/" + show, "", function() {
-        Cache.force('MyEpisodes.all');
-        Cache.force('Member.' + DB.get('session').login);
-        Badge.search_episodes();
-        $(_this).html('<span class="imgSyncOff"></span>' + __('show_archive'));
-        return $(_this).attr('id', 'showsArchive');
-      }, function() {
-        return registerAction("/shows/unarchive/" + show, "");
-      });
-      return false;
+    return $('.display_show').on('click', function() {
+      var url;
+      event.preventDefault();
+      url = $(this).attr('url');
+      return app.view.load('Show', url);
     });
   };
 

@@ -39,36 +39,8 @@ class View_MemberShows
 
 	listen: ->
 
-		# Archive a serie
-		$('#showsArchive').on 'click', ->
-			show = $(@).attr('href').substring 1
-
-			$(@).find('span').toggleClass 'imgSyncOff imgSyncOn'
-			
-			ajax.post "/shows/archive/" + show, "", 
-				=>
-					Cache.force 'MyEpisodes.all'
-					Cache.force 'Member.' + DB.get('session').login
-					Badge.search_episodes()
-					$(@).html '<span class="imgSyncOff"></span>' + __('show_unarchive')
-					$(@).attr 'id', 'showsUnarchive'
-				-> registerAction "/shows/archive/" + show, ""
-			
-			return false
-		
-		# Un-archive a serie
-		$('#showsUnarchive').on 'click', ->
-			show = $(this).attr('href').substring 1
-			
-			$(this).find('span').toggleClass 'imgSyncOff imgSyncOn'
-			
-			ajax.post "/shows/unarchive/" + show, "", 
-				=>
-					Cache.force 'MyEpisodes.all'
-					Cache.force 'Member.' + DB.get('session').login
-					Badge.search_episodes()
-					$(this).html '<span class="imgSyncOff"></span>' + __('show_archive')
-					$(this).attr 'id', 'showsArchive'
-				-> registerAction "/shows/unarchive/" + show, ""
-			
-			return false
+		# Open serie view
+		$('.display_show').on 'click', ->
+			event.preventDefault()
+			url = $(@).attr 'url'
+			app.view.load 'Show', url

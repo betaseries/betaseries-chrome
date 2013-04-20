@@ -297,12 +297,12 @@ class View_MyEpisodes
 
 		# Open episode comments
 		$('.display_comments').on 'click', ->
+			event.preventDefault()
 			url = $(@).attr 'url'
 			season = $(@).attr 'season'
 			episode = $(@).attr 'episode'
 			global = $(@).attr 'global'
 			app.view.load 'EpisodeComments', url, season, episode, global
-			return false
 
 		# Show/hide a serie
 		$('.toggleShow').on 'click', ->

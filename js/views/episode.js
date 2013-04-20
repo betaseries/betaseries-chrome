@@ -116,6 +116,49 @@ View_Episode = (function() {
     return output;
   };
 
+  View_Episode.prototype.listen = function() {
+    $('.subs').on('click', function() {
+      Fx.openTab($(this).attr('link'));
+      return false;
+    });
+    $('.display_comments').on('click', function() {
+      var episode, global, season, url;
+      url = $(this).attr('url');
+      season = $(this).attr('season');
+      episode = $(this).attr('episode');
+      global = $(this).attr('global');
+      app.view.load('EpisodeComments', url, season, episode, global);
+      return false;
+    });
+    return $('.downloaded').on('click', function() {
+      var dl, downloaded, episode, es, global, params, season, show,
+        _this = this;
+      event.preventDefault();
+      show = $(this).attr('show');
+      season = $(this).attr('season');
+      episode = $(this).attr('episode');
+      global = $(this).attr('global');
+      es = DB.get('show.' + show + '.episodes');
+      downloaded = es[global].downloaded;
+      es[global].downloaded = !downloaded;
+      DB.set('show.' + show + '.episodes', es);
+      $(this).find('span').toggleClass('imgSyncOff imgSyncOn');
+      dl = downloaded ? 'mark_as_dl' : 'mark_as_not_dl';
+      params = "&season=" + season + "&episode=" + episode;
+      return ajax.post("/members/downloaded/" + show, params, function() {
+        var badge_notification_type;
+        Cache.force('MyEpisodes.all');
+        badge_notification_type = DB.get('options').badge_notification_type;
+        if (badge_notification_type === 'downloaded') {
+          Badge.search_episodes();
+        }
+        return $(_this).html('<span class="imgSyncOff"></span>' + __(dl));
+      }, function() {
+        return registerAction("/members/downloaded/" + show, params);
+      });
+    });
+  };
+
   return View_Episode;
 
 })();
