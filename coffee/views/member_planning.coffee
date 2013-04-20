@@ -66,7 +66,7 @@ class View_MemberPlanning
 			output += data[e].show + '</a>'
 			output += '</div>'
 			
-			output += '<div class="td wrapper-date">'
+			output += '<div class="td wrapper-date-2">'
 			output += '<span class="date">' + date('D d F', data[e].date) + '</span>'
 			output += '</div>'
 			

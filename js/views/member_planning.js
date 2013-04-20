@@ -81,7 +81,7 @@ View_MemberPlanning = (function() {
       output += '<a href="" url="' + data[e].url + '" season="' + data[e].season + '" episode="' + data[e].episode + '" global="' + data[e].global + '" title="' + data[e].show + '" class="epLink display_episode">';
       output += data[e].show + '</a>';
       output += '</div>';
-      output += '<div class="td wrapper-date">';
+      output += '<div class="td wrapper-date-2">';
       output += '<span class="date">' + date('D d F', data[e].date) + '</span>';
       output += '</div>';
       output += '</div>';
