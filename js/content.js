@@ -94,7 +94,7 @@ Content = {
     }
     if (DB.get('options').display_copy_episode) {
       output += '<div class="td wrapper-copy-clipboard">';
-      output += '<a href="" title="' + title + '" class="invisible copy_episode">';
+      output += '<a href="" title="' + showTitle + ' ' + e.number + '" class="invisible copy_episode">';
       output += '<textarea style="display:none;">' + showTitle + ' ' + e.number + '</textarea>';
       output += '<img src="../img/link.png" class="copy action" />';
       output += '</a>';

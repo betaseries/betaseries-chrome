@@ -22,28 +22,23 @@ App = (function() {
 
   App.prototype.listen = function() {
     var _this = this;
-    $('*[title], *[smart-title]').on;
-    ({
-      mouseenter: function() {
-        var title;
-        title = $(this).attr('title');
-        if (title != null) {
-          $(this).removeAttr('title');
-          $(this).attr('smart-title', title);
-        } else {
-          title = $(this).attr('smart-title');
-        }
-        $('#help').show();
-        return $('#help-text').html(title);
-      },
-      mouseleave: function() {
-        $('#help').hide();
-        return $('#help-text').html('');
-      },
-      click: function() {
-        $('#help').hide();
-        return $('#help-text').html('');
+    $('#page').on('mouseenter', '*[title], *[smart-title]', function() {
+      var title;
+      title = $(this).attr('title');
+      if (title != null) {
+        $(this).removeAttr('title');
+        $(this).attr('smart-title', title);
+      } else {
+        title = $(this).attr('smart-title');
       }
+      $('#help').show();
+      return $('#help-text').html(title);
+    }).on('mouseleave', '*[title], *[smart-title]', function() {
+      $('#help').hide();
+      return $('#help-text').html('');
+    }).on('click', '*[title], *[smart-title]', function() {
+      $('#help').hide();
+      return $('#help-text').html('');
     });
     $('#back').click(function() {
       Historic.back();

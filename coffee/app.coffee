@@ -30,22 +30,22 @@ class App
 	listen: ->
 		
 		# About titles
-		$('*[title], *[smart-title]').on
-		mouseenter: ->
-			title = $(@).attr 'title'
-			if title? 
-				$(@).removeAttr 'title'
-				$(@).attr 'smart-title', title
-			else
-				title = $(@).attr 'smart-title'
-			$('#help').show()
-			$('#help-text').html title
-		mouseleave: ->
-			$('#help').hide()
-			$('#help-text').html ''
-		click: ->
-			$('#help').hide()
-			$('#help-text').html ''
+		$('#page')
+			.on 'mouseenter', '*[title], *[smart-title]', ->
+				title = $(@).attr 'title'
+				if title? 
+					$(@).removeAttr 'title'
+					$(@).attr 'smart-title', title
+				else
+					title = $(@).attr 'smart-title'
+				$('#help').show()
+				$('#help-text').html title
+			.on 'mouseleave', '*[title], *[smart-title]', ->
+				$('#help').hide()
+				$('#help-text').html ''
+			.on 'click', '*[title], *[smart-title]', ->
+				$('#help').hide()
+				$('#help-text').html ''
 
 		# Go back
 		$('#back').click ->
