@@ -281,19 +281,19 @@ class View_MyEpisodes
 			$(@).focus()
 
 		# Open serie view
-		$('#page').on 'click', '.display_show', ->
+		$('.display_show').on 'click', ->
+			event.preventDefault()
 			url = $(@).attr 'url'
 			app.view.load 'Show', url
-			return false
 
 		# Open episode view
 		$('.display_episode').on 'click', ->
+			event.preventDefault()
 			url = $(@).attr 'url'
 			season = $(@).attr 'season'
 			episode = $(@).attr 'episode'
 			global = $(@).attr 'global'
 			app.view.load 'Episode', url, season, episode, global
-			return false
 
 		# Open episode comments
 		$('.display_comments').on 'click', ->

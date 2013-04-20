@@ -298,20 +298,20 @@ View_MyEpisodes = (function() {
       Fx.message(__('copied_to_clipboard'));
       return $(this).focus();
     });
-    $('#page').on('click', '.display_show', function() {
+    $('.display_show').on('click', function() {
       var url;
+      event.preventDefault();
       url = $(this).attr('url');
-      app.view.load('Show', url);
-      return false;
+      return app.view.load('Show', url);
     });
     $('.display_episode').on('click', function() {
       var episode, global, season, url;
+      event.preventDefault();
       url = $(this).attr('url');
       season = $(this).attr('season');
       episode = $(this).attr('episode');
       global = $(this).attr('global');
-      app.view.load('Episode', url, season, episode, global);
-      return false;
+      return app.view.load('Episode', url, season, episode, global);
     });
     $('.display_comments').on('click', function() {
       var episode, global, season, url;
