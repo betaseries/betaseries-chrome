@@ -216,7 +216,7 @@ Fx =
 		ajax.post '/members/destroy', ''
 		DB.restart()
 		Badge.init()
-		BS.load 'Connection'
+		app.view.load 'Connection'
 
 	# register action for offline
 	registerAction: (category, params) ->

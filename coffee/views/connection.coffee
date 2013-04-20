@@ -40,7 +40,7 @@ class View_Connection
 							token: data.root.member.token
 						menu.show()
 						$('#back').hide()
-						BS.load 'MyEpisodes'
+						app.view.load 'MyEpisodes'
 					else
 						$('#password').attr 'value', ''
 						message '<img src="../img/inaccurate.png" /> ' + __('wrong_login_or_password')

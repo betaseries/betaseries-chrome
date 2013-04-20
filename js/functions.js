@@ -264,7 +264,7 @@ Fx = {
     ajax.post('/members/destroy', '');
     DB.restart();
     Badge.init();
-    return BS.load('Connection');
+    return app.view.load('Connection');
   },
   registerAction: function(category, params) {
     return console.log("action: " + category + params);

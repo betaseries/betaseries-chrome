@@ -51,7 +51,7 @@ class View_Registration
 							$('#repassword').attr 'value', ''
 							inputs.removeAttr 'disabled'
 						else
-							BS.load 'Connection'
+							app.view.load 'Connection'
 							$('#login').val login
 							$('#password').val password
 							$('#connect').trigger 'submit'

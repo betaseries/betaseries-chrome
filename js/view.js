@@ -41,24 +41,20 @@ View = (function() {
       _this = this;
     o = this.infos;
     params = o.params || '';
-    if (o.url != null) {
-      return ajax.post(o.url, params, function(data) {
-        var cache, time, views;
-        cache = data.root[o.root];
-        Cache.remove(data.root.code);
-        time = (new Date().getDate()) + '.' + (new Date().getFullYear());
-        views = DB.get('views', {});
-        views[o.id] = {
-          time: time,
-          force: false
-        };
-        DB.set('views', views);
-        o.update(cache);
-        return _this.display();
-      });
-    } else {
-      return o.update();
-    }
+    return ajax.post(o.url, params, function(data) {
+      var cache, time, views;
+      cache = data.root[o.root];
+      Cache.remove(data.root.code);
+      time = (new Date().getDate()) + '.' + (new Date().getFullYear());
+      views = DB.get('views', {});
+      views[o.id] = {
+        time: time,
+        force: false
+      };
+      DB.set('views', views);
+      o.update(cache);
+      return _this.display();
+    });
   };
 
   View.prototype.display = function() {

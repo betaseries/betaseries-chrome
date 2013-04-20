@@ -53,7 +53,7 @@ View_Connection = (function() {
           });
           menu.show();
           $('#back').hide();
-          return BS.load('MyEpisodes');
+          return app.view.load('MyEpisodes');
         } else {
           $('#password').attr('value', '');
           message('<img src="../img/inaccurate.png" /> ' + __('wrong_login_or_password'));

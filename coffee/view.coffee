@@ -49,33 +49,28 @@ class View
 		# paramètres
 		params = o.params || ''
 		
-		if o.url?
-			ajax.post o.url, params, 
-				(data) =>
-					# réception des données
-					cache = data.root[o.root]
-					
-					# Mise à jour du cache
-					Cache.remove data.root.code
+		# ajax request
+		ajax.post o.url, params, 
+			(data) =>
+				# réception des données
+				cache = data.root[o.root]
+				
+				# Mise à jour du cache
+				Cache.remove data.root.code
 
-					# infos de la vue
-					time = (new Date().getDate()) + '.' + (new Date().getFullYear())
-					views = DB.get 'views', {}
-					views[o.id] = 
-						time: time
-						force: false
-					DB.set 'views', views
-						
-					# mise à jour du cache
-					o.update(cache)
+				# infos de la vue
+				time = (new Date().getDate()) + '.' + (new Date().getFullYear())
+				views = DB.get 'views', {}
+				views[o.id] = 
+					time: time
+					force: false
+				DB.set 'views', views
 					
-					# affichage de la vue courante (cache)
-					@display()
-		
-		# requête qui ne requiert pas l'API BetaSeries
-		# la requête devra gérer elle-même le BS.display()
-		else
-			o.update()
+				# mise à jour du cache
+				o.update(cache)
+				
+				# affichage de la vue courante (cache)
+				@display()
 
 	# Afficher la vue courante avec les données en cache
 	display: ->

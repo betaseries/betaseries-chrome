@@ -64,7 +64,7 @@ View_Registration = (function() {
             $('#repassword').attr('value', '');
             return inputs.removeAttr('disabled');
           } else {
-            BS.load('Connection');
+            app.view.load('Connection');
             $('#login').val(login);
             $('#password').val(password);
             return $('#connect').trigger('submit');
