@@ -30,7 +30,7 @@ class App
 	listen: ->
 		
 		# About titles
-		$('*[title], *[smart-title]').live
+		$('*[title], *[smart-title]').on
 		mouseenter: ->
 			title = $(@).attr 'title'
 			if title? 

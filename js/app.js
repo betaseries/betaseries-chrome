@@ -22,7 +22,7 @@ App = (function() {
 
   App.prototype.listen = function() {
     var _this = this;
-    $('*[title], *[smart-title]').live;
+    $('*[title], *[smart-title]').on;
     ({
       mouseenter: function() {
         var title;
