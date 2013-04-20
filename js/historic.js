@@ -13,7 +13,7 @@ Historic = (function() {
     historic = DB.get('historic');
     length = historic.length;
     args = historic[length - 1].split('.');
-    BS.load.apply(BS, args);
+    this.app.view.load.apply(this.app.view, args);
     return this.display(length);
   };
 
@@ -22,7 +22,7 @@ Historic = (function() {
     historic = DB.get('historic');
     length = historic.length;
     blackpages = ['Connection', 'Registration', 'Menu'];
-    view = this.app.view.id;
+    view = this.app.view.infos.id;
     if (historic[length - 1] !== view && !(__indexOf.call(blackpages, view) >= 0)) {
       historic.push(view);
       DB.set('historic', historic);
@@ -37,7 +37,7 @@ Historic = (function() {
     if ((length = historic.length) >= 2) {
       historic.pop();
       args = historic[length - 2].split('.');
-      BS.load.apply(BS, args);
+      this.app.view.load.apply(this.app.view, args);
       DB.set('historic', historic);
       length--;
     }
@@ -47,7 +47,7 @@ Historic = (function() {
 
   Historic.prototype.display = function(n) {
     var blackpages, view;
-    view = this.app.view.id;
+    view = this.app.view.infos.id;
     blackpages = ['Connection', 'Registration', 'Menu'];
     if (n >= 2 && !(__indexOf.call(blackpages, view) >= 0)) {
       return $('#back').show();

@@ -41,18 +41,18 @@ App = (function() {
       return $('#help-text').html('');
     });
     $('#back').click(function() {
-      Historic.back();
+      _this.historic.back();
       return false;
     }).attr('title', __("back"));
     $('#sync').click(function() {
       return _this.view.refresh();
     }).attr('title', __('sync'));
     $('#notifications').click(function() {
-      BS.load('MemberNotifications');
+      _this.view.load('MemberNotifications');
       return false;
     }).attr('title', __('notifs'));
     $('#menu').click(function() {
-      if (_this.view.id === 'Menu') {
+      if (_this.view.infos.id === 'Menu') {
         return _this.historic.refresh();
       } else {
         return _this.view.load('Menu');

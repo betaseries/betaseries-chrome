@@ -48,8 +48,8 @@ class App
 				$('#help-text').html ''
 
 		# Go back
-		$('#back').click ->
-				Historic.back()
+		$('#back').click =>
+				@historic.back()
 				return false
 			.attr 'title', __("back")
 		
@@ -59,15 +59,15 @@ class App
 			.attr 'title', __('sync')
 
 		# Open member notifications view
-		$('#notifications').click ->
-				BS.load 'MemberNotifications'
+		$('#notifications').click =>
+				@view.load 'MemberNotifications'
 				return false
 			.attr 'title', __('notifs')
 		
 		# Show/hide menu
 		$('#menu')
 			.click =>
-				if @view.id is 'Menu'
+				if @view.infos.id is 'Menu'
 					@historic.refresh()
 				else
 					@view.load 'Menu'
