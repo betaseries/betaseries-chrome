@@ -47,6 +47,7 @@ App = (function() {
     $('#sync').click(function() {
       return _this.view.refresh();
     }).attr('title', __('sync'));
+    $('#sync').addClass('paused');
     $('#menu').click(function() {
       if (_this.view.infos.id === 'Menu') {
         return _this.historic.refresh();

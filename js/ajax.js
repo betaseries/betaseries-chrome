@@ -12,20 +12,20 @@ ajax = {
     }
     member = DB.get('session', {});
     token = member.token === null ? '' : "&token=" + member.token;
-    $('#sync img').attr('src', '../img/sync.gif');
+    $('#sync').removeClass('paused');
     return $.ajax({
       type: "POST",
       url: this.url_api + category + ".json",
       data: "key=" + this.key + params + token,
       dataType: "json",
       success: function(data) {
-        $('#sync img').attr('src', '../img/sync.png');
+        $('#sync').addClass('paused');
         if (successCallback != null) {
           return successCallback(data);
         }
       },
       error: function() {
-        $('#sync img').attr('src', '../img/sync.png');
+        $('#sync').addClass('paused');
         if (errorCallback != null) {
           return errorCallback();
         }

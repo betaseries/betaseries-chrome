@@ -58,6 +58,7 @@ class App
 		$('#sync')
 			.click(=> @view.refresh())
 			.attr 'title', __('sync')
+		$('#sync').addClass 'paused'
 		
 		# Show/hide menu
 		$('#menu')

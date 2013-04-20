@@ -49,6 +49,13 @@ a.invisible:hover {text-decoration: none;}
 		.action {opacity: 0.5; cursor: pointer;}
 		.action:hover {opacity: 1.0; cursor: pointer;}
 
+		#sync.paused {
+			-webkit-animation-play-state:paused;
+		    -moz-animation-play-state:paused;
+		    -o-animation-play-state:paused; 
+		    animation-play-state:paused;
+		}
+
 	#footer {
 		height: 22px; 
 		border-top: 1px dashed rgb(222,222,222); 
@@ -171,24 +178,4 @@ div#message img.close:hover {cursor: pointer; opacity: 1.0;}
 .Menu a, .menu a:visited {display: block; text-decoration: none; color: #333; text-transform: uppercase;}
 .Menu a:hover {background-color: #f5f5f5;}
 .Menu img {margin: 5px 5px -3px 5px;}
-
-/* MENU actions*/
-#actions .action {position: relative; display: inline-block;}
-#actions .action:hover {cursor: pointer;}
-#actions .action img {margin-bottom: -11px;}
-#actions .action .notif {
-	position: absolute;
-	top: 0;
-	right: -2px;
-	font-size: 8px;
-	color: #fff;
-	background-color: #32C832;
-	border: 1px solid #2C852C;
-	border-bottom: 1px solid #2C852C;
-	border-top: 1px solid #2C852C;
-	border-radius: 2px;
-	box-shadow: 0 1px 0 #999;
-	padding: 0 1px;
-	display: none;
-}
 

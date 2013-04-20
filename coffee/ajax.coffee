@@ -12,7 +12,7 @@ ajax =
 		params ?= ''
 		member = DB.get 'session', {}
 		token = if member.token is null then '' else "&token=" + member.token
-		$('#sync img').attr 'src', '../img/sync.gif'
+		$('#sync').removeClass 'paused'
 		
 		$.ajax
 			type: "POST"
@@ -20,13 +20,13 @@ ajax =
 			data: "key=" + @key + params + token
 			dataType: "json"
 			success: (data) ->
-				$('#sync img').attr 'src', '../img/sync.png'
+				$('#sync').addClass 'paused'
 				#if data.root.errors.error?
 				#	Fx.message data.root.errors.error.content
 				#else
 				successCallback data if successCallback?
 			error: ->
-				$('#sync img').attr 'src', '../img/sync.png'
+				$('#sync').addClass 'paused'
 				errorCallback() if errorCallback?
 
 if chrome.declarativeWebRequest?
