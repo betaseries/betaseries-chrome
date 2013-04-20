@@ -181,29 +181,11 @@ $(document).ready ->
 		url = $(@).attr 'url'
 		BS.load 'Show', url
 
-	# Ouvrir la fiche d'un épisode
-	$('#page').on 'click', '.display_episode', ->
-		event.preventDefault()
-		url = $(@).attr 'url'
-		season = $(@).attr 'season'
-		episode = $(@).attr 'episode'
-		global = $(@).attr 'global'
-		BS.load 'Episode', url, season, episode, global
-
 	# Ouvrir la fiche des épisodes d'une série
 	$('#page').on 'click', '.display_episodes', ->
 		event.preventDefault()
 		url = $(@).attr 'url'
 		BS.load 'ShowEpisodes', url
-
-	# Ouvrir la fiche d'un épisode
-	$('#page').on 'click', '.display_comments', ->
-		event.preventDefault()
-		url = $(@).attr 'url'
-		season = $(@).attr 'season'
-		episode = $(@).attr 'episode'
-		global = $(@).attr 'global'
-		BS.load 'EpisodeComments', url, season, episode, global
 
 	# Ouvrir la fiche d'un membre
 	$('#page').on 'click', '.display_member', ->
@@ -566,70 +548,6 @@ $(document).ready ->
 				->
 					#inputs.removeAttr 'disabled'
 			
-			return false
-
-	## Poster un commentaire (série)
-	$('#postComment').live
-		submit: ->
-			show = $('#postComment input[id=show]').val()
-			season = $('#postComment input[id=season]').val()
-			episode = $('#postComment input[id=episode]').val()
-			text = $('#postComment textarea').val()
-			in_reply_to = $('#postComment input[id=inReplyTo]').val()
-
-			if text isnt ''
-				$('#postComment input[type=submit]').val 'Patientez..'
-				$('#postComment input[type=submit]').prop 'disabled', true
-
-				params = '&show=' + show + '&season=' + season + '&episode=' + episode + '&text=' + text
-				params += '&in_reply_to=' + in_reply_to if in_reply_to isnt '0'
-				ajax.post "/comments/post/episode", params, 
-					(data) ->
-						$('#postComment textarea').val ''
-						$('#postComment input[id=inReplyTo]').val 0
-						$('#postComment input[type=submit]').val 'Poster'
-						$('#postComment input[type=submit]').prop 'disabled', false
-						$('#postComment #inReplyToText').hide()
-						time = date('D d F')
-						day = date('D').toLowerCase()
-						hour = date('H:i')
-						login = DB.get('session').login
-						num = data.comment.id
-						showtitle = if time is $('.showtitle').last().text() then '' else '<div class="showtitle">' + time + '</div>' 
-						
-						output = '<div class="newComment" style="display:none;">'
-						output += 	showtitle
-						output += 	'<div class="event ' + day + '">'
-						output += 		'<b>' + hour + '</b> '
-						output += 		'<span class="login">' + login + '</span> '
-						output += 		'<small>#' + num + '</small> '
-						output += 		'<small>en réponse à #' + in_reply_to + '</small> ' if in_reply_to isnt '0'
-						output += 		'<a href="" id="addInReplyTo" commentId="' + num + '">répondre</a><br />'
-						output += 		text
-						output += 	'</div>'
-						output += '</div>'
-
-						$('.postComment').before output
-						$('.newComment').slideDown('slow')
-					->
-						#inputs.removeAttr 'disabled'
-
-			return false
-
-	## Ajouter un destinataire au commentaire
-	$('#addInReplyTo').live
-		click: ->
-			commentId = $(this).attr('commentId');
-			$('#postComment input[id=inReplyTo]').val commentId
-			$('#postComment #inReplyToText').show()
-			$('#postComment #inReplyToId').text commentId
-			return false
-
-	## Retirer le destinataire d'un commentaire
-	$('#removeInReplyTo').live
-		click: ->
-			$('#postComment input[id=inReplyTo]').val 0
-			$('#postComment #inReplyToText').hide()
 			return false
 	
 	## Enregistrer une action offline

@@ -192,29 +192,11 @@ $(document).ready(function() {
     url = $(this).attr('url');
     return BS.load('Show', url);
   });
-  $('#page').on('click', '.display_episode', function() {
-    var episode, global, season, url;
-    event.preventDefault();
-    url = $(this).attr('url');
-    season = $(this).attr('season');
-    episode = $(this).attr('episode');
-    global = $(this).attr('global');
-    return BS.load('Episode', url, season, episode, global);
-  });
   $('#page').on('click', '.display_episodes', function() {
     var url;
     event.preventDefault();
     url = $(this).attr('url');
     return BS.load('ShowEpisodes', url);
-  });
-  $('#page').on('click', '.display_comments', function() {
-    var episode, global, season, url;
-    event.preventDefault();
-    url = $(this).attr('url');
-    season = $(this).attr('season');
-    episode = $(this).attr('episode');
-    global = $(this).attr('global');
-    return BS.load('EpisodeComments', url, season, episode, global);
   });
   $('#page').on('click', '.display_member', function() {
     var login;
@@ -590,71 +572,6 @@ $(document).ready(function() {
         $('#results_members').html(content);
         return Fx.updateHeight();
       }, function() {});
-      return false;
-    }
-  });
-  $('#postComment').live({
-    submit: function() {
-      var episode, in_reply_to, params, season, show, text;
-      show = $('#postComment input[id=show]').val();
-      season = $('#postComment input[id=season]').val();
-      episode = $('#postComment input[id=episode]').val();
-      text = $('#postComment textarea').val();
-      in_reply_to = $('#postComment input[id=inReplyTo]').val();
-      if (text !== '') {
-        $('#postComment input[type=submit]').val('Patientez..');
-        $('#postComment input[type=submit]').prop('disabled', true);
-        params = '&show=' + show + '&season=' + season + '&episode=' + episode + '&text=' + text;
-        if (in_reply_to !== '0') {
-          params += '&in_reply_to=' + in_reply_to;
-        }
-        ajax.post("/comments/post/episode", params, function(data) {
-          var day, hour, login, num, output, showtitle, time;
-          $('#postComment textarea').val('');
-          $('#postComment input[id=inReplyTo]').val(0);
-          $('#postComment input[type=submit]').val('Poster');
-          $('#postComment input[type=submit]').prop('disabled', false);
-          $('#postComment #inReplyToText').hide();
-          time = date('D d F');
-          day = date('D').toLowerCase();
-          hour = date('H:i');
-          login = DB.get('session').login;
-          num = data.comment.id;
-          showtitle = time === $('.showtitle').last().text() ? '' : '<div class="showtitle">' + time + '</div>';
-          output = '<div class="newComment" style="display:none;">';
-          output += showtitle;
-          output += '<div class="event ' + day + '">';
-          output += '<b>' + hour + '</b> ';
-          output += '<span class="login">' + login + '</span> ';
-          output += '<small>#' + num + '</small> ';
-          if (in_reply_to !== '0') {
-            output += '<small>en réponse à #' + in_reply_to + '</small> ';
-          }
-          output += '<a href="" id="addInReplyTo" commentId="' + num + '">répondre</a><br />';
-          output += text;
-          output += '</div>';
-          output += '</div>';
-          $('.postComment').before(output);
-          return $('.newComment').slideDown('slow');
-        }, function() {});
-      }
-      return false;
-    }
-  });
-  $('#addInReplyTo').live({
-    click: function() {
-      var commentId;
-      commentId = $(this).attr('commentId');
-      $('#postComment input[id=inReplyTo]').val(commentId);
-      $('#postComment #inReplyToText').show();
-      $('#postComment #inReplyToId').text(commentId);
-      return false;
-    }
-  });
-  $('#removeInReplyTo').live({
-    click: function() {
-      $('#postComment input[id=inReplyTo]').val(0);
-      $('#postComment #inReplyToText').hide();
       return false;
     }
   });

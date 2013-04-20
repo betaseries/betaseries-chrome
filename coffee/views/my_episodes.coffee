@@ -118,3 +118,23 @@ class View_MyEpisodes
 		output += '</div>'
 		
 		return output
+
+	listen: ->
+
+		# Open episode view
+		$('.display_episode').click ->
+			event.preventDefault()
+			url = $(@).attr 'url'
+			season = $(@).attr 'season'
+			episode = $(@).attr 'episode'
+			global = $(@).attr 'global'
+			app.view.load 'Episode', url, season, episode, global
+
+		# Open episode
+		$('.display_comments').click ->
+			event.preventDefault()
+			url = $(@).attr 'url'
+			season = $(@).attr 'season'
+			episode = $(@).attr 'episode'
+			global = $(@).attr 'global'
+			app.view.load 'EpisodeComments', url, season, episode, global
