@@ -16,72 +16,6 @@ $(document).ready ->
 		click: ->
 			$('#help').hide()
 			$('#help-text').html ''
-		
-	## Marquer un ou des épisodes comme vu(s)
-	$('.MyEpisodes .watched').live
-		click: -> 
-			s = $(this).closest('.show')
-			show = s.attr 'id'
-			e = $(this).closest('.episode')
-			season = e.attr 'season'
-			episode = e.attr 'episode'
-			login = DB.get('session').login
-			enable_ratings = DB.get('options').enable_ratings
-
-			# Cache : mise à jour du dernier épisode marqué comme vu
-			es = DB.get 'member.' + login + '.episodes'
-			es[show].start = "" + (parseInt(e.attr 'global') + 1)
-			
-			# On cache les div
-			nbr = 0
-			while e.hasClass 'episode'
-				nbr++
-			
-				if enable_ratings
-					# on enlève la possibilité de re-marquer comme vu (alors que c'est en cours)
-					$(e).css 'background-color', '#f5f5f5'
-					$(e).find('.watched').removeClass 'watched'
-					
-					# affichage des étoiles
-					$(e).find('.wrapper-comments').hide()
-					$(e).find('.wrapper-recover').hide()
-					$(e).find('.wrapper-subtitles').hide()
-					$(e).find('.wrapper-rate').css 'display', 'inline-block'
-				else
-					clean e
-				
-				# sélection de l'épisode précédent	
-				e = e.prev()
-			
-			# Cache : mise à jour du nbr d'épisodes restants
-			es[show].nbr_total -= nbr
-			if es[show].nbr_total is 0
-				delete es[show]
-			
-			# Requête
-			params = "&season=" + season + "&episode=" + episode
-			ajax.post "/members/watched/" + show, params, 
-				->
-					DB.set 'member.' + login + '.episodes', es
-					Cache.force 'MemberTimeline'
-					badge_notification_type = DB.get('options').badge_notification_type
-					if badge_notification_type is 'watched'
-						total_episodes = DB.get('badge').total_episodes
-						Badge.set 'total_episodes', total_episodes - nbr
-				-> 
-					registerAction "/members/watched/" + show, params
-			
-		mouseenter: ->
-			e = $(this).closest('.episode')
-			while e.hasClass 'episode'
-				e.find('.watched').css 'opacity', 1
-				e = e.prev()
-			
-		mouseleave: ->
-			e = $(this).closest('.episode')
-			while e.hasClass 'episode'
-				e.find('.watched').css 'opacity', 0.5
-				e = e.prev()
 
 	## Marquer un ou des épisodes comme vu(s)
 	$('.ShowEpisodes .watched').live
@@ -135,51 +69,6 @@ $(document).ready ->
 				e.find('.watched').attr('src', '../img/tick.png').css('opacity', 0.5)
 			else
 				e.find('.watched').attr('src', '../img/empty.png')
-		
-	clean = (node) ->
-		show = node.closest('.show')
-		
-		# on fait disparaître la ligne de l'épisode
-		node.slideToggle 'slow', -> $(@).remove()
-
-		# s'il n'y a plus d'épisodes à voir dans la série, on la cache
-		nbr = parseInt($(show).find('.remain').text()) - 1
-		if nbr is 0
-			$(show).slideToggle 'slow', -> $(@).remove()
-		else
-			$(show).find('.remain').text nbr
-
-		# afficher les épisodes cachés
-		nbr_episodes_per_serie = DB.get('options').nbr_episodes_per_serie
-		if nbr + 1 > nbr_episodes_per_serie
-			global = parseInt($(show).find('.episode').last().attr('global')) + 1
-			login = DB.get('session').login
-			showName = $(show).attr 'id'
-			s = DB.get('member.' + login + '.shows')[showName]
-			es = DB.get 'show.' + showName + '.episodes'
-			episode = Content.episode es[global], s
-			$(show).append episode
-
-		Fx.updateHeight()
-		
-		return true
-	
-	# Copier le contenu du titre du lien
-	$('#page').on 'click', '.copy_episode', ->
-		event.preventDefault()
-		sanbox = $(@).find('textarea')
-		sanbox.show()
-		sanbox.select()
-		document.execCommand('copy')
-		sanbox.hide()
-		message __('copied_to_clipboard')
-		$(@).focus()
-
-	# Ouvrir la fiche d'une série
-	$('#page').on 'click', '.display_show', ->
-		event.preventDefault()
-		url = $(@).attr 'url'
-		BS.load 'Show', url
 
 	# Ouvrir la fiche des épisodes d'une série
 	$('#page').on 'click', '.display_episodes', ->
@@ -208,91 +97,6 @@ $(document).ready ->
 		event.preventDefault()
 		link = $(@).attr 'link'
 		Fx.openTab link, true
-
-	# Episode HOVER
-	$('.episode').live
-		mouseenter: ->
-			$(@).find('.watched').attr('src', '../img/arrow_right.png').css('opacity', 0.5)
-		mouseleave: ->
-			start = parseInt $(this).closest('.show').attr 'start'
-			e = $(this).closest('.episode')
-
-			if (e.attr('global') < start)
-				e.find('.watched').attr('src', '../img/tick.png').css('opacity', 0.5)
-			else
-				e.find('.watched').attr('src', '../img/empty.png')
-		
-	# Star HOVER
-	$('.star').live
-		mouseenter: ->
-			nodeStar = $(this)
-			while nodeStar.hasClass 'star'
-				nodeStar.attr 'src', '../img/star.gif'
-				nodeStar = nodeStar.prev()
-		mouseleave: ->
-			nodeStar = $(this)
-			while nodeStar.hasClass 'star'
-				nodeStar.attr 'src', '../img/star_off.gif'
-				nodeStar = nodeStar.prev()
-		click: ->
-			s = $(this).closest('.show')
-			show = s.attr 'id'
-			e = $(this).closest '.episode'
-			clean e
-			
-			# On marque comme vu EN notant
-			season = e.attr 'season'
-			episode = e.attr 'episode'
-			rate = $(this).attr('id').substring 4
-			params = "&season=" + season + "&episode=" + episode + "&note=" + rate
-			ajax.post "/members/note/" + show, params, 
-				-> 
-					Cache.force 'MemberTimeline'
-				->
-					registerAction "/members/watched/" + show, params
-		
-	# Close Stars HOVER
-	$('.close_stars').live
-		click: ->
-			e = $(this).closest '.episode'
-			clean e
-	
-	## Marquer un épisode comme récupéré ou pas
-	$('.MyEpisodes .downloaded').live 'click', ->
-		event.preventDefault()
-		
-		s = $(this).closest('.show')
-		show = s.attr 'id'
-		e = $(this).closest('.episode')
-		season = e.attr 'season'
-		episode = e.attr 'episode'
-		global = e.attr 'global'
-		
-		# mise à jour du cache
-		es = DB.get 'show.' + show + '.episodes'
-		downloaded = es[global].downloaded
-		es[global].downloaded = !downloaded
-		DB.set 'show.' + show + '.episodes', es
-		
-		# modification de l'icône
-		if downloaded
-			$(this).attr 'src', '../img/folder_off.png'
-		else 
-			$(this).attr 'src', '../img/folder.png'
-		
-		# envoi de la requête
-		params = "&season=" + season + "&episode=" + episode
-		ajax.post "/members/downloaded/" + show, params, 
-			-> 
-				badge_notification_type = DB.get('options').badge_notification_type
-				if badge_notification_type is 'downloaded'
-					downloaded_episodes = DB.get('badge').downloaded_episodes
-					if es[global].downloaded
-						downloaded_episodes--
-					else
-						downloaded_episodes++
-					Badge.set 'downloaded_episodes', downloaded_episodes
-			-> registerAction "/members/downloaded/" + show, params
 
 	## Marquer un épisode comme récupéré ou pas
 	$('.ShowEpisodes .downloaded').live 'click', ->
@@ -324,12 +128,6 @@ $(document).ready ->
 				$(@).html '<span class="imgSyncOff"></span>' + __(dl)
 			-> 
 				registerAction "/members/downloaded/" + show, params
-
-	## Télécharger les sous-titres d'un épisode
-	$('.subs').live
-		click: -> 
-			Fx.openTab $(this).attr 'link'
-			return false
 	
 	## Archiver une série
 	$('#showsArchive').live
@@ -553,26 +351,6 @@ $(document).ready ->
 	## Enregistrer une action offline
 	registerAction = (category, params) ->
 		console.log "action: " + category + params
-	
-	## Maximiser/minimiser une série*/
-	$('.toggleShow').live
-		click: ->
-			show = $(@).closest('.show')
-			showName = $(show).attr 'id'
-			login = DB.get('session').login
-			shows = DB.get 'member.' + login + '.shows'
-			hidden = shows[showName].hidden
-			shows[showName].hidden = !hidden
-			DB.set 'member.' + login + '.shows', shows
-				
-			$(show).find('.episode').slideToggle()
-			
-			if shows[showName].hidden
-				$(@).attr 'src', '../img/arrow_right.gif'
-			else
-				$(@).attr 'src', '../img/arrow_down.gif'
-			
-			Fx.updateHeight()
 
 	## Action: maximiser/minimiser une saison
 	$('.toggleSeason').live

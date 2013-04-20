@@ -18,6 +18,33 @@ Fx = {
     });
     return false;
   },
+  clean: function(node) {
+    var episode, es, global, login, nbr, nbr_episodes_per_serie, s, show, showName;
+    show = node.closest('.show');
+    node.slideToggle('slow', function() {
+      return $(this).remove();
+    });
+    nbr = parseInt($(show).find('.remain').text()) - 1;
+    if (nbr === 0) {
+      $(show).slideToggle('slow', function() {
+        return $(this).remove();
+      });
+    } else {
+      $(show).find('.remain').text(nbr);
+    }
+    nbr_episodes_per_serie = DB.get('options').nbr_episodes_per_serie;
+    if (nbr + 1 > nbr_episodes_per_serie) {
+      global = parseInt($(show).find('.episode').last().attr('global')) + 1;
+      login = DB.get('session').login;
+      showName = $(show).attr('id');
+      s = DB.get('member.' + login + '.shows')[showName];
+      es = DB.get('show.' + showName + '.episodes');
+      episode = Content.episode(es[global], s);
+      $(show).append(episode);
+    }
+    Fx.updateHeight();
+    return true;
+  },
   concatNotifications: function(old_notifs, new_notifs) {
     var res;
     res = old_notifs.concat(new_notifs);
