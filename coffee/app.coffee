@@ -30,7 +30,7 @@ class App
 	listen: ->
 		
 		# About titles
-		$('#page')
+		$('body')
 			.on 'mouseenter', '*[title], *[smart-title]', ->
 				title = $(@).attr 'title'
 				if title? 
@@ -48,7 +48,8 @@ class App
 				$('#help-text').html ''
 
 		# Go back
-		$('#back').click =>
+		$('#back')
+			.click =>
 				@historic.back()
 				return false
 			.attr 'title', __("back")

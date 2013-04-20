@@ -22,7 +22,7 @@ App = (function() {
 
   App.prototype.listen = function() {
     var _this = this;
-    $('#page').on('mouseenter', '*[title], *[smart-title]', function() {
+    $('body').on('mouseenter', '*[title], *[smart-title]', function() {
       var title;
       title = $(this).attr('title');
       if (title != null) {
