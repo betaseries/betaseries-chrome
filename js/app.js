@@ -51,7 +51,11 @@ App = (function() {
     $('#icon-search').click(function() {
       _this.view.load('Search');
       return false;
-    }).attr('title', __("search"));
+    }).attr('title', __("menu_Search"));
+    $('#icon-my-episodes').click(function() {
+      _this.view.load('MyEpisodes');
+      return false;
+    }).attr('title', __("menu_MyEpisodes"));
     $('#menu').click(function() {
       if (_this.view.infos.id === 'Menu') {
         return _this.historic.refresh();

@@ -65,7 +65,14 @@ class App
 			.click =>
 				@view.load 'Search'
 				return false
-			.attr 'title', __("search")
+			.attr 'title', __("menu_Search")
+
+		# My episodes view
+		$('#icon-my-episodes')
+			.click =>
+				@view.load 'MyEpisodes'
+				return false
+			.attr 'title', __("menu_MyEpisodes")
 		
 		# Show/hide menu
 		$('#menu')
