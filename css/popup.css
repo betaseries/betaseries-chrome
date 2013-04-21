@@ -7,7 +7,7 @@ body {
 }
 
 /*Links*/
-a, a:visited {text-decoration: none; color: #009; outline: none;}
+a, a:visited {text-decoration: none; color: #009; outline: 0;}
 a:hover {text-decoration: underline; color: #006;}
 a.showtitle, a.showtitle:visited {text-decoration: none; color: #444; outline: none; font-weight: bold;}
 a.showtitle:hover {color: #900; text-decoration: none;}
@@ -23,6 +23,7 @@ a.invisible:hover {text-decoration: none;}
 .remain-right:after {border-right-color: #444; top: 50%; right: 100%; margin-top: -4px;}
 
 .nano .content      { padding: 0px; }
+.nano .content:focus { outline: 0; }
 .nano .pane         { background: #fff; }
 .nano .pane .slider { background: #bbb; }
 

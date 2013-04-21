@@ -68,24 +68,24 @@ class View
 
 	# Afficher la vue courante avec les données en cache
 	display: ->
-		# infos de la vue
+		# get infos
 		o = @infos
 		
-		# mise à jour de l'historique
+		# update historic
 		@app.historic.save()
 		
-		# affichage de la vue (cache)
+		# view display
 		$('#page').html ''
 		$('#page').html o.content() if o.content
 		
-		# Titre et classe
+		# title & class
 		$('#title').text __('title_' + o.name)
 		$('#page').removeClass().addClass o.name
 
 		# listeners
 		o.listen() if o.listen
-		
-		# Hauteur du popup
+
+		# popup height
 		Fx.updateHeight()
 
 	# Réactualise la vue courante

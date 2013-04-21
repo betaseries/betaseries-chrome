@@ -198,7 +198,7 @@ Fx =
 
 	# Afficher un message
 	message: (content) -> 
-		$('#message .content').html content
+		$('#message .message-content').html content
 		$('#message').fadeIn()
 		@highlight $('#message')
 

@@ -243,7 +243,7 @@ Fx = {
     }
   },
   message: function(content) {
-    $('#message .content').html(content);
+    $('#message .message-content').html(content);
     $('#message').fadeIn();
     return this.highlight($('#message'));
   },
