@@ -24,8 +24,6 @@ class View
 		
 		# mise à jour des données
 		if o.update?
-			# on montre le bouton #sync
-			$('#sync').show()	
 		
 			# heure actuelle à la seconde près
 			time = (new Date().getDate()) + '.' + (new Date().getFullYear())
@@ -37,10 +35,6 @@ class View
 			# on lance la requête de mise à jour ssi ça doit l'être
 			@update() if (outdated or force)
 		
-		# on cache le bouton #sync
-		else
-			$('#sync').hide()
-
 	# Mettre à jour les données de la vue courante
 	update: ->
 		# infos de la vue

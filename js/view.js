@@ -23,7 +23,6 @@ View = (function() {
       this.display();
     }
     if (o.update != null) {
-      $('#sync').show();
       time = (new Date().getDate()) + '.' + (new Date().getFullYear());
       views = DB.get('views', {});
       outdated = views[o.id] != null ? views[o.id].time !== time : true;
@@ -31,8 +30,6 @@ View = (function() {
       if (outdated || force) {
         return this.update();
       }
-    } else {
-      return $('#sync').hide();
     }
   };
 
