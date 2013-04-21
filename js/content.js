@@ -11,7 +11,7 @@ Content = {
     output += '<div class="left">';
     output += '<img src="' + visibleIcon + '" class="toggleShow" title="' + titleIcon + '" />';
     output += '<a href="" url="' + s.url + '" class="showtitle display_show">' + Fx.subFirst(s.title, 25) + '</a>';
-    output += ' <span class="remain remain-right">' + nbrEpisodesTotal + ' </span>';
+    output += ' <a href="" class="display_episodes" url="' + s.url + '"><span class="remain remain-right">' + nbrEpisodesTotal + ' </span></a>';
     output += '</div>';
     output += '<div class="right"></div>';
     output += '<div class="clear"></div>';

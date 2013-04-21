@@ -295,6 +295,12 @@ class View_MyEpisodes
 			global = $(@).attr 'global'
 			app.view.load 'Episode', url, season, episode, global
 
+		# Open serie episodes view
+		$('.display_episodes').on 'click', ->
+			event.preventDefault()
+			url = $(@).attr 'url'
+			app.view.load 'ShowEpisodes', url
+
 		# Open episode comments
 		$('.display_comments').on 'click', ->
 			event.preventDefault()

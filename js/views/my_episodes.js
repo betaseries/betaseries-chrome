@@ -313,6 +313,12 @@ View_MyEpisodes = (function() {
       global = $(this).attr('global');
       return app.view.load('Episode', url, season, episode, global);
     });
+    $('.display_episodes').on('click', function() {
+      var url;
+      event.preventDefault();
+      url = $(this).attr('url');
+      return app.view.load('ShowEpisodes', url);
+    });
     $('.display_comments').on('click', function() {
       var episode, global, season, url;
       event.preventDefault();
