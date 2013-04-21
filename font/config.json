@@ -71,6 +71,20 @@
       "orig_code": 61641,
       "src": "fontawesome",
       "from": 61641
+    },
+    {
+      "search": [
+        "search",
+        "find"
+      ],
+      "code": 128270,
+      "uid": "c6344a6ed148da12354cc90705287696",
+      "file": "magnifying_glass",
+      "css": "search",
+      "orig_css": "search",
+      "orig_code": 128270,
+      "src": "iconic",
+      "from": 128270
     }
   ]
 }

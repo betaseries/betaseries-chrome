@@ -48,6 +48,10 @@ App = (function() {
       return _this.view.refresh();
     }).attr('title', __('sync'));
     $('#sync').addClass('paused');
+    $('#icon-search').click(function() {
+      _this.view.load('Search');
+      return false;
+    }).attr('title', __("search"));
     $('#menu').click(function() {
       if (_this.view.infos.id === 'Menu') {
         return _this.historic.refresh();

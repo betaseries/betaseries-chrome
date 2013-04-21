@@ -59,6 +59,13 @@ class App
 			.click(=> @view.refresh())
 			.attr 'title', __('sync')
 		$('#sync').addClass 'paused'
+
+		# Search
+		$('#icon-search')
+			.click =>
+				@view.load 'Search'
+				return false
+			.attr 'title', __("search")
 		
 		# Show/hide menu
 		$('#menu')
