@@ -16,8 +16,7 @@ View_Search = (function() {
 
   View_Search.prototype.content = function() {
     var output;
-    output = '<div style="height:10px;"></div>';
-    output += '<form id="search">';
+    output = '<form id="search">';
     output += '<input type="text" name="terms" id="terms" /> ';
     output += '<input type="submit" value="chercher" />';
     output += '</form>';

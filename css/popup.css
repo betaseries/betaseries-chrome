@@ -77,9 +77,11 @@ a.invisible:hover {text-decoration: none;}
 .postComment input[type=submit] {float: right; width: 80px; margin-right: 5px;}
 
 /*Logo*/
+.show:first-child {margin-top: 0;}
 .show {margin-top: 10px;}
 .showtitle {border-bottom: 1px solid #dcdcdc; text-transform: uppercase;}
 .toggleShow {padding: 0 2px 0 2px;}
+.title:first-child {margin-top: 0;}
 .title {margin-top: 10px; border-bottom: 1px solid #dcdcdc; text-transform: uppercase; font-weight: bold;}
 .title2 {margin-top: 10px; border-bottom: 1px solid #dcdcdc; text-transform: uppercase;}
 .tcolor {color: #666;}
