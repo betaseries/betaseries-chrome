@@ -37,14 +37,14 @@ a.invisible:hover {text-decoration: none;}
 	#logo {
 		display: inline-block; 
 		width: 200px;
-		font-size: 16px;
-		line-height: 22px;
 	}
 
 	#actions {
 		display: inline-block;
 		width: 162px; /* miss 4px ? */
-		text-align: right; 
+		text-align: right;
+		vertical-align: top;
+		padding-top: 4px;
 	}
 		
 		.action {opacity: 0.5; cursor: pointer;}

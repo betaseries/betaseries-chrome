@@ -61,14 +61,14 @@ class App
 		$('#sync').addClass 'paused'
 
 		# Search
-		$('#icon-search')
+		$('#search')
 			.click =>
 				@view.load 'Search'
 				return false
 			.attr 'title', __("menu_Search")
 
 		# My episodes view
-		$('#icon-my-episodes')
+		$('#my-episodes')
 			.click =>
 				@view.load 'MyEpisodes'
 				return false

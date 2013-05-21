@@ -155,7 +155,7 @@ Content =
 		# Action 'download best subtitle'
 		output += '<div class="td wrapper-subtitles">'
 		if nbSubs > 0
-			output += '<img src="../img/page_white_text.png" class="subs action" link="' + url + '" quality="' + quality + '" title="' + __('srt_quality', [lang, quality]) + '" />'
+			output += '<img src="../img/subtitles.png" class="subs action" link="' + url + '" quality="' + quality + '" title="' + __('srt_quality', [lang, quality]) + '" />'
 		else
 			output += '<img src="../img/empty.png" alt="hidden" />'
 		output += '</div>'
