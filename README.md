@@ -32,7 +32,8 @@
 
 * Nouveau design général
 * Retrait de la vue Blog
-* Possibilité d'accéder à la liste des épisodes d'une série depuis la vue "Mes épisodes"
+* Icône accès rapide à la vue "Mes épisodes"
+* Icône accès rapide à la vue "Rechercher une série ou un membre"
 
 ## Liens
 
