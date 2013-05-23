@@ -47,6 +47,16 @@ class App
 				$('#help').hide()
 				$('#help-text').html ''
 
+		# Go to BetaSeries website
+		$('#logoLink')
+			.click(-> Fx.openTab ajax.site_url, true)
+			.attr 'title', __("logo")
+
+		# Go to Chrome Webstore
+		$('#versionLink')
+			.click(-> Fx.openTab 'https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true)
+			.attr 'title', __("version")
+
 		# Go back
 		$('#back')
 			.click =>

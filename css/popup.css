@@ -39,6 +39,20 @@ a.invisible:hover {text-decoration: none;}
 		width: 200px;
 	}
 
+		#logoLink {
+			display: inline-block;
+			vertical-align: top;
+			margin-top: -2px;
+		}
+
+		#versionLink {
+			display: inline-block;
+			vertical-align: top;
+			padding-top: 6px;
+			font-size: 11px;
+			color: #fff;
+		}
+
 	#actions {
 		display: inline-block;
 		width: 162px; /* miss 4px ? */

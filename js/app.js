@@ -42,6 +42,12 @@ App = (function() {
       $('#help').hide();
       return $('#help-text').html('');
     });
+    $('#logoLink').click(function() {
+      return Fx.openTab(ajax.site_url, true);
+    }).attr('title', __("logo"));
+    $('#versionLink').click(function() {
+      return Fx.openTab('https://chrome.google.com/webstore/detail/dadaekemlgdonlfgmfmjnpbgdplffpda', true);
+    }).attr('title', __("version"));
     $('#back').click(function() {
       _this.historic.back();
       return false;
