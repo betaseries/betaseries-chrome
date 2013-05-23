@@ -90,8 +90,8 @@ class View_Episode
 
 		# Download episode subtitle
 		$('.Episode').on 'click', '.subs', -> 
+			event.preventDefault()
 			Fx.openTab $(this).attr 'link'
-			return false
 
 		# Open episode comments
 		$('.Episode').on 'click', '.display_comments', ->

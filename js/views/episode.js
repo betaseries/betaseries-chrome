@@ -118,8 +118,8 @@ View_Episode = (function() {
 
   View_Episode.prototype.listen = function() {
     $('.Episode').on('click', '.subs', function() {
-      Fx.openTab($(this).attr('link'));
-      return false;
+      event.preventDefault();
+      return Fx.openTab($(this).attr('link'));
     });
     $('.Episode').on('click', '.display_comments', function() {
       var episode, global, season, url;
