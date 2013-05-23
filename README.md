@@ -36,6 +36,7 @@
 * Nouvelle option "Recherche de nouvelles notifications"
 * Icône accès rapide à la vue "Mes épisodes"
 * Icône accès rapide à la vue "Rechercher une série ou un membre"
+* Possibilité d'accéder à la vue des épisodes d'une série depuis la vue Mes épisodes
 * Retrait de la vue Blog
 * Retrait de l'icône des notifications
 * Retrait de l'option pour afficher l'icône des notifications
