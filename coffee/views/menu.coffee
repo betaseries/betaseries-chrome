@@ -24,7 +24,7 @@ class View_Menu
 
 	listen: ->
 		
-		$('.Menu').on 'click', 'a', ->	
+		$('.Menu').on 'click', '.menulink', ->	
 			
 			event.preventDefault()
 			

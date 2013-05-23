@@ -151,7 +151,7 @@ span.toggleEpisodes {text-align: right; font-size: 9px; color: #666; margin-righ
 .note {font-size: 9px; padding: 3px 3px 0 3px; display: inline-block; margin-right: 3px; width: 15px; text-align: center;}
 .note.green {background-color: #6C3; color: #fff;}
 .note.orange {background-color: #FC3; color: #333;}
-.note.red {background-color: #red; color: #fff;}
+.note.red {background-color: #F00; color: #fff;}
 .copy {margin-right: 3px;}
 .star:hover, .close_stars:hover {cursor: pointer;}
 div.clear {clear: both;}

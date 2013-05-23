@@ -29,9 +29,9 @@ ajax =
 				$('#sync img').attr 'src', '../img/sync.png'
 				errorCallback() if errorCallback?
 
-if chrome.declarativeWebRequest?
-	rule = 
-		conditions: [new chrome.declarativeWebRequest.RequestMatcher {url: {hostSuffix: 'api.betaseries.com'}}]
-		actions: [new chrome.declarativeWebRequest.SetRequestHeader {name:'User-Agent', value:Fx.getNewUserAgent()}]
-
-	chrome.declarativeWebRequest.onRequest.addRules [rule]
+#if chrome.declarativeWebRequest?
+#	rule = 
+#		conditions: [new chrome.declarativeWebRequest.RequestMatcher {url: {hostSuffix: 'api.betaseries.com'}}]
+#		actions: [new chrome.declarativeWebRequest.SetRequestHeader {name:'User-Agent', value:Fx.getNewUserAgent()}]
+#
+#	chrome.declarativeWebRequest.onRequest.addRules [rule]

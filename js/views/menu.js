@@ -34,7 +34,7 @@ View_Menu = (function() {
   };
 
   View_Menu.prototype.listen = function() {
-    return $('.Menu').on('click', 'a', function() {
+    return $('.Menu').on('click', '.menulink', function() {
       var id;
 
       event.preventDefault();
