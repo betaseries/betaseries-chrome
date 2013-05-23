@@ -64,9 +64,6 @@
 	"display_mean_note": {
 		"message": "Show the average rating of episodes : "
 	},
-	"display_notifications_icon": {
-		"message": "Show notifications icon : "
-	},
 	"dl_srt_language": {
 		"message": "Language of the episode subtitles : "
 	},

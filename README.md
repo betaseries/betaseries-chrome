@@ -37,6 +37,8 @@
 * Icône accès rapide à la vue "Mes épisodes"
 * Icône accès rapide à la vue "Rechercher une série ou un membre"
 * Retrait de la vue Blog
+* Retrait de l'icône des notifications
+* Retrait de l'option pour afficher l'icône des notifications
 
 ## Liens
 

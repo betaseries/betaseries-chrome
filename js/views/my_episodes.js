@@ -76,7 +76,7 @@ View_MyEpisodes = (function() {
   };
 
   View_MyEpisodes.prototype.content = function() {
-    var data, e, global, i, j, nbr, nbr_episodes_per_serie, output, s, showEpisodes, shows, today;
+    var data, e, global, i, j, nbr_episodes_per_serie, output, s, showEpisodes, shows, today;
 
     data = DB.get('member.' + this.login + '.episodes', null);
     if (!data) {
@@ -85,16 +85,6 @@ View_MyEpisodes = (function() {
     shows = DB.get('member.' + this.login + '.shows', null);
     if (!shows) {
       return Fx.needUpdate();
-    }
-    if (Fx.logged()) {
-      if (DB.get('options').display_notifications_icon) {
-        nbr = Fx.checkNotifications();
-        if (nbr > 0) {
-          $('.notif').html(nbr).show();
-        }
-      } else {
-        $('#notifications').hide();
-      }
     }
     Badge.set('new_episodes', 0);
     DB.set('new_episodes_checked', date('Y.m.d'));

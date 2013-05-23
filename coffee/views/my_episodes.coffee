@@ -68,15 +68,7 @@ class View_MyEpisodes
 		return Fx.needUpdate() if !data
 		
 		shows = DB.get 'member.' + @login + '.shows', null
-		return Fx.needUpdate() if !shows
-
-		# mise à jour des notifications
-		if Fx.logged()
-			if DB.get('options').display_notifications_icon
-				nbr = Fx.checkNotifications()
-				$('.notif').html(nbr).show() if nbr > 0
-			else
-				$('#notifications').hide()	
+		return Fx.needUpdate() if !shows	
 
 		# Mise à jour des notifications new_episodes
 		Badge.set 'new_episodes', 0
