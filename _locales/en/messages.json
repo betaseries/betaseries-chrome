@@ -95,7 +95,10 @@
 		"message": "User already exist"
 	},
 	"extDesc": {
-		"message": "Chrome Extension for BetaSeries (www.betaseries.com)"
+		"message": "BetaSeries Extension for Google Chrome (www.betaseries.com)"
+	},
+	"extName": {
+		"message": "BetaSeries for Chrome"
 	},
 	"extension_page": {
 		"message": "Chrome Web Store"
