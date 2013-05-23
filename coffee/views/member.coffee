@@ -48,7 +48,7 @@ class View_Member
 	listen: ->
 
 		# add as friend
-		$('#friendsAdd').on 'click', ->
+		$('.Member').on 'click', '#friendsAdd', ->
 			login = $(this).attr('href').substring 1
 			
 			$(this).find('span').toggleClass 'imgSyncOff imgSyncOn'
@@ -64,7 +64,7 @@ class View_Member
 			return false
 		
 		# remove from friends
-		$('#friendsRemove').on 'click', ->
+		$('.Member').on 'click', '#friendsRemove', ->
 			login = $(this).attr('href').substring 1
 			
 			$(this).find('span').toggleClass 'imgSyncOff imgSyncOn'

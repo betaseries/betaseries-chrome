@@ -21,12 +21,12 @@ class View_Registration
 	listen: ->
 
 		# Open connection view
-		$('.display_connection').on 'click', ->
+		$('.Registration').on 'click', '.display_connection', ->
 			event.preventDefault()
 			app.view.load 'Connection'
 
 		# register
-		$('#register').on 'submit', ->
+		$('.Registration').on 'submit', '#register', ->
 			login = $('#login').val()
 			password = $('#password').val()
 			repassword = $('#repassword').val()

@@ -71,63 +71,63 @@ class View_EpisodeComments
 
 	listen: ->
 
-			# post a show comment
-			$('#postComment').on 'submit', ->
-				show = $('#postComment input[id=show]').val()
-				season = $('#postComment input[id=season]').val()
-				episode = $('#postComment input[id=episode]').val()
-				text = $('#postComment textarea').val()
-				in_reply_to = $('#postComment input[id=inReplyTo]').val()
+		# post a show comment
+		$('.EpisodeComments').on 'submit', '#postComment', ->
+			show = $('#postComment input[id=show]').val()
+			season = $('#postComment input[id=season]').val()
+			episode = $('#postComment input[id=episode]').val()
+			text = $('#postComment textarea').val()
+			in_reply_to = $('#postComment input[id=inReplyTo]').val()
 
-				if text isnt ''
-					$('#postComment input[type=submit]').val 'Patientez..'
-					$('#postComment input[type=submit]').prop 'disabled', true
+			if text isnt ''
+				$('#postComment input[type=submit]').val 'Patientez..'
+				$('#postComment input[type=submit]').prop 'disabled', true
 
-					params = '&show=' + show + '&season=' + season + '&episode=' + episode + '&text=' + text
-					params += '&in_reply_to=' + in_reply_to if in_reply_to isnt '0'
-					ajax.post "/comments/post/episode", params, 
-						(data) ->
-							$('#postComment textarea').val ''
-							$('#postComment input[id=inReplyTo]').val 0
-							$('#postComment input[type=submit]').val 'Poster'
-							$('#postComment input[type=submit]').prop 'disabled', false
-							$('#postComment #inReplyToText').hide()
-							time = date('D d F')
-							day = date('D').toLowerCase()
-							hour = date('H:i')
-							login = DB.get('session').login
-							num = data.comment.id
-							showtitle = if time is $('.showtitle').last().text() then '' else '<div class="showtitle">' + time + '</div>' 
-							
-							output = '<div class="newComment" style="display:none;">'
-							output += 	showtitle
-							output += 	'<div class="event ' + day + '">'
-							output += 		'<b>' + hour + '</b> '
-							output += 		'<span class="login">' + login + '</span> '
-							output += 		'<small>#' + num + '</small> '
-							output += 		'<small>en réponse à #' + in_reply_to + '</small> ' if in_reply_to isnt '0'
-							output += 		'<a href="" class="addInReplyTo" commentId="' + num + '">répondre</a><br />'
-							output += 		text
-							output += 	'</div>'
-							output += '</div>'
+				params = '&show=' + show + '&season=' + season + '&episode=' + episode + '&text=' + text
+				params += '&in_reply_to=' + in_reply_to if in_reply_to isnt '0'
+				ajax.post "/comments/post/episode", params, 
+					(data) ->
+						$('#postComment textarea').val ''
+						$('#postComment input[id=inReplyTo]').val 0
+						$('#postComment input[type=submit]').val 'Poster'
+						$('#postComment input[type=submit]').prop 'disabled', false
+						$('#postComment #inReplyToText').hide()
+						time = date('D d F')
+						day = date('D').toLowerCase()
+						hour = date('H:i')
+						login = DB.get('session').login
+						num = data.comment.id
+						showtitle = if time is $('.showtitle').last().text() then '' else '<div class="showtitle">' + time + '</div>' 
+						
+						output = '<div class="newComment" style="display:none;">'
+						output += 	showtitle
+						output += 	'<div class="event ' + day + '">'
+						output += 		'<b>' + hour + '</b> '
+						output += 		'<span class="login">' + login + '</span> '
+						output += 		'<small>#' + num + '</small> '
+						output += 		'<small>en réponse à #' + in_reply_to + '</small> ' if in_reply_to isnt '0'
+						output += 		'<a href="" class="addInReplyTo" commentId="' + num + '">répondre</a><br />'
+						output += 		text
+						output += 	'</div>'
+						output += '</div>'
 
-							$('.postComment').before output
-							$('.newComment').slideDown('slow')
-						->
-							#inputs.removeAttr 'disabled'
+						$('.postComment').before output
+						$('.newComment').slideDown('slow')
+					->
+						#inputs.removeAttr 'disabled'
 
-				return false
+			return false
 
-			# anwser to a comment
-			$('.addInReplyTo').on 'click', ->
-				commentId = $(this).attr('commentId');
-				$('#postComment input[id=inReplyTo]').val commentId
-				$('#postComment #inReplyToText').show()
-				$('#postComment #inReplyToId').text commentId
-				return false
+		# anwser to a comment
+		$('.EpisodeComments').on 'click', '.addInReplyTo', ->
+			commentId = $(this).attr('commentId');
+			$('#postComment input[id=inReplyTo]').val commentId
+			$('#postComment #inReplyToText').show()
+			$('#postComment #inReplyToId').text commentId
+			return false
 
-			# do not anwser anymore to a comment
-			$('#removeInReplyTo').on 'click', ->
-				$('#postComment input[id=inReplyTo]').val 0
-				$('#postComment #inReplyToText').hide()
-				return false
+		# do not anwser anymore to a comment
+		$('.EpisodeComments').on 'click', '#removeInReplyTo', ->
+			$('#postComment input[id=inReplyTo]').val 0
+			$('#postComment #inReplyToText').hide()
+			return false

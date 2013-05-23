@@ -19,7 +19,7 @@ class View_Search
 	listen: ->
 
 		# search
-		$('#search').on 'submit', ->
+		$('.Search').on 'submit', '#search', ->
 			terms = $('#terms').val()
 			#var inputs = $(this).find('input').attr {disabled: 'disabled'}
 
@@ -58,13 +58,13 @@ class View_Search
 			return false
 
 		# Open serie view
-		$('#page').on 'click', '.display_show', ->
+		$('.Search').on 'click', '.display_show', ->
 			event.preventDefault()
 			url = $(@).attr 'url'
 			app.view.load 'Show', url
 
 		# Open member view
-		$('#page').on 'click', '.display_member', ->
+		$('.Search').on 'click', '.display_member', ->
 			event.preventDefault()
 			login = $(@).attr 'login'
 			app.view.load 'Member', login

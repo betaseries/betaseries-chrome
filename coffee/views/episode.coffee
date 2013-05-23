@@ -89,12 +89,12 @@ class View_Episode
 	listen: ->
 
 		# Download episode subtitle
-		$('.subs').on 'click', -> 
+		$('.Episode').on 'click', '.subs', -> 
 			Fx.openTab $(this).attr 'link'
 			return false
 
 		# Open episode comments
-		$('.display_comments').on 'click', ->
+		$('.Episode').on 'click', '.display_comments', ->
 			url = $(@).attr 'url'
 			season = $(@).attr 'season'
 			episode = $(@).attr 'episode'
@@ -103,7 +103,7 @@ class View_Episode
 			return false
 
 		# Mark an episode as recover
-		$('.downloaded').on 'click', ->
+		$('.Episode').on 'click', '.downloaded', ->
 			event.preventDefault()
 			
 			show = $(@).attr 'show'

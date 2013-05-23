@@ -63,13 +63,13 @@ class View_Show
 	listen: ->
 
 		# Ouvrir la fiche des épisodes d'une série
-		$('.display_episodes').on 'click', ->
+		$('.Show').on 'click', '.display_episodes', ->
 			event.preventDefault()
 			url = $(@).attr 'url'
 			app.view.load 'ShowEpisodes', url	
 
 		# Archive a serie
-		$('#showsArchive').on 'click', ->
+		$('.Show').on 'click', '#showsArchive', ->
 			show = $(@).attr('href').substring 1
 
 			$(@).find('span').toggleClass 'imgSyncOff imgSyncOn'
@@ -86,7 +86,7 @@ class View_Show
 			return false
 		
 		# Un-archive a serie
-		$('#showsUnarchive').on 'click', ->
+		$('.Show').on 'click', '#showsUnarchive', ->
 			show = $(this).attr('href').substring 1
 			
 			$(this).find('span').toggleClass 'imgSyncOff imgSyncOn'
@@ -103,7 +103,7 @@ class View_Show
 			return false
 
 		# add a serie
-		$('#showsAdd').on 'click', ->
+		$('.Show').on 'click', '#showsAdd', ->
 			show = $(this).attr('href').substring 1
 			
 			$(this).find('span').toggleClass 'imgSyncOff imgSyncOn'
@@ -120,7 +120,7 @@ class View_Show
 			return false
 		
 		# remove a serie
-		$('#showsRemove').on 'click', ->
+		$('.Show').on 'click', '#showsRemove', ->
 			show = $(this).attr('href').substring 1
 			
 			$(this).find('span').toggleClass 'imgSyncOff imgSyncOn'

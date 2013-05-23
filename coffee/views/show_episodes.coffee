@@ -100,7 +100,7 @@ class View_ShowEpisodes
 	listen: ->
 
 		# Show/hide season
-		$('.toggleSeason').on 'click', ->
+		$('.ShowEpisodes').on 'click', '.toggleSeason', ->
 			season = $(@).closest('.season')
 			hidden = $(season).hasClass('hidden')
 			$(season).toggleClass('hidden')
@@ -114,60 +114,59 @@ class View_ShowEpisodes
 			Fx.updateHeight()
 
 		# Mark on or more episodes as seen
-		$('.watched').on 
-			click: -> 
-				s = $(this).closest '.show'
-				show = s.attr 'id'
-				start = parseInt s.attr 'start'
-				
-				e = $(this).closest '.episode'
-				newStart = parseInt(e.attr('global')) + 1
-				s.attr 'start', newStart
-				season = e.attr 'season'
-				episode = e.attr 'episode'
+		$('.ShowEpisodes').on 'click', '.watched', -> 
+			s = $(this).closest '.show'
+			show = s.attr 'id'
+			start = parseInt s.attr 'start'
+			
+			e = $(this).closest '.episode'
+			newStart = parseInt(e.attr('global')) + 1
+			s.attr 'start', newStart
+			season = e.attr 'season'
+			episode = e.attr 'episode'
 
-				# Cache : mise à jour du dernier épisode marqué comme vu
-				login = DB.get('session').login
-				es = DB.get 'member.' + login + '.episodes'
-				if (not show in es) then es[show] = {}
-				es[show].start = "" + newStart
-				es[show].nbr_total += start - newStart
-				if es[show].nbr_total is 0 then delete es[show]
-				
-				# Mise à jour des plots
-				$('.show').find('.episode').each (i) -> 
-					if $(@).attr('global') <= newStart - 1
-						$(@).find('.watched').attr('src', '../img/tick.png').css('opacity', 0.5)
-					else
-						$(@).find('.watched').attr('src', '../img/empty.png')
-				
-				# Requête
-				params = "&season=" + season + "&episode=" + episode
-				ajax.post "/members/watched/" + show, params, 
-					->
-						DB.set 'member.' + login + '.episodes', es
-						Cache.force 'MemberTimeline'
-						badge_notification_type = DB.get('options').badge_notification_type
-						if badge_notification_type is 'watched'
-							Badge.search_episodes()
-					-> 
-						registerAction "/members/watched/" + show, params
-				
-			mouseenter: ->
-				e = $(this).closest('.episode')
-				e.find('.watched').attr('src', '../img/arrow_right.png').css('opacity', 1)
-				
-			mouseleave: ->
-				start = parseInt $(this).closest('.show').attr 'start'
-				e = $(this).closest('.episode')
-
-				if (e.attr('global') < start)
-					e.find('.watched').attr('src', '../img/tick.png').css('opacity', 0.5)
+			# Cache : mise à jour du dernier épisode marqué comme vu
+			login = DB.get('session').login
+			es = DB.get 'member.' + login + '.episodes'
+			if (not show in es) then es[show] = {}
+			es[show].start = "" + newStart
+			es[show].nbr_total += start - newStart
+			if es[show].nbr_total is 0 then delete es[show]
+			
+			# Mise à jour des plots
+			$('.show').find('.episode').each (i) -> 
+				if $(@).attr('global') <= newStart - 1
+					$(@).find('.watched').attr('src', '../img/tick.png').css('opacity', 0.5)
 				else
-					e.find('.watched').attr('src', '../img/empty.png')
+					$(@).find('.watched').attr('src', '../img/empty.png')
+			
+			# Requête
+			params = "&season=" + season + "&episode=" + episode
+			ajax.post "/members/watched/" + show, params, 
+				->
+					DB.set 'member.' + login + '.episodes', es
+					Cache.force 'MemberTimeline'
+					badge_notification_type = DB.get('options').badge_notification_type
+					if badge_notification_type is 'watched'
+						Badge.search_episodes()
+				-> 
+					registerAction "/members/watched/" + show, params
+				
+		$('.ShowEpisodes').on 'mouseenter', '.watched', ->
+			e = $(this).closest('.episode')
+			e.find('.watched').attr('src', '../img/arrow_right.png').css('opacity', 1)
+				
+		$('.ShowEpisodes').on 'mouseleave', '.watched', ->
+			start = parseInt $(this).closest('.show').attr 'start'
+			e = $(this).closest('.episode')
+
+			if (e.attr('global') < start)
+				e.find('.watched').attr('src', '../img/tick.png').css('opacity', 0.5)
+			else
+				e.find('.watched').attr('src', '../img/empty.png')
 
 		# Open episode view
-		$('.display_episode').on 'click', ->
+		$('.ShowEpisodes').on 'click', '.display_episode', ->
 			event.preventDefault()
 			url = $(@).attr 'url'
 			season = $(@).attr 'season'
@@ -176,7 +175,7 @@ class View_ShowEpisodes
 			app.view.load 'Episode', url, season, episode, global
 
 		# Open episode comments
-		$('.display_comments').on 'click', ->
+		$('.ShowEpisodes').on 'click', '.display_comments', ->
 			event.preventDefault()
 			url = $(@).attr 'url'
 			season = $(@).attr 'season'
@@ -185,7 +184,7 @@ class View_ShowEpisodes
 			app.view.load 'EpisodeComments', url, season, episode, global
 
 		# Mark an episode as recover or not
-		$('.downloaded').on 'click', ->
+		$('.ShowEpisodes').on 'click', '.downloaded', ->
 			s = $(this).closest('.show')
 			show = s.attr 'id'
 			e = $(this).closest('.episode')
@@ -220,6 +219,6 @@ class View_ShowEpisodes
 				-> registerAction "/members/downloaded/" + show, params
 
 		# Download episode subtitle
-		$('.subs').on 'click', -> 
+		$('.ShowEpisodes').on 'click', '.subs', -> 
 			Fx.openTab $(this).attr 'link'
 			return false

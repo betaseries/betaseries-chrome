@@ -19,12 +19,12 @@ class View_Connection
 	listen: ->
 
 		# Open registration view
-		$('.display_registration').on 'click', ->
+		$('.Connection').on 'click', '.display_registration', ->
 			event.preventDefault()
 			app.view.load 'Registration'
 
 		# connect
-		$('#connect').on 'submit', ->
+		$('.Connection').on 'submit', '#connect', ->
 			login = $('#login').val()
 			password = md5 $('#password').val()
 			inputs = $(this).find('input').attr {disabled: 'disabled'}

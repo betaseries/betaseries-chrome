@@ -83,6 +83,7 @@ class View
 		$('#page').removeClass().addClass o.name
 
 		# listeners
+		console.log 'hehe'
 		o.listen() if o.listen
 
 		# popup height

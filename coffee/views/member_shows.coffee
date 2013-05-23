@@ -40,7 +40,7 @@ class View_MemberShows
 	listen: ->
 
 		# Open serie view
-		$('.display_show').on 'click', ->
+		$('.MemberShows').on 'click', '.display_show', ->
 			event.preventDefault()
 			url = $(@).attr 'url'
 			app.view.load 'Show', url

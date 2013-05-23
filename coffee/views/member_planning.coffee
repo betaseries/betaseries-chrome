@@ -78,7 +78,7 @@ class View_MemberPlanning
 	listen: ->
 
 		# Show/hide week
-		$('.toggleWeek').on 'click', ->
+		$('.MemberPlanning').on 'click', '.toggleWeek', ->
 			week = $(@).closest('.week')
 			hidden = $(week).hasClass('hidden')
 			$(week).toggleClass('hidden')
