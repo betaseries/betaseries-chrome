@@ -1,6 +1,6 @@
-# ChromeSeries
+# BetaSeries pour Chrome (ChromeSeries)
 
-> Extension Google Chrome pour BetaSeries.
+> Extension BetaSeries pour Google Chrome.
 
 ## Fonctionnalités
 
@@ -28,12 +28,15 @@
 
 ## Dernière version
 
-### Version 1.2 (en cours)
+### Version 1.2
 
+* L'extension ChromeSeries devient l'extension officielle de BetaSeries pour Chrome 
+* Nouveau nom pour l'extension : BetaSeries pour Chrome
 * Nouveau design général
-* Retrait de la vue Blog
+* Nouvelle option "Recherche de nouvelles notifications"
 * Icône accès rapide à la vue "Mes épisodes"
 * Icône accès rapide à la vue "Rechercher une série ou un membre"
+* Retrait de la vue Blog
 
 ## Liens
 
