@@ -118,6 +118,7 @@ View_Episode = (function() {
 
   View_Episode.prototype.listen = function() {
     $('.Episode').on('click', '.subs', function() {
+      Fx.openTab($(this).attr('link'));
       return false;
     });
     $('.Episode').on('click', '.display_comments', function() {
@@ -134,7 +135,6 @@ View_Episode = (function() {
       var dl, downloaded, episode, es, global, params, season, show,
         _this = this;
 
-      event.preventDefault();
       show = $(this).attr('show');
       season = $(this).attr('season');
       episode = $(this).attr('episode');
@@ -146,7 +146,7 @@ View_Episode = (function() {
       $(this).find('span').toggleClass('imgSyncOff imgSyncOn');
       dl = downloaded ? 'mark_as_dl' : 'mark_as_not_dl';
       params = "&season=" + season + "&episode=" + episode;
-      return ajax.post("/members/downloaded/" + show, params, function() {
+      ajax.post("/members/downloaded/" + show, params, function() {
         var badge_notification_type;
 
         Cache.force('MyEpisodes.all');
@@ -158,6 +158,7 @@ View_Episode = (function() {
       }, function() {
         return registerAction("/members/downloaded/" + show, params);
       });
+      return false;
     });
   };
 

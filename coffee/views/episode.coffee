@@ -90,7 +90,7 @@ class View_Episode
 
 		# Download episode subtitle
 		$('.Episode').on 'click', '.subs', -> 
-			#Fx.openTab $(this).attr 'link'
+			Fx.openTab $(this).attr 'link'
 			return false
 
 		# Open episode comments
@@ -104,8 +104,6 @@ class View_Episode
 
 		# Mark an episode as recover
 		$('.Episode').on 'click', '.downloaded', ->
-			event.preventDefault()
-			
 			show = $(@).attr 'show'
 			season = $(@).attr 'season'
 			episode = $(@).attr 'episode'
@@ -132,3 +130,5 @@ class View_Episode
 					$(@).html '<span class="imgSyncOff"></span>' + __(dl)
 				-> 
 					registerAction "/members/downloaded/" + show, params
+
+			return false

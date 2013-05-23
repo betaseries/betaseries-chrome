@@ -17,6 +17,7 @@ class View
 		sameView = @infos? and o.id is @infos.id
 		
 		# mémorisation de la vue
+		$('.' + @infos.name).off() if @infos?.name
 		@infos = o;
 		
 		# affichage de la vue (cache)

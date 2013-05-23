@@ -10,7 +10,7 @@ View = (function() {
   }
 
   View.prototype.load = function() {
-    var force, o, outdated, params, sameView, time, view, views;
+    var force, o, outdated, params, sameView, time, view, views, _ref;
 
     view = arguments[0], params = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
     o = new window['View_' + view]();
@@ -18,6 +18,9 @@ View = (function() {
       o.init.apply(this, params);
     }
     sameView = (this.infos != null) && o.id === this.infos.id;
+    if ((_ref = this.infos) != null ? _ref.name : void 0) {
+      $('.' + this.infos.name).off();
+    }
     this.infos = o;
     if (!sameView) {
       this.display();
