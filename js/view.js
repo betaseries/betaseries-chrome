@@ -67,7 +67,6 @@ View = (function() {
     }
     $('#title').text(__('title_' + o.name));
     $('#page').removeClass().addClass(o.name);
-    console.log('hehe');
     if (o.listen) {
       o.listen();
     }
