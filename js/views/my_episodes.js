@@ -1,6 +1,7 @@
 /**
  * View of My Episodes - class
  * @class View_MyEpisodes
+ * @constructor
  */
 var View_MyEpisodes = function() {};
 
