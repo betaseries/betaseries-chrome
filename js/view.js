@@ -5,7 +5,11 @@
  * @param  {App} app App instance
  */
 var View = function(app) {
-	this.infos = null;
+	/**
+	 * App instance
+	 * @property app
+	 * @type {App}
+	 */
 	this.app = app;
 };
 
@@ -19,12 +23,12 @@ View.prototype.load = function() {
 	var view = arguments[0];
 	var params = (arguments.length >= 2) ? [].slice.call(arguments, 1) : [];
 	var o = new window['View_' + view]();
-	if (o.init !== null) {
-		o.init.apply(this, params);
+	if (o.init) {
+		o.init.apply(o, params);
 	}
 
 	// determine if same view
-	var sameView = this.infos !== null && o.id === this.infos.id;
+	var sameView = this.infos && this.infos.id == o.id;
 
 	// remove listeners
 	if (this.infos && this.infos.name) {
@@ -40,10 +44,10 @@ View.prototype.load = function() {
 	}
 
 	// update view if needed
-	if (o.update !== null) {
+	if (o.update) {
 		var time = (new Date().getDate()) + '.' + (new Date().getFullYear());
 		var views = DB.get('views', {});
-		var outdated = views[o.id] ? views[o.id].time !== time : true;
+		var outdated = views[o.id] ? views[o.id].time != time : true;
 		var force = views[o.id] ? views[o.id].force : true;
 		if (outdated || force) {
 			this.update();
