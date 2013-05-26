@@ -303,11 +303,11 @@
 	"password_not_matching": {
 		"message": "Invalid password"
 	},
-	"progress": {
-		"message": "progress"
-	},
 	"period_search_notifications": {
 		"message": "Search for new notifications : "
+	},
+	"progress": {
+		"message": "progress"
 	},
 	"psn0": {
 		"message": "Never"

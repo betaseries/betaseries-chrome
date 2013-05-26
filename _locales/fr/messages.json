@@ -315,6 +315,9 @@
 	"period_search_notifications": {
 		"message": "Rercherche de nouvelles notifications : "
 	},
+	"progress": {
+		"message": "progression"
+	},
 	"psn0": {
 		"message": "Jamais"
 	},
