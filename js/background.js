@@ -2,7 +2,7 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
 	var last_checked, period_search_notifications;
 	if (Fx.logged()) {
 		if (alarm.name === 'search_episodes') {
-			last_checked = DB.get('options').new_episodes_checked;
+			last_checked = DB.get('new_episodes_checked', null);
 			if (!last_checked || last_checked < date('Y.m.d')) {
 				Badge.search_episodes();
 			}
