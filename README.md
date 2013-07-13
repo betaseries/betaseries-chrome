@@ -28,18 +28,10 @@
 
 ## Dernière version
 
-### Version 1.2
+### Version 1.2.1
 
-* L'extension ChromeSeries devient l'extension officielle de BetaSeries pour Chrome 
-* Nouveau nom pour l'extension : BetaSeries pour Chrome
-* Nouveau design général
-* Nouvelle option "Recherche de nouvelles notifications"
-* Icône accès rapide à la vue "Mes épisodes"
-* Icône accès rapide à la vue "Rechercher une série ou un membre"
-* Possibilité d'accéder à la vue des épisodes d'une série depuis la vue Mes épisodes
-* Retrait de la vue Blog
-* Retrait de l'icône des notifications
-* Retrait de l'option pour afficher l'icône des notifications
+* Meilleure gestion des listeners
+* Correction de la notifications des nouveaux épisodes
 
 ## Liens
 
