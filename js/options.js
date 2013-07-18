@@ -50,7 +50,7 @@ $(document).ready(function() {
 		// special case : psn option
 		if (value.indexOf('psn') === 0) {
 			value = parseInt(value.substring(3), 10);
-			if (value === 0) {
+			if (value > 0) {
 				Fx.search_notifications();
 			}
 		}
