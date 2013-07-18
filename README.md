@@ -28,10 +28,9 @@
 
 ## Dernière version
 
-### Version 1.2.1
+### Version 1.2.2
 
-* Meilleure gestion des listeners
-* Correction de la notifications des nouveaux épisodes
+* Correction de certaines options qui ne pouvaient pas être configurées
 
 ## Liens
 
