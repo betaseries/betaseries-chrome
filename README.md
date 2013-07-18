@@ -31,6 +31,7 @@
 ### Version 1.2.2
 
 * Correction de certaines options qui ne pouvaient pas être configurées
+* Correction de la recherche de nouvelles notifications
 
 ## Liens
 
