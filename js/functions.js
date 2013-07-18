@@ -270,15 +270,13 @@ Fx = {
         return console.log("action: " + category + params);
     },
     search_episodes: function() {
-        chrome.alarms.clear('search_episodes');
-        return chrome.alarms.create('search_episodes', {
+        chrome.alarms.create('search_episodes', {
             delayInMinutes: 5,
             periodInMinutes: 60
         });
     },
     search_notifications: function() {
         var period_search_notifications, _ref;
-        chrome.alarms.clear('search_notifications');
         period_search_notifications = parseInt(((_ref = DB.get('options')) != null ? _ref.period_search_notifications : void 0) != null);
         if (period_search_notifications && period_search_notifications > 0) {
             chrome.alarms.create('search_notifications', {
