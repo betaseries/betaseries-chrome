@@ -28,9 +28,9 @@
 
 ## Dernière version
 
-### Version 1.2.3
+### Version 1.2.4
 
-* Correction de certaines options qui ne pouvaient pas être configurées
+* Correction de la vue Planning
 
 ## Liens
 

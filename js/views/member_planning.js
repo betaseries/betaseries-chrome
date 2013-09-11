@@ -11,7 +11,7 @@ var View_MemberPlanning = function() {};
  * @param  {string} login Login of a user
  */
 View_MemberPlanning.prototype.init = function(login) {
-	if (login === null) {
+	if (typeof login === 'undefined') {
 		login = DB.get('session') ? DB.get('session').login : '';
 	}
 	this.id = 'MemberPlanning.' + login;
