@@ -118,13 +118,14 @@ Fx = {
         return DB.set('options', options);
     },
     subFirst: function(str, nbr) {
-        var strLength, strSub;
-        strLength = str.length;
-        strSub = str.substring(0, nbr);
-        if (strSub.length < strLength) {
-            strSub += '..';
+        if (typeof str != 'undefined') {
+            var length = str.length;
+            var str = str.substring(0, nbr);
+            if (str.length < length) {
+                str += '..';
+            }
         }
-        return strSub;
+        return str;
     },
     subLast: function(str, nbr) {
         var strLength, strSub;
