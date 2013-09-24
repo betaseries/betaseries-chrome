@@ -2,11 +2,34 @@
 
 /* Controllers */
 
-function ConnectionCtrl($scope) {
-	$scope.login = 'Pseudo';
-	$scope.password = 'Mot de passe';
-	$scope.sign_in = 'Se connecter';
-	$scope.sign_up = "S'inscrire";
+function ConnectionCtrl($scope, $http) {
+	$scope.lbl_login = 'Pseudo';
+	$scope.lbl_password = 'Mot de passe';
+	$scope.lbl_sign_in = 'Se connecter';
+	$scope.lbl_sign_up = "S'inscrire";
+
+	$scope.sign_in = function(){
+		console.log($scope.login);
+		/*var config = {
+			method: 'POST',
+			url: 'http://api.betaseries.com/members/auth',
+			params: {
+				v: '2.1',
+				key: '6db16a6ffab9',
+				login: $scope.login,
+				password: md5($scope.password)
+			}
+
+		}
+
+		$http(config)
+			.success(function(data){
+				console.log(data);
+			})
+			.error(function(data){
+				console.log(data);
+			});*/
+	};
 } 
 
 function ShowsCtrl($scope, $http){

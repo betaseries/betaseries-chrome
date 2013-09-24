@@ -1,16 +1,16 @@
 <div style="height:10px;"></div>
 
-<form id="connect">
+<form id="connect" ng-submit="sign_in()">
 	<table>
 		<tr>
-			<td>{{ login }}</td>
-			<td><input type="text" name="login" id="login" /></td>
+			<td>{{ lbl_login }}</td>
+			<td><input type="text" nb-model="login" name="login" required></input></td>
 		</tr>
 		<tr>
-			<td>{{ password }}</td>
-			<td><input type="password" name="password" id="password" /></td>
+			<td>{{ lbl_password }}</td>
+			<td><input type="password" ng-model="password" name="password" required></input></td>
 		</tr>
 	</table>
 	
-	<div class="valid"><input type="submit" value="{{ sign_in }}"> ou <a href="" class="display_registration">{{ sign_up }}</a></div>
+	<div class="valid"><input type="submit" ng-name="{{ lbl_sign_in }}"> ou <a href="" class="display_registration">{{ lbl_sign_up }}</a></div>
 </form>
