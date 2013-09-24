@@ -3,17 +3,67 @@
 <head>
 	<meta charset="utf-8" />
 	
+	<!-- CSS -->
+	<link rel="stylesheet" type="text/css" href="../lib/nanoscroller/nanoscroller.css">
 	<link rel="stylesheet" href="../css/popup.css">
 	
+	<!-- JS -->
 	<script src="../lib/angular.min.js"></script>
 	<script src="../js/app.js"></script>
 	<script src="../js/controllers.js"></script>
 </head>
 
 <body>
-		
-	<div ng-view></div>
-	
+
+	<div id="header">
+		<div id="logo">
+			<a href="" id="logoLink"><img src="../img/betaseries.png" /></a>
+			<a href="" id="versionLink"></a>
+		</div>
+		<div id="actions">
+			<span class="action" id="back" style="display: none; margin-right: 6px;">
+				<img src="../img/back.png" />
+			</span>
+			<span class="action" id="sync" style="margin-right: 2px;">
+				<img src="../img/sync.png" id="sync" />
+			</span>
+			<span class="action" id="search" style="margin-right: 2px;">
+				<img src="../img/search-2.png" id="sync" />
+			</span>
+			<span class="action" id="my-episodes" style="margin-right: 2px;">
+				<img src="../img/episodes-2.png" id="sync" />
+			</span>
+			<span class="action" id="menu" style="margin-right: 4px;">
+				<img src="../img/menu.png" />
+			</span>
+		</div>
+	</div>
+
+	<div id="sub-header">
+
+		<div id="title"></div>
+		<div id="menu-wrapper">
+		</div>
+
+		<div style="clear:both;"></div>
+	</div>
+
+	<div id="message" style="display:none;">
+		<div class="message-content"></div>
+		<img src="../img/close3.png" class="close" />
+	</div>
+
+	<div id="about" class="nano">
+		<div class="content">
+			<div id="page" ng-view></div>
+		</div>
+	</div>
+
+	<div id="footer">
+		<img src="../img/help.png" id="help" class="action" style="margin-bottom:-2px; display:none;" />
+		<span id="help-text"></span>
+	</div>
+
 </body>
 
 </html>

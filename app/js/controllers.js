@@ -2,6 +2,13 @@
 
 /* Controllers */
 
+function ConnectionCtrl($scope) {
+	$scope.login = 'Pseudo';
+	$scope.password = 'Mot de passe';
+	$scope.sign_in = 'Se connecter';
+	$scope.sign_up = "S'inscrire";
+} 
+
 function ShowsCtrl($scope, $http){
 	/*var config = {
 		method: 'GET',
