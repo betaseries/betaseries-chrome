@@ -2,37 +2,25 @@
 
 /* Controllers */
 
-function ConnectionCtrl($scope, $http, $location) {
+function ConnectionCtrl($scope, $location){
 	$scope.lbl_login = 'Pseudo';
 	$scope.lbl_password = 'Mot de passe';
 	$scope.lbl_sign_in = 'Se connecter';
 	$scope.lbl_sign_up = "S'inscrire";
 
 	$scope.sign_in = function(){
-        $location.path("my-episodes");
-		var config = {
-			method: 'POST',
-			url: 'http://api.betaseries.com/members/auth',
-			params: {
-				v: '2.1',
-				key: '6db16a6ffab9',
-				login: $scope.login,
-				password: md5($scope.password)
-			}
+        var params = {
+			login: $scope.login,
+			password: md5($scope.password)
+		};
 
-		}
-
-		$http(config)
-			.success(function(data){
-                /*DB.set('session', {
-					login: data.user.login,
-					token: data.token
-				});*/
-				$location.path('/my-episodes');
-			})
-			.error(function(data){
-				console.log(data);
+		Ajax.post('/members/auth', params, function(data){
+			DB.set('session', {
+				"login": data.user.login,
+				"token": data.token
 			});
+			$location.path('/my-episodes');
+		});
 	};
 }
 
