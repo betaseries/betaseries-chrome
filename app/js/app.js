@@ -10,7 +10,7 @@ angular.module('betaseries', []).
 		$routeProvider.
 			when('/connection', {templateUrl: '../partials/connection.html', controller: ConnectionCtrl}).
 			//when('/registration', {templateUrl: '../partials/shows.html', controller: RegistrationCtrl}).
-			//when('/my-episodes', {templateUrl: '../partials/shows.html', controller: MyEpisodesCtrl}).
+			when('/my-episodes', {templateUrl: '../partials/my-episodes.html', controller: MyEpisodesCtrl}).
 			//when('/planning', {templateUrl: '../partials/shows.html', controller: PlanningCtrl}).
 			otherwise({redirectTo: defaultRoute});
 	}]);

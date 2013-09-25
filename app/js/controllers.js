@@ -2,15 +2,15 @@
 
 /* Controllers */
 
-function ConnectionCtrl($scope, $http) {
+function ConnectionCtrl($scope, $http, $location) {
 	$scope.lbl_login = 'Pseudo';
 	$scope.lbl_password = 'Mot de passe';
 	$scope.lbl_sign_in = 'Se connecter';
 	$scope.lbl_sign_up = "S'inscrire";
 
 	$scope.sign_in = function(){
-		console.log($scope.login);
-		/*var config = {
+        $location.path("my-episodes");
+		var config = {
 			method: 'POST',
 			url: 'http://api.betaseries.com/members/auth',
 			params: {
@@ -24,12 +24,20 @@ function ConnectionCtrl($scope, $http) {
 
 		$http(config)
 			.success(function(data){
-				console.log(data);
+                /*DB.set('session', {
+					login: data.user.login,
+					token: data.token
+				});*/
+				$location.path('/my-episodes');
 			})
 			.error(function(data){
 				console.log(data);
-			});*/
+			});
 	};
+}
+
+function MyEpisodesCtrl($scope){
+	$scope.welcome = "Hello World";
 } 
 
 function ShowsCtrl($scope, $http){
