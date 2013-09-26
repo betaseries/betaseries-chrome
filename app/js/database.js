@@ -2,7 +2,7 @@
   return window.bgPage = bg;
 });*/
 
-var DB = function() {};
+function DB() {};
 
 DB.prototype.init = function() {
     var badge = {};

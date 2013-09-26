@@ -2,7 +2,7 @@
 
 /* Controllers */
 
-function ConnectionCtrl($scope, $location){
+function ConnectionCtrl($scope, $location, Ajax, DB){
 	$scope.lbl_login = 'Pseudo';
 	$scope.lbl_password = 'Mot de passe';
 	$scope.lbl_sign_in = 'Se connecter';
