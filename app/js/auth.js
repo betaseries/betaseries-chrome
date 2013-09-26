@@ -1,5 +1,5 @@
 var Auth = Auth || {};
 
 Auth.isLogged = function(){
-	return (DB.get('session', null) != null);
+	return (this.db.get('session', null) != null);
 };

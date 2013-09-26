@@ -6,7 +6,8 @@ var app = angular.module('betaseriesApp', []);
 
 app.service('DB', DB);
 app.service('Ajax', Ajax);
-app.factory('Auth', function() {
+app.factory('Auth', function(DB) {
+	Auth.db = DB;
 	return Auth;
 });
 
@@ -22,9 +23,9 @@ app.config(['$routeProvider', function($routeProvider){
 
 app.run(function ($rootScope, $location, Auth) {
 
-	$rootScope.$on('$stateChangeStart', function (event, currRoute, prevRoute) {
+	$rootScope.$on('$routeChangeStart', function (event, currRoute, prevRoute) {
 		// if route requires auth and user is not logged in
-		if (prevRoute.token && !Auth.isLogged()) {
+		if (currRoute.token && !Auth.isLogged()) {
 			$location.path('/connection');
 		}
 	});
