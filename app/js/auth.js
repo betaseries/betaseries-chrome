@@ -11,7 +11,7 @@ function Auth(Database) {
  * @return {boolean}
  */
 Auth.prototype.isLogged = function() {
-	return (this.Database.get('session') === true);
+	return (typeof this.Database.get('session') !== 'undefined');
 };
 
 /**

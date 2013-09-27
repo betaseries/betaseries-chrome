@@ -2,7 +2,7 @@
 
 /* App module */
 
-var app = angular.module('betaseriesApp', []);
+var app = angular.module('betaseriesApp', ['ngRoute']);
 
 app.service('Database', Database);
 app.factory('Auth', function(Database) {
@@ -19,10 +19,13 @@ app.config(['$routeProvider', function($routeProvider){
 		//when('/registration', {templateUrl: '../partials/shows.html', controller: RegistrationCtrl}).
 		when('/my-episodes', {templateUrl: '../partials/my-episodes.html', controller: MyEpisodesCtrl, token: true}).
 		//when('/planning', {templateUrl: '../partials/shows.html', controller: PlanningCtrl}).
-		otherwise({redirectTo: '/connection'});
+		otherwise({redirectTo: '/error'});
 }]);
 
 app.run(function ($rootScope, $location, Auth) {
+
+	var defaultPath = Auth.isLogged() ? '/my-episodes': '/connection';
+	$location.path(defaultPath);
 
 	$rootScope.$on('$routeChangeStart', function (event, currRoute, prevRoute) {
 		// if route requires auth and user is not logged in
