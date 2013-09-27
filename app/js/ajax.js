@@ -1,7 +1,18 @@
+/**
+ * Ajax class
+ * @param {object} $http
+ */
 var Ajax = function($http) {
 	this.$http = $http;
 };
 
+/**
+ * Performs an ajax call
+ * @param  {string} method
+ * @param  {string} path
+ * @param  {array} params
+ * @param  {callback} success
+ */
 Ajax.prototype.send = function(method, path, params, success) {
 	var defaultParams = {
 		v: '2.1',
@@ -25,6 +36,12 @@ Ajax.prototype.send = function(method, path, params, success) {
 		});
 };
 
+/**
+ * Shortcut ro perform a POST ajax call
+ * @param  {string} path
+ * @param  {array} params
+ * @param  {success} success
+ */
 Ajax.prototype.post = function(path, params, success) {
 	this.send('POST', path, params, success);
 };

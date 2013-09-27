@@ -1,7 +1,6 @@
-/*chrome.runtime.getBackgroundPage(function(bg) {
-  return window.bgPage = bg;
-});*/
-
+/**
+ * Database class
+ */
 function DB() {};
 
 DB.prototype.init = function() {

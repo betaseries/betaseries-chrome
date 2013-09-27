@@ -5,10 +5,11 @@
 var app = angular.module('betaseriesApp', []);
 
 app.service('DB', DB);
-app.service('Ajax', Ajax);
+app.factory('Ajax', function($http) {
+	return new Ajax($http);
+});
 app.factory('Auth', function(DB) {
-	Auth.db = DB;
-	return Auth;
+	return new Auth(DB);
 });
 app.factory('Betaseries', function(Ajax) {
 	return new Betaseries(Ajax);

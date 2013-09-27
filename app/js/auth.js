@@ -1,5 +1,15 @@
-var Auth = Auth || {};
+/**
+ * Auth class
+ * @param {object} DB
+ */
+function Auth(DB) {
+	this.DB = DB;
+}
 
-Auth.isLogged = function(){
-	return (this.db.get('session', null) != null);
+/**
+ * Returns true if the user is logged
+ * @return {boolean}
+ */
+Auth.prototype.isLogged = function() {
+	return (this.DB.get('session', null) != null);
 };
