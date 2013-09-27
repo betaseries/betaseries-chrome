@@ -2,15 +2,20 @@
 
 /* Controllers */
 
-function ConnectionCtrl($scope, $location, Betaseries, DB){
+function ConnectionCtrl($scope, $location, Ajax, Database){
 	$scope.lbl_login = 'Pseudo';
 	$scope.lbl_password = 'Mot de passe';
 	$scope.lbl_sign_in = 'Se connecter';
 	$scope.lbl_sign_up = "S'inscrire";
 
 	$scope.sign_in = function(){
-        Betaseries.sign_in($scope.login, md5($scope.password), function(data){
-			DB.set('session', {
+		var params = {
+			"login": $scope.login, 
+			"password": md5($scope.password)
+		};
+
+        Ajax.post('/members/auth', params, function(data){
+			Database.set('session', {
 				"login": data.user.login,
 				"token": data.token
 			});
@@ -19,8 +24,16 @@ function ConnectionCtrl($scope, $location, Betaseries, DB){
 	};
 }
 
-function MyEpisodesCtrl($scope){
+/**
+ * My episodes - view
+ * @param {object} $scope
+ */
+function MyEpisodesCtrl($scope, Ajax){
 	$scope.welcome = "Hello World";
+
+	Ajax.get('/episodes/list', {}, function(data){
+		console.log(data);
+	});
 } 
 
 function ShowsCtrl($scope, $http){

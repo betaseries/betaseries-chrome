@@ -1,9 +1,9 @@
 /**
  * Database class
  */
-function DB() {};
+function Database() {};
 
-DB.prototype.init = function() {
+Database.prototype.init = function() {
     var badge = {};
     var options = {
         nbr_episodes_per_serie: 5,
@@ -70,7 +70,13 @@ DB.prototype.init = function() {
     }
 };
 
-DB.prototype.get = function(field, defaultValue) {
+/**
+ * Get a value from localStorage
+ * @param  {string} field
+ * @param  {mixte} defaultValue
+ * @return {mixte}
+ */
+Database.prototype.get = function(field, defaultValue) {
     if ((localStorage[field] != null) && localStorage[field] !== 'undefined') {
         return JSON.parse(localStorage[field]);
     } else {
@@ -78,17 +84,23 @@ DB.prototype.get = function(field, defaultValue) {
     }
 };
 
-DB.prototype.getAll = function() {
+Database.prototype.getAll = function() {
     return localStorage;
 };
 
-DB.prototype.set = function(field, value, init) {
+/**
+ * Set a value to localStorage
+ * @param {string} field
+ * @param {mixte} value
+ * @param {boolean} init
+ */
+Database.prototype.set = function(field, value, init) {
     if (!init || (init && !localStorage[field])) {
         localStorage[field] = JSON.stringify(value);
     }
 };
 
-DB.prototype.size = function(key) {
+Database.prototype.size = function(key) {
     if (key != null) {
         return Math.floor(JSON.stringify(localStorage[key]).length);
     } else {
@@ -96,15 +108,15 @@ DB.prototype.size = function(key) {
     } 
 };
 
-DB.prototype.remove = function(field) {
+Database.prototype.remove = function(field) {
     localStorage.removeItem(field);
 };
 
-DB.prototype.removeAll = function() {
+Database.prototype.removeAll = function() {
     localStorage.clear();
 };
 
-DB.prototype.restart = function() {
+Database.prototype.restart = function() {
     this.removeAll();
     this.init();
 };

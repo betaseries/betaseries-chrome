@@ -1,9 +1,9 @@
 /**
  * Auth class
- * @param {object} DB
+ * @param {object} Database
  */
-function Auth(DB) {
-	this.DB = DB;
+function Auth(Database) {
+	this.Database = Database;
 }
 
 /**
@@ -11,5 +11,18 @@ function Auth(DB) {
  * @return {boolean}
  */
 Auth.prototype.isLogged = function() {
-	return (this.DB.get('session', null) != null);
+	return (this.Database.get('session', null) != null);
+};
+
+/**
+ * Get token of current session
+ * @return {string|undefined}
+ */
+Auth.prototype.getToken = function() {
+	var session = this.Database.get('session');
+	if (session) {
+		return session.token;
+	} else {
+		return undefined;
+	}
 };

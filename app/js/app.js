@@ -4,15 +4,12 @@
 
 var app = angular.module('betaseriesApp', []);
 
-app.service('DB', DB);
-app.factory('Ajax', function($http) {
-	return new Ajax($http);
+app.service('Database', Database);
+app.factory('Auth', function(Database) {
+	return new Auth(Database);
 });
-app.factory('Auth', function(DB) {
-	return new Auth(DB);
-});
-app.factory('Betaseries', function(Ajax) {
-	return new Betaseries(Ajax);
+app.factory('Ajax', function(Auth, $http) {
+	return new Ajax(Auth, $http);
 });
 
 app.config(['$routeProvider', function($routeProvider){
