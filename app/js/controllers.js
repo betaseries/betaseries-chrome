@@ -29,8 +29,6 @@ function ConnectionCtrl($scope, $location, Ajax, Database){
  * @param {object} $scope
  */
 function MyEpisodesCtrl($scope, Ajax){
-	$scope.welcome = "Hello World";
-
 	Ajax.get('/episodes/list', {}, function(data){
 		console.log(data);
 	});
