@@ -2,19 +2,14 @@
 
 /* Controllers */
 
-function ConnectionCtrl($scope, $location, Ajax, DB){
+function ConnectionCtrl($scope, $location, Betaseries, DB){
 	$scope.lbl_login = 'Pseudo';
 	$scope.lbl_password = 'Mot de passe';
 	$scope.lbl_sign_in = 'Se connecter';
 	$scope.lbl_sign_up = "S'inscrire";
 
 	$scope.sign_in = function(){
-        var params = {
-			login: $scope.login,
-			password: md5($scope.password)
-		};
-
-		Ajax.post('/members/auth', params, function(data){
+        Betaseries.sign_in($scope.login, md5($scope.password), function(data){
 			DB.set('session', {
 				"login": data.user.login,
 				"token": data.token

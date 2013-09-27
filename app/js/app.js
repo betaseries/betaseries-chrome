@@ -10,6 +10,9 @@ app.factory('Auth', function(DB) {
 	Auth.db = DB;
 	return Auth;
 });
+app.factory('Betaseries', function(Ajax) {
+	return new Betaseries(Ajax);
+});
 
 app.config(['$routeProvider', function($routeProvider){
 	
