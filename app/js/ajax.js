@@ -4,8 +4,8 @@
  * @param {object} $http
  */
 var Ajax = function(Auth, $http) {
-	this.Auth = Auth;
-	this.$http = $http;
+  this.Auth = Auth;
+  this.$http = $http;
 };
 
 /**
@@ -16,27 +16,27 @@ var Ajax = function(Auth, $http) {
  * @param  {callback} success
  */
 Ajax.prototype.send = function(method, path, params, success) {
-	var defaultParams = {
-		"v": '2.1',
-		"key": '6db16a6ffab9',
-		"token": this.Auth.getToken()
-	};
+  var defaultParams = {
+    "v": '2.1',
+    "key": '6db16a6ffab9',
+    "token": this.Auth.getToken()
+  };
 
-	params = angular.extend(params, defaultParams);
+  params = angular.extend(params, defaultParams);
 
-	var config = {
-		"method": method,
-		"url": 'http://api.betaseries.com' + path,
-		"params": params
-	};
+  var config = {
+    "method": method,
+    "url": 'http://api.betaseries.com' + path,
+    "params": params
+  };
 
-	this.$http(config)
-		.success(function(data) {
-			success(data);
-		})
-		.error(function(data){
-			console.log(data);
-		});
+  this.$http(config)
+    .success(function(data) {
+      success(data);
+    })
+    .error(function(data) {
+      console.log(data);
+    });
 };
 
 /**
@@ -46,7 +46,7 @@ Ajax.prototype.send = function(method, path, params, success) {
  * @param  {success} success
  */
 Ajax.prototype.get = function(path, params, success) {
-	this.send('GET', path, params, success);
+  this.send('GET', path, params, success);
 };
 
 /**
@@ -56,5 +56,5 @@ Ajax.prototype.get = function(path, params, success) {
  * @param  {success} success
  */
 Ajax.prototype.post = function(path, params, success) {
-	this.send('POST', path, params, success);
+  this.send('POST', path, params, success);
 };

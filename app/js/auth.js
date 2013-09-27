@@ -2,8 +2,9 @@
  * Auth class
  * @param {object} Database
  */
+
 function Auth(Database) {
-	this.Database = Database;
+  this.Database = Database;
 }
 
 /**
@@ -11,7 +12,7 @@ function Auth(Database) {
  * @return {boolean}
  */
 Auth.prototype.isLogged = function() {
-	return (typeof this.Database.get('session') !== 'undefined');
+  return (typeof this.Database.get('session') !== 'undefined');
 };
 
 /**
@@ -19,10 +20,10 @@ Auth.prototype.isLogged = function() {
  * @return {string|undefined}
  */
 Auth.prototype.getToken = function() {
-	var session = this.Database.get('session');
-	if (session) {
-		return session.token;
-	} else {
-		return undefined;
-	}
+  var session = this.Database.get('session');
+  if (session) {
+    return session.token;
+  } else {
+    return undefined;
+  }
 };
