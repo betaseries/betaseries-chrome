@@ -77,13 +77,17 @@ Database.prototype.init = function() {
  * @return {mixte}
  */
 Database.prototype.get = function(field, defaultValue) {
-    if ((localStorage[field] != null) && localStorage[field] !== 'undefined') {
+    if (typeof localStorage[field] !== 'undefined') {
         return JSON.parse(localStorage[field]);
     } else {
         return defaultValue;
     }
 };
 
+/**
+ * Get all values from localStorage
+ * @return {object}
+ */
 Database.prototype.getAll = function() {
     return localStorage;
 };
