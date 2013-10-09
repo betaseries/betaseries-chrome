@@ -1,22 +1,69 @@
 /**
- * Store class
+ * STORE
  */
 
-var store = {};
-store.shows = new Collection('shows');
+var db = {};
 
-store.get = function(field, value) {
+/**
+ * Get a value from localStorage
+ * @param  {[type]} field [description]
+ * @param  {[type]} value [description]
+ * @return {[type]}       [description]
+ */
+db.get = function(field, value) {
   var item = localStorage.getItem(field);
-  if (typeof item !== 'undefined') {
+  if (item) {
     return JSON.parse(item);
   } else {
     return value;
   }
-}
+};
 
-var Collection = function(name) {
-  this._data = store.get(name);
-}
+/**
+ * Set a value into localStorage
+ * @param {[type]} field [description]
+ * @param {[type]} value [description]
+ */
+db.set = function(field, value) {
+  value = JSON.stringify(value);
+  localStorage.setItem(field, value);
+};
+
+/**
+ * Remove a value from localStorage
+ * @param  {[type]} field [description]
+ * @return {[type]}       [description]
+ */
+db.remove = function(field) {
+  localStorage.removeItem(field);
+};
+
+/**
+ * COLLECTION
+ */
+
+var collection = {};
+
+/**
+ * Register a collection
+ * @param  {[type]} name [description]
+ * @return {[type]}      [description]
+ */
+collection._register = function(name) {
+  this._field = name;
+  this._data = db.get(name, []);
+  return this;
+};
+
+/**
+ * Insert an item into a collection
+ * @param  {[type]} item [description]
+ * @return {[type]}      [description]
+ */
+collection.insert = function(item) {
+  this._data.push(item);
+  db.set(this._field, this._data);
+};
 
 /**
  * Find sthg in a collection
@@ -24,25 +71,33 @@ var Collection = function(name) {
  * @param  {object} filters    [description]
  * @return {array}            [description]
  */
-Collection.find = function(collection, filters) {
+collection.find = function(filters) {
   var collection = this._data,
-    results = this._data,
-    i, j, set;
+    results = this._data;
+  var i, j, set;
 
   // browse the collection
-  results = [];
-  for (i in collection) {
-    set = collection[i]
-    // browse the filters 
-    for (j in filters) {
-      filter = filters[j];
-      if (Collection._test(filters[j])) {
+  if (filters) {
+    results = [];
+    for (i in collection) {
+      set = collection[i];
+      // test the filters
+      if (this._test(set, filters)) {
         results.push(set);
       }
     };
-  };
+  }
 
   return results;
+};
+
+/**
+ * Remove all data of the collection
+ * @return {[type]} [description]
+ */
+collection.remove = function() {
+  this._data = [];
+  db.remove(this._field);
 };
 
 /**
@@ -50,7 +105,7 @@ Collection.find = function(collection, filters) {
  * @param  {object} filter [description]
  * @return {boolean}        [description]
  */
-Collection._test = function(filter) {
+collection._test = function(set, filter) {
   var res = false,
     i, j, k;
   for (i in filter) {
@@ -70,34 +125,71 @@ Collection._test = function(filter) {
           break;
         }
       }
-    } else if (typeof filter === 'object') {
-      for (j in filter) {
-        if (j === '$in' && $.inArray(i, filter[j])) {
+    } else if (typeof filter[i] === 'object') {
+      for (j in filter[i]) {
+        if (j === '$in' && in_array(set[i], filter[i][j])) {
           res = true;
-        }
-        if (j === '$nin' && !$.inArray(i, filter[j])) {
+        } else if (j === '$nin' && !in_array(set[i], filter[i][j])) {
           res = true;
-        }
-        if (j === '$lt' && i < filter[j]) {
+        } else if (j === '$lt' && set[i] < filter[i][j]) {
           res = true;
-        }
-        if (j === '$lte' && i <= filter[j]) {
+        } else if (j === '$lte' && set[i] <= filter[i][j]) {
           res = true;
-        }
-        if (j === '$gt' && i > filter[j]) {
+        } else if (j === '$gt' && set[i] > filter[i][j]) {
           res = true;
-        }
-        if (j === '$gte' && i >= filter[j]) {
+        } else if (j === '$gte' && set[i] >= filter[i][j]) {
           res = true;
-        }
-        if (j === '$ne' && i !== filter[j]) {
+        } else if (j === '$ne' && set[i] !== filter[i][j]) {
           res = true;
         }
       }
       // equality
-    } else if (set[i] === filters[i]) {
+    } else if (set[i] === filter[i]) {
       res = true;
     }
   }
   return res;
 };
+
+/**
+ * FUNCTIONS
+ */
+
+function in_array(needle, haystack, argStrict) {
+  // http://kevin.vanzonneveld.net
+  // +   original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+  // +   improved by: vlado houba
+  // +   input by: Billy
+  // +   bugfixed by: Brett Zamir (http://brett-zamir.me)
+  // *     example 1: in_array('van', ['Kevin', 'van', 'Zonneveld']);
+  // *     returns 1: true
+  // *     example 2: in_array('vlado', {0: 'Kevin', vlado: 'van', 1: 'Zonneveld'});
+  // *     returns 2: false
+  // *     example 3: in_array(1, ['1', '2', '3']);
+  // *     returns 3: true
+  // *     example 3: in_array(1, ['1', '2', '3'], false);
+  // *     returns 3: true
+  // *     example 4: in_array(1, ['1', '2', '3'], true);
+  // *     returns 4: false
+  var key = '',
+    strict = !! argStrict;
+
+  if (strict) {
+    for (key in haystack) {
+      if (haystack[key] === needle) {
+        return true;
+      }
+    }
+  } else {
+    for (key in haystack) {
+      if (haystack[key] == needle) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+// BOOTSTRAP - List of collections
+db.shows = collection._register('shows');
