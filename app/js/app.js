@@ -4,9 +4,9 @@
 
 var app = angular.module('betaseriesApp', ['ngRoute']);
 
-app.service('Database', Database);
-app.factory('Auth', function(Database) {
-  return new Auth(Database);
+app.service('Store', Store);
+app.factory('Auth', function(Store) {
+  return new Auth(Store);
 });
 app.factory('Ajax', function(Auth, $http) {
   return new Ajax(Auth, $http);
