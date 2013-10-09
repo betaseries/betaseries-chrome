@@ -17,6 +17,12 @@
   var shows = db.shows.find({name: { $ne: "Homeland"}});
   console.log(shows);
   
+  var shows = db.shows.find({$and: [{ name: "Dexter"}, { name: "Homeland"}]});
+  console.log(shows);
+  
+  var shows = db.shows.find({$or: [{ name: "Dexter"}, { name: "Homeland"}]});
+  console.log(shows);
+  
   </script>
 </head>
 <body>

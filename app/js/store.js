@@ -73,8 +73,8 @@ collection.insert = function(item) {
  */
 collection.find = function(filters) {
   var collection = this._data,
-    results = this._data;
-  var i, j, set;
+    results = this._data,
+    i, j, set;
 
   // browse the collection
   if (filters) {
@@ -111,16 +111,16 @@ collection._test = function(set, filter) {
   for (i in filter) {
     if (i === '$and') {
       res = true;
-      for (k in filter) {
-        if (this._test(filter[k])) {
+      for (k in filter[i]) {
+        if (this._test(set, filter[i][k])) {
           res = false;
           break;
         }
       }
     } else if (i === '$or') {
       res = false;
-      for (k in filter) {
-        if (this._test(filter[k])) {
+      for (k in filter[i]) {
+        if (this._test(set, filter[i][k])) {
           res = true;
           break;
         }
