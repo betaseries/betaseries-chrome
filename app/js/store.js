@@ -2,7 +2,21 @@
  * Store class
  */
 
-function Store() {};
+var store = {};
+store.shows = new Collection('shows');
+
+store.get = function(field, value) {
+  var item = localStorage.getItem(field);
+  if (typeof item !== 'undefined') {
+    return JSON.parse(item);
+  } else {
+    return value;
+  }
+}
+
+var Collection = function(name) {
+  this._data = store.get(name);
+}
 
 /**
  * Find sthg in a collection
@@ -10,9 +24,9 @@ function Store() {};
  * @param  {object} filters    [description]
  * @return {array}            [description]
  */
-Store.prototype.find = function(collection, filters) {
-  var collection = this.get(collection),
-    results = collection,
+Collection.find = function(collection, filters) {
+  var collection = this._data,
+    results = this._data,
     i, j, set;
 
   // browse the collection
@@ -22,7 +36,7 @@ Store.prototype.find = function(collection, filters) {
     // browse the filters 
     for (j in filters) {
       filter = filters[j];
-      if (this._test(filters[j])) {
+      if (Collection._test(filters[j])) {
         results.push(set);
       }
     };
@@ -36,7 +50,7 @@ Store.prototype.find = function(collection, filters) {
  * @param  {object} filter [description]
  * @return {boolean}        [description]
  */
-Store.prototype._test = function(filter) {
+Collection._test = function(filter) {
   var res = false,
     i, j, k;
   for (i in filter) {
