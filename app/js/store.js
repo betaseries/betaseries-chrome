@@ -39,20 +39,26 @@ db.remove = function(field) {
 };
 
 /**
- * COLLECTION
- */
-
-var collection = {};
-
-/**
  * Register a collection
  * @param  {[type]} name [description]
  * @return {[type]}      [description]
  */
-collection._register = function(name) {
+db.registerCollections = function(fields) {
+  var forbidden = ["get", "set", "remove"];
+  for (i in fields) {
+    if (!in_array(fields[i], forbidden)) {
+      db[fields[i]] = new collection(fields[i]);
+    }
+  }
+};
+
+/**
+ * COLLECTION
+ */
+
+var collection = function(name) {
   this._field = name;
   this._data = db.get(name, []);
-  return this;
 };
 
 /**
@@ -60,7 +66,7 @@ collection._register = function(name) {
  * @param  {[type]} item [description]
  * @return {[type]}      [description]
  */
-collection.insert = function(item) {
+collection.prototype.insert = function(item) {
   this._data.push(item);
   db.set(this._field, this._data);
 };
@@ -71,10 +77,10 @@ collection.insert = function(item) {
  * @param  {object} filters    [description]
  * @return {array}            [description]
  */
-collection.find = function(filters) {
+collection.prototype.find = function(filters) {
   var collection = this._data,
     results = this._data,
-    i, j, set;
+    i, j, set, filter, arrFilters, newFilters;
 
   // browse the collection
   if (filters) {
@@ -82,7 +88,16 @@ collection.find = function(filters) {
     for (i in collection) {
       set = collection[i];
       // test the filters
-      if (this._test(set, filters)) {
+      arrFilters = [];
+      for (j in filters) {
+        filter = {};
+        filter[j] = filters[j];
+        arrFilters.push(filter);
+      }
+      newFilters = {
+        $and: arrFilters
+      };
+      if (this._test(set, newFilters)) {
         results.push(set);
       }
     };
@@ -95,7 +110,7 @@ collection.find = function(filters) {
  * Remove all data of the collection
  * @return {[type]} [description]
  */
-collection.remove = function() {
+collection.prototype.remove = function() {
   this._data = [];
   db.remove(this._field);
 };
@@ -105,14 +120,14 @@ collection.remove = function() {
  * @param  {object} filter [description]
  * @return {boolean}        [description]
  */
-collection._test = function(set, filter) {
+collection.prototype._test = function(set, filter) {
   var res = false,
     i, j, k;
   for (i in filter) {
     if (i === '$and') {
       res = true;
       for (k in filter[i]) {
-        if (this._test(set, filter[i][k])) {
+        if (!this._test(set, filter[i][k])) {
           res = false;
           break;
         }
@@ -192,4 +207,4 @@ function in_array(needle, haystack, argStrict) {
 }
 
 // BOOTSTRAP - List of collections
-db.shows = collection._register('shows');
+db.registerCollections(['shows']);
