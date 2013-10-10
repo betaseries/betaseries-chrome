@@ -4,6 +4,11 @@
 
 var db = {};
 
+db.store = function(name) {
+  store._data = db.get(name, {});
+  return store;
+};
+
 /**
  * Get a value from localStorage
  * @param  {[type]} field [description]
@@ -39,172 +44,61 @@ db.remove = function(field) {
 };
 
 /**
- * Register a collection
- * @param  {[type]} name [description]
- * @return {[type]}      [description]
- */
-db.registerCollections = function(fields) {
-  var forbidden = ["get", "set", "remove"];
-  for (i in fields) {
-    if (!in_array(fields[i], forbidden)) {
-      db[fields[i]] = new collection(fields[i]);
-    }
-  }
-};
-
-/**
- * COLLECTION
+ * STORE
  */
 
-var collection = function(name) {
-  this._field = name;
+var store = function(name) {
+  this._name = name;
   this._data = db.get(name, []);
 };
 
 /**
- * Insert an item into a collection
- * @param  {[type]} item [description]
- * @return {[type]}      [description]
+ * Get data from a store
+ * @param  {[type]} filter [description]
+ * @return {[type]}        [description]
  */
-collection.prototype.insert = function(item) {
-  this._data.push(item);
-  db.set(this._field, this._data);
-};
-
-/**
- * Find sthg in a collection
- * @param  {object} collection [description]
- * @param  {object} filters    [description]
- * @return {array}            [description]
- */
-collection.prototype.find = function(filters) {
-  var collection = this._data,
-    results = this._data,
-    i, j, set, filter, arrFilters, newFilters;
-
-  // browse the collection
-  if (filters) {
-    results = [];
-    for (i in collection) {
-      set = collection[i];
-      // test the filters
-      arrFilters = [];
-      for (j in filters) {
-        filter = {};
-        filter[j] = filters[j];
-        arrFilters.push(filter);
-      }
-      newFilters = {
-        $and: arrFilters
-      };
-      if (this._test(set, newFilters)) {
-        results.push(set);
-      }
-    };
+store.prototype.get = function(filter) {
+  if (typeof filter === "number") {
+    return this._data[filter];
+  } else {
+    return this._data;
   }
-
-  return results;
 };
 
 /**
- * Remove all data of the collection
+ * Update one/many items from a store
+ * @param  {[type]} items [description]
+ * @return {[type]}       [description]
+ */
+store.prototype.update = function(items) {
+  var i, j;
+  for (i in items) {
+    for (j in items[i]) {
+      this._data[i][j] = items[i][j];
+    }
+  }
+  this.__save();
+};
+
+/**
+ * Remove an item from a store
+ * Remove a store
+ * @param  {[type]} filter [description]
+ * @return {[type]}        [description]
+ */
+store.prototype.remove = function(filter) {
+  if (typeof filter === "number") {
+    delete this._data[filter];
+    this.__save();
+  } else {
+    db.remove(this._name);
+  }
+};
+
+/**
+ * Save a store to localStorage
  * @return {[type]} [description]
  */
-collection.prototype.remove = function() {
-  this._data = [];
-  db.remove(this._field);
+store.prototype.__save = function() {
+  db.set(this._name, this._data);
 };
-
-/**
- * Test a filter
- * @param  {object} filter [description]
- * @return {boolean}        [description]
- */
-collection.prototype._test = function(set, filter) {
-  var res = false,
-    i, j, k;
-  for (i in filter) {
-    if (i === '$and') {
-      res = true;
-      for (k in filter[i]) {
-        if (!this._test(set, filter[i][k])) {
-          res = false;
-          break;
-        }
-      }
-    } else if (i === '$or') {
-      res = false;
-      for (k in filter[i]) {
-        if (this._test(set, filter[i][k])) {
-          res = true;
-          break;
-        }
-      }
-    } else if (typeof filter[i] === 'object') {
-      for (j in filter[i]) {
-        if (j === '$in' && in_array(set[i], filter[i][j])) {
-          res = true;
-        } else if (j === '$nin' && !in_array(set[i], filter[i][j])) {
-          res = true;
-        } else if (j === '$lt' && set[i] < filter[i][j]) {
-          res = true;
-        } else if (j === '$lte' && set[i] <= filter[i][j]) {
-          res = true;
-        } else if (j === '$gt' && set[i] > filter[i][j]) {
-          res = true;
-        } else if (j === '$gte' && set[i] >= filter[i][j]) {
-          res = true;
-        } else if (j === '$ne' && set[i] !== filter[i][j]) {
-          res = true;
-        }
-      }
-      // equality
-    } else if (set[i] === filter[i]) {
-      res = true;
-    }
-  }
-  return res;
-};
-
-/**
- * FUNCTIONS
- */
-
-function in_array(needle, haystack, argStrict) {
-  // http://kevin.vanzonneveld.net
-  // +   original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-  // +   improved by: vlado houba
-  // +   input by: Billy
-  // +   bugfixed by: Brett Zamir (http://brett-zamir.me)
-  // *     example 1: in_array('van', ['Kevin', 'van', 'Zonneveld']);
-  // *     returns 1: true
-  // *     example 2: in_array('vlado', {0: 'Kevin', vlado: 'van', 1: 'Zonneveld'});
-  // *     returns 2: false
-  // *     example 3: in_array(1, ['1', '2', '3']);
-  // *     returns 3: true
-  // *     example 3: in_array(1, ['1', '2', '3'], false);
-  // *     returns 3: true
-  // *     example 4: in_array(1, ['1', '2', '3'], true);
-  // *     returns 4: false
-  var key = '',
-    strict = !! argStrict;
-
-  if (strict) {
-    for (key in haystack) {
-      if (haystack[key] === needle) {
-        return true;
-      }
-    }
-  } else {
-    for (key in haystack) {
-      if (haystack[key] == needle) {
-        return true;
-      }
-    }
-  }
-
-  return false;
-}
-
-// BOOTSTRAP - List of collections
-db.registerCollections(['shows']);
