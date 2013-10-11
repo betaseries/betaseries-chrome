@@ -3,8 +3,8 @@
  * @param {object} Database
  */
 
-function Auth(Database) {
-  this.Database = Database;
+function Auth(db) {
+  this.db = db;
 }
 
 /**
@@ -12,7 +12,7 @@ function Auth(Database) {
  * @return {boolean}
  */
 Auth.prototype.isLogged = function() {
-  return (typeof this.Database.get('session') !== 'undefined');
+  return (typeof this.db.get('session') !== 'undefined');
 };
 
 /**
@@ -20,7 +20,7 @@ Auth.prototype.isLogged = function() {
  * @return {string|undefined}
  */
 Auth.prototype.getToken = function() {
-  var session = this.Database.get('session');
+  var session = this.db.get('session');
   if (session) {
     return session.token;
   } else {

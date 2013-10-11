@@ -4,12 +4,15 @@
 
 var app = angular.module('betaseriesApp', ['ngRoute']);
 
-app.service('Store', Store);
-app.factory('Auth', function(Store) {
-  return new Auth(Store);
+app.service('db', db);
+app.factory('Auth', function(db) {
+  return new Auth(db);
 });
 app.factory('Ajax', function(Auth, $http) {
   return new Ajax(Auth, $http);
+});
+app.factory('Betaseries', function(Ajax, db) {
+  return new Betaseries(Ajax, db);
 });
 
 app.config(['$routeProvider',
@@ -17,13 +20,13 @@ app.config(['$routeProvider',
 
     $routeProvider.
     when('/connection', {
-      templateUrl: '../partials/connection.html',
+      templateUrl: 'partials/connection.html',
       controller: ConnectionCtrl,
       token: false
     }).
     //when('/registration', {templateUrl: '../partials/shows.html', controller: RegistrationCtrl}).
     when('/my-episodes', {
-      templateUrl: '../partials/my-episodes.html',
+      templateUrl: 'partials/my-episodes.html',
       controller: MyEpisodesCtrl,
       token: true
     }).

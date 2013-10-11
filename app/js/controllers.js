@@ -2,7 +2,7 @@
 
 /* Controllers */
 
-function ConnectionCtrl($scope, $location, Ajax, Database) {
+function ConnectionCtrl($scope, $location, Ajax, db) {
   $scope.lbl_login = 'Pseudo';
   $scope.lbl_password = 'Mot de passe';
   $scope.lbl_sign_in = 'Se connecter';
@@ -15,7 +15,7 @@ function ConnectionCtrl($scope, $location, Ajax, Database) {
     };
 
     Ajax.post('/members/auth', params, function(data) {
-      Database.set('session', {
+      db.set('session', {
         "login": data.user.login,
         "token": data.token
       });
@@ -29,9 +29,9 @@ function ConnectionCtrl($scope, $location, Ajax, Database) {
  * @param {object} $scope
  */
 
-function MyEpisodesCtrl($scope, Ajax) {
-  Ajax.get('/episodes/list', {}, function(data) {
-    console.log(data);
+function MyEpisodesCtrl($scope, Betaseries) {
+  Betaseries.get("/episodes/list", {}, function(data) {
+    $scope.shows = data.shows;
   });
 }
 

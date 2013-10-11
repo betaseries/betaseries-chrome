@@ -2,11 +2,15 @@
  * STORE
  */
 
-var db = {};
+var db = function() {};
 
-db.store = function(name) {
-  store._data = db.get(name, {});
-  return store;
+/**
+ * Create/Get a store from localStorage
+ * @param  {[type]} name [description]
+ * @return {[type]}      [description]
+ */
+db.prototype.store = function(name) {
+  return new store(this, name);
 };
 
 /**
@@ -15,7 +19,7 @@ db.store = function(name) {
  * @param  {[type]} value [description]
  * @return {[type]}       [description]
  */
-db.get = function(field, value) {
+db.prototype.get = function(field, value) {
   var item = localStorage.getItem(field);
   if (item) {
     return JSON.parse(item);
@@ -29,7 +33,7 @@ db.get = function(field, value) {
  * @param {[type]} field [description]
  * @param {[type]} value [description]
  */
-db.set = function(field, value) {
+db.prototype.set = function(field, value) {
   value = JSON.stringify(value);
   localStorage.setItem(field, value);
 };
@@ -39,7 +43,7 @@ db.set = function(field, value) {
  * @param  {[type]} field [description]
  * @return {[type]}       [description]
  */
-db.remove = function(field) {
+db.prototype.remove = function(field) {
   localStorage.removeItem(field);
 };
 
@@ -47,9 +51,10 @@ db.remove = function(field) {
  * STORE
  */
 
-var store = function(name) {
+var store = function(db, name) {
+  this.db = db;
   this._name = name;
-  this._data = db.get(name, []);
+  this._data = this.db.get(name, []);
 };
 
 /**
@@ -91,7 +96,7 @@ store.prototype.remove = function(filter) {
     delete this._data[filter];
     this.__save();
   } else {
-    db.remove(this._name);
+    this.db.remove(this._name);
   }
 };
 
@@ -100,5 +105,5 @@ store.prototype.remove = function(filter) {
  * @return {[type]} [description]
  */
 store.prototype.__save = function() {
-  db.set(this._name, this._data);
+  this.db.set(this._name, this._data);
 };
