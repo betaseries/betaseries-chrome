@@ -1,11 +1,13 @@
 <div id="shows">
 
-	<div class="show" ng-repeat="show in shows">
+	<div class="show" ng-repeat="show in shows" ng-show="show.unseen.length > 0">
     	
-      <div>{{show.title}}</div>
+      <div class="title">{{show.title}}</div>
+      <div class="remaining">{{show.remaining}}</div>
 
-      <div class="episode" n ng-repeat="episode in show.unseen">
-      {{episode.title}}
+      <div class="episode" ng-repeat="episode in show.unseen" ng-show="!episode.user.seen">
+        <div class="watched" ng-click="watched(show, episode)">=></div>
+        <div class="title">{{episode.title}}</div>
 		  </div>
 
 	</div>

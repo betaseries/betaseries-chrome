@@ -37,11 +37,17 @@ Betaseries.prototype.call = function() {
       var data = data[self.key];
 
       // save data
-      store.set(self.path, data);
+      self.save(data);
 
       self.callback(data);
     });
   }
+};
+
+Betaseries.prototype.save = function(data) {
+  // get the store
+  var store = this.db.store(this.path);
+  store.set(data);
 };
 
 /**

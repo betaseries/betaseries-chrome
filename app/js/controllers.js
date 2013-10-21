@@ -30,10 +30,42 @@ function ConnectionCtrl($scope, $location, Ajax, db) {
  */
 
 function MyEpisodesCtrl($scope, Betaseries) {
-  Betaseries.myEpisodes({}, function(shows) {
-    $scope.shows = shows;
-    console.log(shows);
+  var shows = [];
+
+  Betaseries.myEpisodes({}, function(data) {
+    $scope.shows = shows = data;
+    console.log(data);
   });
+
+  $scope.watched = function(show, episode) {
+    var found = false,
+      i = 0;
+    while (!found) {
+      if (show.unseen[i].title == episode.title) {
+        found = true;
+      } else {
+        i++;
+      }
+    }
+    var length = show.unseen.length;
+    show.remaining = length - 1;
+    show.unseen = show.unseen.slice(i + 1, length);
+    var found = false,
+      i = 0;
+    while (!found) {
+      if (shows[i].title == show.title) {
+        found = true;
+      } else {
+        i++;
+      }
+    }
+    if (show.unseen.length > 0) {
+      shows[i] = show;
+      Betaseries.save(shows);
+    } else {
+      delete show[i];
+    }
+  }
 }
 
 function ShowsCtrl($scope, $http) {

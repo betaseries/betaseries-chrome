@@ -72,14 +72,13 @@ store.prototype.get = function(filter) {
 
 /**
  * Set data store (with timestamp)
- * @param {[type]} key   [description]
  * @param {[type]} value [description]
  */
-store.prototype.set = function(key, value) {
+store.prototype.set = function(value) {
   var d = new Date();
 
-  this.db.set(key, value);
-  this.db.set(key + "-timestamp", d.toDateString());
+  this.db.set(this._name, value);
+  this.db.set(this._name + "-timestamp", d.toDateString());
 };
 
 /**
