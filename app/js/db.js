@@ -71,6 +71,27 @@ store.prototype.get = function(filter) {
 };
 
 /**
+ * Set data store (with timestamp)
+ * @param {[type]} key   [description]
+ * @param {[type]} value [description]
+ */
+store.prototype.set = function(key, value) {
+  var d = new Date();
+
+  this.db.set(key, value);
+  this.db.set(key + "-timestamp", d.toDateString());
+};
+
+/**
+ * Returns if data is not oudated
+ * @return {boolean}
+ */
+store.prototype.isReliable = function() {
+  var d = new Date();
+  return (this.db.get(this._name + '-timestamp') == d.toDateString());
+};
+
+/**
  * Update one/many items from a store
  * @param  {[type]} items [description]
  * @return {[type]}       [description]

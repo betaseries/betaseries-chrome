@@ -1,67 +1,12 @@
 <div id="shows">
 
-	<div id="???" class="show">
-    	<div class="episode e{{e.global}}{{e.newShow}}{{e.hidden}}" number="{{e.number}}" season="{{e.season}}" episode="{{e.episode}}" global="{{e.global}}">
-    		<div class="td wrapper-watched">
-    			<img src="../img/{{e.plot}}.png" class="watched action icon-4" title="{{lbl_watched}}" />
-    		</div>
-    
-    		<div class="td wrapper-mean-note">
-				{{e.note}}
-    		</div>
-    
-    		<div class="td wrapper-copy-clipboard">
-				<a href="" title="{{e.showTitle}} {{e.number}}" class="invisible copy_episode">
-					<textarea style="display:none;">{{e.showTitle}} {{e.number}}</textarea>
-					<img src="../img/link.png" class="copy action" />
-				</a>
-			</div>
-    
-    		<div class="td wrapper-title" style="width: ' + titleWidth + 'px">';
-    			<span class="num">{{e.tag}}</span> 
-    			<a href="" url="{{e.url}}" season="{{e.season}}" episode="{{e.episode}}" global="{{e.global}}" title="{{e.stitle}}" class="epLink display_episode">{{e.title}}</a>
-    		</div>
-    
-    		<div class="td wrapper-new">
-    			<span class="new">{{lbl_new}}</span>
-    		</div>
+	<div class="show" ng-repeat="show in shows">
+    	
+      <div>{{show.title}}</div>
 
-    		<div class="td wrapper-comments" ng-switch on="e.comments > 0">
-      
-				<div ng-switch-when="true">
-					<a href="" url="{{e.url}}" season="{{e.season}}" episode="{{e.episode}}" global="{{e.global}}" title="{{e.lbl_comments}}" class="invisible display_comments">
-						<img src="../img/comments.png" class="comments action" />
-					</a>
-				</div>
-    
-    			<div ng-switch-default>
-					<img src="../img/empty.png" alt="hidden" />
-    			</div>
-			
-			</div>
-
-			<div class="td wrapper-recover" ng-show="e.downloaded != null">
-				<img src="../img/{{imgDownloaded}}.png" class="downloaded action" title="{{lbl_downloaded}}" />
-			</div>
-    
-		    <div class="td wrapper-subtitles" ng-switch on="nbSubs > 0">
-
-		    	<div ng-switch-when="true">
-		    		<img src="../img/subtitles.png" class="subs action" link="{{e.subtitle.link}}" quality="' + quality + '" title="{{e.subtitle.title}}" />
-		    	</div>
-
-		    	<div ng-switch-default>
-		    		<img src="../img/empty.png" alt="hidden" />
-		    	</div>
-
-		    </div>
-	    
-		    <div class="td wrapper-rate">
-			    <img src="../img/star_off.gif" width="10" id="star' + i + '" class="star action" title="' + i + ' /5" />
-			    <img src="../img/close3.png" width="10" class="close_stars action" title="' + __('do_not_rate') + '" />
-		    </div>
-
-		</div>
+      <div class="episode" n ng-repeat="episode in show.unseen">
+      {{episode.title}}
+		  </div>
 
 	</div>
 	

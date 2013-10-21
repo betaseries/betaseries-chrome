@@ -30,8 +30,9 @@ function ConnectionCtrl($scope, $location, Ajax, db) {
  */
 
 function MyEpisodesCtrl($scope, Betaseries) {
-  Betaseries.get("/episodes/list", {}, function(data) {
-    $scope.shows = data.shows;
+  Betaseries.myEpisodes({}, function(shows) {
+    $scope.shows = shows;
+    console.log(shows);
   });
 }
 
