@@ -2,6 +2,12 @@
 
 /* Controllers */
 
+function HeaderCtrl($scope, Betaseries) {
+  $scope.refresh = function() {
+    Betaseries.refresh();
+  };
+}
+
 function ConnectionCtrl($scope, $location, Ajax, db) {
   $scope.lbl_login = 'Pseudo';
   $scope.lbl_password = 'Mot de passe';
@@ -30,14 +36,13 @@ function ConnectionCtrl($scope, $location, Ajax, db) {
  */
 
 function MyEpisodesCtrl($scope, Betaseries) {
-  var shows = [];
-
   Betaseries.myEpisodes({}, function(data) {
-    $scope.shows = shows = data;
+    $scope.shows = data;
     console.log(data);
   });
 
   $scope.watched = function(show, episode) {
+    var shows = $scope.shows;
     var found = false,
       i = 0;
     while (!found) {

@@ -26,11 +26,13 @@ Betaseries.prototype.call = function() {
   var reliable = store.isReliable();
 
   // data is good & reliable
-  if (reliable && data) {
+  if (reliable && data && !this.force) {
 
     this.callback(data);
 
   } else {
+    this.force = false;
+
     this.Ajax[this.verb](this.path, this.params, function(data) {
 
       // format data for storing
@@ -44,6 +46,18 @@ Betaseries.prototype.call = function() {
   }
 };
 
+/**
+ * Force the refresh of the call
+ */
+Betaseries.prototype.refresh = function() {
+  this.force = true;
+  this.call();
+};
+
+/**
+ * Save data result in store
+ * @param  {object} data
+ */
 Betaseries.prototype.save = function(data) {
   // get the store
   var store = this.db.store(this.path);

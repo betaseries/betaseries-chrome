@@ -1,33 +1,24 @@
 <!doctype html>
-<html lang="fr" ng-app="betaseriesApp" ng-csp>
+<html lang="fr" ng-app="betaseriesApp" ng-csp="">
 <head>
 	<meta charset="utf-8" />
 	<link rel="stylesheet" href="css/app.css">
+	<link rel="stylesheet" href="lib/angular/angular-csp.css">
 </head>
 
 <body>
 
-	<div id="header">
+	<div id="header" ng-controller="HeaderCtrl">
 		<div id="logo">
-			<a href="" id="logoLink"><img src="../img/betaseries.png" /></a>
-			<a href="" id="versionLink"></a>
+			<img src="/app/img/betaseries.png" />
+			{{versionLink}}
 		</div>
 		<div id="actions">
-			<span class="action" id="back" style="display: none; margin-right: 6px;">
-				<img src="../img/back.png" />
-			</span>
-			<span class="action" id="sync" style="margin-right: 2px;">
-				<img src="../img/sync.png" id="sync" />
-			</span>
-			<span class="action" id="search" style="margin-right: 2px;">
-				<img src="../img/search-2.png" id="sync" />
-			</span>
-			<span class="action" id="my-episodes" style="margin-right: 2px;">
-				<img src="../img/episodes-2.png" id="sync" />
-			</span>
-			<span class="action" id="menu" style="margin-right: 4px;">
-				<img src="../img/menu.png" />
-			</span>
+			<img src="/app/img/back.png" />
+			<img src="/app/img/sync.png" ng-click="refresh()" />
+			<img src="/app/img/search-2.png" />
+			<img src="/app/img/episodes-2.png" />
+			<img src="/app/img/menu.png" />
 		</div>
 	</div>
 
@@ -57,7 +48,7 @@
 	</div>
 
 	<!-- JS -->
-	<script src="lib/angular/angular.min.js"></script>
+	<script src="lib/angular/angular.js"></script>
 	<script src="lib/angular/angular-route.min.js"></script>
 	<script src="lib/phpjs/utf8_encode.js"></script>
 	<script src="lib/phpjs/md5.js"></script>
@@ -67,8 +58,7 @@
 	<script src="js/ajax.js"></script>
 	<script src="js/betaseries.js"></script>
 
-	<script src="lib/angular/angular.js"></script>
-  <script src="js/app.js"></script>
+	<script src="js/app.js"></script>
   <script src="js/controllers.js"></script>
 </body>
 </html>
