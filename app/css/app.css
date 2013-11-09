@@ -6,16 +6,70 @@ body {
 	color: #333;
 }
 
-.show > .title {
-	display: inline-block;
+/* GENERAL */
+
+.floatr {
+  float: right;
 }
-.show > .remaining {
+
+.nano .content      { padding: 0px; }
+.nano .content:focus { outline: 0; }
+.nano .pane         { background: #fff; }
+.nano .pane .slider { background: #bbb; }
+
+/* HEADER */
+
+header {
+  width: 366px; 
+  height: 23px;
+  background-color: rgb(59,141,208);
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+/* MY EPISODES */
+
+.show-content {
+  border-bottom: 1px solid #ddd;
+  height: 18px;
+}
+
+.show-content > div {
+  display: inline-block;
+}
+
+.show-content > .title {
+	display: inline-block;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.show-content > .remaining {
+	display: inline-block;
+  color: #ddd;
+  background-color: #444;
+  padding: 0 3px;
+  margin-right: 15px;
+}
+
+.episodes {
+  margin-bottom: 5px;
+}
+
+.episode {
+  border-bottom: 1px solid #eee;
+  height: 18px;
+}
+
+.episode:hover {
+  background-color: #eee;
+}
+
+.episode > div {
 	display: inline-block;
 }
 
-.episode > .watched {
-	display: inline-block;
-}
-.episode > .title {
-	display: inline-block;
+.code {
+  color: #999;
+  font-size: 10px;
 }

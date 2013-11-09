@@ -39,6 +39,8 @@ function MyEpisodesCtrl($scope, Betaseries) {
   Betaseries.myEpisodes({}, function(data) {
     $scope.shows = data;
     console.log(data);
+    $('#about').height(200);
+    $('.nano').nanoScroller({});
   });
 
   $scope.watched = function(show, episode) {

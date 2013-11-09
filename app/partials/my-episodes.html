@@ -1,15 +1,25 @@
 <div id="shows">
-
 	<div class="show" ng-repeat="show in shows" ng-show="show.unseen.length > 0">
     	
-      <div class="title">{{show.title}}</div>
-      <div class="remaining">{{show.remaining}}</div>
+      <div class="show-content">
+        <div class="title">{{show.title}}</div>
+        <div class="remaining floatr">{{show.remaining}}</div>
+      </div>
 
-      <div class="episode" ng-repeat="episode in show.unseen" ng-show="!episode.user.seen">
-        <div class="watched" ng-click="watched(show, episode)">=></div>
-        <div class="title">{{episode.title}}</div>
-		  </div>
+      <div class="episodes">
+        <div class="episode" ng-repeat="episode in show.unseen" ng-show="!episode.user.seen">
+          <div class="watched" ng-click="watched(show, episode)">=></div>
+          <div class="mean-note"></div>
+          <div class="copy-clipboard"></div>
+          <div class="code">{{episode.code}}</div>
+          <div class="title">{{episode.title}}</div>
+          <div class="new"></div>
+          <div class="comments"></div>
+          <div class="downloaded"></div>
+          <div class="subtitles"></div>
+          <div class="rating"></div>
+  		  </div>
+      </div>
 
 	</div>
-	
 </div>

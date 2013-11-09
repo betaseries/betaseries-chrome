@@ -4,37 +4,27 @@
 	<meta charset="utf-8" />
 	<link rel="stylesheet" href="css/app.css">
 	<link rel="stylesheet" href="lib/angular/angular-csp.css">
+	<link rel="stylesheet" href="lib/nanoscroller/jquery.nanoscroller.css">
 </head>
 
 <body>
 
-	<div id="header" ng-controller="HeaderCtrl">
-		<div id="logo">
-			<img src="/app/img/betaseries.png" />
-			{{versionLink}}
-		</div>
-		<div id="actions">
-			<img src="/app/img/back.png" />
-			<img src="/app/img/sync.png" ng-click="refresh()" />
-			<img src="/app/img/search-2.png" />
-			<img src="/app/img/episodes-2.png" />
-			<img src="/app/img/menu.png" />
-		</div>
-	</div>
+	<header ng-controller="HeaderCtrl">
+		<div class="refresh floatr"><img src="/app/img/sync.png" ng-click="refresh()" /></div>
+		<div class="logo"><img src="/app/img/betaseries.png" /></div>
+		<div class="version">{{versionLink}}</div>
+	</header>
 
-	<div id="sub-header">
-
+	<section class="sub-header">
 		<div id="title"></div>
-		<div id="menu-wrapper">
-		</div>
-
+		<div id="menu-wrapper"></div>
 		<div style="clear:both;"></div>
-	</div>
+	</section>
 
-	<div id="message" style="display:none;">
+	<section class="message" style="display:none;">
 		<div class="message-content"></div>
 		<img src="../img/close3.png" class="close" />
-	</div>
+	</section>
 
 	<div id="about" class="nano">
 		<div class="content">
@@ -42,14 +32,16 @@
 		</div>
 	</div>
 
-	<div id="footer">
+	<footer>
 		<img src="../img/help.png" id="help" class="action" style="margin-bottom:-2px; display:none;" />
 		<span id="help-text"></span>
-	</div>
+	</footer>
 
 	<!-- JS -->
+	<script src="lib/jquery/jquery.min.js"></script>
 	<script src="lib/angular/angular.js"></script>
 	<script src="lib/angular/angular-route.min.js"></script>
+	<script src="lib/nanoscroller/jquery.nanoscroller.min.js"></script>
 	<script src="lib/phpjs/utf8_encode.js"></script>
 	<script src="lib/phpjs/md5.js"></script>
 	
