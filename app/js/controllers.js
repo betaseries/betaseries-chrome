@@ -1,12 +1,24 @@
 'use strict';
 
-/* Controllers */
+/**
+ * Popup controller
+ * @param {[type]} $scope     [description]
+ * @param {[type]} Betaseries [description]
+ */
 
 function HeaderCtrl($scope, Betaseries) {
   $scope.refresh = function() {
     Betaseries.refresh();
   };
 }
+
+/**
+ * Connection - view
+ * @param {[type]} $scope    [description]
+ * @param {[type]} $location [description]
+ * @param {[type]} Ajax      [description]
+ * @param {[type]} db        [description]
+ */
 
 function ConnectionCtrl($scope, $location, Ajax, db) {
   $scope.lbl_login = 'Pseudo';
@@ -35,10 +47,9 @@ function ConnectionCtrl($scope, $location, Ajax, db) {
  * @param {object} $scope
  */
 
-function MyEpisodesCtrl($scope, Betaseries) {
-  Betaseries.myEpisodes({}, function(data) {
-    $scope.shows = data;
-    console.log(data);
+function MyEpisodesCtrl($scope, $location, Betaseries) {
+  Betaseries.myEpisodes({}, function(shows) {
+    $scope.shows = shows;
     $('#about').height(200);
     $('.nano').nanoScroller({});
   });
@@ -73,31 +84,27 @@ function MyEpisodesCtrl($scope, Betaseries) {
       delete show[i];
     }
   }
+
+  $scope.go_comments = function(episode) {
+    $location.path('/episodes/' + episode + '/comments');
+  }
 }
 
-function ShowsCtrl($scope, $http) {
-  /*var config = {
-        method: 'GET',
-        url: 'http://api.betaseries.com/shows/display',
-        params: {
-            v: '2.0',
-            key: '6db16a6ffab9',
-            id: 1
-        }
+/**
+ * Episode comments - view
+ * /episode/:id/comments
+ */
 
-    }
-
-    $http(config).success(function(data){
-        $scope.name = data['show'].title;
-    });*/
-
-  $scope.name = 'TEST';
-};
-
-//ShowsCtrl.$inject = ['$scope', '$http'];
-
-function ShowCtrl($scope, $routeParams) {
-  $scope.showId = $routeParams.showId;
+function EpisodeCommentsCtrl($scope, $routeParams, Betaseries) {
+  console.log('HeaderCtrl');
+  Betaseries.episodeComments({
+    "type": "episode", // required
+    "id": $routeParams.episode, // required
+    "nbpp": 500,
+    "since_id": null,
+    "order": "asc"
+  }, function(comments) {
+    $scope.comments = comments;
+    console.log(comments);
+  });
 }
-
-//ShowCtrl.$inject = ['$scope', '$routeParams'];

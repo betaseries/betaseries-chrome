@@ -24,13 +24,16 @@ app.config(['$routeProvider',
       controller: ConnectionCtrl,
       token: false
     }).
-    //when('/registration', {templateUrl: '../partials/shows.html', controller: RegistrationCtrl}).
     when('/my-episodes', {
       templateUrl: 'partials/my-episodes.html',
       controller: MyEpisodesCtrl,
       token: true
     }).
-    //when('/planning', {templateUrl: '../partials/shows.html', controller: PlanningCtrl}).
+    when('/episodes/:episode/comments', {
+      templateUrl: 'partials/episode-comments.html',
+      controller: EpisodeCommentsCtrl,
+      token: false
+    }).
     otherwise({
       redirectTo: '/error'
     });
@@ -48,4 +51,81 @@ app.run(function($rootScope, $location, Auth) {
       $location.path('/connection');
     }
   });
+});
+
+/**
+ * Format a date
+ */
+app.filter('date', function() {
+  return function(input) {
+    return new Date(input).toLocaleString();
+  }
+});
+
+/**
+ * Format a date (localeDateString)
+ */
+app.filter('localeDateString', function() {
+  return function(input) {
+    return new Date(input).toLocaleDateString();
+  }
+});
+
+/**
+ * Format a note
+ */
+app.filter('note', function() {
+  return function(input) {
+    var n = input ? Math.round(input * 10) / 10 : 0;
+    return n;
+  }
+});
+
+/**
+ * Return the background-color of a note
+ */
+app.filter('bgNote', function() {
+  return function(input) {
+    var n = input ? Math.round(input * 10) / 10 : 0;
+    var color = 'green';
+    if (n < 4) {
+      color = 'orange';
+    }
+    if (n < 3) {
+      color = 'red';
+    }
+    return color;
+  }
+});
+
+/**
+ * Return the background-color of a note
+ */
+app.filter('code', function() {
+  return function(input) {
+    var res;
+    res = '';
+    if (input[1] !== '0') {
+      res += input[1];
+    }
+    res += input[2];
+    res += 'x';
+    res += input[4];
+    res += input[5];
+    return res;
+  }
+});
+
+/**
+ * Substring of a word
+ */
+app.filter('substr', function() {
+  return function(input, length) {
+    if (length > 0) {
+      input = input.substr(0, length);
+    } else {
+      input = input.substr(length);
+    }
+    return input;
+  }
 });

@@ -17,7 +17,7 @@ Betaseries.prototype.call = function() {
   var self = this;
 
   // get the store
-  var store = this.db.store(this.path);
+  var store = this.db.store(this.store);
 
   // checks if data exists
   var data = store.get();
@@ -73,7 +73,24 @@ Betaseries.prototype.save = function(data) {
  */
 Betaseries.prototype.myEpisodes = function(params, callback) {
   this.path = "/episodes/list";
+  this.store = "/episodes/list";
   this.key = "shows";
+  this.verb = "get";
+  this.params = params;
+  this.callback = callback;
+  this.call();
+};
+
+/**
+ * Episode comments - view
+ * @param  {[type]}   params   [description]
+ * @param  {Function} callback [description]
+ * @return {[type]}            [description]
+ */
+Betaseries.prototype.episodeComments = function(params, callback) {
+  this.path = "/comments/comments";
+  this.store = "/episodes/" + params.id + "/comments";
+  this.key = "comments";
   this.verb = "get";
   this.params = params;
   this.callback = callback;

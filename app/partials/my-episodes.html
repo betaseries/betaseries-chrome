@@ -8,17 +8,21 @@
 
       <div class="episodes">
         <div class="episode" ng-repeat="episode in show.unseen" ng-show="!episode.user.seen">
-          <div class="watched" ng-click="watched(show, episode)">=></div>
-          <div class="mean-note"></div>
-          <div class="copy-clipboard"></div>
-          <div class="code">{{episode.code}}</div>
-          <div class="title">{{episode.title}}</div>
-          <div class="new"></div>
-          <div class="comments"></div>
-          <div class="downloaded"></div>
-          <div class="subtitles"></div>
-          <div class="rating"></div>
-  		  </div>
+          
+          <div class="title">
+            <span class="note-mean" ng-class="episode.note.mean|bgNote">{{episode.note.mean|note}}</span>
+            <span class="code">{{episode.code|code}}</span>
+            {{episode.title}}
+          </div>
+          
+          <div class="date">{{episode.date|localeDateString}}</div>
+
+          <div class="comments">
+            <img src="/app/img/comments.png" ng-click="go_comments(episode.id)" />
+            {{episode.comments}}
+          </div>
+  		  
+        </div>
       </div>
 
 	</div>

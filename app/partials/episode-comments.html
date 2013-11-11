@@ -1,0 +1,14 @@
+<div class="comments">
+  <div class="comment" ng-repeat="comment in comments">
+    <div ng-class="{answer: comment.in_reply_to > 0}">
+      <div class="avatar block">
+        <img ng-src="{{comment.avatar}}" width="30" ng-if="comment.avatar" />
+      </div><!--
+      --><div class="comment-content block">
+        <div class="login">{{comment.login}}</div>
+        <div class="date">{{comment.date|date}}</div>
+        <div class="text">{{comment.text}}</div>
+      </div>
+    </div>
+  </div>
+</div>

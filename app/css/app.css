@@ -8,14 +8,18 @@ body {
 
 /* GENERAL */
 
-.floatr {
-  float: right;
-}
+.block {display: inline-block;}
+.floatr {float: right;}
 
-.nano .content      { padding: 0px; }
-.nano .content:focus { outline: 0; }
+.nano .content      { padding: 0 15px 0 5px; }
+.nano .content:focus { outline: none; }
 .nano .pane         { background: #fff; }
 .nano .pane .slider { background: #bbb; }
+
+.note-mean {font-size: 9px; padding: 3px 3px 0 3px; display: inline-block; margin-right: 3px; width: 15px; text-align: center;}
+.note-mean.green {background-color: #6C3; color: #fff;}
+.note-mean.orange {background-color: #FC3; color: #333;}
+.note-mean.red {background-color: #F00; color: #fff;}
 
 /* HEADER */
 
@@ -49,7 +53,6 @@ header {
   color: #ddd;
   background-color: #444;
   padding: 0 3px;
-  margin-right: 15px;
 }
 
 .episodes {
@@ -58,18 +61,56 @@ header {
 
 .episode {
   border-bottom: 1px solid #eee;
-  height: 18px;
 }
 
 .episode:hover {
   background-color: #eee;
 }
 
-.episode > div {
-	display: inline-block;
-}
-
 .code {
   color: #999;
   font-size: 10px;
+}
+
+/* EPISODE COMMENTS */
+
+.comment {
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.comment > .answer {
+  border-left: 2px solid #4E5FB8;
+  margin-left: 10px;
+  padding-left: 10px;
+}
+
+.comment .comment-content {
+  width: 300px;
+}
+
+.comment .answer .comment-content {
+  width: 250px;
+}
+
+.comment .avatar {
+  vertical-align: top;
+  padding: 1px;
+  border: 1px solid #DFDFDF;
+  margin: 0 6px;
+  width: 30px;
+  box-sizing: border-box
+}
+
+.comment .login {
+  font-weight: bold;
+}
+
+.comment .date {
+  font-size: 10px;
+  color: #999;
+}
+
+.comment .text {
+  margin-top: 5px;
 }
