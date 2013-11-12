@@ -26,6 +26,9 @@ function ConnectionCtrl($scope, $location, Ajax, db) {
   $scope.lbl_sign_in = 'Se connecter';
   $scope.lbl_sign_up = "S'inscrire";
 
+  $('#about').height(200);
+  $('.nano').nanoScroller({});
+
   $scope.sign_in = function() {
     var params = {
       "login": $scope.login,

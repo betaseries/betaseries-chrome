@@ -16,11 +16,6 @@ body {
 .nano .pane         { background: #fff; }
 .nano .pane .slider { background: #bbb; }
 
-.note-mean {font-size: 9px; padding: 3px 3px 0 3px; display: inline-block; margin-right: 3px; width: 15px; text-align: center;}
-.note-mean.green {background-color: #6C3; color: #fff;}
-.note-mean.orange {background-color: #FC3; color: #333;}
-.note-mean.red {background-color: #F00; color: #fff;}
-
 /* HEADER */
 
 header {
@@ -67,10 +62,33 @@ header {
   background-color: #eee;
 }
 
+.episode > div {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.comments {
+  float: right;
+}
+
+.comments:hover {
+  cursor: pointer;
+}
+
+.date {
+  font-size: 10px;
+  color: #666;
+}
+
 .code {
   color: #999;
   font-size: 10px;
 }
+
+.note-mean span {font-size: 9px; padding: 3px 3px 0 3px; display: inline-block; margin-right: 3px; width: 15px; text-align: center;}
+.note-mean span.green {background-color: #6C3; color: #fff;}
+.note-mean span.orange {background-color: #FC3; color: #333;}
+.note-mean span.red {background-color: #F00; color: #fff;}
 
 /* EPISODE COMMENTS */
 
