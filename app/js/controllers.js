@@ -51,7 +51,9 @@ function ConnectionCtrl($scope, $location, Ajax, db) {
  */
 
 function MyEpisodesCtrl($scope, $location, Betaseries) {
-  Betaseries.myEpisodes({}, function(shows) {
+  Betaseries.myEpisodes({
+    "subtitles": "all"
+  }, function(shows) {
     $scope.shows = shows;
     $('#about').height(200);
     $('.nano').nanoScroller({});

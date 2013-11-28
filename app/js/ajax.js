@@ -17,7 +17,7 @@ var Ajax = function(Auth, $http) {
  */
 Ajax.prototype.send = function(method, path, params, success) {
   var defaultParams = {
-    "v": '2.1',
+    "v": '2.2',
     "key": '6db16a6ffab9',
     "token": this.Auth.getToken()
   };

@@ -1,5 +1,5 @@
 <div id="shows">
-	<div class="show" ng-repeat="show in shows" ng-show="show.unseen.length > 0">
+	<div class="show" ng-repeat="show in shows" ng-show="show.episodes.length > 0">
     	
       <div class="show-content">
         <div class="title">{{show.title}}</div>
@@ -7,7 +7,7 @@
       </div>
 
       <div class="episodes">
-        <div class="episode" ng-repeat="episode in show.unseen" ng-show="!episode.user.seen">
+        <div class="episode" ng-repeat="episode in show.episodes" ng-show="!episode.user.seen">
           
           <div class="note-mean">
             <span ng-class="episode.note.mean|bgNote">{{episode.note.mean|note}}</span>
