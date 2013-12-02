@@ -9,33 +9,54 @@
 
 <body>
 
-	<header ng-controller="HeaderCtrl">
-		<div class="refresh floatr"><img src="/app/img/sync.png" ng-click="refresh()" /></div>
-		<div class="logo"><img src="/app/img/betaseries.png" /></div>
-		<div class="version">{{versionLink}}</div>
-	</header>
+    <div id="header" ng-controller="HeaderCtrl">
+      <div id="logo">
+        <a href="" id="logoLink"><img src="/app/img/betaseries.png" /></a>
+        <a href="" id="versionLink"></a>
+      </div>
+      <div id="actions">
+        <span class="action" id="back" style="display: none; margin-right: 6px;">
+          <img src="/app/img/back.png" />
+        </span>
+        <span class="action" id="sync" style="margin-right: 2px;">
+          <img src="/app/img/sync.png" id="sync" />
+        </span>
+        <span class="action" id="search" style="margin-right: 2px;">
+          <img src="/app/img/search-2.png" id="sync" />
+        </span>
+        <span class="action" id="my-episodes" style="margin-right: 2px;">
+          <img src="/app/img/episodes-2.png" id="sync" />
+        </span>
+        <span class="action" id="menu" style="margin-right: 4px;">
+          <img src="/app/img/menu.png" />
+        </span>
+      </div>
+  </div>
 
-	<section class="sub-header">
-		<div id="title"></div>
-		<div id="menu-wrapper"></div>
-		<div style="clear:both;"></div>
-	</section>
-
-	<section class="message" style="display:none;">
-		<div class="message-content"></div>
-		<img src="../img/close3.png" class="close" />
-	</section>
-
-	<div id="about" class="nano">
-		<div class="content">
-			<div id="page" ng-view></div>
-		</div>
-	</div>
-
-	<footer>
-		<img src="../img/help.png" id="help" class="action" style="margin-bottom:-2px; display:none;" />
-		<span id="help-text"></span>
-	</footer>
+  <div id="sub-header">
+          
+    <div id="title"></div>
+    <div id="menu-wrapper">
+    </div>
+    
+    <div style="clear:both;"></div>
+  </div>
+                          
+  <div id="message" style="display:none;">
+    <div class="message-content"></div>
+    <img src="/app/img/close3.png" class="close" />
+  </div>
+  
+  <div id="about" class="nano">
+    <div class="content">
+      <div id="page" ng-view></div>
+    </div>
+  </div>
+  
+  <div id="footer">
+          <img src="/app/img/help.png" id="help" class="action" style="margin-bottom:-2px; display:none;" />
+          <span id="help-text"></span>
+  </div>
 
 	<!-- JS -->
 	<script src="lib/jquery/jquery.min.js"></script>

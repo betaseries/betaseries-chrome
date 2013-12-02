@@ -115,7 +115,7 @@ Betaseries.prototype.myEpisodes = function(params, callback) {
 
           show = _.extend(show, {
             "archived": false,
-            "hidden": false
+            "hidden": false,
           });
 
           shows.push(show);
@@ -166,6 +166,9 @@ Betaseries.prototype.myEpisodes = function(params, callback) {
 
       for (var i in shows) {
         var show = shows[i];
+
+        // extra fields
+        show.visibleIcon = (show.hidden) ? '/app/img/arrow_right.gif' : '/app/img/arrow_down.gif';
 
         // getting last episodes
         var episodes = self.db.get('show.' + show.id + '.episodes', []);
