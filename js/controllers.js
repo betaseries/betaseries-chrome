@@ -32,7 +32,7 @@ function ConnectionCtrl($scope, $location, Ajax, db) {
   $scope.sign_in = function() {
     var params = {
       "login": $scope.login,
-      "password": md5($scope.password)
+      "password": $.md5($scope.password)
     };
 
     Ajax.post('/members/auth', params, function(data) {

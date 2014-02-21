@@ -17,7 +17,7 @@
         <div class="episode" ng-repeat="episode in show.episodes" ng-show="!episode.user.seen">
 
           <div class="td wrapper-watched">
-            <img ng-src="/app/img/{{episode.watchedPlot}}.png" class="watched action icon-4" title="{{episode.watchedTitle}}" /> 
+            <img ng-src="img/{{episode.watchedPlot}}.png" class="watched action icon-4" title="{{episode.watchedTitle}}" /> 
           </div>
 
           <div class="td wrapper-mean-note">{{episode.note.mean|note}}</div>
@@ -25,7 +25,7 @@
           <div class="td wrapper-copy-clipboard">
             <a href="" title="{{episode.showTitle}} {{episode.code|code}}" class="invisible copy_episode">
               <textarea style="display:none;">{{episode.title}} {{episode.code|code}}</textarea>
-              <img src="/app/img/link.png" class="copy action" />
+              <img src="img/link.png" class="copy action" />
             </a>
           </div>
           
@@ -38,24 +38,24 @@
           </div>
 
           <div class="td wrapper-comments">
-            <img src="/app/img/comments.png" class="comments action" ng-click="go_comments(episode.id)" />
+            <img src="img/comments.png" class="comments action" ng-click="go_comments(episode.id)" />
           </div>
     
           <div class="td wrapper-recover">
-            <img src="/app/img/{{episode.imgDownloaded}}.png" class="downloaded action" title="{{episode.texte3}}" />
+            <img src="img/{{episode.imgDownloaded}}.png" class="downloaded action" title="{{episode.texte3}}" />
           </div>
           
           <div class="td wrapper-subtitles">
-            <img src="/app/img/subtitles.png" class="subs action" quality="{{episode.quality}}" title="{{episode.srt_quality}}" />
+            <img src="img/subtitles.png" class="subs action" quality="{{episode.quality}}" title="{{episode.srt_quality}}" />
           </div>
 
           <div class="td wrapper-rate">
-            <img src="../img/star_off.gif" width="10" id="star1" class="star action" title="1 /5" />
-            <img src="../img/star_off.gif" width="10" id="star2" class="star action" title="2 /5" />
-            <img src="../img/star_off.gif" width="10" id="star3" class="star action" title="3 /5" />
-            <img src="../img/star_off.gif" width="10" id="star4" class="star action" title="4 /5" />
-            <img src="../img/star_off.gif" width="10" id="star5" class="star action" title="5 /5" />
-            <img src="../img/close3.png" width="10" class="close_stars action" title="do_not_rate" />
+            <img src="img/star_off.gif" width="10" id="star1" class="star action" title="1 /5" />
+            <img src="img/star_off.gif" width="10" id="star2" class="star action" title="2 /5" />
+            <img src="img/star_off.gif" width="10" id="star3" class="star action" title="3 /5" />
+            <img src="img/star_off.gif" width="10" id="star4" class="star action" title="4 /5" />
+            <img src="img/star_off.gif" width="10" id="star5" class="star action" title="5 /5" />
+            <img src="img/close3.png" width="10" class="close_stars action" title="do_not_rate" />
           </div>
   		  
         </div>
