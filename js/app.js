@@ -2,10 +2,7 @@
 
 /* App module */
 
-var app = angular.module('betaseriesApp', ['ngRoute'], function($compileProvider) {
-  $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|chrome-extension):|data:image\//);
-  $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|chrome-extension):/);
-});
+var app = angular.module('betaseries-chrome', ['ngRoute']);
 
 app.service('db', db);
 app.factory('Auth', function(db) {

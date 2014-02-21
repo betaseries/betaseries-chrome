@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr" ng-app="betaseriesApp" ng-csp="">
+<html lang="fr" ng-app="betaseries-chrome" ng-csp="">
 <head>
 	<meta charset="utf-8" />
 	<link rel="stylesheet" href="css/app.css">
@@ -18,7 +18,7 @@
         <span class="action" id="back" style="display: none; margin-right: 6px;">
           <img src="img/back.png" />
         </span>
-        <span class="action" id="sync" style="margin-right: 2px;">
+        <span class="action" id="sync" style="margin-right: 2px;" ng-click="sync()">
           <img src="img/sync.png" id="sync" />
         </span>
         <span class="action" id="search" style="margin-right: 2px;">

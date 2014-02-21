@@ -7,7 +7,7 @@
  */
 
 function HeaderCtrl($scope, Betaseries) {
-  $scope.refresh = function() {
+  $scope.sync = function() {
     Betaseries.refresh();
   };
 }

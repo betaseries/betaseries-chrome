@@ -124,8 +124,8 @@ Betaseries.prototype.myEpisodes = function(params, callback) {
         // getting episodes list
         var episodes = self.db.get('show.' + showData.id + '.episodes', []);
 
-        for (var e in showData.episodes) {
-          var episodeData = showData.episodes[e];
+        for (var e in showData.unseen) {
+          var episodeData = showData.unseen[e];
 
           var episode = _.findWhere(episodes, {
             "id": episodeData.id
