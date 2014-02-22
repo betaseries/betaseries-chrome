@@ -51,7 +51,7 @@ function ConnectionCtrl($scope, $location, Ajax, db) {
  */
 
 function MyEpisodesCtrl($scope, $location, Betaseries) {
-  Betaseries.myEpisodes({
+  Betaseries.load('myEpisodes', {
     "subtitles": "all"
   }, function(shows) {
     $scope.shows = shows;
@@ -101,8 +101,7 @@ function MyEpisodesCtrl($scope, $location, Betaseries) {
  */
 
 function EpisodeCommentsCtrl($scope, $routeParams, Betaseries) {
-  console.log('HeaderCtrl');
-  Betaseries.episodeComments({
+  Betaseries.load('episodeComments', {
     "type": "episode", // required
     "id": $routeParams.episode, // required
     "nbpp": 500,
