@@ -1,5 +1,7 @@
 /**
  * Betaseries class
+ * @param {Object} Ajax
+ * @param {Object} db
  */
 var Betaseries = function(Ajax, db) {
   this.Ajax = Ajax;
@@ -55,15 +57,10 @@ Betaseries.prototype.call = function() {
 };
 
 /**
- * Force the refresh of a view
- */
-Betaseries.prototype.refresh = function() {
-  this.force = true;
-  this.call();
-};
-
-/**
  * Load a view
+ * @param  {String}   view
+ * @param  {Object}   params
+ * @param  {Function} callback
  */
 Betaseries.prototype.load = function(view, params, callback) {
   this.view = new window[view](this.db, params, callback);
@@ -71,8 +68,16 @@ Betaseries.prototype.load = function(view, params, callback) {
 };
 
 /**
- * Save data result in store
- * @param  {object} data
+ * Refresh a view
+ */
+Betaseries.prototype.refresh = function() {
+  this.force = true;
+  this.call();
+};
+
+/**
+ * Save view data in store
+ * @param  {Object} data
  */
 Betaseries.prototype.save = function(data) {
   // get the store

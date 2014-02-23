@@ -2,13 +2,12 @@
  * myEpisodes data
  */
 var myEpisodes = function(db, params, callback) {
-  this.db = db;
-  this.type = 'get';
+  __extends(this, View);
+  this.__super__.constructor.call(this, db, params, callback);
+
   this.path = '/episodes/list';
-  this.params = params;
   this.store = "/episodes/list";
   this.node = 'shows';
-  this.callback = callback;
 }
 
 /**

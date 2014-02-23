@@ -2,13 +2,12 @@
  * episodeComments data
  */
 var episodeComments = function(db, params, callback) {
-  this.db = db;
-  this.type = 'get';
+  __extends(this, View);
+  this.__super__.constructor.call(this, db, params, callback);
+
   this.path = '/comments/comments';
-  this.params = params;
   this.store = "/episodes/" + params.id + "/comments";
   this.node = 'comments';
-  this.callback = callback;
 };
 
 /**
