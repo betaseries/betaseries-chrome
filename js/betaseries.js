@@ -23,23 +23,23 @@ Betaseries = (function() {
     var checks, reliable, today;
     checks = this.db.get('checks', {});
     today = new Date().toDateString();
-    reliable = _.has(checks, view.store) && checks[view.store] === today;
+    reliable = _.has(checks, this.view.store) && checks[this.view.store] === today;
     if (reliable && !this.force) {
-      if (view.fetch) {
-        return view.fetch();
+      if (this.view.fetch) {
+        return this.view.fetch();
       }
     } else {
       this.force = false;
       return this.Ajax[this.view.type](this.view.path, this.view.params, (function(_this) {
         return function(data) {
-          checks[view.store] = today;
+          checks[_this.view.store] = today;
           _this.db.set('checks', checks);
-          data = data[view.node];
-          if (view.update) {
-            view.update(data);
+          data = data[_this.view.node];
+          if (_this.view.update) {
+            _this.view.update(data);
           }
-          if (view.fetch) {
-            return view.fetch();
+          if (_this.view.fetch) {
+            return _this.view.fetch();
           }
         };
       })(this));

@@ -20,13 +20,13 @@ class Betaseries
     today = new Date().toDateString()
 
     # reliable if data checked today
-    reliable = _.has(checks, view.store) and checks[view.store] is today
+    reliable = _.has(checks, @view.store) and checks[@view.store] is today
 
     # reliable & NOT force
-    if reliable and !@force
+    if reliable and not(@force)
 
-      if view.fetch
-        view.fetch()
+      if @view.fetch
+        @view.fetch()
 
     else
       
@@ -35,16 +35,16 @@ class Betaseries
       @Ajax[@view.type] @view.path, @view.params, (data) =>
 
         # store checked
-        checks[view.store] = today
+        checks[@view.store] = today
         @db.set('checks', checks)
 
-        data = data[view.node]
+        data = data[@view.node]
 
-        if view.update
-          view.update(data)
+        if @view.update
+          @view.update(data)
 
-        if view.fetch
-          view.fetch()
+        if @view.fetch
+          @view.fetch()
 
   ###*
    * Load a view

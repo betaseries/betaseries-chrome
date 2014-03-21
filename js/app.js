@@ -41,10 +41,8 @@ app.config([
 ]);
 
 app.run(function($rootScope, $location, Auth) {
-  var defaultPath, _ref;
-  defaultPath = (_ref = Auth.isLogged()) != null ? _ref : {
-    '/my-episodes': '/connection'
-  };
+  var defaultPath;
+  defaultPath = Auth.isLogged() ? '/my-episodes' : '/connection';
   $location.path(defaultPath);
   return $rootScope.$on('$routeChangeStart', function(event, currRoute, prevRoute) {
     if (currRoute.token && !Auth.isLogged()) {

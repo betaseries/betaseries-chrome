@@ -20,17 +20,17 @@
             <img ng-src="img/{{episode.watchedPlot}}.png" class="watched action icon-4" title="{{episode.watchedTitle}}" /> 
           </div>
 
-          <div class="td wrapper-mean-note">{{episode.note.mean|note}}</div>
+          <div class="td wrapper-mean-note">{{episode.note.mean}}</div>
 
           <div class="td wrapper-copy-clipboard">
-            <a href="" title="{{episode.showTitle}} {{episode.code|code}}" class="invisible copy_episode">
-              <textarea style="display:none;">{{episode.title}} {{episode.code|code}}</textarea>
+            <a href="" title="{{episode.showTitle}} {{episode.code}}" class="invisible copy_episode">
+              <textarea style="display:none;">{{episode.title}} {{episode.code}}</textarea>
               <img src="img/link.png" class="copy action" />
             </a>
           </div>
           
           <div class="td wrapper-title" style="width: {{episode.titleWidth}}px">
-            <span class="num">{{episode.code|code}}</span> 
+            <span class="num">{{episode.code}}</span> 
             <a href="" title="{{episode.stitle}}" class="epLink display_episode">{{episode.title}}</a>
           </div>
           <div class="td wrapper-new">

@@ -33,7 +33,7 @@ app.config ['$routeProvider', ($routeProvider) ->
 
 app.run ($rootScope, $location, Auth) ->
 
-  defaultPath = Auth.isLogged() ? '/my-episodes' : '/connection'
+  defaultPath = if Auth.isLogged() then '/my-episodes' else '/connection'
   $location.path(defaultPath)
 
   $rootScope.$on '$routeChangeStart', (event, currRoute, prevRoute) ->
