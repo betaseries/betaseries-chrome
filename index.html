@@ -4,34 +4,25 @@
 	<meta charset="utf-8" />
 	<link rel="stylesheet" href="css/app.css">
 	<link rel="stylesheet" href="bower_components/angular/angular-csp.css">
-	<link rel="stylesheet" href="bower_components/nanoscroller/bin/css/nanoscroller.css">
+  <link rel="stylesheet" href="bower_components/nanoscroller/bin/css/nanoscroller.css">
+	<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
 </head>
 
 <body>
 
-    <div id="header" ng-controller="HeaderCtrl">
-      <div id="logo">
-        <a href="" id="logoLink"><img src="img/betaseries.png" /></a>
-        <a href="" id="versionLink"></a>
-      </div>
-      <div id="actions">
-        <span class="action" id="back" style="display: none; margin-right: 6px;">
-          <img src="img/back.png" />
-        </span>
-        <span class="action" id="sync" style="margin-right: 2px;" ng-click="sync()">
-          <img src="img/sync.png" id="sync" />
-        </span>
-        <span class="action" id="search" style="margin-right: 2px;">
-          <img src="img/search-2.png" id="sync" />
-        </span>
-        <span class="action" id="my-episodes" style="margin-right: 2px;">
-          <img src="img/episodes-2.png" id="sync" />
-        </span>
-        <span class="action" id="menu" style="margin-right: 4px;">
-          <img src="img/menu.png" />
-        </span>
-      </div>
-  </div>
+  <header ng-controller="HeaderCtrl">
+    <div class="wp wp-refresh wp-right">
+      <i class="fa fa-refresh" ng-click="sync()"></i>
+    </div>
+
+    <div id="wp wp-logo">
+      <img src="img/betaseries.png" />
+    </div>
+    
+    <div id="wp wp-version">
+      
+    </div>
+  </header>
 
   <div id="sub-header">
           
