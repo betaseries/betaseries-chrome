@@ -5,7 +5,7 @@
         <div class="wp wp-remain wp-right">
           {{show.remaining}}
         </div>
-        <div class="wp-maintitle">
+        <div class="wp wp-maintitle">
           &nbsp;<i class="fa fa-caret-down"></i> {{show.title}}
         </div>
       </div>
@@ -24,7 +24,7 @@
           </div> 
 
           <div class="wp wp-title">
-            <a href="/episode/{{episode.id}}">{{episode.title}}</a>
+            <a ng-href="#/episodes/{{episode.id}}">{{episode.title}}</a>
           </div>
           
           <div class="wp wp-new" ng-if="episode.isNew()">

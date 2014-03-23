@@ -81,6 +81,18 @@ MyEpisodesCtrl = ($scope, $location, Betaseries) ->
     $location.path('/episodes/' + episode + '/comments');
 
 ###*
+ * Episode - view
+ * /episode/:id
+###
+
+EpisodeCtrl = ($scope, $routeParams, Betaseries) ->
+  Betaseries.load('episode', {
+    "id": $routeParams.episode, # required
+  }, (episode) ->
+    $scope.episode = episode
+  )
+
+###*
  * Episode comments - view
  * /episode/:id/comments
 ###

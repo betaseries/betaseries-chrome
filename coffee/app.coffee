@@ -9,7 +9,7 @@ app.factory 'Auth', (db) -> new Auth(db)
 app.factory 'Ajax', (Auth, $http) -> new Ajax(Auth, $http)
 app.factory 'Betaseries', (Ajax, db) -> new Betaseries(Ajax, db)
 
-app.config ['$routeProvider', ($routeProvider) ->
+app.config ['$routeProvider', '$compileProvider', ($routeProvider, $compileProvider) ->
     $routeProvider.
       when('/connection', {
         templateUrl: 'partials/connection.html',
@@ -26,9 +26,16 @@ app.config ['$routeProvider', ($routeProvider) ->
         controller: EpisodeCommentsCtrl,
         token: false
       }).
+      when('/episodes/:episode', {
+        templateUrl: 'partials/episode.html',
+        controller: EpisodeCtrl,
+        token: false
+      }).
       otherwise({
         redirectTo: '/error'
       })
+
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|chrome-extension):/);
 ]
 
 app.run ($rootScope, $location, Auth) ->
