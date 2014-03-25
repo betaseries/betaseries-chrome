@@ -1,13 +1,12 @@
 ###*
  * myEpisodes data
 ###
-class myEpisodes extends View
+class episodesList extends View
 
   constructor: (db, params, callback) ->
     super(db, params, callback)
-    @path = '/episodes/list'
     @store = '/episodes/list'
-    @node = 'shows'
+    @bs = 'episodesList'
 
   ###*
    * Update data

@@ -1,7 +1,7 @@
 ###*
  * episode data
 ###
-class episode extends View
+class episodesDisplay extends View
 
   constructor: (db, params, callback) ->
     super(db, params, callback)

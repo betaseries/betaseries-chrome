@@ -1,7 +1,7 @@
 ###*
  * episodeComments data
 ###
-class episodeComments extends View
+class commentsComments extends View
 
   constructor: (db, params, callback) ->
     super(db, params, callback)

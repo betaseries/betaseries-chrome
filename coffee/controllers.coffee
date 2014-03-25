@@ -43,8 +43,8 @@ ConnectionCtrl = ($scope, $location, Ajax, db) ->
  * @param {object} $scope
 ###
 
-MyEpisodesCtrl = ($scope, $location, Betaseries) ->
-  Betaseries.load('myEpisodes', {
+EpisodesListCtrl = ($scope, $location, Page, Betaseries) ->
+  Page.load('episodesList', {
     "subtitles": "all"
   }, (shows) ->
     $scope.shows = shows
@@ -52,30 +52,13 @@ MyEpisodesCtrl = ($scope, $location, Betaseries) ->
     $('.nano').nanoScroller({})
   )
 
-  $scope.watched = (show, episode) ->
-    shows = $scope.shows
-    found = false
-    i = 0
-    while !found
-      if show.unseen[i].title is episode.title
-        found = true
-      else
-        i++
-    length = show.unseen.length
-    show.remaining = length - 1
-    show.unseen = show.unseen.slice(i + 1, length)
-    found = false
-    i = 0
-    while !found
-      if shows[i].title is show.title
-        found = true
-      else
-        i++
-    if show.unseen.length > 0
-      shows[i] = show
-      Betaseries.save(shows)
-    else
-      delete show[i]
+  $scope.watched = (episode) ->
+    Betaseries.episodesWatched({
+      'type': 'post', 
+      'id': episode.id
+    }, ->
+      # Actions to remove the episode from the list
+    )
 
   $scope.go_comments = (episode) ->
     $location.path('/episodes/' + episode + '/comments');
@@ -85,8 +68,8 @@ MyEpisodesCtrl = ($scope, $location, Betaseries) ->
  * /episode/:id
 ###
 
-EpisodeCtrl = ($scope, $routeParams, Betaseries) ->
-  Betaseries.load('episode', {
+EpisodesDisplayCtrl = ($scope, $routeParams, Page) ->
+  Page.load('episodesDisplay', {
     "id": $routeParams.episode, # required
   }, (episode) ->
     $scope.episode = episode
@@ -97,8 +80,8 @@ EpisodeCtrl = ($scope, $routeParams, Betaseries) ->
  * /episode/:id/comments
 ###
 
-EpisodeCommentsCtrl = ($scope, $routeParams, Betaseries) ->
-  Betaseries.load('episodeComments', {
+CommentsCommentsCtrl = ($scope, $routeParams, Betaseries) ->
+  Betaseries.load('commentsComments', {
     "type": "episode", # required
     "id": $routeParams.episode, # required
     "nbpp": 500,

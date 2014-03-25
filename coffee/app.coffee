@@ -7,7 +7,8 @@ app = angular.module('betaseries-chrome', ['ngRoute'])
 app.service 'db', db
 app.factory 'Auth', (db) -> new Auth(db)
 app.factory 'Ajax', (Auth, $http) -> new Ajax(Auth, $http)
-app.factory 'Betaseries', (Ajax, db) -> new Betaseries(Ajax, db)
+app.factory 'Betaseries', (Ajax) -> new Betaseries(Ajax)
+app.factory 'Page', (Betaseries, db) -> new Page(Betaseries, db)
 
 app.config ['$routeProvider', '$compileProvider', ($routeProvider, $compileProvider) ->
     $routeProvider.
@@ -17,18 +18,18 @@ app.config ['$routeProvider', '$compileProvider', ($routeProvider, $compileProvi
         token: false
       }).
       when('/my-episodes', {
-        templateUrl: 'partials/my-episodes.html',
-        controller: MyEpisodesCtrl,
+        templateUrl: 'partials/episodes-list.html',
+        controller: EpisodesListCtrl,
         token: true
       }).
       when('/episodes/:episode/comments', {
-        templateUrl: 'partials/episode-comments.html',
-        controller: EpisodeCommentsCtrl,
+        templateUrl: 'partials/comments-comments.html',
+        controller: CommentsCommentsCtrl,
         token: false
       }).
       when('/episodes/:episode', {
-        templateUrl: 'partials/episode.html',
-        controller: EpisodeCtrl,
+        templateUrl: 'partials/episodes-display.html',
+        controller: EpisodesDisplayCtrl,
         token: false
       }).
       otherwise({
