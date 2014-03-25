@@ -1,0 +1,24 @@
+{
+  "name": "betaseries-chrome",
+  "version": "1.2.4",
+  "homepage": "https://github.com/betacie/betaseries-chrome",
+  "authors": [
+    "Menencia <menencia@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-route": "~1.2.13",
+    "jquery-md5": "*",
+    "jquery": "~2.1.0",
+    "nanoscroller": "~0.7.6",
+    "underscore": "~1.6.0",
+    "utf8": "~2.0.0"
+  }
+}

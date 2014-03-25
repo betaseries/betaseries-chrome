@@ -1,0 +1,16 @@
+<div style="height:10px;"></div>
+
+<form id="connect" ng-submit="sign_in()">
+  <table>
+    <tr>
+      <td>{{ lbl_login }}</td>
+      <td><input type="text" ng-model="login" name="login" required></td>
+    </tr>
+    <tr>
+      <td>{{ lbl_password }}</td>
+      <td><input type="password" ng-model="password" name="password" required></td>
+    </tr>
+  </table>
+  
+  <div class="valid"><input type="submit" ng-name="{{ lbl_sign_in }}"> ou <a href="" class="display_registration">{{ lbl_sign_up }}</a></div>
+</form>

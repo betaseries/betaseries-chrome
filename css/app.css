@@ -1,0 +1,70 @@
+body {
+  width: 366px; 
+  margin: 0; 
+  font-family: "Lucida Grande", "Trebuchet MS", sans-serif;
+  font-size: 12px;
+  color: #444;
+}
+
+header {
+    background-color: rgb(59,141,208);
+}
+
+.showtitle {
+  font-weight: bold;
+  background-color: #bbb;
+  text-transform: uppercase;
+  margin: 0 15px 0 5px;
+  padding: 2px 0;
+  border-radius: 4px;
+}
+
+.episodes {
+  margin: 0 20px 5px 10px;
+}
+
+.episodes:hover {
+  background-color: #fee;
+}
+
+.episode {
+  padding: 4px 0;
+}
+
+.wp {
+  display: inline-block;
+  padding: 0 2px;
+  color: #999;
+}
+
+.wp-num {
+  border-right: 1px solid #900;
+  font-size: 0.8em;
+}
+
+.wp-refresh {
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.wp-remain {
+  color: #222;
+}
+
+.wp-right {
+  float: right;
+}
+
+.wp-title {
+  color: #444;
+}
+
+.wp-title a {
+  text-decoration: none;
+  color: #444;
+}
+
+.wp-title a:hover {
+  border-bottom: 1px solid #444;
+}
