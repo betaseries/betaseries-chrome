@@ -4,9 +4,9 @@
  * @param {[type]} Betaseries [description]
 ###
 
-HeaderCtrl = ($scope, Betaseries) ->
+HeaderCtrl = ($scope, Viewer) ->
   $scope.sync = ->
-    Betaseries.refresh()
+    Viewer.refresh()
 
 ###*
  * Connection - view
@@ -43,8 +43,9 @@ ConnectionCtrl = ($scope, $location, Ajax, db) ->
  * @param {object} $scope
 ###
 
-EpisodesListCtrl = ($scope, $location, Page, Betaseries) ->
-  Page.load('episodesList', {
+MyEpisodesCtrl = ($scope, $location, Viewer, Betaseries) ->
+  
+  Viewer.load('my-episodes', {
     "subtitles": "all"
   }, (shows) ->
     $scope.shows = shows
@@ -68,8 +69,8 @@ EpisodesListCtrl = ($scope, $location, Page, Betaseries) ->
  * /episode/:id
 ###
 
-EpisodesDisplayCtrl = ($scope, $routeParams, Page) ->
-  Page.load('episodesDisplay', {
+EpisodeDisplayCtrl = ($scope, $routeParams, Viewer) ->
+  Viewer.load('episode-display', {
     "id": $routeParams.episode, # required
   }, (episode) ->
     $scope.episode = episode
@@ -80,8 +81,8 @@ EpisodesDisplayCtrl = ($scope, $routeParams, Page) ->
  * /episode/:id/comments
 ###
 
-CommentsCommentsCtrl = ($scope, $routeParams, Betaseries) ->
-  Betaseries.load('commentsComments', {
+EpisodeCommentsCtrl = ($scope, $routeParams, Betaseries) ->
+  Viewer.load('episode-comments', {
     "type": "episode", # required
     "id": $routeParams.episode, # required
     "nbpp": 500,

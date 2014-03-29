@@ -1,7 +1,7 @@
 ###*
  * myEpisodes data
 ###
-class episodesList extends View
+class myEpisodes extends View
 
   constructor: (db, params, callback) ->
     super(db, params, callback)
@@ -71,10 +71,10 @@ class episodesList extends View
    * Prepare data
   ###
   fetch: ->
-    login = this.db.get('session').login
+    login = @db.get('session').login
 
     # getting shows list
-    showsData = this.db.get("member.#{login}.shows", [])
+    showsData = @db.get("member.#{login}.shows", [])
 
     # filtering where episodes remaining and show not archived
     shows = _.filter(showsData, (show) ->
@@ -88,7 +88,7 @@ class episodesList extends View
       show.visibleIcon = (show.hidden) ? 'img/arrow_right.gif' : 'img/arrow_down.gif'
 
       # getting last episodes
-      episodes = this.db.get("show.#{show.id}.episodes", [])
+      episodes = @db.get("show.#{show.id}.episodes", [])
 
       show.episodes = _.last(episodes, show.remaining)
 

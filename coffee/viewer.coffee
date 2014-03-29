@@ -3,7 +3,7 @@
  * @param {Object} Betaseries
  * @param {Object} db
 ###
-class Page
+class Viewer
 
   constructor: (@Betaseries, @db) ->
     @force = false
@@ -51,7 +51,14 @@ class Page
    * @param  {Function} callback
   ###
   load: (view, params, callback) ->
-    @view = new window[view](@db, params, callback)
+    switch view
+      when 'my-episodes'
+        @view = new myEpisodes(@db, params, callback)
+      when 'episode-display'
+        @view = new episodeDisplay(@db, params, callback)
+      when 'episode-comments'
+        @view = new episodeComments(@db, params, callback)
+
     @call()
 
   ###*

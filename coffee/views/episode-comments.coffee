@@ -1,14 +1,14 @@
 ###*
  * episodeComments data
 ###
-class commentsComments extends View
+class episodeComments extends View
 
   constructor: (db, params, callback) ->
     super(db, params, callback)
-
     @path = '/comments/comments'
     @store = "/episodes/#{params.id}/comments"
     @node = 'comments'
+    @bs = 'commentsComments'
 
   ###*
    * Update data

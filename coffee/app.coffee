@@ -8,7 +8,7 @@ app.service 'db', db
 app.factory 'Auth', (db) -> new Auth(db)
 app.factory 'Ajax', (Auth, $http) -> new Ajax(Auth, $http)
 app.factory 'Betaseries', (Ajax) -> new Betaseries(Ajax)
-app.factory 'Page', (Betaseries, db) -> new Page(Betaseries, db)
+app.factory 'Viewer', (Betaseries, db) -> new Viewer(Betaseries, db)
 
 app.config ['$routeProvider', '$compileProvider', ($routeProvider, $compileProvider) ->
     $routeProvider.
@@ -18,18 +18,18 @@ app.config ['$routeProvider', '$compileProvider', ($routeProvider, $compileProvi
         token: false
       }).
       when('/my-episodes', {
-        templateUrl: 'partials/episodes-list.html',
-        controller: EpisodesListCtrl,
+        templateUrl: 'partials/my-episodes.html',
+        controller: MyEpisodesCtrl,
         token: true
       }).
-      when('/episodes/:episode/comments', {
-        templateUrl: 'partials/comments-comments.html',
-        controller: CommentsCommentsCtrl,
+      when('/episode/:episode/comments', {
+        templateUrl: 'partials/episode-comments.html',
+        controller: EpisodeCommentsCtrl,
         token: false
       }).
-      when('/episodes/:episode', {
-        templateUrl: 'partials/episodes-display.html',
-        controller: EpisodesDisplayCtrl,
+      when('/episode/:episode', {
+        templateUrl: 'partials/episode-display.html',
+        controller: EpisodeDisplayCtrl,
         token: false
       }).
       otherwise({

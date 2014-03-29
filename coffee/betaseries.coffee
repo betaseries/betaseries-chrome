@@ -4,6 +4,11 @@
 class Betaseries
 
   constructor: (@Ajax) ->
+
+  episodesDisplay: (params, fn) ->
+    @Ajax.get('/episodes/display', params, (data) ->
+        fn(data.episode)
+      )
   
   episodesList: (params, fn) ->
     params = _.extend(params,
