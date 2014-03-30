@@ -81,7 +81,7 @@ EpisodeDisplayCtrl = ($scope, $routeParams, Viewer) ->
  * /episode/:id/comments
 ###
 
-EpisodeCommentsCtrl = ($scope, $routeParams, Betaseries) ->
+EpisodeCommentsCtrl = ($scope, $routeParams, Viewer) ->
   Viewer.load('episode-comments', {
     "type": "episode", # required
     "id": $routeParams.episode, # required

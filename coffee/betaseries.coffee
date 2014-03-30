@@ -5,6 +5,11 @@ class Betaseries
 
   constructor: (@Ajax) ->
 
+  commentsComments: (params, fn) ->
+    @Ajax.get('/comments/comments', params, (data) ->
+        fn(data.comments)
+      )
+
   episodesDisplay: (params, fn) ->
     @Ajax.get('/episodes/display', params, (data) ->
         fn(data.episode)
