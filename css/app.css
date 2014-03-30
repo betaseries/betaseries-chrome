@@ -10,6 +10,8 @@ header {
     background-color: rgb(59,141,208);
 }
 
+/* MY-EPISODES */
+
 .showtitle {
   font-weight: bold;
   background-color: #bbb;
@@ -67,4 +69,27 @@ header {
 
 .wp-title a:hover {
   border-bottom: 1px solid #444;
+}
+
+/*EPISODE COMMENTS */
+
+.login {
+  font-weight: bold;
+  background-color: #bbb;
+  text-transform: uppercase;
+  margin: 0 15px 0 5px;
+  padding: 2px 0;
+  border-radius: 4px;
+}
+
+.comments {
+  margin: 0 20px 5px 10px;
+}
+
+.comment {
+  padding: 4px 0;
+}
+
+.comment:hover {
+  background-color: #fee;
 }
